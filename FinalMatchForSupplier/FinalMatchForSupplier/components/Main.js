@@ -9,7 +9,12 @@ export default class Main extends React.Component {
             <Text style = {styles.helloText}>
                 Chao cac ban
             </Text>
-            <Button onPress={() => {
+            <Text>
+                Heloon hr euhfu
+            </Text>
+            <Button 
+                title={"Add 2 number"}
+                onPress={() => {
                 alert("do somethingg")
             }}>Lam gi do</Button>
             <Text>
