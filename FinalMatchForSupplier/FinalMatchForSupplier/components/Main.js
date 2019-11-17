@@ -9,6 +9,9 @@ export default class Main extends React.Component {
             <Text style = {styles.helloText}>
                 Chao cac ban
             </Text>
+            <Text>
+                Heloon hr euhfu
+            </Text>
         </View>
     }
 }
