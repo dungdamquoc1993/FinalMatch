@@ -17,6 +17,9 @@ export default class Main extends React.Component {
                 onPress={() => {
                 alert("do somethingg")
             }}>Lam gi do</Button>
+            <View>
+                <View></View>
+            </View>
         </View>
     }
 }
