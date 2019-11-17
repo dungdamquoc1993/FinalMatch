@@ -17,12 +17,19 @@ export default class Main extends React.Component {
                 onPress={() => {
                 alert("do somethingg")
             }}>Lam gi do</Button>
+
             <View>
                 <View></View>
             </View>
+
+            <Text>
+                Di an com thoi cac ban
+            </Text>
+    
         </View>
     }
 }
+const PI = 3.14
 const styles = StyleSheet.create({
     container: {
         flex: 1,
