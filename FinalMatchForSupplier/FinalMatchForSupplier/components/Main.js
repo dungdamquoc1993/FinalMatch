@@ -20,6 +20,7 @@ export default class Main extends React.Component {
             <Text>
                 Di an com thoi cac ban
             </Text>
+            
         </View>
     }
 }
