@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, View, Text} from 'react-native'
+import {StyleSheet, View, Text, Button} from 'react-native'
 export default class Main extends React.Component {
     state = {
         x: 0
@@ -12,6 +12,11 @@ export default class Main extends React.Component {
             <Text>
                 Heloon hr euhfu
             </Text>
+            <Button 
+                title={"Add 2 number"}
+                onPress={() => {
+                alert("do somethingg")
+            }}>Lam gi do</Button>
         </View>
     }
 }
