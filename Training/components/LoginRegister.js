@@ -4,6 +4,7 @@ import {View, StyleSheet, Image,
     Text
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon5 from 'react-native-vector-icons/FontAwesome5'
 //export = public
 //Component = thẻ
 export default class LoginRegister extends Component {
@@ -36,8 +37,10 @@ export default class LoginRegister extends Component {
             <View style={styles.viewLoginRegister}>
                 <View style={styles.viewLogin}>
                     <TouchableOpacity onPress={this._login}>
+                        
                         <Text style={styles.twoButton}>
-                            Login
+                            <Icon name="comments" size={20} color="#900"/>
+                            {`  Login`}
                         </Text>
                     </TouchableOpacity>
                     {this.state.isLogin === true && <View style={styles.line}></View>}
