@@ -4,9 +4,25 @@
 
 import {AppRegistry} from 'react-native';
 //import App from './App';
-//import LoginRegister from './components/LoginRegister';
+import LoginRegister from './components/LoginRegister';
 import {name as appName} from './app.json';
-import ServiceRegister from './components/ServiceRegister';
+import MyTabNavigator from './components/MyTabNavigator'
+//yarn add react-navigation-stack react-navigation 
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
-AppRegistry.registerComponent(appName, () => ServiceRegister);
+const AppNavigator = createStackNavigator({
+    LoginRegister: {
+      screen: LoginRegister,
+      
+    },
+    MyTabNavigator: {
+        screen: MyTabNavigator,
+      },
+  }, {
+    initialRouteName: 'LoginRegister',
+    header: null
+  })
+
+AppRegistry.registerComponent(appName, () => createAppContainer(AppNavigator))
  
