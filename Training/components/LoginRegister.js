@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     facebookButton: {
         height: 50,
-        width: '80%',
+        width: '100%',
         backgroundColor: '#3b5998',
         color: 'white',
         textAlign: 'center',

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, Image,
     TouchableOpacity,
-    Text
+    Text,
+    Dimensions
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
@@ -101,12 +102,14 @@ export default class LoginRegister extends Component {
         </View>
     }
 }
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     container: {
         flex: 1,                
         flexDirection: 'column',
         justifyContent:'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     logo: {
         margin: 20,
@@ -116,14 +119,16 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     facebookButton: {
-        height: 50,
-        width: '80%',
-        backgroundColor: '#3b5998',
+        height: 60,
+        width: 0.8*screenWidth,
+        backgroundColor: '#3b5998',        
         color: 'white',
         textAlign: 'center',
         lineHeight: 40,
         paddingHorizontal: 15,
         borderRadius: 6,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     viewLoginRegister: {
         height: 50,
