@@ -12,7 +12,7 @@ export default class LoginRegister extends Component {
         isLogin: true
     }
     _loginWithFacebook = async () => {
-        alert("Login FAcebook")
+        alert("Login Facebook")
     }
     _login = async () => {
         this.setState({isLogin: true})
@@ -37,10 +37,9 @@ export default class LoginRegister extends Component {
             <View style={styles.viewLoginRegister}>
                 <View style={styles.viewLogin}>
                     <TouchableOpacity onPress={this._login}>
-                        
+
                         <Text style={styles.twoButton}>
-                            <Icon name="comments" size={20} color="#900"/>
-                            {`  Login`}
+                            Login
                         </Text>
                     </TouchableOpacity>
                     {this.state.isLogin === true && <View style={styles.line}></View>}
@@ -72,14 +71,14 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     facebookButton: {
-        height: 40,
-        width: 200,
+        height: 50,
+        width: '80%',
         backgroundColor: '#3b5998',
         color: 'white',
         textAlign: 'center',
         lineHeight: 40,
         paddingHorizontal: 15,
-        borderRadius: 6
+        borderRadius: 6,
     },
     viewLoginRegister: {
         height: 50,
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
     },
     twoButton: {
         height: '100%', 
-        fontSize: 16,
+        fontSize: 25,
         textAlign: 'center', 
         paddingTop:13
     }
