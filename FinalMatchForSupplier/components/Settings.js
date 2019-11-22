@@ -5,8 +5,7 @@ export default class Settings extends Component {
     render() {
         return (
             <View style ={styles.container}>
-                <Text style={{fontSize: 50}}>Settings</Text>
-                
+                <Text style={{fontSize: 50}}>Quản lý TK của Bạn</Text>
             </View>
         )
     }

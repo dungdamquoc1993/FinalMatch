@@ -5,11 +5,13 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+//man hinh 
 import ServiceRegister from './ServiceRegister';
 import Notification from './Notification';
 import Order from './Order';
 import Settings from './Settings';
 import React from 'react'
+//Dai mau sac
 import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
 
 const TabNavigator = createBottomTabNavigator(
@@ -55,3 +57,5 @@ AppContainer.navigationOptions = {
     header: null,
 }
 export default AppContainer
+
+
