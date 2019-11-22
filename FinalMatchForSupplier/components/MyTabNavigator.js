@@ -29,7 +29,7 @@ const TabNavigator = createBottomTabNavigator(
                         iconName = 'cube'
                         break
                     case 'Notification':
-                        iconName = `ios-options`;
+                        iconName = `box`;
                         break
                     case 'Order':
                         conName = `ios-options`;

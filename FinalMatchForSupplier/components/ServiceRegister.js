@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 
 export default class ServiceRegister extends Component {
 
@@ -30,6 +30,8 @@ export default class ServiceRegister extends Component {
         )
     }
 }
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 
 const styles = StyleSheet.create({
     container: {
@@ -42,16 +44,22 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 25,
         backgroundColor: 'blue',
-        height: 50,
-        width: '80%',
+        height: 0.08*screenHeight,
+        width: 0.8*screenWidth,
         margin: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     button: {
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#DDDDDD',
-        padding: 10,    
+        padding: 20,    
         margin: 20,
         fontSize: 30,
+        width: 0.8*screenWidth,
+        height: 0.15*screenHeight,
+
         
     }
 })
