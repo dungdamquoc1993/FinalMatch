@@ -7,7 +7,6 @@ import {AppRegistry} from 'react-native';
 import LoginRegister from './components/LoginRegister';
 import {name as appName} from './app.json';
 import MyTabNavigator from './components/MyTabNavigator'
-//yarn add react-navigation-stack react-navigation 
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
