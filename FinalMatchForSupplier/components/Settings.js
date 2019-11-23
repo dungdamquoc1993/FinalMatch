@@ -6,10 +6,15 @@ import {
     StyleSheet, 
     DatePickerAndroid,
     TextInput,
+    Platform,
+    SafeAreaView,
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
 import {daysBetween2Dates, formatDate} from '../helpers/Helpers'
+import DatePicker from 'react-native-date-picker'
 /**
+ * yarn add react-native-date-picker
+ * 
  * Down project:
  * 1.rm -rf node_modules
  * 2.yarn install
@@ -21,7 +26,8 @@ export default class Settings extends Component {
         age: '',
         dateOfBirth: new Date(),
         stringDateOfBirth: '',
-        phoneNumber: '',        
+        phoneNumber: '',     
+        showIOSDatePicker: true   
     }
     _displayAge(age) {
         if(age > 0) {
@@ -31,16 +37,31 @@ export default class Settings extends Component {
         }
     }
     render() {
-        const {name, age, dateOfBirth, phoneNumber, stringDateOfBirth} = this.state
+        const {name, age, dateOfBirth, phoneNumber, stringDateOfBirth, 
+            showIOSDatePicker} = this.state
         return (
-            <View style ={styles.container}>
+            <SafeAreaView style ={styles.container}>
                 <Header title={"Quản lý tài khoản"}/> 
+                <DatePicker
+                    date={this.state.dateOfBirth}
+                    onDateChange={dateOfBirth => this.setState({ dateOfBirth })}
+                />
+
+                {/* <DateTimePicker 
+                    style={{backgroundColor: 'red'}}
+                    value={this.state.dateOfBirth}
+                    mode={"date"}
+                    is24Hour={true}
+                    display="spinner"
+                    // onChange={} 
+                    /> */}
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.personalInformation}>
                         <Text style={styles.textLabel}>
                             Tên:
                         </Text>
                         <TextInput style={styles.textInput} 
+                            placeholder={"Please enter name"}
                             value = {name} 
                             onChangeText = {(name) => {
                                 this.setState({name})
@@ -53,8 +74,13 @@ export default class Settings extends Component {
                         <Text style={styles.textLabel}>
                             Tuổi:
                         </Text>
-                        <TouchableOpacity  style={[styles.textInput, {width: '40%'}]} onPress={async () => {
+                        <TouchableOpacity  style={[styles.textInput, {width: '40%'}]} 
+                            onPress={async () => {
                             try {
+                                debugger
+                                if(Platform.OS === 'ios') {
+                                    this.setState({showIOSDatePicker: true})
+                                }
                                 const { action, year, month, day } = await DatePickerAndroid.open({
                                     date: new Date(),
                                     mode: 'spinner'
@@ -87,6 +113,7 @@ export default class Settings extends Component {
                             SDT:
                         </Text>
                         <TextInput style={styles.textInput}
+                            placeholder={"Please enter phone"}
                             keyboardType={"phone-pad"}
                             value = {phoneNumber} 
                             onChangeText = {(phoneNumber) => {
@@ -97,11 +124,21 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
-            </View>
+                
+            </SafeAreaView>
         )
     }
 }
-
+/*
+{ Platform.OS === 'ios' && showIOSDatePicker && <DateTimePicker 
+                    value={this.state.dateOfBirth}
+                    mode={"date"}
+                    is24Hour={true}
+                    display="spinner"
+                    // onChange={} 
+                    />
+                }
+                */
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
@@ -139,7 +176,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         marginEnd: 30,
         borderWidth: 1,
-        paddingHorizontal: 10,
+        padding: 10,
         color: 'black'
     },
     age: {
