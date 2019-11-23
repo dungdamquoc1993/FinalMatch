@@ -26,11 +26,11 @@ export default class LoginRegister extends Component {
     }
     _loginOrRegister = async () => {
         const {email} = this.state
-        if(this.state.isLogin === true) {
-            alert("Login...")
-        } else {
-            alert("Register...")
-        }
+        // if(this.state.isLogin === true) {
+        //     alert("Login...")
+        // } else {
+        //     alert("Register...")
+        // }
         this.props.navigation.navigate("MyTabNavigator", {email})
     }
     render() {
