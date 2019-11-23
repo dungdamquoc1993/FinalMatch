@@ -5,7 +5,7 @@ export default class Notification extends Component {
     render() {
         return (
             <View style ={styles.container}>
-                <Text>Toing bfbapo</Text>
+                <Text style={{fontSize: 50}}>Notification</Text>
                 
             </View>
         )

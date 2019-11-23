@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-
+import {Header } from './Header'
 export default class ServiceRegister extends Component {
 
   
@@ -10,7 +10,7 @@ export default class ServiceRegister extends Component {
         }
         return (
             <View style ={styles.container}>
-                <Text style={styles.title}>Đăng Ký Cung Cấp Dịch Vụ</Text>
+                <Header title={"dang ky dich vu"}/> 
                 <TouchableOpacity style= {styles.button} onPress = {this._onPress}>
                     <Text>
                         Đăng Ký Dịch Vụ Cầu Thủ
