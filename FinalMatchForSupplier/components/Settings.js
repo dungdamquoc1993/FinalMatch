@@ -11,7 +11,7 @@ import {
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
 import {daysBetween2Dates, formatDate} from '../helpers/Helpers'
-// import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker'
 /**
  * yarn add react-native-date-picker
  * 
@@ -115,7 +115,7 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
-                {/* {Platform.OS === 'ios' && showIOSDatePicker && <DatePicker
+                {Platform.OS === 'ios' && showIOSDatePicker && <DatePicker
                     date={this.state.dateOfBirth}
                     onDateChange={dateOfBirth => {
                         this.setState({
@@ -124,7 +124,7 @@ export default class Settings extends Component {
                             age: daysBetween2Dates(today, selectedDate)
                         })
                     }}
-                />} */}
+                />}
             </SafeAreaView>
         )
     }
