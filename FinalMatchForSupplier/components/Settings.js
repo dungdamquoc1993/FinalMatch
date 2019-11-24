@@ -10,8 +10,8 @@ import {
     SafeAreaView,
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
-import {daysBetween2Dates, formatDate} from '../helpers/Helpers'
-// import DatePicker from 'react-native-date-picker'
+import {daysBetween2Dates, convertDayMonthYearToString, convertDateToString} from '../helpers/Helpers'
+import DatePicker from 'react-native-date-picker'
 /**
  * yarn add react-native-date-picker
  * 
@@ -27,7 +27,7 @@ export default class Settings extends Component {
         dateOfBirth: new Date(),
         stringDateOfBirth: '',
         phoneNumber: '',     
-        showIOSDatePicker: true   
+        showIOSDatePicker: false   
     }
     _displayAge(age) {
         if(age > 0) {
@@ -66,10 +66,10 @@ export default class Settings extends Component {
                             onPress={async () => {
                             try {
                                 debugger
-                                // if(Platform.OS === 'ios') {
-                                //     this.setState({showIOSDatePicker: true})
-                                //     return
-                                // }
+                                if(Platform.OS === 'ios') {
+                                    this.setState({showIOSDatePicker: true})
+                                    return
+                                }
                                 const { action, year, month, day } = await DatePickerAndroid.open({
                                     date: new Date(),
                                     mode: 'spinner'
@@ -79,7 +79,7 @@ export default class Settings extends Component {
                                 if (action === DatePickerAndroid.dateSetAction) {
                                     this.setState({
                                         dateOfBirth: selectedDate,
-                                        stringDateOfBirth: formatDate(day, month, year),
+                                        stringDateOfBirth: convertDayMonthYearToString(day, month, year),
                                         age: daysBetween2Dates(today, selectedDate)
                                     })
                                 }
@@ -115,20 +115,34 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
-                {/* {Platform.OS === 'ios' && showIOSDatePicker && <DatePicker
-                    date={this.state.dateOfBirth}
-                    onDateChange={dateOfBirth => {
-                        this.setState({
-                            dateOfBirth,
-                            stringDateOfBirth: formatDate(day, month, year),
-                            age: daysBetween2Dates(today, selectedDate)
-                        })
-                    }}
-                />} */}
+                {Platform.OS === 'ios' && showIOSDatePicker && 
+                    <View>
+                        <View style={{flexDirection: 'row', justifyContent:'flex-end', height: 40}}>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({showIOSDatePicker: false})
+                            }}>
+                                <Text>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <DatePicker
+                            mode={"date"}
+                            date={this.state.dateOfBirth}
+                            onDateChange={(dateOfBirth) => {
+                                const today = new Date()
+                                this.setState({
+                                    dateOfBirth,
+                                    stringDateOfBirth: convertDateToString(dateOfBirth),
+                                    age: daysBetween2Dates(today, dateOfBirth)
+                                })
+                            }}
+                        />    
+                </View>}
+                
             </SafeAreaView>
         )
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
