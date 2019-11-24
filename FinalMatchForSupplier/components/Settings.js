@@ -11,7 +11,7 @@ import {
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
 import {daysBetween2Dates, formatDate} from '../helpers/Helpers'
-import DatePicker from 'react-native-date-picker'
+// import DatePicker from 'react-native-date-picker'
 /**
  * yarn add react-native-date-picker
  * 
@@ -42,19 +42,7 @@ export default class Settings extends Component {
         return (
             <SafeAreaView style ={styles.container}>
                 <Header title={"Quản lý tài khoản"}/> 
-                <DatePicker
-                    date={this.state.dateOfBirth}
-                    onDateChange={dateOfBirth => this.setState({ dateOfBirth })}
-                />
-
-                {/* <DateTimePicker 
-                    style={{backgroundColor: 'red'}}
-                    value={this.state.dateOfBirth}
-                    mode={"date"}
-                    is24Hour={true}
-                    display="spinner"
-                    // onChange={} 
-                    /> */}
+                
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.personalInformation}>
                         <Text style={styles.textLabel}>
@@ -74,13 +62,14 @@ export default class Settings extends Component {
                         <Text style={styles.textLabel}>
                             Tuổi:
                         </Text>
-                        <TouchableOpacity  style={[styles.textInput, {width: '40%'}]} 
+                        <TouchableOpacity style={[styles.textInput, {width: '40%'}]}
                             onPress={async () => {
                             try {
                                 debugger
-                                if(Platform.OS === 'ios') {
-                                    this.setState({showIOSDatePicker: true})
-                                }
+                                // if(Platform.OS === 'ios') {
+                                //     this.setState({showIOSDatePicker: true})
+                                //     return
+                                // }
                                 const { action, year, month, day } = await DatePickerAndroid.open({
                                     date: new Date(),
                                     mode: 'spinner'
@@ -102,7 +91,9 @@ export default class Settings extends Component {
                                 keyboardType={"default"}
                                 placeholder={"dd/mm/yyyy"}
                                 editable={false}
-                                value={stringDateOfBirth} />
+                                value={stringDateOfBirth} 
+                                // value={"djsijhd"}
+                                />
                         </TouchableOpacity>    
                         <Text style={styles.age}>
                             {this._displayAge(age)}                            
@@ -124,21 +115,20 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
-                
+                {/* {Platform.OS === 'ios' && showIOSDatePicker && <DatePicker
+                    date={this.state.dateOfBirth}
+                    onDateChange={dateOfBirth => {
+                        this.setState({
+                            dateOfBirth,
+                            stringDateOfBirth: formatDate(day, month, year),
+                            age: daysBetween2Dates(today, selectedDate)
+                        })
+                    }}
+                />} */}
             </SafeAreaView>
         )
     }
 }
-/*
-{ Platform.OS === 'ios' && showIOSDatePicker && <DateTimePicker 
-                    value={this.state.dateOfBirth}
-                    mode={"date"}
-                    is24Hour={true}
-                    display="spinner"
-                    // onChange={} 
-                    />
-                }
-                */
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
@@ -176,8 +166,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         marginEnd: 30,
         borderWidth: 1,
-        padding: 10,
-        color: 'black'
+        paddingHorizontal: 10,
+        color: 'black',        
     },
     age: {
         width: '40%',
