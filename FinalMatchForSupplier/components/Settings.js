@@ -6,11 +6,14 @@ import {
     StyleSheet, 
     DatePickerAndroid,
     TextInput,
-    Platform,
     SafeAreaView,
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
-import {daysBetween2Dates, convertDayMonthYearToString, convertDateToString} from '../helpers/Helpers'
+import {daysBetween2Dates, 
+    convertDayMonthYearToString, 
+    isIOS,
+    convertDateToString
+} from '../helpers/Helpers'
 import DatePicker from 'react-native-date-picker'
 /**
  * yarn add react-native-date-picker
@@ -34,6 +37,30 @@ export default class Settings extends Component {
             return age > 1 ? `${age} ages` : `${age} age`
         } else {
             return ""
+        }
+    }
+    _onPressDateTextInput = async () => {
+        try {
+            debugger
+            if(isIOS()) {
+                this.setState({showIOSDatePicker: true})
+                return
+            }
+            const { action, year, month, day } = await DatePickerAndroid.open({
+                date: new Date(),
+                mode: 'spinner'
+            });
+            let selectedDate = new Date(year, month, day)      
+            let today = new Date()                          
+            if (action === DatePickerAndroid.dateSetAction) {
+                this.setState({
+                    dateOfBirth: selectedDate,
+                    stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+                    age: daysBetween2Dates(today, selectedDate)
+                })
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
         }
     }
     render() {
@@ -62,36 +89,18 @@ export default class Settings extends Component {
                         <Text style={styles.textLabel}>
                             Tuổi:
                         </Text>
-                        <TouchableOpacity style={[styles.textInput, {width: '40%'}]}
-                            onPress={async () => {
-                            try {
-                                debugger
-                                if(Platform.OS === 'ios') {
-                                    this.setState({showIOSDatePicker: true})
-                                    return
-                                }
-                                const { action, year, month, day } = await DatePickerAndroid.open({
-                                    date: new Date(),
-                                    mode: 'spinner'
-                                });
-                                let selectedDate = new Date(year, month, day)      
-                                let today = new Date()                          
-                                if (action === DatePickerAndroid.dateSetAction) {
-                                    this.setState({
-                                        dateOfBirth: selectedDate,
-                                        stringDateOfBirth: convertDayMonthYearToString(day, month, year),
-                                        age: daysBetween2Dates(today, selectedDate)
-                                    })
-                                }
-                            } catch ({ code, message }) {
-                                console.warn('Cannot open date picker', message);
-                            }
-                        }}>
+                        <TouchableOpacity style={[styles.textInput, {width: '40%'}, isIOS() && {paddingTop: 10}]}
+                            onPress={() => {
+                                this._onPressDateTextInput()
+                            }}>
                             <TextInput
                                 keyboardType={"default"}
                                 placeholder={"dd/mm/yyyy"}
                                 editable={false}
                                 value={stringDateOfBirth} 
+                                onPress={() => {
+                                    this._onPressDateTextInput()
+                                }}
                                 // value={"djsijhd"}
                                 />
                         </TouchableOpacity>    
@@ -115,7 +124,7 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
-                {Platform.OS === 'ios' && showIOSDatePicker && 
+                {isIOS() && showIOSDatePicker && 
                     <View>
                         <View style={{flexDirection: 'row', justifyContent:'flex-end', height: 40}}>
                             <TouchableOpacity onPress={() => {

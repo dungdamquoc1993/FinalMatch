@@ -1,3 +1,5 @@
+import {Platform } from 'react-native'
+
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
         return 0
@@ -17,4 +19,7 @@ export function convertDateToString(date) {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     return convertDayMonthYearToString(day, month, year)
+}
+export const isIOS = () => {
+    return Platform.OS === "ios"
 }
