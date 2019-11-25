@@ -63,6 +63,10 @@ export default class Settings extends Component {
             console.warn('Cannot open date picker', message);
         }
     }
+    _navigateToServiceRegister = () => {
+        let params = {}
+        this.props.navigation.navigate("ServiceRegister", params)
+    }
     render() {
         const {name, age, dateOfBirth, phoneNumber, stringDateOfBirth, 
             showIOSDatePicker} = this.state
@@ -122,7 +126,21 @@ export default class Settings extends Component {
 
                         </TextInput>
                     </View>
-                    
+                    {/* Quan ly dich vu */}
+                    <View style={styles.serviceRegister}>
+                        <Text>
+                            Quản lý dịch vụ
+                        </Text>
+                        <Text>
+                            Bạn chưa đăng ký dịch vụ nào, hãy đăng ký dịch vụ
+                        </Text>
+                        <TouchableOpacity style={styles.buttonServiceRegister}
+                            onPress={() => {
+                                this._navigateToServiceRegister()
+                            }}>
+                            <Text style={{color: 'white'}}>Dang ky dich vu</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
                 {isIOS() && showIOSDatePicker && 
                     <View>
@@ -196,5 +214,20 @@ const styles = StyleSheet.create({
         width: '40%',
         height: 60,
         lineHeight: 60,
+    },
+    serviceRegister: {
+        
+        paddingHorizontal: 15, 
+        fontSize: 14, 
+        flexDirection: 'column'
+    }, 
+    buttonServiceRegister: {
+        margin: 10,
+        height: 40,
+        backgroundColor: 'darkgreen',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        color: 'white'
     }
 })

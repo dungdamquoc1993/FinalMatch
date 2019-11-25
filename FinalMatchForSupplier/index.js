@@ -16,18 +16,34 @@ import MyTabNavigator from './components/MyTabNavigator'
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
-const AppNavigator = createStackNavigator({
-    LoginRegister: {
-      screen: LoginRegister,
-      
-    },
-    MyTabNavigator: {
-        screen: MyTabNavigator,
-      },
+import RefereeService from './components/RefereeService'
+import Stadium from './components/Stadium'
+import PlayerService from './components/PlayerService'
+
+const StackNavigator = createStackNavigator({
+  LoginRegister: {
+    screen: LoginRegister,
+
+  },
+  MyTabNavigator: {
+    screen: MyTabNavigator,
+  },
+  RefereeService: {
+    screen: RefereeService,
+
+  },
+  PlayerService: {
+    screen: PlayerService,
+
+  },
+  Stadium: {
+    screen: Stadium,
+
+  },
   }, {
     initialRouteName: 'LoginRegister',
     header: null
   })
 
-AppRegistry.registerComponent(appName, () => createAppContainer(AppNavigator))
+AppRegistry.registerComponent(appName, () => createAppContainer(StackNavigator))
  

@@ -1,32 +1,50 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, 
+    SafeAreaView,
+    Dimensions } from 'react-native';
 import {Header } from './Header'
-export default class ServiceRegister extends Component {
 
+import RefereeService from './RefereeService'
+import Stadium from './Stadium'
+import PlayerService from './PlayerService'
+
+export default class ServiceRegister extends Component {
+    _navigateToRefereeService = () => {
+        debugger
+    }
+    _navigateToStadium = () => {
+
+    }
+    _navigateToPlayerService = () => {
+
+    }
   
-    render() {
-        _onPress = () => {
-            alert('something');
-        }
+    render() {                
         return (
-            <View style ={styles.container}>
+            <SafeAreaView style ={styles.container}>
                 <Header title={"dang ky dich vu"}/> 
-                <TouchableOpacity style= {styles.button} onPress = {this._onPress}>
+                <TouchableOpacity style= {styles.button} onPress = {() => {
+                    this._navigateToPlayerService()
+                }}>
                     <Text>
                         Đăng Ký Dịch Vụ Cầu Thủ
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style= {styles.button} onPress = {this._onPress}>
+                <TouchableOpacity style= {styles.button} onPress = {() => {
+                    this._navigateToRefereeService()
+                }}>
                     <Text>
                         Đăng Ký Dịch Vụ Trọng Tài   
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style= {styles.button} onPress = {this._onPress}>
+                <TouchableOpacity style= {styles.button} onPress = {() => {
+                    this._navigateToStadium()
+                }}>
                     <Text>
                         Đăng Ký Sân Bóng
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -39,7 +57,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: 'red',
     },
     title: {
         fontSize: 25,
