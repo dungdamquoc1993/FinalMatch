@@ -1,5 +1,11 @@
 /**
  * @format
+ * Cai dat trong ios
+ * cd ios
+ * rm -rf Pods
+ * rm -rf Podfile.lock
+ * pod install
+ * 
  */
 
 import {AppRegistry} from 'react-native';
