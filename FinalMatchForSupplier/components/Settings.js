@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
     Text,
     View, 
-     ScrollView,
+    ScrollView,
     StyleSheet, 
     DatePickerAndroid,
     TextInput,
@@ -10,7 +10,7 @@ import {
     SafeAreaView,
     TouchableOpacity } from 'react-native';
 import {Header } from './Header'
-import {daysBetween2Dates, formatDate} from '../helpers/Helpers'
+import {daysBetween2Dates, convertDayMonthYearToString, convertDateToString} from '../helpers/Helpers'
 import DatePicker from 'react-native-date-picker'
 /**
  * yarn add react-native-date-picker
@@ -27,7 +27,7 @@ export default class Settings extends Component {
         dateOfBirth: new Date(),
         stringDateOfBirth: '',
         phoneNumber: '',     
-        showIOSDatePicker: true   
+        showIOSDatePicker: false   
     }
     _displayAge(age) {
         if(age > 0) {
@@ -36,50 +36,13 @@ export default class Settings extends Component {
             return ""
         }
     }
-    _pressDateTextInput() {
-        async () => {
-            try {
-                debugger
-                if(Platform.OS === 'ios') {
-                    this.setState({showIOSDatePicker: true})
-                }
-                const { action, year, month, day } = await DatePickerAndroid.open({
-                    date: new Date(),
-                    mode: 'spinner'
-                });
-                let selectedDate = new Date(year, month, day)      
-                let today = new Date()                          
-                if (action === DatePickerAndroid.dateSetAction) {
-                    this.setState({
-                        dateOfBirth: selectedDate,
-                        stringDateOfBirth: formatDate(day, month, year),
-                        age: daysBetween2Dates(today, selectedDate)
-                    })
-                }
-            } catch ({ code, message }) {
-                console.warn('Cannot open date picker', message);
-            }
-        }
-    }
     render() {
         const {name, age, dateOfBirth, phoneNumber, stringDateOfBirth, 
             showIOSDatePicker} = this.state
         return (
             <SafeAreaView style ={styles.container}>
                 <Header title={"Quản lý tài khoản"}/> 
-                <DatePicker
-                    date={this.state.dateOfBirth}
-                    onDateChange={dateOfBirth => this.setState({ dateOfBirth })}
-                />
-
-                {/* <DateTimePicker 
-                    style={{backgroundColor: 'red'}}
-                    value={this.state.dateOfBirth}
-                    mode={"date"}
-                    is24Hour={true}
-                    display="spinner"
-                    // onChange={} 
-                    /> */}
+                
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.personalInformation}>
                         <Text style={styles.textLabel}>
@@ -99,18 +62,38 @@ export default class Settings extends Component {
                         <Text style={styles.textLabel}>
                             Tuổi:
                         </Text>
-                        <TouchableOpacity  style={[styles.textInput, {width: '40%'}]} 
-                            onPress={() => {
-                                this._pressDateTextInput()
-                            }}>
+                        <TouchableOpacity style={[styles.textInput, {width: '40%'}]}
+                            onPress={async () => {
+                            try {
+                                debugger
+                                if(Platform.OS === 'ios') {
+                                    this.setState({showIOSDatePicker: true})
+                                    return
+                                }
+                                const { action, year, month, day } = await DatePickerAndroid.open({
+                                    date: new Date(),
+                                    mode: 'spinner'
+                                });
+                                let selectedDate = new Date(year, month, day)      
+                                let today = new Date()                          
+                                if (action === DatePickerAndroid.dateSetAction) {
+                                    this.setState({
+                                        dateOfBirth: selectedDate,
+                                        stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+                                        age: daysBetween2Dates(today, selectedDate)
+                                    })
+                                }
+                            } catch ({ code, message }) {
+                                console.warn('Cannot open date picker', message);
+                            }
+                        }}>
                             <TextInput
                                 keyboardType={"default"}
                                 placeholder={"dd/mm/yyyy"}
                                 editable={false}
-                                onPress={() => {
-                                    this._pressDateTextInput()
-                                }}
-                                value={stringDateOfBirth} />
+                                value={stringDateOfBirth} 
+                                // value={"djsijhd"}
+                                />
                         </TouchableOpacity>    
                         <Text style={styles.age}>
                             {this._displayAge(age)}                            
@@ -132,21 +115,34 @@ export default class Settings extends Component {
                     </View>
                     
                 </ScrollView>
+                {Platform.OS === 'ios' && showIOSDatePicker && 
+                    <View>
+                        <View style={{flexDirection: 'row', justifyContent:'flex-end', height: 40}}>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({showIOSDatePicker: false})
+                            }}>
+                                <Text>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <DatePicker
+                            mode={"date"}
+                            date={this.state.dateOfBirth}
+                            onDateChange={(dateOfBirth) => {
+                                const today = new Date()
+                                this.setState({
+                                    dateOfBirth,
+                                    stringDateOfBirth: convertDateToString(dateOfBirth),
+                                    age: daysBetween2Dates(today, dateOfBirth)
+                                })
+                            }}
+                        />    
+                </View>}
                 
             </SafeAreaView>
         )
     }
 }
-/*
-{ Platform.OS === 'ios' && showIOSDatePicker && <DateTimePicker 
-                    value={this.state.dateOfBirth}
-                    mode={"date"}
-                    is24Hour={true}
-                    display="spinner"
-                    // onChange={} 
-                    />
-                }
-                */
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
@@ -184,8 +180,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         marginEnd: 30,
         borderWidth: 1,
-        padding: 10,
-        color: 'black'
+        paddingHorizontal: 10,
+        color: 'black',        
     },
     age: {
         width: '40%',
