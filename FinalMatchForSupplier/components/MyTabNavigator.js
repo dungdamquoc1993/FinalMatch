@@ -53,10 +53,10 @@ const TabNavigator = createBottomTabNavigator(
         },
     }
 )
-const AppContainer = createAppContainer(TabNavigator)
-AppContainer.navigationOptions = {
+const MyTabNavigator = createAppContainer(TabNavigator)
+MyTabNavigator.navigationOptions = {
     header: null,
 }
-export default AppContainer
+export default MyTabNavigator
 
 

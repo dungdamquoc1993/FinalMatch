@@ -7,10 +7,11 @@ import {Header } from './Header'
 import RefereeService from './RefereeService'
 import Stadium from './Stadium'
 import PlayerService from './PlayerService'
-
+import {tabNavigation} from './MyTabNavigator'
 export default class ServiceRegister extends Component {
     _navigateToRefereeService = () => {
-        debugger
+        // debugger
+        tabNavigation.navigate("RefereeService", {})
     }
     _navigateToStadium = () => {
 
