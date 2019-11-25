@@ -36,6 +36,31 @@ export default class Settings extends Component {
             return ""
         }
     }
+    _pressDateTextInput() {
+        async () => {
+            try {
+                debugger
+                if(Platform.OS === 'ios') {
+                    this.setState({showIOSDatePicker: true})
+                }
+                const { action, year, month, day } = await DatePickerAndroid.open({
+                    date: new Date(),
+                    mode: 'spinner'
+                });
+                let selectedDate = new Date(year, month, day)      
+                let today = new Date()                          
+                if (action === DatePickerAndroid.dateSetAction) {
+                    this.setState({
+                        dateOfBirth: selectedDate,
+                        stringDateOfBirth: formatDate(day, month, year),
+                        age: daysBetween2Dates(today, selectedDate)
+                    })
+                }
+            } catch ({ code, message }) {
+                console.warn('Cannot open date picker', message);
+            }
+        }
+    }
     render() {
         const {name, age, dateOfBirth, phoneNumber, stringDateOfBirth, 
             showIOSDatePicker} = this.state
@@ -75,33 +100,16 @@ export default class Settings extends Component {
                             Tuổi:
                         </Text>
                         <TouchableOpacity  style={[styles.textInput, {width: '40%'}]} 
-                            onPress={async () => {
-                            try {
-                                debugger
-                                if(Platform.OS === 'ios') {
-                                    this.setState({showIOSDatePicker: true})
-                                }
-                                const { action, year, month, day } = await DatePickerAndroid.open({
-                                    date: new Date(),
-                                    mode: 'spinner'
-                                });
-                                let selectedDate = new Date(year, month, day)      
-                                let today = new Date()                          
-                                if (action === DatePickerAndroid.dateSetAction) {
-                                    this.setState({
-                                        dateOfBirth: selectedDate,
-                                        stringDateOfBirth: formatDate(day, month, year),
-                                        age: daysBetween2Dates(today, selectedDate)
-                                    })
-                                }
-                            } catch ({ code, message }) {
-                                console.warn('Cannot open date picker', message);
-                            }
-                        }}>
+                            onPress={() => {
+                                this._pressDateTextInput()
+                            }}>
                             <TextInput
                                 keyboardType={"default"}
                                 placeholder={"dd/mm/yyyy"}
                                 editable={false}
+                                onPress={() => {
+                                    this._pressDateTextInput()
+                                }}
                                 value={stringDateOfBirth} />
                         </TouchableOpacity>    
                         <Text style={styles.age}>
