@@ -7,9 +7,11 @@ import {View, StyleSheet, Image,
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler'
+import { connect } from 'react-redux'
+import {getStackNavigation} from '../redux/actions/actions'
 //export = public
 //Component = thẻ
-export default class LoginRegister extends Component {
+class LoginRegister extends Component {
     state = {
         isLogin: true,
         email: '', 
@@ -26,11 +28,8 @@ export default class LoginRegister extends Component {
     }
     _loginOrRegister = async () => {
         const {email} = this.state
-        // if(this.state.isLogin === true) {
-        //     alert("Login...")
-        // } else {
-        //     alert("Register...")
-        // }
+        debugger
+        this.props.dispatch(getStackNavigation(this.props.navigation))
         this.props.navigation.navigate("MyTabNavigator", {email})
     }
     render() {
@@ -102,6 +101,15 @@ export default class LoginRegister extends Component {
         </View>
     }
 }
+//Redux
+const mapStateToProps = state => ({
+    stackNavigation: state.stackNavigation,
+    tabNavigation: state.tabNavigation
+})
+export default connect(
+    mapStateToProps
+)(LoginRegister)
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({

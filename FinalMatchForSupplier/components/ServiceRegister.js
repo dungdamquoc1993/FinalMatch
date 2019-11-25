@@ -7,11 +7,13 @@ import {Header } from './Header'
 import RefereeService from './RefereeService'
 import Stadium from './Stadium'
 import PlayerService from './PlayerService'
-import {tabNavigation} from './MyTabNavigator'
-export default class ServiceRegister extends Component {
+import { connect } from 'react-redux'
+
+class ServiceRegister extends Component {
     _navigateToRefereeService = () => {
-        // debugger
-        tabNavigation.navigate("RefereeService", {})
+        debugger
+        // tabNavigation.navigate("RefereeService", {})
+        this.props.stackNavigation.navigate("RefereeService", {})
     }
     _navigateToStadium = () => {
 
@@ -49,6 +51,14 @@ export default class ServiceRegister extends Component {
         )
     }
 }
+const mapStateToProps = state => ({
+    stackNavigation: state.navigationReducers.stackNavigation,
+    tabNavigation: state.navigationReducers.tabNavigation
+})
+export default connect(
+    mapStateToProps
+)(ServiceRegister)
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
