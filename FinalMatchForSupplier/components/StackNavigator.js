@@ -24,11 +24,9 @@ const StackNavigator = createAppContainer(createStackNavigator({
   },
   PlayerService: {
     screen: PlayerService,
-
   },
   Stadium: {
     screen: Stadium,
-
   },
 }, {
   initialRouteName: 'LoginRegister',

@@ -11,21 +11,18 @@ import { connect } from 'react-redux'
 
 class ServiceRegister extends Component {
     _navigateToRefereeService = () => {
-        debugger
-        // tabNavigation.navigate("RefereeService", {})
-        this.props.stackNavigation.navigate("RefereeService", {})
+        this.props.stackNavigation.navigate("RefereeService", {})    
     }
     _navigateToStadium = () => {
-
+        this.props.stackNavigation.navigate("Stadium", {}) 
     }
     _navigateToPlayerService = () => {
-
+        this.props.stackNavigation.navigate("PlayerService", {}) 
     }
   
     render() {                
         return (
             <SafeAreaView style ={styles.container}>
-                <Header title={"dang ky dich vu"}/> 
                 <TouchableOpacity style= {styles.button} onPress = {() => {
                     this._navigateToPlayerService()
                 }}>
@@ -52,6 +49,7 @@ class ServiceRegister extends Component {
     }
 }
 const mapStateToProps = state => ({
+    //convert "global object"(shared state) => ServiceRegister's props
     stackNavigation: state.navigationReducers.stackNavigation,
     tabNavigation: state.navigationReducers.tabNavigation
 })

@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, 
     SafeAreaView,
     Dimensions } from 'react-native';
-import {Header } from './Header'
+import Header from './Header'
 
 export default class PlayerService extends Component {
+    static navigationOptions = {
+        header: null
+    }    
     render() {
         return (
             <View style ={styles.container}>

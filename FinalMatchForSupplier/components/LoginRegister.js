@@ -28,8 +28,9 @@ class LoginRegister extends Component {
     }
     _loginOrRegister = async () => {
         const {email} = this.state
-        debugger
-        this.props.dispatch(getStackNavigation(this.props.navigation))
+        const stackNavigation = this.props.navigation
+        //dispatch = call action
+        this.props.dispatch(getStackNavigation(stackNavigation))
         this.props.navigation.navigate("MyTabNavigator", {email})
     }
     render() {
