@@ -14,14 +14,13 @@ class Header extends Component {
         super(props)
     }
     render() {
-        const {title, hideBack} = this.props
+        const {title, hideBack = false} = this.props
         return <View style={styles.container}>
-            <FontAwesome5
+            {hideBack === false && <FontAwesome5
                 onPress={() => {
                     this.props.stackNavigation.dispatch(NavigationActions.back())
-                    // alert("aa")
                 }}
-                name={"arrow-circle-left"} size={30} color={'white'} />
+                name={"arrow-circle-left"} size={30} color={'white'} />}
             <Text style={styles.title}>
                 {title}
             </Text>
