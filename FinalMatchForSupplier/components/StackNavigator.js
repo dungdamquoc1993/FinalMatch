@@ -8,7 +8,7 @@ import LoginRegister from './LoginRegister';
 import React, {Component} from 'react'
 import { createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
-import {store} from '../redux/stores/store'
+import { store } from '../redux/stores/store'
 
 const StackNavigator = createAppContainer(createStackNavigator({
   LoginRegister: {
