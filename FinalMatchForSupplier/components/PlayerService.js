@@ -7,9 +7,13 @@ import {
     DatePickerAndroid,
     TextInput,
     SafeAreaView,
+    PermissionsAndroid,
+    ToastAndroid,
+    Platform,
     TouchableOpacity } from 'react-native';
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Geolocation from 'react-native-geolocation-service'
 
 export default class PlayerService extends Component {
     static navigationOptions = {
@@ -27,7 +31,56 @@ export default class PlayerService extends Component {
     
         }
     }
+    hasLocationPermission = async () => {
+        debugger
+        if (Platform.OS === 'ios' ||
+            (Platform.OS === 'android' && Platform.Version < 23)) {
+                debugger
+          return true;
+        }
+        debugger
+        const hasPermission = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+        debugger
+        if (hasPermission) return true;
+        debugger
+        const status = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+        debugger
+        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+        debugger
+        if (status === PermissionsAndroid.RESULTS.DENIED) {
+          ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+        } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+          ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+        }
     
+        return false;
+      }
+    componentDidMount = async () => {
+        
+    }
+    _pressLocation = async () => {
+        //http://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843,105.813662&sensor=true
+        const hasLocationPermission = await this.hasLocationPermission();
+        debugger
+        if (hasLocationPermission) {            
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    debugger
+                    console.log(position);
+                },
+                (error) => {
+                    // See error code charts below.
+                    debugger
+                    console.log(error.code, error.message);
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+            );
+        }
+    }
     render() {
         const {name, phoneNumber} = this.state
         const {isGK, isCB, isMF, isCF} = this.state
@@ -93,9 +146,13 @@ export default class PlayerService extends Component {
                         }}>
                         <Text>CF</Text>
                         <FontAwesome5 name={isCF == true ? "check-square": "square"}  size={20} color={"black"} />
-                    </TouchableOpacity>
-                    
+                    </TouchableOpacity>                    
                 </View>            
+                <TouchableOpacity onPress={() => {
+                    this._pressLocation()
+                }}>
+                       <Text> Get Location</Text>
+                </TouchableOpacity>
             </View>
         )
     }
