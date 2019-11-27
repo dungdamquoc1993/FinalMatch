@@ -63,7 +63,7 @@ export default class PlayerService extends Component {
         
     }
     _pressLocation = async () => {
-        //http://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843,105.813662&sensor=true
+        //http://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843,105.813662&sensor=true&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
         const hasLocationPermission = await this.hasLocationPermission();
         debugger
         if (hasLocationPermission) {            
