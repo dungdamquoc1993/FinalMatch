@@ -8,8 +8,11 @@ import {
     TextInput,
     SafeAreaView,
     TouchableOpacity } from 'react-native';
+<<<<<<< HEAD
     
 import {Header } from './Header'
+=======
+>>>>>>> 320801251aa5e0c7353ff87534a4944f66100d86
 import {daysBetween2Dates, 
     convertDayMonthYearToString, 
     isIOS,

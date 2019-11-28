@@ -6,7 +6,7 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import React from 'react'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 //man hinh 
 import ServiceRegister from './ServiceRegister';
 import Notification from './Notification';
@@ -26,25 +26,25 @@ const TabNavigator = createBottomTabNavigator(
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
-                let iconName;
+                let iconName = ""
                 switch (routeName) {
                     case 'ServiceRegister':
-                        iconName = 'cube'
+                        iconName = 'accessible-icon'
                         break
                     case 'Notification':
-                        iconName = `box`;
+                        iconName = `accessible-icon`
                         break
                     case 'Order':
-                        conName = `ios-options`;
+                        iconName = `accessible-icon`
                         break
                     case 'Settings':
-                        conName = `ios-options`;
+                        iconName = `accessible-icon`
                         break
                     default:
                         iconName = ""
                         break
                 }
-                return <Ionicons name={iconName} size={30} color={tintColor} />;
+                return <FontAwesome5 name={iconName} size={20} color={tintColor} />
             },
         }),
         tabBarOptions: {
