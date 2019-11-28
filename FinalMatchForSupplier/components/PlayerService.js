@@ -15,6 +15,7 @@ import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 
+import {getAddressFromLatLong} from '../server/googleServices' 
 export default class PlayerService extends Component {
     static navigationOptions = {
         header: null
@@ -32,25 +33,23 @@ export default class PlayerService extends Component {
         }
     }
     hasLocationPermission = async () => {
-        debugger
+        
         if (Platform.OS === 'ios' ||
-            (Platform.OS === 'android' && Platform.Version < 23)) {
-                debugger
+            (Platform.OS === 'android' && Platform.Version < 23)) {        
           return true;
         }
-        debugger
+        
         const hasPermission = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
-        debugger
+        
         if (hasPermission) return true;
-        debugger
+        
         const status = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
-        debugger
-        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
-        debugger
+        
+        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;        
         if (status === PermissionsAndroid.RESULTS.DENIED) {
           ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
         } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
@@ -62,22 +61,22 @@ export default class PlayerService extends Component {
     componentDidMount = async () => {
         
     }
+
     _pressLocation = async () => {
+        //https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843%2C105.813662&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
         //http://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843,105.813662&sensor=true&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
-        const hasLocationPermission = await this.hasLocationPermission();
-        debugger
+        const hasLocationPermission = await this.hasLocationPermission();        
         if (hasLocationPermission) {            
             Geolocation.getCurrentPosition(
-                (position) => {
+                (position) => {                                        
+                    const {latitude, longitude}= position.coords
                     debugger
-                    console.log(position);
+                    getAddressFromLatLong(latitude, longitude)                                        
                 },
-                (error) => {
-                    // See error code charts below.
-                    debugger
+                (error) => {                                      
                     console.log(error.code, error.message);
                 },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
             );
         }
     }
