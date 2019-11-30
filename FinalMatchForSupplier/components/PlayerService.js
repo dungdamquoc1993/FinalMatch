@@ -49,8 +49,7 @@ export default class PlayerService extends Component {
         const hasLocationPermission = await checkLocationPermission()       
         if (hasLocationPermission) {            
             Geolocation.getCurrentPosition(
-                async (position) => {   
-                    debugger                                     
+                async (position) => {                                     
                     const {latitude, longitude}= position.coords
                     const { address='', district = '', province = ''} = await getAddressFromLatLong(latitude, longitude)         
 
@@ -136,6 +135,8 @@ export default class PlayerService extends Component {
                     this._pressLocation()
                 }}>
                        <Text> Get Location</Text>
+                       <FontAwesome5 name={"map-marker-alt"}
+                            size={20} color={"black"} />
                 </TouchableOpacity>
                 {(address.length > 0 || district.length > 0 || province.length > 0)
                      &&<Text>{address} - {district} - {province}</Text>}
