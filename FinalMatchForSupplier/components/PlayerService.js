@@ -7,21 +7,22 @@ import {
     DatePickerAndroid,
     TextInput,
     SafeAreaView,
-    PermissionsAndroid,
-    ToastAndroid,
-    Platform,
+    
     TouchableOpacity } from 'react-native';
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 
-import {getAddressFromLatLong} from '../server/googleServices' 
+import {
+    getAddressFromLatLong,
+    checkLocationPermission,
+} from '../server/googleServices' 
 export default class PlayerService extends Component {
     static navigationOptions = {
         header: null
     }    
     constructor(props) {
-        super(props)
+        super(props)        
         this.state = {
             name: '',         
             phoneNumber: '',    
@@ -29,49 +30,27 @@ export default class PlayerService extends Component {
             isCB: false,
             isMF: false,
             isCF: false,
-    
+            currentLocation: {
+                address : '', 
+                district : '', 
+                province : ''
+            },
+            radius: 12    
         }
     }
-    hasLocationPermission = async () => {
-        
-        if (Platform.OS === 'ios' ||
-            (Platform.OS === 'android' && Platform.Version < 23)) {        
-          return true;
-        }
-        
-        const hasPermission = await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        
-        if (hasPermission) return true;
-        
-        const status = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        
-        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;        
-        if (status === PermissionsAndroid.RESULTS.DENIED) {
-          ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
-        } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-          ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
-        }
     
-        return false;
-      }
     componentDidMount = async () => {
         
     }
 
-    _pressLocation = async () => {
-        //https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843%2C105.813662&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
-        //http://maps.googleapis.com/maps/api/geocode/json?latlng=21.0062843,105.813662&sensor=true&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
-        const hasLocationPermission = await this.hasLocationPermission();        
+    _pressLocation = async () => {        
+        const hasLocationPermission = await checkLocationPermission()       
         if (hasLocationPermission) {            
             Geolocation.getCurrentPosition(
-                (position) => {                                        
+                async (position) => {                                        
                     const {latitude, longitude}= position.coords
-                    debugger
-                    getAddressFromLatLong(latitude, longitude)                                        
+                    const { address='', district = '', province = ''} = await getAddressFromLatLong(latitude, longitude)         
+                    this.setState({currentLocation: {address, district, province}})
                 },
                 (error) => {                                      
                     console.log(error.code, error.message);
@@ -83,6 +62,8 @@ export default class PlayerService extends Component {
     render() {
         const {name, phoneNumber} = this.state
         const {isGK, isCB, isMF, isCF} = this.state
+        const {address, district, province} = this.state.currentLocation
+        const {radius} = this.state
         return (
             <View style ={styles.container}>
                 <Header title={"PlayerService"}/> 
@@ -152,6 +133,22 @@ export default class PlayerService extends Component {
                 }}>
                        <Text> Get Location</Text>
                 </TouchableOpacity>
+                {(address.length > 0 || district.length > 0 || province.length > 0)
+                     &&<Text>{address} - {district} - {province}</Text>}
+                <View style={styles.radiusInput}>
+                    <Text style={styles.textLabelRadius}>
+                        Bán kính phục vụ:
+                        </Text>
+                    <TextInput style={styles.textInput}
+                        placeholder={"Please enter Radius"}
+                        value={radius}
+                        onChangeText={(radius) => {
+                            this.setState({ radius })
+                        }}
+                    >
+
+                    </TextInput>
+                </View>
             </View>
         )
     }
@@ -199,5 +196,18 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    radiusInput: {
+        flexDirection: 'row', 
+        height: 60,
+        width: '100%',
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    textLabelRadius: {
+        width: '20%',
+        height: 40,        
+        lineHeight: 40,
+        paddingStart: 30,        
+    },
 })
