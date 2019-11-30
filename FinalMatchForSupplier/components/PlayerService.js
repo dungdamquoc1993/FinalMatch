@@ -17,6 +17,7 @@ import {
     getAddressFromLatLong,
     checkLocationPermission,
 } from '../server/googleServices' 
+
 export default class PlayerService extends Component {
     static navigationOptions = {
         header: null
@@ -44,12 +45,15 @@ export default class PlayerService extends Component {
     }
 
     _pressLocation = async () => {        
+        debugger
         const hasLocationPermission = await checkLocationPermission()       
         if (hasLocationPermission) {            
             Geolocation.getCurrentPosition(
-                async (position) => {                                        
+                async (position) => {   
+                    debugger                                     
                     const {latitude, longitude}= position.coords
                     const { address='', district = '', province = ''} = await getAddressFromLatLong(latitude, longitude)         
+
                     this.setState({currentLocation: {address, district, province}})
                 },
                 (error) => {                                      
@@ -65,7 +69,7 @@ export default class PlayerService extends Component {
         const {address, district, province} = this.state.currentLocation
         const {radius} = this.state
         return (
-            <View style ={styles.container}>
+            <SafeAreaView style ={styles.container}>
                 <Header title={"PlayerService"}/> 
                 <Text style={{fontSize: 50}}>PlayerService</Text>
                 <View style={styles.personalInformation}>
@@ -149,7 +153,7 @@ export default class PlayerService extends Component {
 
                     </TextInput>
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }

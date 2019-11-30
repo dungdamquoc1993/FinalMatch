@@ -6,6 +6,7 @@
  * rm -rf Podfile.lock
  * pod install
  * yarn add redux react-redux
+ * react-native link @react-native-community/geolocation
  */
 
 import {AppRegistry} from 'react-native';

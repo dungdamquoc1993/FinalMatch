@@ -10,7 +10,9 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
         const response = await fetch(
             urlGetAddressFromLatLong(latitude, longitude)    
         );
+        debugger
         const responseJson = await response.json();
+        debugger
         if (responseJson.status.toUpperCase() === "OK") {
             //console.log(JSON.stringify(responseJson.results[0]["address_components"][0]["long_name"]))
             if (responseJson.results.length > 0) {
