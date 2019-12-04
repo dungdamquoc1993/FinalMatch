@@ -18,7 +18,11 @@ class LoginRegister extends Component {
         password: ''
     }
     _loginWithFacebook = async () => {
-        this.props.navigation.navigate('MyTabNavigator')
+        const {email} = this.state
+        const stackNavigation = this.props.navigation
+        //dispatch = call action
+        this.props.dispatch(getStackNavigation(stackNavigation))
+        this.props.navigation.navigate("MyTabNavigator", {email})
     }
     _login = async () => {
         this.setState({isLogin: true})

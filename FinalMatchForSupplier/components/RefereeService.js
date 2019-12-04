@@ -7,10 +7,12 @@ import {
   TextInput,
   SafeAreaView,
   Dimensions,
+  Image
 } from 'react-native';
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
+import {Dropdown} from 'react-native-material-dropdown';
 import {
   getAddressFromLatLong,
   checkLocationPermission,
@@ -30,11 +32,7 @@ export default class RefereeService extends Component {
     },
     radius: 12
   }
-  _isOnpressSubmit = () => {
-    this.setState({
-      isAddress: !this.state.isAddress
-    })
-  }
+
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
@@ -54,6 +52,45 @@ export default class RefereeService extends Component {
   }
 
   render() {
+    let data = [
+      {
+        value: 1,
+      },
+      {
+        value: 2,
+      },
+      {
+        value: 3,
+      },
+      {
+        value: 4,
+      },
+      {
+        value: 5,
+      },
+      {
+        value: 6,
+      },
+      {
+        value: 7,
+      },
+      {
+        value: 8,
+      },
+      {
+        value: 9,
+      },
+      {
+        value: 10,
+      },
+      {
+        value: 11,
+      },
+      {
+        value: 12,
+      },
+      
+    ];
     const { isAddress } = this.state
     const {address, district, province} = this.state.currentLocation
     const {radius} = this.state
@@ -92,58 +129,26 @@ export default class RefereeService extends Component {
             keyboardType={'number-pad'}
           />
         </View>
-        <Text style={{ fontSize: 15, marginVertical: 20 }}>
-          Địa chỉ phục vụ
-        </Text>
-        {isAddress === true &&
-          <View style={styles.personalInformation}>
-            <Text style={styles.textLabel}>
-              T/P:
-          </Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Thành phố'}
-              keyboardType={'default'}
-            />
-          </View>}
-        {isAddress === true &&
-          <View style={styles.personalInformation}>
-            <Text style={styles.textLabel}>
-              Tuổi:
-          </Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Quận huyện'}
-            />
-          </View>}
-
-
         <TouchableOpacity onPress={() => {
           this._pressLocation()
-        }}>
-          <Text> Get Location</Text>
-          <FontAwesome5 name={"map-marker-alt"}
-            size={20} color={"black"} />
+        }}
+        style={styles.buttonGetLocation}
+        >
+          <Text style={styles.textGetLocation}> Get Location</Text>
+          <Image source={require("../images/placeholder.png")} style={{height:30,width:30}}/>
         </TouchableOpacity>
         {(address.length > 0 || district.length > 0 || province.length > 0)
           && <Text>{address} - {district} - {province}</Text>}
-        <View style={styles.radiusInput}>
+          <View style={styles.radiusInput}>
           <Text style={styles.textLabelRadius}>
             Bán kính phục vụ:
-                        </Text>
-          <TextInput style={styles.textInput}
-            placeholder={"Please enter Radius"}
-            value={radius}
-            onChangeText={(radius) => {
-              this.setState({ radius })
-            }}
-          >
+          </Text>
+          <View style={styles.dropDownRadius}>
+            <Dropdown placeholder={'12'} data={data} />
+          </View>
 
-          </TextInput>
         </View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
-          this._isOnpressSubmit()
-        }}>
+        <TouchableOpacity style={styles.btnSubmit}>
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -203,9 +208,25 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textLabelRadius: {
-    width: '20%',
+    width: '40%',
     height: 40,
     lineHeight: 40,
-    paddingStart: 30,
+    paddingStart: 20,
+  },
+  buttonGetLocation: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginVertical: 30,
+  },
+  textGetLocation: {
+    marginRight: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  dropDownRadius: {
+    width: 90,
+    marginLeft: 8,
+    marginBottom: 20,
   },
 });
