@@ -112,15 +112,52 @@ VALUES("Nguyen Van A", "1001", 1);
 UPDATE Supplier SET phoneNumber = "0912356" 
 WHERE id=1;
 --Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
+
+DROP VIEW viewSupplierPlayerService;
 CREATE VIEW viewSupplierPlayerService AS
-SELECT Supplier.*, PlayerService.* FROM Supplier 
+SELECT 
+Supplier.id as supplierId,
+Supplier.name as name,
+Supplier.password as password,
+Supplier.phoneNumber as phoneNumber,
+Supplier.dateOfBirth as dateOfBirth,
+Supplier.facebookId as facebookId,
+Supplier.email as email,
+Supplier.userType as userType,
+Supplier.geoPoint as geoPoint,
+Supplier.radius as radius,
+Supplier.isActive as isActive,
+Supplier.tokenKey as tokenKey,
+PlayerService.playerName as playerName,
+PlayerService.position as position
+FROM Supplier 
 INNER JOIN PlayerService 
 ON Supplier.id=PlayerService.supplierId 
 ORDER BY Supplier.id;
-SELECT * FROM viewSupplierPlayerService WHERE id=1;
-DROP VIEW viewSupplierPlayerService;
+
+SELECT * FROM viewSupplierPlayerService;
+
+DROP VIEW viewSupplierServices;
+CREATE VIEW viewSupplierServices AS
+
+SELECT viewSupplierPlayerService.*, 
+RefereeeService.refereeName FROM viewSupplierPlayerService
+INNER JOIN RefereeeService 
+ON viewSupplierPlayerService.supplierId=RefereeeService.supplierId
+ORDER BY RefereeeService.supplierId;
+
+SELECT * FROM viewSupplierServices;
+
 --Trước khi vào PlayerService, kiểm tra xem supplier đã đăng ký "dịch vụ cầu thủ" chưa ?
 SELECT COUNT(*) FROM PlayerService WHERE supplierId=1;
+--Màn hình "Đăng ký dv trong tai"
+CREATE TABLE IF NOT EXISTS RefereeeService (    
+    refereeName VARCHAR(300) NOT NULL ,    
+    supplierId INTEGER
+);
+INSERT INTO RefereeeService(refereeName, supplierId)
+VALUES("trong tai A", 1);
+
 --Sân bóng
 DROP TABLE Stadium;
 CREATE TABLE IF NOT EXISTS Stadium (
@@ -252,6 +289,9 @@ FROM Conversations
 INNER JOIN Orders
 ON Conversations.orderId=Orders.id
 ORDER BY Conversations.createdDate DESC;
+
+--Notifications 
+
 
 
 
