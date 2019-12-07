@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS Supplier (
     facebookId VARCHAR(300) DEFAULT '',    
     email VARCHAR(250) UNIQUE,
     userType VARCHAR(150) DEFAULT 'default',
-    latitude FLOAT DEFAULT 0.0,
-    longitude FLOAT DEFAULT 0.0,
+    geoPoint POINT,
     radius FLOAT DEFAULT 0.0,
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500)    
@@ -128,16 +127,17 @@ CREATE TABLE IF NOT EXISTS Stadium (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     type INTEGER DEFAULT 0,
     name VARCHAR(300) NOT NULL,
-    longitude FLOAT DEFAULT 0.0,
-    latitude FLOAT DEFAULT 0.0,
+    point POINT,
     address TEXT,
     phoneNumber VARCHAR(300),
     supplierId INTEGER
 );
 --Màn hình Đăng ký sân bóng, bấm nút Submit:
 --Nếu free: có lat,long, ko có số đt
-INSERT INTO Stadium(name, type, longitude, latitude,address, phoneNumber, supplierId)
-VALUES("Hang Day", 1, 105.832909, 21.030134, "", "", 1);
+INSERT INTO Stadium(name, type, point,address, phoneNumber, supplierId)
+VALUES("Hang Day", 1, ST_GeomFromText('POINT(105.832909 21.030134)'), "", "", 1);
+--Test lat, long:
+select X(point) as "latitude", Y(point) AS "longitude" from Stadium;
 --Kiểm tra xem supplier có bao nhiêu dịch vụ sân bóng
 SELECT COUNT(*) FROM Stadium WHERE supplierId=1;
 --Customer
@@ -149,9 +149,114 @@ DROP TABLE Order;
 --"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
 --Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
 --https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
-CREATE TABLE IF NOT EXISTS Order (
+SELECT
+  id,
+  name,
+  X(geoPoint) AS "latitude",
+  Y(geoPoint) AS "longitude",
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          geoPoint, 
+          GeomFromText('POINT(51.5177 -0.0968)')
+        )
+      )
+    )
+  )
+  AS distance
+FROM geoTable
+  ORDER BY distance ASC;
+
+DROP TABLE Orders;
+CREATE TABLE IF NOT EXISTS Orders (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    status VARCHAR(120) DEFAULT, 
-    supplierId INTEGER
+    customerId VARCHAR(400),
+    supplierId INTEGER,
+    point POINT NOT NULL,
+    status VARCHAR(120) DEFAULT "pending", 
+    createdDate DATETIME(6) DEFAULT NOW(),
+    dateTimeStart DATETIME,    
+    dateTimeEnd DATETIME
 );
+ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
+
+DROP TRIGGER tCheckTime;
+delimiter //
+CREATE TRIGGER tCheckTime BEFORE INSERT ON Orders
+ FOR EACH ROW BEGIN
+    IF (NEW.dateTimeStart < NEW.createdDate OR TIMESTAMPDIFF(MINUTE,NEW.dateTimeStart, NEW.dateTimeEnd) < 180) THEN
+     signal sqlstate '45000' set message_text = "dateTimeStart, dateTimeEnd error in range";     
+   END IF;
+END;//
+delimiter ;
+
+--Test insert data
+INSERT INTO Orders(customerId, supplierId, point, dateTimeStart, dateTimeEnd)
+VALUES('d62d7eb43ab45ee725f82080d4586c52', 1, ST_GeomFromText('POINT(105.832909 21.030134)'), '2019-12-07 16:00:00', '2019-12-07 19:00:00');
+
+SELECT TIMESTAMPDIFF(MINUTE,dateTimeStart, dateTimeEnd) as "diff" FROM Orders;
+--Chat = conversations
+DROP TABLE Conversations;
+CREATE TABLE IF NOT EXISTS Conversations (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    orderId INTEGER,
+    sms TEXT,
+    senderId VARCHAR(400),
+    createdDate DATETIME(6) DEFAULT NOW(),
+    seen BOOLEAN DEFAULT FALSE
+);
+--Customer
+DROP TABLE Customer;
+CREATE TABLE IF NOT EXISTS Customer (
+    customerId VARCHAR(400) PRIMARY KEY,
+    name VARCHAR(300) NOT NULL ,
+    password VARCHAR(400) NOT NULL ,
+    phoneNumber VARCHAR(300) UNIQUE,    
+    facebookId VARCHAR(300) DEFAULT '',        
+    email VARCHAR(250) UNIQUE,    
+    userType VARCHAR(150) DEFAULT 'default',        
+    isActive INTEGER DEFAULT 1,
+    tokenKey VARCHAR(500)    
+);
+--ALTER TABLE Customer MODIFY customerId DEFAULT md5(UUID());
+delimiter //
+CREATE TRIGGER tCreateCustomerId BEFORE INSERT ON Customer
+    FOR EACH ROW 
+    SET NEW.customerId = md5(UUID());//    
+delimiter ;
+
+
+INSERT INTO Customer(name, password, phoneNumber, facebookId, email, userType)
+VALUES("hoang A", "12345", "12355522", "323424", "hoang1@gmail.com", "facebook");
+
+INSERT INTO Conversations(orderId, sms, senderId) 
+VALUES(1, "Chao ban", '1');
+INSERT INTO Conversations(orderId, sms, senderId) 
+VALUES(1, "ok ban khoe khong ?", 'd62d7eb43ab45ee725f82080d4586c52');
+SELECT * FROM Conversations WHERE orderId=1;
+
+UPDATE Conversations SET Conversations.seen = TRUE
+WHERE orderId = 1;
+
+SELECT Orders.id as orderId, 
+Orders.customerId as customerId,
+Orders.supplierId as supplierId,
+X(Orders.point) as latitude,
+Y(Orders.point) as longitude,
+Orders.status as status,
+Conversations.sms as sms,
+Conversations.senderId as senderId,
+Conversations.seen as seen
+FROM Conversations
+INNER JOIN Orders
+ON Conversations.orderId=Orders.id
+ORDER BY Conversations.createdDate DESC;
+
+
+
+
+
+
+
 
