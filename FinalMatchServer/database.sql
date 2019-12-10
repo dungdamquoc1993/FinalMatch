@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Supplier (
     facebookId VARCHAR(300) DEFAULT '',    
     email VARCHAR(250) UNIQUE,
     userType VARCHAR(150) DEFAULT 'default',
-    geoPoint POINT,
+    point POINT,
     radius FLOAT DEFAULT 0.0,
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500)    
@@ -32,6 +32,81 @@ DESCRIBE Supplier;
 --Register a default supplier
 INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email)
 VALUES("Hoang", "xxx", "12345", '1979-10-25', 'hoang@gmail.com');
+--FAke suppliers
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang1", "xxx", "12345", '1979-10-25', 'hoang@gmail.com',  ST_GeomFromText('POINT(20.995370 105.807250)'), 11000);
+
+--sao truc mao meo
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang2", "xxx", "123456", '1979-10-25', 'hoang1@gmail.com',  ST_GeomFromText('POINT(20.994407 105.806877)'), 11000);
+
+--Vinmec
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang3", "xxx", "123457", '1979-10-25', 'hoang2@gmail.com',  ST_GeomFromText('POINT(20.993817 105.867659)'), 11000);
+--108 Le TRong Tan
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang4", "xxx", "123458", '1979-10-25', 'hoang3@gmail.com',  ST_GeomFromText('POINT(20.998066 105.829462)'), 11000);
+
+--Cửu Việt, Châu Quỳ
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang5", "xxx", "123459", '1979-10-25', 'hoang4@gmail.com',  ST_GeomFromText('POINT(21.008068 105.939789)'), 11000);
+--Trung Hoa, Cau Giay
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang6", "xxx", "1234510", '1979-10-25', 'hoang5@gmail.com',  ST_GeomFromText('POINT(21.014102 105.802116)'), 11000);
+
+--meters
+SELECT 100000*ST_Distance(POINT(20.991267,105.812368),POINT(20.990314,105.815973));
+SELECT 100000*GLength(LineStringFromWKB(LineString(POINT(20.991267,105.812368), POINT(20.990314,105.815973))));
+--tu 322 NGuyen TRai den 5 diem con lai
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
+CREATE PROCEDURE getSupplierAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
+BEGIN
+SELECT
+  name,phoneNumber, radius,
+  dateOfBirth, facebookId, email, userType,
+  X(point) AS "latitude",
+  Y(point) AS "longitude",
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          GeomFromText('POINT('+lat+' '+lon+')')
+        )
+      )
+    )
+  ) * 100000
+  AS distance
+FROM Supplier HAVING distance <= radius + orderRadius;
+//
+DELIMITER ;
+call getSupplierAroundOrder(10000, 20.9959819, 105.8097244);
+--tess
+SELECT
+  name,phoneNumber, radius,
+  dateOfBirth, facebookId, email, userType,
+  X(point) AS "latitude",
+  Y(point) AS "longitude",
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          GeomFromText('POINT(20.9959819 105.8097244)')
+        )
+      )
+    )
+  ) * 100000
+  AS distance
+FROM Supplier HAVING distance <= radius + 10000;
+
 
 --Login default supplier
 SELECT * FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
@@ -186,24 +261,7 @@ DROP TABLE Order;
 --"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
 --Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
 --https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
-SELECT
-  id,
-  name,
-  X(geoPoint) AS "latitude",
-  Y(geoPoint) AS "longitude",
-  (
-    GLength(
-      LineStringFromWKB(
-        LineString(
-          geoPoint, 
-          GeomFromText('POINT(51.5177 -0.0968)')
-        )
-      )
-    )
-  )
-  AS distance
-FROM geoTable
-  ORDER BY distance ASC;
+
 
 DROP TABLE Orders;
 CREATE TABLE IF NOT EXISTS Orders (
