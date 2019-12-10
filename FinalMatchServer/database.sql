@@ -35,7 +35,7 @@ INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email)
 VALUES("Hoang", "xxx", "12345", '1979-10-25', 'hoang@gmail.com');
 
 --Login default supplier
-SELECT COUNT(*) FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
+SELECT * FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
 UPDATE Supplier SET tokenKey="xx12345" WHERE email="hoang@gmail.com" AND password="xxx";
 --signout default supplier
 UPDATE Supplier SET tokenKey="" WHERE email="hoang@gmail.com" AND password="xxx";
@@ -101,3 +101,57 @@ END; //
 delimiter ;
 SET @myToken = createToken();
 SELECT @myToken;
+--Màn hình "Đăng ký dịch vụ"
+CREATE TABLE IF NOT EXISTS PlayerService (    
+    playerName VARCHAR(300) NOT NULL ,
+    position VARCHAR(10) NOT NULL ,
+    supplierId INTEGER
+);
+--Màn hình PlayerService, khi bấm Submit(2 câu lênh):
+INSERT INTO PlayerService(playerName, position, supplierId)
+VALUES("Nguyen Van A", "1001", 1);
+UPDATE Supplier SET phoneNumber = "0912356" 
+WHERE id=1;
+--Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
+CREATE VIEW viewSupplierPlayerService AS
+SELECT Supplier.*, PlayerService.* FROM Supplier 
+INNER JOIN PlayerService 
+ON Supplier.id=PlayerService.supplierId 
+ORDER BY Supplier.id;
+SELECT * FROM viewSupplierPlayerService WHERE id=1;
+DROP VIEW viewSupplierPlayerService;
+--Trước khi vào PlayerService, kiểm tra xem supplier đã đăng ký "dịch vụ cầu thủ" chưa ?
+SELECT COUNT(*) FROM PlayerService WHERE supplierId=1;
+--Sân bóng
+DROP TABLE Stadium;
+CREATE TABLE IF NOT EXISTS Stadium (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    type INTEGER DEFAULT 0,
+    name VARCHAR(300) NOT NULL,
+    longitude FLOAT DEFAULT 0.0,
+    latitude FLOAT DEFAULT 0.0,
+    address TEXT,
+    phoneNumber VARCHAR(300),
+    supplierId INTEGER
+);
+--Màn hình Đăng ký sân bóng, bấm nút Submit:
+--Nếu free: có lat,long, ko có số đt
+INSERT INTO Stadium(name, type, longitude, latitude,address, phoneNumber, supplierId)
+VALUES("Hang Day", 1, 105.832909, 21.030134, "", "", 1);
+--Kiểm tra xem supplier có bao nhiêu dịch vụ sân bóng
+SELECT COUNT(*) FROM Stadium WHERE supplierId=1;
+--Customer
+https://maps.googleapis.com/maps/api/geocode/json?address=Thanh%20Xuan,%20Ha%20Noi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+--Đơn hàng = Order
+DROP TABLE Order;
+--status: "pending", "confirmed", "completed", "cancelled", 
+--"completed" = currentDAte > date
+--"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
+--Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
+--https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+CREATE TABLE IF NOT EXISTS Order (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(120) DEFAULT, 
+    supplierId INTEGER
+);
+
