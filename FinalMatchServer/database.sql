@@ -67,7 +67,6 @@ SELECT 100000*GLength(LineStringFromWKB(LineString(POINT(20.991267,105.812368), 
 DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
 CREATE PROCEDURE getSupplierAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
-BEGIN
 SELECT
   name,phoneNumber, radius,
   dateOfBirth, facebookId, email, userType,
@@ -78,7 +77,7 @@ SELECT
       LineStringFromWKB(
         LineString(
           point, 
-          GeomFromText('POINT('+lat+' '+lon+')')
+          POINT(lat, lon)
         )
       )
     )
@@ -88,26 +87,6 @@ FROM Supplier HAVING distance <= radius + orderRadius;
 //
 DELIMITER ;
 call getSupplierAroundOrder(10000, 20.9959819, 105.8097244);
---tess
-SELECT
-  name,phoneNumber, radius,
-  dateOfBirth, facebookId, email, userType,
-  X(point) AS "latitude",
-  Y(point) AS "longitude",
-  (
-    GLength(
-      LineStringFromWKB(
-        LineString(
-          point, 
-          GeomFromText('POINT(20.9959819 105.8097244)')
-        )
-      )
-    )
-  ) * 100000
-  AS distance
-FROM Supplier HAVING distance <= radius + 10000;
-
-
 --Login default supplier
 SELECT * FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
 UPDATE Supplier SET tokenKey="xx12345" WHERE email="hoang@gmail.com" AND password="xxx";
