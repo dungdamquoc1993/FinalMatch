@@ -120,6 +120,24 @@ END; //
 delimiter ;
 SET @tokenKey=loginFacebook("fb112", "fb11@gmail.com", "Nguyen Van A");
 SELECT @tokenKey;
+
+DROP FUNCTION registerSupplier;
+--select md5("123456") = "e10adc3949ba59abbe56e057f20f883e"
+delimiter //
+CREATE FUNCTION registerSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
+BEGIN
+    INSERT INTO Supplier(email, password, userType)
+    VALUES(email, md5(password), userType);
+    SET @myToken = createToken();
+    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;            
+    RETURN @myToken;
+END; //                                 
+delimiter ;
+SET @tokenKey=registerSupplier("hoang12@gmail.com", "123456", "default");
+SELECT @tokenKey;
+--login Supplier
+select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456") = password;
+
 --create token
 DROP FUNCTION createToken;
 delimiter //
