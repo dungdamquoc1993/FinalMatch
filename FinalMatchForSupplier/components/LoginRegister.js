@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import {View, StyleSheet, Image,
     TouchableOpacity,
     Text,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView, 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
+import { Header } from 'react-navigation-stack'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -39,7 +41,8 @@ class LoginRegister extends Component {
     }
     render() {
         const {email, password, isLogin} = this.state
-        return <View style={styles.container}>
+        return <KeyboardAvoidingView style={styles.container} 
+            enabled>
             <Image style={styles.logo} source={require('../images/cat.jpeg')} />
             
             <Icon.Button
@@ -71,7 +74,7 @@ class LoginRegister extends Component {
                     {isLogin === false && <View style={styles.line}></View>}
                 </View>
             </View>    
-            <View style={styles.viewInput}>
+            <KeyboardAvoidingView style={styles.viewInput}>
                 <TextInput style={styles.textInput} 
                     onChangeText = {(email) => {
                         this.setState({email})
@@ -95,7 +98,7 @@ class LoginRegister extends Component {
                     keyboardType={"default"}
                     secureTextEntry
                     placeholder={"Retype password:"} />}
-            </View>
+            </KeyboardAvoidingView>
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
@@ -103,7 +106,7 @@ class LoginRegister extends Component {
                     {isLogin === true ? "Login to your account" : "Register new user"}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     }
 }
 //Redux

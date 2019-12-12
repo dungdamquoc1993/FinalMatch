@@ -1,6 +1,5 @@
-const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
-
 const mysql = require('mysql')
+const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 const connection = mysql.createConnection({
     host: HOSTNAME,
     user: "root",

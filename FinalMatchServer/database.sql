@@ -20,7 +20,6 @@ CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
  FOR EACH ROW BEGIN
    DECLARE numLength INT;
    SET numLength = (SELECT LENGTH(NEW.password));
-
    IF (numLength < 2) THEN
      signal sqlstate '45000' set message_text = "Password must be > 2 characters";     
    END IF;
@@ -135,6 +134,28 @@ END; //
 delimiter ;
 SET @tokenKey=registerSupplier("hoang12@gmail.com", "123456", "default");
 SELECT @tokenKey;
+
+DROP FUNCTION loginSupplier;
+delimiter //
+CREATE FUNCTION loginSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
+BEGIN
+    DECLARE numberOfSuppliers INT;
+    SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier WHERE Supplier.email = email AND Supplier.password = md5(password);
+    IF numberOfSuppliers > 0 THEN
+        BEGIN
+            SET @myToken = createToken();
+            UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;            
+            RETURN @myToken;
+        END;
+    ELSE
+        signal sqlstate '45000' set message_text = "Please check email and password";
+        RETURN ""; 
+    END IF;
+END;//                              
+delimiter ;
+
+SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKey;
+
 --login Supplier
 select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456") = password;
 

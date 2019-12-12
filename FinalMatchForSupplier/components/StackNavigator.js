@@ -9,7 +9,7 @@ import React, {Component} from 'react'
 import { createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
 import {store} from '../redux/stores/store'
-
+import {KeyboardAvoidingView} from 'react-native'
 const StackNavigator = createAppContainer(createStackNavigator({
   LoginRegister: {
     screen: LoginRegister,
@@ -34,4 +34,5 @@ const StackNavigator = createAppContainer(createStackNavigator({
 }))
 export default () => <Provider store={store}>
     <StackNavigator />
+   
 </Provider> 
