@@ -9,7 +9,7 @@ import {
   Dimensions,
   Image
 } from 'react-native';
-import Header from './Header';
+import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
 import {Dropdown} from 'react-native-material-dropdown';

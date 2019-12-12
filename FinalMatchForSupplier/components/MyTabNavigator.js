@@ -18,7 +18,7 @@ import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
 const TabNavigator = createBottomTabNavigator(
     {
         ServiceRegister: { screen: ServiceRegister },
-        Notification: { screen: Notification },
+        "Notification": { screen: Notification },
         Order: { screen: Order },
         Settings: { screen: Settings }
     },

@@ -1,4 +1,5 @@
 import {Platform } from 'react-native'
+import {Alert} from 'react-native'
 
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
@@ -23,3 +24,4 @@ export function convertDateToString(date) {
 export const isIOS = () => {
     return Platform.OS === "ios"
 }
+export const alert = (content) => Alert.alert("FinalMatch",content,[],{cancelable: true})

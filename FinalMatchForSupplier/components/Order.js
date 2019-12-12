@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import {Header } from './Header'
+import Header from './Header'
 
 export default class Order extends Component {
     render() {

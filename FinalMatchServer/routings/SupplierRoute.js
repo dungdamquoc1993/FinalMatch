@@ -11,25 +11,27 @@ router.get('/', async (req, res) => {
 router.post('/register', async (req, res) => {
     const {email, password,userType = "default"} = req.body    
     const sqlCommand = "select registerSupplier(?, ?, ?) as tokenKey"
+    debugger
     connection.query(sqlCommand, [email, password,userType], (error, results) => {
             debugger
             if(error) {
                 res.json({
                   result: "failed", 
                   data: {}, 
-                  message: error.sqlMessage,
+                  errorMessage: error.sqlMessage,
                   time: Date.now()})
             } else {
                 if(results != null && results.length > 0) {
                     res.json({
                       result: "ok", 
                       data: {tokenKey: results[0].tokenKey}, 
-                      message: 'Register user successfully',
+                      errorMessage: 'Register user successfully',
                       time: Date.now()})
                 }                
             }
     })    
 })
+
 //Link http://localhost:3000/suppliers/login
 router.post('/login', async (req, res) => {
   const {email, password,userType = "default"} = req.body    
@@ -40,14 +42,14 @@ router.post('/login', async (req, res) => {
               res.json({
                 result: "failed", 
                 data: {}, 
-                message: error.sqlMessage,
+                errorMessage: error.sqlMessage,
                 time: Date.now()})
           } else {
               if(results != null && results.length > 0) {
                   res.json({
                     result: "ok", 
                     data: {tokenKey: results[0].tokenKey}, 
-                    message: 'Login user successfully',
+                    errorMessage: 'Login user successfully',
                     time: Date.now()})
               }                
           }
