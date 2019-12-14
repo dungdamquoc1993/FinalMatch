@@ -3,20 +3,28 @@ import {View, StyleSheet, Image,
     TouchableOpacity,
     Text,
     Dimensions,
+<<<<<<< HEAD
     KeyboardAvoidingView
+=======
+    KeyboardAvoidingView, 
+>>>>>>> 5063163e5a10149d3deebdf82011ac0e174f92e6
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
+import { Header } from 'react-navigation-stack'
+import {registerSupplier, loginSupplier} from '../server/myServices'
+import {alert} from '../helpers/Helpers'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
     state = {
         isLogin: true,
-        email: '', 
-        password: ''
+        email: 'hoang3@gmail.com', 
+        password: '12345',
+        retypePassword: '12345'
     }
     _loginWithFacebook = async () => {
         const {email} = this.state
@@ -32,15 +40,36 @@ class LoginRegister extends Component {
         this.setState({isLogin: false})
     }
     _loginOrRegister = async () => {
-        const {email} = this.state
-        const stackNavigation = this.props.navigation
-        //dispatch = call action
-        this.props.dispatch(getStackNavigation(stackNavigation))
-        this.props.navigation.navigate("MyTabNavigator", {email})
+        try {
+            const { email, password, retypePassword, isLogin } = await this.state
+            if(isLogin != true) {
+                if(retypePassword != password) {
+                    alert('Password and retype password does not match')
+                    return
+                }
+            }            
+            const {tokenKey, errorMessage} = isLogin == true ? await loginSupplier(email, password):
+                                                        await registerSupplier(email, password)
+            debugger
+            if (tokenKey.length > 0) {
+                debugger
+                const stackNavigation = this.props.navigation
+                //dispatch = call action
+                this.props.dispatch(getStackNavigation(stackNavigation))
+                this.props.navigation.navigate("MyTabNavigator", { email })
+            } else {
+                debugger
+                alert(errorMessage)
+            }
+        } catch(error) {
+            alert(error)
+        }
+        
     }
     render() {
         const {email, password, isLogin} = this.state
-        return <View style={styles.container}>
+        return <KeyboardAvoidingView style={styles.container} 
+            enabled>
             <Image style={styles.logo} source={require('../images/cat.jpeg')} />
             
             <Icon.Button
@@ -72,7 +101,7 @@ class LoginRegister extends Component {
                     {isLogin === false && <View style={styles.line}></View>}
                 </View>
             </View>    
-            <View style={styles.viewInput}>
+            <KeyboardAvoidingView style={styles.viewInput}>
                 <TextInput style={styles.textInput} 
                     onChangeText = {(email) => {
                         this.setState({email})
@@ -89,14 +118,14 @@ class LoginRegister extends Component {
                     secureTextEntry
                     placeholder={"Password:"} />
                 {isLogin === false && <TextInput style={styles.textInput} 
-                    onChangeText = {(password) => {
-                        this.setState({password})
+                    onChangeText = {(retypePassword) => {
+                        this.setState({retypePassword})
                     }}
-                    value={this.state.password}
+                    value={this.state.retypePassword}
                     keyboardType={"default"}
                     secureTextEntry
                     placeholder={"Retype password:"} />}
-            </View>
+            </KeyboardAvoidingView>
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
@@ -104,7 +133,7 @@ class LoginRegister extends Component {
                     {isLogin === true ? "Login to your account" : "Register new user"}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     }
 }
 //Redux
