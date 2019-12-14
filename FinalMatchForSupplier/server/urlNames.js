@@ -10,3 +10,7 @@ export const urlRegisterSupplier = () => {
 export const urlLoginSupplier = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/login`
 }
+export const urlInsertPlayerService = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/insertPlayerService`
+}
+
