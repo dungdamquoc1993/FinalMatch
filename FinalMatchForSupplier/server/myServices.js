@@ -13,11 +13,11 @@ export const registerSupplier = async (email, password) => {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email, password}),
+            body: JSON.stringify({email, password}),// stringify de lam gi 
         })               
-        const responseJson = await response.json();
+        const responseJson = await response.json();// chua hieu lam
         const {result, data, errorMessage, time} = responseJson
-        const {tokenKey = ''} = data
+        const {tokenKey = ''} = data// chua hieu lam
         if (result.toUpperCase() === "OK") {                   
             return { tokenKey, errorMessage: ''}
         } else {
