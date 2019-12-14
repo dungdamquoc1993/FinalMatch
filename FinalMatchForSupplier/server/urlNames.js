@@ -13,4 +13,11 @@ export const urlLoginSupplier = () => {
 export const urlInsertPlayerService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/insertPlayerService`
 }
+export const urlGetSupplierById = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById`
+}
+export const urlCheckPlayerServiceExist = (supplierId) => {
+    debugger
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/checkPlayerServiceExist?supplierId=${supplierId}`
+}
 

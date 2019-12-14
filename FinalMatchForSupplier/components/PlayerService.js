@@ -18,7 +18,7 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-import {insertPlayerService} from '../server/myServices'
+import {insertPlayerService, checkPlayerServiceExist} from '../server/myServices'
 
 export default class PlayerService extends Component {
   static navigationOptions = {

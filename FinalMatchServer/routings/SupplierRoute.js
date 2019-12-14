@@ -6,7 +6,9 @@ const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKey"
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKey"
 const GET_CHECK_PLAYER_SERVICE_EXIST = "SELECT COUNT(*) AS numberOfPlayerServices FROM PlayerService WHERE supplierId = ?"
 const POST_INSERT_PLAYER_SERVICE = "CALL insertPlayerService(?, ?, ?, ?, ?, ?, ?)"
-
+const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latitude, Y(point) as longitude,"+
+                                    "radius, address FROM Supplier WHERE id = ?"
+                                    
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 // define the home page route
 router.get('/', async (req, res) => {
@@ -60,6 +62,42 @@ router.post('/login', async (req, res) => {
           }
   })    
 })
+//Link http://localhost:3000/suppliers/urlGetSupplierById
+router.get('/urlGetSupplierById', async (req, res) => {
+  debugger
+  const { supplierId = '' } = req.query
+  //validate, check token ?  
+  connection.query(GET_SUPPLIER_PLAYER_SERVICE,
+    [supplierId]
+    , (error, results) => {
+      if(error) {
+        res.json({
+          result: "failed",
+          data: {},
+          message: error.sqlMessage,
+          time: Date.now()
+        })
+        return
+      }
+      if (results != null && results.length > 0) {
+        debugger
+        const {name, phoneNumber, latitude, longitude, radius, address} = results[0]
+          res.json({
+            result: "ok",
+            data: {name, phoneNumber, latitude, longitude, radius, address},
+            message: `Get Supplier successfully`,
+            time: Date.now()
+          })             
+      } else {
+        res.json({
+              result: "failed",
+              data: {},
+              message: `Cannot find Supplier with id = ${supplierId}`,
+              time: Date.now()
+            })
+      }
+    })
+})
 //Link http://localhost:3000/suppliers/checkPlayerServiceExist
 router.get('/checkPlayerServiceExist', async (req, res) => {
   debugger
@@ -78,18 +116,19 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
+        debugger
         const { numberOfPlayerServices = 0 } = results[0]
         if (numberOfPlayerServices > 0) {
           res.json({
             result: "failed",
-            data: {},
+            data: {numberOfPlayerServices},
             message: `PlayerService exists supplierId = ${supplierId} exist`,
             time: Date.now()
           })
         } else if (numberOfPlayerServices == 0) {
           res.json({
             result: "ok",
-            data: {},
+            data: {numberOfPlayerServices: 0},
             message: `PlayerService of supplierId = ${supplierId} does not exist`,
             time: Date.now()
           })

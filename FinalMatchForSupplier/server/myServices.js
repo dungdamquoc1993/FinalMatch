@@ -1,4 +1,9 @@
-import {urlLoginSupplier, urlRegisterSupplier, urlInsertPlayerService} from './urlNames'
+import {urlLoginSupplier, 
+    urlRegisterSupplier, 
+    urlGetSupplierById,
+    urlInsertPlayerService,
+    urlCheckPlayerServiceExist
+} from './urlNames'
 import {
     PermissionsAndroid,
     ToastAndroid,
@@ -80,6 +85,39 @@ export const insertPlayerService = async (
             return { playerName, position, supplierId, message: ''}
         } else {            
             return { playerName, position, supplierId, message}
+        }
+    } catch (error) {        
+        return { data, message: error}
+    }
+}
+
+export const checkPlayerServiceExist = async (supplierId) => {
+    try {                    
+        const response = await fetch(urlCheckPlayerServiceExist(supplierId))               
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson                   
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??              
+            return { data, message: ''}
+        } else {    
+            return { data, message}
+        }
+    } catch (error) {               
+        return { data, message: error}
+    }
+}
+
+export const getSupplierById = async (supplierId) => {
+    try {            
+        const response = await fetch(urlGetSupplierById())               
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson        
+        const {name = '', phoneNumber = '', latitude = '', longitude = '', radius = 0, address= ''} = data
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??              
+            return { data, message: ''}
+        } else {            
+            return { data, message}
         }
     } catch (error) {        
         return { data, message: error}
