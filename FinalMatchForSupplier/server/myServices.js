@@ -15,15 +15,9 @@ export const registerSupplier = async (email, password) => {
             },
             body: JSON.stringify({email, password}),// stringify de lam gi 
         })               
-<<<<<<< HEAD
         const responseJson = await response.json();// chua hieu lam
         const {result, data, errorMessage, time} = responseJson
         const {tokenKey = ''} = data// chua hieu lam
-=======
-        const responseJson = await response.json();
-        const {result, data, message, time} = responseJson
-        const {tokenKey = ''} = data
->>>>>>> 27c22c710c6fc0e0e76722cf22c4866e3a2e52d1
         if (result.toUpperCase() === "OK") {                   
             return { tokenKey, message: ''}
         } else {            
