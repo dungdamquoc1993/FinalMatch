@@ -18,7 +18,7 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-import {insertPlayerService, checkPlayerServiceExist} from '../server/myServices'
+import {insertPlayerService, getSupplierById} from '../server/myServices'
 
 export default class PlayerService extends Component {
   static navigationOptions = {
@@ -41,12 +41,28 @@ export default class PlayerService extends Component {
         address: '',
         district: '',
         province: '',
+        latitude: 0.0, 
+        longitude: 0.0,  
       },
-      radius: 12,
+      radius: 0.0,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    try {
+      const { data, message} = await getSupplierById("1")      
+      const { phoneNumber = '', 
+                    latitude = '', 
+                    longitude = '', 
+                    radius = 0, address= ''} = data
+      debugger
+      this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
+    } catch(error) {
+      
+    }
+  };
+
+
   _insertPlayerService = async () => {    
     //Test ok in postman
   }
@@ -73,20 +89,9 @@ export default class PlayerService extends Component {
     }
   };
   render () {
-    let data = [
-      {
-        value: 'Banana',
-      },
-      {
-        value: 'Mango',
-      },
-      {
-        value: 'Pear',
-      },
-    ];
     const {playerName, phoneNumber} = this.state;
     const {isGK, isCB, isMF, isCF} = this.state;
-    const {address, district, province} = this.state.currentLocation;
+    const {address = '', district = '', province = ''} = this.state.currentLocation;
     const {radius} = this.state;
     return (
       <SafeAreaView style={styles.container}>
@@ -195,7 +200,16 @@ export default class PlayerService extends Component {
             Bán kính phục vụ:
           </Text>
           <View style={styles.dropDownRadius}>
-            <Dropdown placeholder={'12'} data={data} />
+            {/* <Dropdown placeholder={'12'} data={radius} /> */}
+              <TextInput
+              style={styles.textInput}
+              placeholder={'Enter radius'}
+              keyboardType={'numeric'}
+              value={`${radius}`}
+              onChangeText={radius => {
+                this.setState ({radius: parseFloat(radius)});
+              }}
+              />
           </View>
 
         </View>

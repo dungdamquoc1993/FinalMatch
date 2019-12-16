@@ -1,9 +1,10 @@
 var express = require('express')
 var router = express.Router()
+const {checkToken} = require('./helpers')
 const {connection} = require('../database/database')
 
-const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKey"
-const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKey"
+const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupplierId"
+const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
 const GET_CHECK_PLAYER_SERVICE_EXIST = "SELECT COUNT(*) AS numberOfPlayerServices FROM PlayerService WHERE supplierId = ?"
 const POST_INSERT_PLAYER_SERVICE = "CALL insertPlayerService(?, ?, ?, ?, ?, ?, ?)"
 const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latitude, Y(point) as longitude,"+
@@ -17,9 +18,8 @@ router.get('/', async (req, res) => {
 })
 //Dang ky Supplier
 //Link http://localhost:3000/suppliers/register
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {    
     const {email, password,userType = "default"} = req.body        
-    debugger
     connection.query(POST_REGISTER_SUPPLIER, [email, password,userType], (error, results) => {
             debugger
             if(error) {
@@ -30,9 +30,10 @@ router.post('/register', async (req, res) => {
                   time: Date.now()})
             } else {
                 if(results != null && results.length > 0) {
+                    debugger;
                     res.json({
                       result: "ok", 
-                      data: {tokenKey: results[0].tokenKey}, 
+                      data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
                       message: 'Register user successfully',
                       time: Date.now()})
                 }                
@@ -55,7 +56,7 @@ router.post('/login', async (req, res) => {
               if(results != null && results.length > 0) {
                   res.json({
                     result: "ok", 
-                    data: {tokenKey: results[0].tokenKey}, 
+                    data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
                     message: 'Login user successfully',
                     time: Date.now()})
               }                
@@ -138,7 +139,17 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
 })
 //Link http://localhost:3000/suppliers/insertPlayerService
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
-router.post('/insertPlayerService', async (req, res) => {
+router.post('/insertPlayerService', async (req, res) => {  
+  const {tokenkey, supplierid} = req.headers
+  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
+  if(checkTokenResult == false) {
+    res.json({
+      result: "false", 
+      data: {}, 
+      message: 'Token is invalid',
+      time: Date.now()})
+      return
+  }
   const {playerName = '',
       position = '0000',
       supplierId = 0,

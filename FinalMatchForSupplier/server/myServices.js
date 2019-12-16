@@ -22,11 +22,15 @@ export const registerSupplier = async (email, password) => {
         })               
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
-        const {tokenKey = ''} = data
+        const {tokenKeySupplierId = ''} = data
+        debugger
         if (result.toUpperCase() === "OK") {                   
-            return { tokenKey, message: ''}
+            return { 
+                tokenKey: tokenKeySupplierId.split(";")[0], 
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
+                message: ''}
         } else {            
-            return { tokenKey, message}
+            return { tokenKey : '', message}
         }
     } catch (error) {        
         return { tokenKey, message: ''}
@@ -44,14 +48,18 @@ export const loginSupplier = async (email, password) => {
         })               
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
-        const {tokenKey = ''} = data
+        const {tokenKeySupplierId = ''} = data
+        debugger
         if (result.toUpperCase() === "OK") {                   
-            return { tokenKey, message: ''}
+            return { 
+                tokenKey: tokenKeySupplierId.split(";")[0], 
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
+                message: ''}
         } else {            
-            return { tokenKey, message}
+            return { tokenKey : '', message}
         }
     } catch (error) {        
-        return { tokenKey, message: error}
+        return { tokenKey : '', message: error}
     }
 }
 export const insertPlayerService = async (
@@ -109,10 +117,14 @@ export const checkPlayerServiceExist = async (supplierId) => {
 
 export const getSupplierById = async (supplierId) => {
     try {            
-        const response = await fetch(urlGetSupplierById())               
+        const response = await fetch(urlGetSupplierById(supplierId))               
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson        
-        const {name = '', phoneNumber = '', latitude = '', longitude = '', radius = 0, address= ''} = data
+        const {result, data, message, time} = responseJson   
+        debugger     
+        const { phoneNumber = '', 
+                    latitude = '', 
+                    longitude = '', 
+                    radius = 0, address= ''} = data
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              
             return { data, message: ''}
