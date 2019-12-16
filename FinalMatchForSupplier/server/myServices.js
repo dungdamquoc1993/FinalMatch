@@ -1,4 +1,4 @@
-import {urlLoginSupplier, urlRegisterSupplier} from './urlNames'
+import {urlLoginSupplier, urlRegisterSupplier, urlRegisterPlayer} from './urlNames'
 import {
     PermissionsAndroid,
     ToastAndroid,
@@ -51,5 +51,20 @@ export const loginSupplier = async (email, password) => {
     } catch (error) {
         console.log(`Cannot Login. Error: ${error}`)
         return { tokenKey, errorMessage: ''}
+    }
+}
+
+export const registerPlayer = async(name, phoneNumber, address, radius, position ) => {
+    try{
+        const response = await fetch(urlRegisterPlayer(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({name, phoneNumber, address, radius, isGK, isCB, isMF, isCF}),
+        })
+        const responseJson = await response.json();
+        const {result,data,}
     }
 }

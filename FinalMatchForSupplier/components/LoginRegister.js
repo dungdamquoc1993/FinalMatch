@@ -3,11 +3,8 @@ import {View, StyleSheet, Image,
     TouchableOpacity,
     Text,
     Dimensions,
-<<<<<<< HEAD
     KeyboardAvoidingView
-=======
     KeyboardAvoidingView, 
->>>>>>> 5063163e5a10149d3deebdf82011ac0e174f92e6
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
