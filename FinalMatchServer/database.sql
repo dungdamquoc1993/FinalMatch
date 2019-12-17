@@ -249,7 +249,8 @@ FROM Supplier
 INNER JOIN PlayerService 
 ON Supplier.id=PlayerService.supplierId 
 ORDER BY Supplier.id;
-
+--Tổng số trận đã đấu?
+SELECT COUNT(*) FROM Orders WHERE supplierId = 1 AND Orders.status = "completed";
 SELECT * FROM viewSupplierPlayerService;
 SELECT playerName, phoneNumber, position, latitude, longitude, radius, address FROM viewSupplierPlayerService;
 --Check dich vu cau thu, Mr A co dich vu cau thu chua?
