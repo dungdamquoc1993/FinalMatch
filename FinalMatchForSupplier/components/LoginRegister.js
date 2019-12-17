@@ -45,7 +45,7 @@ class LoginRegister extends Component {
                     return
                 }
             }            
-            const {tokenKey, errorMessage} = isLogin == true ? await loginSupplier(email, password):
+            const {tokenKey, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)
             debugger
             if (tokenKey.length > 0) {
@@ -56,7 +56,7 @@ class LoginRegister extends Component {
                 this.props.navigation.navigate("MyTabNavigator", { email })
             } else {
                 debugger
-                alert(errorMessage)
+                alert(message)
             }
         } catch(error) {
             alert(error)

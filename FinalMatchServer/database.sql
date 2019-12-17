@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Supplier (
     email VARCHAR(250) UNIQUE,
     userType VARCHAR(150) DEFAULT 'default',
     point POINT,
+    address TEXT DEFAULT '', 
     radius FLOAT DEFAULT 0.0,
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500)    
@@ -134,6 +135,7 @@ END; //
 delimiter ;
 SET @tokenKey=registerSupplier("hoang12@gmail.com", "123456", "default");
 SELECT @tokenKey;
+SELECT registerSupplier("hoang12@gmail.com", "123456", "default");
 
 DROP FUNCTION loginSupplier;
 delimiter //
@@ -197,7 +199,7 @@ SELECT @myToken;
 CREATE TABLE IF NOT EXISTS PlayerService (    
     playerName VARCHAR(300) NOT NULL ,
     position VARCHAR(10) NOT NULL ,
-    supplierId INTEGER
+    supplierId INTEGER UNIQUE
 );
 --Màn hình PlayerService, khi bấm Submit(2 câu lênh):
 INSERT INTO PlayerService(playerName, position, supplierId)
@@ -205,6 +207,29 @@ VALUES("Nguyen Van A", "1001", 1);
 UPDATE Supplier SET phoneNumber = "0912356" 
 WHERE id=1;
 --Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
+
+--Màn hình PlayerService, sau khi bấm Save
+delimiter //
+CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
+                                    position VARCHAR(10), 
+                                    supplierId INTEGER,
+                                    latitude FLOAT, 
+                                    longitude FLOAT,
+                                    address TEXT,
+                                    radius FLOAT
+                                    ) 
+BEGIN
+
+    INSERT INTO PlayerService(playerName, position, supplierId)
+    VALUES(playerName, position, supplierId);
+    UPDATE Supplier SET Supplier.address = address, 
+                    Supplier.radius = radius,
+                    Supplier.point = POINT(latitude, longitude)                    
+    WHERE Supplier.id = supplierId;
+    SELECT * FROM PlayerService WHERE PlayerService.supplierId = supplierId;
+END;//
+delimiter;
+CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1);
 
 DROP VIEW viewSupplierPlayerService;
 CREATE VIEW viewSupplierPlayerService AS
@@ -217,7 +242,10 @@ Supplier.dateOfBirth as dateOfBirth,
 Supplier.facebookId as facebookId,
 Supplier.email as email,
 Supplier.userType as userType,
-Supplier.geoPoint as geoPoint,
+Supplier.point as point,
+X(point) as latitude,
+Y(point) as longitude,
+Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
@@ -229,7 +257,9 @@ ON Supplier.id=PlayerService.supplierId
 ORDER BY Supplier.id;
 
 SELECT * FROM viewSupplierPlayerService;
-
+SELECT playerName, phoneNumber, position, latitude, longitude, radius, address FROM viewSupplierPlayerService;
+--Check dich vu cau thu, Mr A co dich vu cau thu chua?
+SELECT COUNT(*) FROM PlayerService WHERE supplierId = 
 DROP VIEW viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
 

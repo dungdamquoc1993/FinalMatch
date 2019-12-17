@@ -18,15 +18,20 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
+import {insertPlayerService, checkPlayerServiceExist} from '../server/myServices'
 
 export default class PlayerService extends Component {
   static navigationOptions = {
     header: null,
   };
+  getPosition() {
+    const {isGK = false, isCB = false, isMF = false, isCF = false} = this.state
+    return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
+  }
   constructor (props) {
     super (props);
     this.state = {
-      name: '',
+      playerName: '',
       phoneNumber: '',
       isGK: false,
       isCB: false,
@@ -42,7 +47,9 @@ export default class PlayerService extends Component {
   }
 
   componentDidMount = async () => {};
-
+  _insertPlayerService = async () => {    
+    //Test ok in postman
+  }
   _pressLocation = async () => {
     debugger;
     const hasLocationPermission = await checkLocationPermission ();
@@ -77,7 +84,7 @@ export default class PlayerService extends Component {
         value: 'Pear',
       },
     ];
-    const {name, phoneNumber} = this.state;
+    const {playerName, phoneNumber} = this.state;
     const {isGK, isCB, isMF, isCF} = this.state;
     const {address, district, province} = this.state.currentLocation;
     const {radius} = this.state;
@@ -91,10 +98,10 @@ export default class PlayerService extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
-            placeholder={'Please enter name'}
-            value={name}
-            onChangeText={name => {
-              this.setState ({name});
+            placeholder={'Please enter playerName'}
+            value={playerName}
+            onChangeText={playerName => {
+              this.setState ({playerName});
             }}
           />
         </View>
@@ -192,6 +199,11 @@ export default class PlayerService extends Component {
           </View>
 
         </View>
+        <TouchableOpacity onPress={() => {
+            this._insertPlayerService()
+        }}>
+          <Text>Insert PlayerService</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
