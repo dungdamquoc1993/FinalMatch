@@ -13,6 +13,7 @@ const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latit
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 // define the home page route
 router.get('/', async (req, res) => {
+    //....
     res.json({name: "Hoang", age: 30, time: Date.now()})
 })
 //Dang ky Supplier

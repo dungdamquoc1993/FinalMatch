@@ -10,9 +10,6 @@ export const urlRegisterSupplier = () => {
 export const urlLoginSupplier = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/login`
 }
-export const urlRegisterPlayer = () => {
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/registerPlayer`
-}
 export const urlInsertPlayerService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/insertPlayerService`
 }
@@ -22,3 +19,4 @@ export const urlGetSupplierById = (supplierId) => {
 export const urlCheckPlayerServiceExist = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/checkPlayerServiceExist?supplierId=${supplierId}`
 }
+

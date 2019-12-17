@@ -1,4 +1,3 @@
-import {urlLoginSupplier, urlRegisterSupplier, urlRegisterPlayer} from './urlNames'
 import {urlLoginSupplier, 
     urlRegisterSupplier, 
     urlGetSupplierById,
@@ -78,8 +77,7 @@ export const insertPlayerService = async (
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                playerName,
+            body: JSON.stringify({playerName,
                 position,
                 supplierId,
                 latitude,
@@ -137,20 +135,3 @@ export const getSupplierById = async (supplierId) => {
         return { data, message: error}
     }
 }
-
-export const registerPlayer = async(name, phoneNumber, address, radius, position ) => {
-    try{
-        const response = await fetch(urlRegisterPlayer(), {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({name, phoneNumber, address, radius, isGK, isCB, isMF, isCF}),
-        })
-        const responseJson = await response.json();
-        const {result,data,}
-    }
-}
-
-
