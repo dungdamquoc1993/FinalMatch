@@ -230,7 +230,6 @@ class PlayerService extends Component {
               style={styles.textInput}
               placeholder={'Enter radius'}
               keyboardType={'numeric'}
-              value={radius}
               onChangeText={radius => {
                 this.setState ({radius});
               }}
