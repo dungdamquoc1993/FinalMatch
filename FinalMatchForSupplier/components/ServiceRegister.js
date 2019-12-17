@@ -16,13 +16,11 @@ class ServiceRegister extends Component {
     _navigateToPlayerService = async () => {        
         const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
         const { data, message} = await checkPlayerServiceExist(supplierId)
-        const {numberOfPlayerServices} = data        
-        debugger
+        const {numberOfPlayerServices} = data                
         if(parseInt(numberOfPlayerServices) == 0) {
             this.props.stackNavigation.navigate("PlayerService", {}) 
-        } else {
-            debugger
-            this.props.tabNavigation.navigate("Settings", {}) 
+        } else {            
+            this.props.navigation.navigate("Settings", {}) 
         }
 
         

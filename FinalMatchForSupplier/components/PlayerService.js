@@ -20,8 +20,8 @@ import {
   checkLocationPermission,
 } from '../server/googleServices';
 import {insertPlayerService, getSupplierById} from '../server/myServices'
-import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
-
+import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton} from '../helpers/Helpers'
+import {NavigationActions} from 'react-navigation'
 class PlayerService extends Component {
   static navigationOptions = {
     header: null,
@@ -69,26 +69,30 @@ class PlayerService extends Component {
     const {playerName, radius} = this.state
     
     const position = this.getPosition()
-    const {latitude,longitude} = this.state.currentLocation
-    try {
-      debugger
-      const {supplierId, email} = await getSupplierFromStorage()
-      const { playerName, position, message} = await insertPlayerService(playerName,
+    const {latitude,longitude, address} = this.state.currentLocation
+    if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
+      alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+      return
+    }
+    
+    try {      
+      const {supplierId, email} = await getSupplierFromStorage()      
+      await insertPlayerService(playerName,
         position,
         supplierId,
         latitude,
         longitude,
         address,
         radius)
-      debugger
-      this.stackNavigation.goBack()
+      alertWithOKButton("Insert player service successfully", () => {
+        this.props.stackNavigation.dispatch(NavigationActions.back())
+      })      
     } catch(error) {
       alert('Cannot get data from Server'+error)
     } 
     
   }
   _pressLocation = async () => {
-    debugger;
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
@@ -100,7 +104,7 @@ class PlayerService extends Component {
             province = '',
           } = await getAddressFromLatLong (latitude, longitude);
 
-          this.setState ({currentLocation: {address, district, province}});
+          this.setState ({currentLocation: {address, district, province, latitude, longitude}});
         },
         error => {
           console.log (error.code, error.message);
@@ -226,9 +230,9 @@ class PlayerService extends Component {
               style={styles.textInput}
               placeholder={'Enter radius'}
               keyboardType={'numeric'}
-              value={`${radius}`}
+              value={radius}
               onChangeText={radius => {
-                this.setState ({radius: parseFloat(radius)});
+                this.setState ({radius});
               }}
               />
           </View>

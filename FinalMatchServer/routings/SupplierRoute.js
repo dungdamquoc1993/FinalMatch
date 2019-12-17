@@ -141,7 +141,9 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 router.post('/insertPlayerService', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers
+  debugger
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
+  debugger
   if(checkTokenResult == false) {
     res.json({
       result: "false", 

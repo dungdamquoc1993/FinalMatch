@@ -58,16 +58,9 @@ export const loginSupplier = async (email, password) => {
         return { tokenKey : '', message: error}
     }
 }
-export const insertPlayerService = async (
-    playerName,
-    position,
-    supplierId,
-    latitude,
-    longitude,
-    address,
-    radius) => {
-    try {        
-        const {tokenKey, email} = await getSupplierFromStorage()    
+export const insertPlayerService = async (playerName,position,supplierId,latitude,longitude,address,radius) => {
+    try {                    
+        const {tokenKey, email} = await getSupplierFromStorage()            
         const response = await fetch(urlInsertPlayerService(), {
             method: 'POST',
             headers: {
@@ -82,15 +75,14 @@ export const insertPlayerService = async (
                 longitude,
                 address,
                 radius}),
-        })               
+        })                       
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
-        const {playerName = '', position = '0000', supplierId = 0} = data
         if (result.toUpperCase() === "OK") {                 
             //Logger ??  
             return { playerName, position, supplierId, message: ''}
         } else {            
-            return { playerName:'', position: '', supplierId: '', message: 'Cannot insert player service'}
+            return { playerName, position, supplierId, message: 'Cannot insert player service'}
         }
     } catch (error) {        
         return error
@@ -117,8 +109,7 @@ export const getSupplierById = async (supplierId) => {
     try {            
         const response = await fetch(urlGetSupplierById(supplierId))               
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson   
-        debugger     
+        const {result, data, message, time} = responseJson                
         let { phoneNumber = '', 
                     latitude = '', 
                     longitude = '', 

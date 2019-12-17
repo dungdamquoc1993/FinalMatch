@@ -27,6 +27,13 @@ export const isIOS = () => {
 }
 export const alert = (content) => Alert.alert("FinalMatch",content,[],{cancelable: true})
 
+export const alertWithOKButton = (content, callback) => {
+    const buttons = [        
+        { text: 'OK', onPress: () => callback() },
+    ]
+    Alert.alert("FinalMatch",content,buttons,{cancelable: false})
+}
+
 export const saveSupplierToStorage = async (tokenKey, supplierId, email) => {
     try {
         await AsyncStorage.setItem('tokenKey', tokenKey)

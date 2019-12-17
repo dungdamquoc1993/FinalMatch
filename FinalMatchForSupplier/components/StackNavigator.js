@@ -24,7 +24,6 @@ const StackNavigator = createAppContainer(createStackNavigator({
   },
   RefereeService: {
     screen: RefereeService,
-
   },
   PlayerService: {
     screen: PlayerService,
