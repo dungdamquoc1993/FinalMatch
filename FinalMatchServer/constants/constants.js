@@ -1,4 +1,4 @@
-const HOSTNAME = '127.0.0.1'
+const HOSTNAME = 'localhost'
 const PORT = 3000
 const DB_PORT = 3306
 const DB_NAME = "FinalMatch"

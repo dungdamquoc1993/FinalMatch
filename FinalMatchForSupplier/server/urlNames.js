@@ -16,10 +16,9 @@ export const urlRegisterPlayer = () => {
 export const urlInsertPlayerService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/insertPlayerService`
 }
-export const urlGetSupplierById = () => {
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById`
+export const urlGetSupplierById = (supplierId) => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}`
 }
-export const urlCheckPlayerServiceExist = (supplierId) => {
-    debugger
+export const urlCheckPlayerServiceExist = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/checkPlayerServiceExist?supplierId=${supplierId}`
 }

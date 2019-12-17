@@ -13,7 +13,8 @@ import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
 import {registerSupplier, loginSupplier} from '../server/myServices'
-import {alert} from '../helpers/Helpers'
+import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
+
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -45,11 +46,11 @@ class LoginRegister extends Component {
                     return
                 }
             }            
-            const {tokenKey, message} = isLogin == true ? await loginSupplier(email, password):
+            const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)
             debugger
             if (tokenKey.length > 0) {
-                debugger
+                saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation
                 //dispatch = call action
                 this.props.dispatch(getStackNavigation(stackNavigation))
