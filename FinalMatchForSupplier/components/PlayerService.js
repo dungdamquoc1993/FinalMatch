@@ -13,14 +13,16 @@ import {
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
-import {Dropdown} from 'react-native-material-dropdown';
+import { connect } from 'react-redux'
+
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
 import {insertPlayerService, getSupplierById} from '../server/myServices'
+import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
 
-export default class PlayerService extends Component {
+class PlayerService extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -50,21 +52,40 @@ export default class PlayerService extends Component {
 
   componentDidMount = async () => {
     try {
-      const { data, message} = await getSupplierById("1")      
-      const { phoneNumber = '', 
-                    latitude = '', 
-                    longitude = '', 
-                    radius = 0, address= ''} = data
+      const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+      const { data, message} = await getSupplierById(supplierId)      
+      const { phoneNumber, latitude, 
+                    longitude, radius, address} = data
       debugger
       this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
     } catch(error) {
-      
+      alert("Cannot get Supplier information"+error)
     }
   };
 
 
   _insertPlayerService = async () => {    
     //Test ok in postman
+    const {playerName, radius} = this.state
+    
+    const position = this.getPosition()
+    const {latitude,longitude} = this.state.currentLocation
+    try {
+      debugger
+      const {supplierId, email} = await getSupplierFromStorage()
+      const { playerName, position, message} = await insertPlayerService(playerName,
+        position,
+        supplierId,
+        latitude,
+        longitude,
+        address,
+        radius)
+      debugger
+      this.stackNavigation.goBack()
+    } catch(error) {
+      alert('Cannot get data from Server'+error)
+    } 
+    
   }
   _pressLocation = async () => {
     debugger;
@@ -222,6 +243,14 @@ export default class PlayerService extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  //convert "global object"(shared state) => ServiceRegister's props
+  stackNavigation: state.navigationReducers.stackNavigation,
+  tabNavigation: state.navigationReducers.tabNavigation
+})
+export default connect(
+  mapStateToProps
+)(PlayerService)
 
 const styles = StyleSheet.create ({
   container: {

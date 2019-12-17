@@ -4,17 +4,21 @@ import RefereeService from './RefereeService'
 import Stadium from './Stadium'
 import PlayerService from './PlayerService'
 import LoginRegister from './LoginRegister';
+import Splash from './Splash';
 
 import React, {Component} from 'react'
 import { createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
 import {store} from '../redux/stores/store'
 import {KeyboardAvoidingView} from 'react-native'
+
 const StackNavigator = createAppContainer(createStackNavigator({
+  Splash: {
+    screen: Splash,
+  },
   LoginRegister: {
     screen: LoginRegister,
-
-  },
+  },  
   MyTabNavigator: {
     screen: MyTabNavigator,
   },
@@ -29,7 +33,7 @@ const StackNavigator = createAppContainer(createStackNavigator({
     screen: Stadium,
   },
 }, {
-  initialRouteName: 'LoginRegister',
+  initialRouteName: 'Splash',
   header: null
 }))
 export default () => <Provider store={store}>

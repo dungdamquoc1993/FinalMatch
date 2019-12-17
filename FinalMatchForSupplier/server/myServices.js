@@ -4,11 +4,7 @@ import {urlLoginSupplier,
     urlInsertPlayerService,
     urlCheckPlayerServiceExist
 } from './urlNames'
-import {
-    PermissionsAndroid,
-    ToastAndroid,
-    Platform
-} from 'react-native'
+import {getSupplierFromStorage} from '../helpers/Helpers'
 
 export const registerSupplier = async (email, password) => {
     try {            
@@ -70,12 +66,14 @@ export const insertPlayerService = async (
     longitude,
     address,
     radius) => {
-    try {            
+    try {        
+        const {tokenKey, email} = await getSupplierFromStorage()    
         const response = await fetch(urlInsertPlayerService(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                tokenKey, supplierId
             },
             body: JSON.stringify({playerName,
                 position,
@@ -92,10 +90,10 @@ export const insertPlayerService = async (
             //Logger ??  
             return { playerName, position, supplierId, message: ''}
         } else {            
-            return { playerName, position, supplierId, message}
+            return { playerName:'', position: '', supplierId: '', message: 'Cannot insert player service'}
         }
     } catch (error) {        
-        return { data, message: error}
+        return error
     }
 }
 
@@ -121,15 +119,20 @@ export const getSupplierById = async (supplierId) => {
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson   
         debugger     
-        const { phoneNumber = '', 
+        let { phoneNumber = '', 
                     latitude = '', 
                     longitude = '', 
                     radius = 0, address= ''} = data
+        phoneNumber = phoneNumber || ''
+        latitude = latitude || 0.0
+        longitude = longitude || 0.0
+        radius = radius || 0.0
+        address = address || ''
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              
-            return { data, message: ''}
+            return { data: {phoneNumber, latitude, longitude, radius, address}, message: ''}
         } else {            
-            return { data, message}
+            return { data: {phoneNumber, latitude, longitude, radius, address}, message}
         }
     } catch (error) {        
         return { data, message: error}

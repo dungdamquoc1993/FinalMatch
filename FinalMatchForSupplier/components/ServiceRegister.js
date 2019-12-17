@@ -10,16 +10,19 @@ import PlayerService from './PlayerService'
 import { connect } from 'react-redux'
 
 import {checkPlayerServiceExist} from '../server/myServices'
+import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
 
 class ServiceRegister extends Component {
     _navigateToPlayerService = async () => {        
-        const { data, message} = await checkPlayerServiceExist("1")
+        const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+        const { data, message} = await checkPlayerServiceExist(supplierId)
         const {numberOfPlayerServices} = data        
+        debugger
         if(parseInt(numberOfPlayerServices) == 0) {
             this.props.stackNavigation.navigate("PlayerService", {}) 
         } else {
             debugger
-            this.props.navigation.navigate("Settings", {}) 
+            this.props.tabNavigation.navigate("Settings", {}) 
         }
 
         
