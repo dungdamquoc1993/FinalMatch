@@ -9,16 +9,29 @@ import Stadium from './Stadium'
 import PlayerService from './PlayerService'
 import { connect } from 'react-redux'
 
+import {checkPlayerServiceExist} from '../server/myServices'
+import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
+
 class ServiceRegister extends Component {
+    _navigateToPlayerService = async () => {        
+        const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+        const { data, message} = await checkPlayerServiceExist(supplierId)
+        const {numberOfPlayerServices} = data                
+        if(parseInt(numberOfPlayerServices) == 0) {
+            this.props.stackNavigation.navigate("PlayerService", {}) 
+        } else {            
+            this.props.navigation.navigate("Settings", {}) 
+        }
+
+        
+    }
     _navigateToRefereeService = () => {
         this.props.stackNavigation.navigate("RefereeService", {})    
     }
     _navigateToStadium = () => {
         this.props.stackNavigation.navigate("Stadium", {}) 
     }
-    _navigateToPlayerService = () => {
-        this.props.stackNavigation.navigate("PlayerService", {}) 
-    }
+    
   
     render() {                
         return (
@@ -85,8 +98,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         width: 0.8*screenWidth,
         height: 0.15*screenHeight,
-        borderRadius: 20,
-
-        
+        borderRadius: 20,        
     }
 })

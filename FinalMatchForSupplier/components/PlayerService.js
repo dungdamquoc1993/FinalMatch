@@ -13,14 +13,16 @@ import {
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
-import {Dropdown} from 'react-native-material-dropdown';
+import { connect } from 'react-redux'
+
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-import {insertPlayerService} from '../server/myServices'
-
-export default class PlayerService extends Component {
+import {insertPlayerService, getSupplierById} from '../server/myServices'
+import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton} from '../helpers/Helpers'
+import {NavigationActions} from 'react-navigation'
+class PlayerService extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -41,17 +43,56 @@ export default class PlayerService extends Component {
         address: '',
         district: '',
         province: '',
+        latitude: 0.0, 
+        longitude: 0.0,  
       },
-      radius: 12,
+      radius: 0.0,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    try {
+      const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+      const { data, message} = await getSupplierById(supplierId)      
+      const { phoneNumber, latitude, 
+                    longitude, radius, address} = data
+      debugger
+      this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
+    } catch(error) {
+      alert("Cannot get Supplier information"+error)
+    }
+  };
+
+
   _insertPlayerService = async () => {    
     //Test ok in postman
+    const {playerName, radius} = this.state
+    
+    const position = this.getPosition()
+    const {latitude,longitude, address} = this.state.currentLocation
+    if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
+      alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+      return
+    }
+    
+    try {      
+      const {supplierId, email} = await getSupplierFromStorage()      
+      await insertPlayerService(playerName,
+        position,
+        supplierId,
+        latitude,
+        longitude,
+        address,
+        radius)
+      alertWithOKButton("Insert player service successfully", () => {
+        this.props.stackNavigation.dispatch(NavigationActions.back())
+      })      
+    } catch(error) {
+      alert('Cannot get data from Server'+error)
+    } 
+    
   }
   _pressLocation = async () => {
-    debugger;
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
@@ -63,7 +104,7 @@ export default class PlayerService extends Component {
             province = '',
           } = await getAddressFromLatLong (latitude, longitude);
 
-          this.setState ({currentLocation: {address, district, province}});
+          this.setState ({currentLocation: {address, district, province, latitude, longitude}});
         },
         error => {
           console.log (error.code, error.message);
@@ -73,20 +114,9 @@ export default class PlayerService extends Component {
     }
   };
   render () {
-    let data = [
-      {
-        value: 'Banana',
-      },
-      {
-        value: 'Mango',
-      },
-      {
-        value: 'Pear',
-      },
-    ];
     const {playerName, phoneNumber} = this.state;
     const {isGK, isCB, isMF, isCF} = this.state;
-    const {address, district, province} = this.state.currentLocation;
+    const {address = '', district = '', province = ''} = this.state.currentLocation;
     const {radius} = this.state;
     return (
       <SafeAreaView style={styles.container}>
@@ -195,7 +225,16 @@ export default class PlayerService extends Component {
             Bán kính phục vụ:
           </Text>
           <View style={styles.dropDownRadius}>
-            <Dropdown placeholder={'12'} data={data} />
+            {/* <Dropdown placeholder={'12'} data={radius} /> */}
+              <TextInput
+              style={styles.textInput}
+              placeholder={'Enter radius'}
+              keyboardType={'numeric'}
+              value={radius}
+              onChangeText={radius => {
+                this.setState ({radius});
+              }}
+              />
           </View>
 
         </View>
@@ -208,6 +247,14 @@ export default class PlayerService extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  //convert "global object"(shared state) => ServiceRegister's props
+  stackNavigation: state.navigationReducers.stackNavigation,
+  tabNavigation: state.navigationReducers.tabNavigation
+})
+export default connect(
+  mapStateToProps
+)(PlayerService)
 
 const styles = StyleSheet.create ({
   container: {

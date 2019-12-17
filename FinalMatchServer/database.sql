@@ -16,6 +16,23 @@ CREATE TABLE IF NOT EXISTS Supplier (
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500)    
 );
+
+delimiter //
+CREATE FUNCTION checkToken(tokenKey VARCHAR(500), supplierId INT) RETURNS BOOLEAN
+BEGIN
+    DECLARE numberOfSuppliers, mySupplierId INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier WHERE Supplier.tokenKey = tokenKey;    
+    SELECT id INTO mySupplierId from Supplier WHERE Supplier.tokenKey = tokenKey;
+    IF numberOfSuppliers > 0 AND mySupplierId = supplierId THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END; //                                 
+delimiter ;
+SELECT checkToken("'2agr'oog&a'y;bb'b'wp;b", 6)
+
+
 delimiter //
 CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
  FOR EACH ROW BEGIN
@@ -126,28 +143,29 @@ DROP FUNCTION registerSupplier;
 delimiter //
 CREATE FUNCTION registerSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
 BEGIN
+    DECLARE mySupplierId INT DEFAULT 0;  
     INSERT INTO Supplier(email, password, userType)
     VALUES(email, md5(password), userType);
     SET @myToken = createToken();
-    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;            
-    RETURN @myToken;
+    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;    
+    SELECT id INTO mySupplierId FROM Supplier WHERE Supplier.email = email AND tokenKey=@myToken;
+    RETURN CONCAT(@myToken, ';', mySupplierId);           
 END; //                                 
 delimiter ;
-SET @tokenKey=registerSupplier("hoang12@gmail.com", "123456", "default");
-SELECT @tokenKey;
-SELECT registerSupplier("hoang12@gmail.com", "123456", "default");
+SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 DROP FUNCTION loginSupplier;
 delimiter //
 CREATE FUNCTION loginSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
 BEGIN
-    DECLARE numberOfSuppliers INT;
+    DECLARE numberOfSuppliers, mySupplierId INT DEFAULT 0;
     SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier WHERE Supplier.email = email AND Supplier.password = md5(password);
     IF numberOfSuppliers > 0 THEN
         BEGIN
             SET @myToken = createToken();
-            UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;            
-            RETURN @myToken;
+            UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email;     
+            SELECT id INTO mySupplierId FROM Supplier WHERE Supplier.email = email AND tokenKey=@myToken;
+            RETURN CONCAT(@myToken, ';', mySupplierId);            
         END;
     ELSE
         signal sqlstate '45000' set message_text = "Please check email and password";
@@ -156,7 +174,7 @@ BEGIN
 END;//                              
 delimiter ;
 
-SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKey;
+SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 --login Supplier
 select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456") = password;
@@ -165,37 +183,14 @@ select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456"
 DROP FUNCTION createToken;
 delimiter //
 CREATE FUNCTION createToken() RETURNS VARCHAR(500)
-BEGIN
-    DECLARE token VARCHAR(500);
-    select concat( 
-    char(round(rand()*1)+38),char(round(rand()*0)+50),
-    char(round(rand()*1)+97),char(round(rand()*25)+97),
-    char(round(rand()*25)+97),
-    char(round(rand()*1)+38),
-    char(round(rand()*25)+97),
-    char(round(rand()*25)+97),
-    char(round(rand()*25)+97),
-    char(round(rand()*1)+38),
-    char(round(rand()*1)+97),
-    char(round(rand()*1)+38),
-    char(round(rand()*25)+97),
-    char(round(rand()*1)+58),
-    char(round(rand()*1)+97),
-    char(round(rand()*25)+97),
-    char(round(rand()*1)+38),
-    char(round(rand()*1)+97),
-    char(round(rand()*1)+38),
-    char(round(rand()*25)+97),
-    char(round(rand()*25)+97),
-    char(round(rand()*1)+58),
-    char(round(rand()*1)+97)
-) into token;
-    RETURN token;
+BEGIN    
+    RETURN MD5(RAND());
 END; //   
 delimiter ;
 SET @myToken = createToken();
 SELECT @myToken;
 --Màn hình "Đăng ký dịch vụ"
+DROP TABLE PlayerService;
 CREATE TABLE IF NOT EXISTS PlayerService (    
     playerName VARCHAR(300) NOT NULL ,
     position VARCHAR(10) NOT NULL ,
@@ -218,8 +213,7 @@ CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300),
                                     address TEXT,
                                     radius FLOAT
                                     ) 
-BEGIN
-
+BEGIN    
     INSERT INTO PlayerService(playerName, position, supplierId)
     VALUES(playerName, position, supplierId);
     UPDATE Supplier SET Supplier.address = address, 
@@ -255,7 +249,8 @@ FROM Supplier
 INNER JOIN PlayerService 
 ON Supplier.id=PlayerService.supplierId 
 ORDER BY Supplier.id;
-
+--Tổng số trận đã đấu?
+SELECT COUNT(*) FROM Orders WHERE supplierId = 1 AND Orders.status = "completed";
 SELECT * FROM viewSupplierPlayerService;
 SELECT playerName, phoneNumber, position, latitude, longitude, radius, address FROM viewSupplierPlayerService;
 --Check dich vu cau thu, Mr A co dich vu cau thu chua?
