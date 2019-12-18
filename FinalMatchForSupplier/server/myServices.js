@@ -64,7 +64,7 @@ export const loginSupplier = async (email, password) => {
 export const tokenCheck = async (tokenKey,supplierId) => {
     try {       
         debugger                     
-        const response = await fetch(urlTokenCheck(), {
+        const response = await fetch(await urlTokenCheck(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
