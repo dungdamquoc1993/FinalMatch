@@ -16,6 +16,11 @@ import {
   isIOS,
   convertDateToString,
 } from '../helpers/Helpers';
+import {
+  getAddressFromLatLong,
+  checkLocationPermission,
+} from '../server/googleServices';
+
 import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
@@ -81,6 +86,7 @@ export default class Settings extends Component {
     }
   };
   _pressLocation = async () => {
+    debugger
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
@@ -185,17 +191,7 @@ export default class Settings extends Component {
             />
           </View>
           {/* Quan ly dich vu */}
-          <TouchableOpacity
-            onPress={() => {
-              this._pressLocation ();
-            }}
-            style={styles.buttonGetLocation}
-          >
-            <Text style={styles.textGetLocation}>
-              {' '}Get Location
-            </Text>
-            <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
-          </TouchableOpacity>
+          
           <View style={styles.radiusInput}>
             <Text style={styles.textLabelRadius}>
               Bán kính phục vụ:
@@ -212,7 +208,14 @@ export default class Settings extends Component {
                 }}
               />
             </View>
-
+            <TouchableOpacity
+            onPress={() => {
+              this._pressLocation ();
+            }}
+            style={styles.buttonGetLocation}
+            >
+            <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
+          </TouchableOpacity>
           </View>
         </View>
         {isIOS () &&

@@ -12,11 +12,16 @@ import {
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
-import {Dropdown} from 'react-native-material-dropdown';
+import {
+  daysBetween2Dates,
+  convertDayMonthYearToString,
+  isIOS,
+  convertDateToString,
+} from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices' 
+} from '../server/googleServices';
 
 
 export default class RefereeService extends Component {
@@ -25,16 +30,30 @@ export default class RefereeService extends Component {
   };
   state = {
     isAddress: false,
+    age: '',
+    dateOfBirth: new Date (),
+    stringDateOfBirth: '',
+    phoneNumber: '',
+    showIOSDatePicker: false,
     currentLocation: {
       address: '',
       district: '',
-      province: ''
+      province: '',
+      latitude: 0.0, 
+      longitude: 0.0, 
     },
     radius: 12
   }
-
+  _displayAge (age) {
+    if (age > 0) {
+      return age > 1 ? `${age} ages` : `${age} age`;
+    } else {
+      return '';
+    }
+  }
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission()
+    debugger
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         async (position) => {
@@ -50,50 +69,71 @@ export default class RefereeService extends Component {
       );
     }
   }
-
-  render() {
-    let data = [
-      {
-        value: 1,
-      },
-      {
-        value: 2,
-      },
-      {
-        value: 3,
-      },
-      {
-        value: 4,
-      },
-      {
-        value: 5,
-      },
-      {
-        value: 6,
-      },
-      {
-        value: 7,
-      },
-      {
-        value: 8,
-      },
-      {
-        value: 9,
-      },
-      {
-        value: 10,
-      },
-      {
-        value: 11,
-      },
-      {
-        value: 12,
-      },
-      
-    ];
-    const { isAddress } = this.state
-    const {address, district, province} = this.state.currentLocation
+  _insertRefereeService = async () => {        
+    const {refereeName, radius} = this.state      
+    const {latitude,longitude, address} = this.state.currentLocation
+    if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
+      alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+      return
+    }
+    
+    try {      
+      const {supplierId, email} = await getSupplierFromStorage()      
+      await insertRefereeService(refereeName,        
+        supplierId,
+        latitude,
+        longitude,
+        address,
+        radius)
+      alertWithOKButton("Insert referee service successfully", () => {
+        this.props.stackNavigation.dispatch(NavigationActions.back())
+      })      
+    } catch(error) {
+      alert('Cannot get data from Server'+error)
+    } 
+    
+  }
+  _onPressDateTextInput = async () => {
+    try {
+      debugger;
+      if (isIOS ()) {
+        this.setState ({showIOSDatePicker: true});
+        return;
+      }
+      const {action, year, month, day} = await DatePickerAndroid.open ({
+        date: new Date (),
+        mode: 'spinner',
+      });
+      let selectedDate = new Date (year, month, day);
+      let today = new Date ();
+      if (action === DatePickerAndroid.dateSetAction) {
+        this.setState ({
+          dateOfBirth: selectedDate,
+          stringDateOfBirth: convertDayMonthYearToString (day, month, year),
+          age: daysBetween2Dates (today, selectedDate),
+        });
+      }
+    } catch ({code, message}) {
+      console.warn ('Cannot open date picker', message);
+    }
+  }
+  render() {    
+    const {
+      name,
+      age,
+      dateOfBirth,
+      phoneNumber,
+      stringDateOfBirth,
+      showIOSDatePicker,
+    } = this.state;
+    const {
+      address = '',
+      district = '',
+      province = '',
+    } = this.state.currentLocation;
+    const { isAddress } = this.state    
     const {radius} = this.state
+
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'RefereeService'} />
@@ -119,16 +159,35 @@ export default class RefereeService extends Component {
             keyboardType={'number-pad'}
           />
         </View>
-        <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            Tuổi:
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder={'Please enter age'}
-            keyboardType={'number-pad'}
-          />
-        </View>
+        <View style={styles.dateTime}>
+            <Text style={styles.textLabel}>
+              Tuổi:
+            </Text>
+            <TouchableOpacity
+              style={[
+                styles.textInput,
+                {width: '40%'},
+                isIOS () && {paddingTop: 10},
+              ]}
+              onPress={() => {
+                this._onPressDateTextInput ();
+              }}
+            >
+              <TextInput
+                keyboardType={'default'}
+                placeholder={'dd/mm/yyyy'}
+                editable={false}
+                value={stringDateOfBirth}
+                onPress={() => {
+                  this._onPressDateTextInput ();
+                }}
+                // value={"djsijhd"}
+              />
+            </TouchableOpacity>
+            <Text style={styles.age}>
+              {this._displayAge (age)}
+            </Text>
+          </View>
         <TouchableOpacity onPress={() => {
           this._pressLocation()
         }}
@@ -143,14 +202,47 @@ export default class RefereeService extends Component {
           <Text style={styles.textLabelRadius}>
             Bán kính phục vụ:
           </Text>
-          <View style={styles.dropDownRadius}>
-            <Dropdown placeholder={'12'} data={data} />
+          <View style={styles.dropDownRadius}>            
+            <TextInput placeholder="Radius ?"></TextInput>
           </View>
 
         </View>
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
+          this._insertRefereeService()
+        }}>
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
+        {isIOS () &&
+          showIOSDatePicker &&
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                height: 40,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState ({showIOSDatePicker: false});
+                }}
+              >
+                <Text>Save</Text>
+              </TouchableOpacity>
+            </View>
+            <DatePicker
+              mode={'date'}
+              date={this.state.dateOfBirth}
+              onDateChange={dateOfBirth => {
+                const today = new Date ();
+                this.setState ({
+                  dateOfBirth,
+                  stringDateOfBirth: convertDateToString (dateOfBirth),
+                  age: daysBetween2Dates (today, dateOfBirth),
+                });
+              }}
+            />
+          </View>}
       </SafeAreaView>
     )
   }
@@ -164,6 +256,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   personalInformation: {
+    flexDirection: 'row',
+    height: 60,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dateTime: {
     flexDirection: 'row',
     height: 60,
     width: '100%',

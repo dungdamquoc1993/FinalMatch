@@ -1,12 +1,13 @@
+--1.Databases and Tables
 CREATE database FinalMatch;
 USE FinalMatch;
 DROP TABLE Supplier;
 CREATE TABLE IF NOT EXISTS Supplier (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(300) NOT NULL ,
-    password VARCHAR(400) NOT NULL ,
+    name VARCHAR(300) NOT NULL DEFAULT '',
+    password VARCHAR(400) NOT NULL DEFAULT '',
     phoneNumber VARCHAR(300) UNIQUE,
-    dateOfBirth DATE,
+    dateOfBirth DATE DEFAULT '1990-01-01',
     facebookId VARCHAR(300) DEFAULT '',    
     email VARCHAR(250) UNIQUE,
     userType VARCHAR(150) DEFAULT 'default',
@@ -16,7 +17,79 @@ CREATE TABLE IF NOT EXISTS Supplier (
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500)    
 );
+--Màn hình "Đăng ký dịch vụ"
+DROP TABLE PlayerService;
+CREATE TABLE IF NOT EXISTS PlayerService (    
+    playerName VARCHAR(300) NOT NULL ,
+    position VARCHAR(10) NOT NULL ,
+    supplierId INTEGER UNIQUE
+);
+--Màn hình "Đăng ký dv trong tai"
+DROP TABLE RefereeService;
+CREATE TABLE IF NOT EXISTS RefereeService (    
+    refereeName VARCHAR(300) NOT NULL ,    
+    supplierId INTEGER
+);
+--Sân bóng
+DROP TABLE Stadium;
+CREATE TABLE IF NOT EXISTS Stadium (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    type INTEGER DEFAULT 0,
+    name VARCHAR(300) NOT NULL,
+    point POINT,
+    address TEXT,
+    phoneNumber VARCHAR(300),
+    supplierId INTEGER
+);
+--Đơn hàng = Order
+DROP TABLE Order;
+--status: "pending", "confirmed", "completed", "cancelled", 
+--"completed" = currentDAte > date
+--"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
+--Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
+--https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
+
+DROP TABLE Orders;
+CREATE TABLE IF NOT EXISTS Orders (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    customerId VARCHAR(400),
+    supplierId INTEGER,
+    point POINT NOT NULL,
+    status VARCHAR(120) DEFAULT "pending", 
+    createdDate DATETIME(6) DEFAULT NOW(),
+    dateTimeStart DATETIME,    
+    dateTimeEnd DATETIME
+);
+ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
+--Customer
+--https://maps.googleapis.com/maps/api/geocode/json?address=Thanh%20Xuan,%20Ha%20Noi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+--Chat = conversations
+DROP TABLE Conversations;
+CREATE TABLE IF NOT EXISTS Conversations (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    orderId INTEGER,
+    sms TEXT,
+    senderId VARCHAR(400),
+    createdDate DATETIME(6) DEFAULT NOW(),
+    seen BOOLEAN DEFAULT FALSE
+);
+
+--Customer
+DROP TABLE Customer;
+CREATE TABLE IF NOT EXISTS Customer (
+    customerId VARCHAR(400) PRIMARY KEY,
+    name VARCHAR(300) NOT NULL ,
+    password VARCHAR(400) NOT NULL ,
+    phoneNumber VARCHAR(300) UNIQUE,    
+    facebookId VARCHAR(300) DEFAULT '',        
+    email VARCHAR(250) UNIQUE,    
+    userType VARCHAR(150) DEFAULT 'default',        
+    isActive INTEGER DEFAULT 1,
+    tokenKey VARCHAR(500)    
+);
+
+--Trigger - procedures
 delimiter //
 CREATE FUNCTION checkToken(tokenKey VARCHAR(500), supplierId INT) RETURNS BOOLEAN
 BEGIN
@@ -46,35 +119,6 @@ delimiter ;
 DROP TRIGGER tSupplier;
 
 DESCRIBE Supplier;
---Register a default supplier
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email)
-VALUES("Hoang", "xxx", "12345", '1979-10-25', 'hoang@gmail.com');
---FAke suppliers
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang1", "xxx", "12345", '1979-10-25', 'hoang@gmail.com',  ST_GeomFromText('POINT(20.995370 105.807250)'), 11000);
-
---sao truc mao meo
-
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang2", "xxx", "123456", '1979-10-25', 'hoang1@gmail.com',  ST_GeomFromText('POINT(20.994407 105.806877)'), 11000);
-
---Vinmec
-
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang3", "xxx", "123457", '1979-10-25', 'hoang2@gmail.com',  ST_GeomFromText('POINT(20.993817 105.867659)'), 11000);
---108 Le TRong Tan
-
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang4", "xxx", "123458", '1979-10-25', 'hoang3@gmail.com',  ST_GeomFromText('POINT(20.998066 105.829462)'), 11000);
-
---Cửu Việt, Châu Quỳ
-
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang5", "xxx", "123459", '1979-10-25', 'hoang4@gmail.com',  ST_GeomFromText('POINT(21.008068 105.939789)'), 11000);
---Trung Hoa, Cau Giay
-
-INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
-VALUES("Hoang6", "xxx", "1234510", '1979-10-25', 'hoang5@gmail.com',  ST_GeomFromText('POINT(21.014102 105.802116)'), 11000);
 
 --meters
 SELECT 100000*ST_Distance(POINT(20.991267,105.812368),POINT(20.990314,105.815973));
@@ -104,11 +148,6 @@ FROM Supplier HAVING distance <= radius + orderRadius;
 //
 DELIMITER ;
 call getSupplierAroundOrder(10000, 20.9959819, 105.8097244);
---Login default supplier
-SELECT * FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
-UPDATE Supplier SET tokenKey="xx12345" WHERE email="hoang@gmail.com" AND password="xxx";
---signout default supplier
-UPDATE Supplier SET tokenKey="" WHERE email="hoang@gmail.com" AND password="xxx";
 
 SELECT * FROM Supplier;
 --Register/login a facebook supplier
@@ -249,6 +288,34 @@ FROM Supplier
 INNER JOIN PlayerService 
 ON Supplier.id=PlayerService.supplierId 
 ORDER BY Supplier.id;
+
+
+DROP VIEW viewSupplierRefereeService;
+CREATE VIEW viewSupplierRefereeService AS
+SELECT 
+Supplier.id as supplierId,
+Supplier.name as name,
+Supplier.password as password,
+Supplier.phoneNumber as phoneNumber,
+Supplier.dateOfBirth as dateOfBirth,
+Supplier.facebookId as facebookId,
+Supplier.email as email,
+Supplier.userType as userType,
+Supplier.point as point,
+X(point) as latitude,
+Y(point) as longitude,
+Supplier.address as address,
+Supplier.radius as radius,
+Supplier.isActive as isActive,
+Supplier.tokenKey as tokenKey,
+RefereeService.refereeName as refereeName,
+RefereeService.position as position
+FROM Supplier 
+INNER JOIN RefereeService 
+ON Supplier.id=RefereeService.supplierId 
+ORDER BY Supplier.id;
+
+
 --Tổng số trận đã đấu?
 SELECT COUNT(*) FROM Orders WHERE supplierId = 1 AND Orders.status = "completed";
 SELECT * FROM viewSupplierPlayerService;
@@ -259,64 +326,27 @@ DROP VIEW viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
 
 SELECT viewSupplierPlayerService.*, 
-RefereeeService.refereeName FROM viewSupplierPlayerService
-INNER JOIN RefereeeService 
-ON viewSupplierPlayerService.supplierId=RefereeeService.supplierId
-ORDER BY RefereeeService.supplierId;
+RefereeService.refereeName FROM viewSupplierPlayerService
+INNER JOIN RefereeService 
+ON viewSupplierPlayerService.supplierId=RefereeService.supplierId
+ORDER BY RefereeService.supplierId;
 
 SELECT * FROM viewSupplierServices;
 
 --Trước khi vào PlayerService, kiểm tra xem supplier đã đăng ký "dịch vụ cầu thủ" chưa ?
 SELECT COUNT(*) FROM PlayerService WHERE supplierId=1;
---Màn hình "Đăng ký dv trong tai"
-CREATE TABLE IF NOT EXISTS RefereeeService (    
-    refereeName VARCHAR(300) NOT NULL ,    
-    supplierId INTEGER
-);
-INSERT INTO RefereeeService(refereeName, supplierId)
+
+INSERT INTO RefereeService(refereeName, supplierId)
 VALUES("trong tai A", 1);
 
---Sân bóng
-DROP TABLE Stadium;
-CREATE TABLE IF NOT EXISTS Stadium (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    type INTEGER DEFAULT 0,
-    name VARCHAR(300) NOT NULL,
-    point POINT,
-    address TEXT,
-    phoneNumber VARCHAR(300),
-    supplierId INTEGER
-);
---Màn hình Đăng ký sân bóng, bấm nút Submit:
---Nếu free: có lat,long, ko có số đt
-INSERT INTO Stadium(name, type, point,address, phoneNumber, supplierId)
-VALUES("Hang Day", 1, ST_GeomFromText('POINT(105.832909 21.030134)'), "", "", 1);
---Test lat, long:
+
+
 select X(point) as "latitude", Y(point) AS "longitude" from Stadium;
 --Kiểm tra xem supplier có bao nhiêu dịch vụ sân bóng
 SELECT COUNT(*) FROM Stadium WHERE supplierId=1;
 --Customer
 https://maps.googleapis.com/maps/api/geocode/json?address=Thanh%20Xuan,%20Ha%20Noi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
---Đơn hàng = Order
-DROP TABLE Order;
---status: "pending", "confirmed", "completed", "cancelled", 
---"completed" = currentDAte > date
---"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
---Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
---https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
-
-DROP TABLE Orders;
-CREATE TABLE IF NOT EXISTS Orders (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    customerId VARCHAR(400),
-    supplierId INTEGER,
-    point POINT NOT NULL,
-    status VARCHAR(120) DEFAULT "pending", 
-    createdDate DATETIME(6) DEFAULT NOW(),
-    dateTimeStart DATETIME,    
-    dateTimeEnd DATETIME
-);
 ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
 
 DROP TRIGGER tCheckTime;
@@ -329,34 +359,10 @@ CREATE TRIGGER tCheckTime BEFORE INSERT ON Orders
 END;//
 delimiter ;
 
---Test insert data
-INSERT INTO Orders(customerId, supplierId, point, dateTimeStart, dateTimeEnd)
-VALUES('d62d7eb43ab45ee725f82080d4586c52', 1, ST_GeomFromText('POINT(105.832909 21.030134)'), '2019-12-07 16:00:00', '2019-12-07 19:00:00');
 
 SELECT TIMESTAMPDIFF(MINUTE,dateTimeStart, dateTimeEnd) as "diff" FROM Orders;
---Chat = conversations
-DROP TABLE Conversations;
-CREATE TABLE IF NOT EXISTS Conversations (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    orderId INTEGER,
-    sms TEXT,
-    senderId VARCHAR(400),
-    createdDate DATETIME(6) DEFAULT NOW(),
-    seen BOOLEAN DEFAULT FALSE
-);
---Customer
-DROP TABLE Customer;
-CREATE TABLE IF NOT EXISTS Customer (
-    customerId VARCHAR(400) PRIMARY KEY,
-    name VARCHAR(300) NOT NULL ,
-    password VARCHAR(400) NOT NULL ,
-    phoneNumber VARCHAR(300) UNIQUE,    
-    facebookId VARCHAR(300) DEFAULT '',        
-    email VARCHAR(250) UNIQUE,    
-    userType VARCHAR(150) DEFAULT 'default',        
-    isActive INTEGER DEFAULT 1,
-    tokenKey VARCHAR(500)    
-);
+
+
 --ALTER TABLE Customer MODIFY customerId DEFAULT md5(UUID());
 delimiter //
 CREATE TRIGGER tCreateCustomerId BEFORE INSERT ON Customer
@@ -364,18 +370,6 @@ CREATE TRIGGER tCreateCustomerId BEFORE INSERT ON Customer
     SET NEW.customerId = md5(UUID());//    
 delimiter ;
 
-
-INSERT INTO Customer(name, password, phoneNumber, facebookId, email, userType)
-VALUES("hoang A", "12345", "12355522", "323424", "hoang1@gmail.com", "facebook");
-
-INSERT INTO Conversations(orderId, sms, senderId) 
-VALUES(1, "Chao ban", '1');
-INSERT INTO Conversations(orderId, sms, senderId) 
-VALUES(1, "ok ban khoe khong ?", 'd62d7eb43ab45ee725f82080d4586c52');
-SELECT * FROM Conversations WHERE orderId=1;
-
-UPDATE Conversations SET Conversations.seen = TRUE
-WHERE orderId = 1;
 
 SELECT Orders.id as orderId, 
 Orders.customerId as customerId,
@@ -391,10 +385,96 @@ INNER JOIN Orders
 ON Conversations.orderId=Orders.id
 ORDER BY Conversations.createdDate DESC;
 
+--Màn hình RefereeService:
+SELECT COUNT(*) as numberOfRefereeServices FROM RefereeService WHERE supplierId = ?
+SELECT * from viewSupplierRefereeService WHERE supplierId = ?
+
+DROP PROCEDURE insertRefereeService;
+--Màn hình RefereeService, sau khi bấm Save
+delimiter //
+CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),                                     
+                                    supplierId INTEGER,
+                                    dateOfBirth DATE,
+                                    latitude FLOAT, 
+                                    longitude FLOAT,
+                                    address TEXT,
+                                    radius FLOAT
+                                    ) 
+BEGIN    
+    INSERT INTO RefereeService(refereeName, supplierId)
+    VALUES(refereeName, supplierId);
+    UPDATE Supplier SET Supplier.address = address, 
+                    Supplier.radius = radius,
+                    Supplier.dateOfBirth = dateOfBirth,
+                    Supplier.point = POINT(latitude, longitude)                    
+    WHERE Supplier.id = supplierId;
+    SELECT * FROM RefereeService WHERE RefereeService.supplierId = supplierId;
+END;//
+delimiter;
+CALL insertRefereeService("trong tai x", 1, '1993-12-31', 44.55, 130.22, "Giap Nhat", 22.1);
+
+
 --Notifications 
 
+--Fake data
+--Register a default supplier
+INSERT INTO Supplier(name, password, phoneNumber, email)
+VALUES("Hoang", "xxx", "12345", 'hoang@gmail.com');
+--FAke suppliers
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang1", "xxx", "12345", '1979-10-25', 'hoang@gmail.com',  ST_GeomFromText('POINT(20.995370 105.807250)'), 11000);
+
+--sao truc mao meo
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang2", "xxx", "123456", '1979-10-25', 'hoang1@gmail.com',  ST_GeomFromText('POINT(20.994407 105.806877)'), 11000);
+
+--Vinmec
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang3", "xxx", "123457", '1979-10-25', 'hoang2@gmail.com',  ST_GeomFromText('POINT(20.993817 105.867659)'), 11000);
+--108 Le TRong Tan
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang4", "xxx", "123458", '1979-10-25', 'hoang3@gmail.com',  ST_GeomFromText('POINT(20.998066 105.829462)'), 11000);
+
+--Cửu Việt, Châu Quỳ
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang5", "xxx", "123459", '1979-10-25', 'hoang4@gmail.com',  ST_GeomFromText('POINT(21.008068 105.939789)'), 11000);
+--Trung Hoa, Cau Giay
+
+INSERT INTO Supplier(name, password, phoneNumber, dateOfBirth, email, point, radius)
+VALUES("Hoang6", "xxx", "1234510", '1979-10-25', 'hoang5@gmail.com',  ST_GeomFromText('POINT(21.014102 105.802116)'), 11000);
+
+--Login default supplier
+SELECT * FROM Supplier WHERE email="hoang@gmail.com" AND password="xxx";
+UPDATE Supplier SET tokenKey="xx12345" WHERE email="hoang@gmail.com" AND password="xxx";
+--signout default supplier
+UPDATE Supplier SET tokenKey="" WHERE email="hoang@gmail.com" AND password="xxx";
+
+--Màn hình Đăng ký sân bóng, bấm nút Submit:
+--Nếu free: có lat,long, ko có số đt
+INSERT INTO Stadium(name, type, point,address, phoneNumber, supplierId)
+VALUES("Hang Day", 1, ST_GeomFromText('POINT(105.832909 21.030134)'), "", "", 1);
+--Test lat, long:
 
 
+INSERT INTO Customer(name, password, phoneNumber, facebookId, email, userType)
+VALUES("hoang A", "12345", "12355522", "323424", "hoang1@gmail.com", "facebook");
+
+INSERT INTO Conversations(orderId, sms, senderId) 
+VALUES(1, "Chao ban", '1');
+INSERT INTO Conversations(orderId, sms, senderId) 
+VALUES(1, "ok ban khoe khong ?", 'd62d7eb43ab45ee725f82080d4586c52');
+SELECT * FROM Conversations WHERE orderId=1;
+
+UPDATE Conversations SET Conversations.seen = TRUE
+WHERE orderId = 1;
+
+--Test insert data
+INSERT INTO Orders(customerId, supplierId, point, dateTimeStart, dateTimeEnd)
+VALUES('d62d7eb43ab45ee725f82080d4586c52', 1, ST_GeomFromText('POINT(105.832909 21.030134)'), '2019-12-07 16:00:00', '2019-12-07 19:00:00');
 
 
 

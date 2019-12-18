@@ -2,7 +2,9 @@ import {urlLoginSupplier,
     urlRegisterSupplier, 
     urlGetSupplierById,
     urlInsertPlayerService,
-    urlCheckPlayerServiceExist
+    urlCheckPlayerServiceExist,
+    urlTokenCheck,
+    urlInsertRefereeService
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 
@@ -58,6 +60,28 @@ export const loginSupplier = async (email, password) => {
         return { tokenKey : '', message: error}
     }
 }
+
+export const tokenCheck = async (tokenKey,supplierId) => {
+    try {       
+        debugger                     
+        const response = await fetch(urlTokenCheck(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({}),
+        })        
+        debugger               
+        const responseJson = await response.json()
+        debugger
+        const {result, data, message, time} = responseJson
+        return {result, data, message, time}
+    } catch (error) {        
+        return error
+    }
+}
 export const insertPlayerService = async (playerName,position,supplierId,latitude,longitude,address,radius) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()            
@@ -88,7 +112,35 @@ export const insertPlayerService = async (playerName,position,supplierId,latitud
         return error
     }
 }
-
+export const insertRefereeService = async (refereeName,supplierId,latitude,longitude,address,radius) => {
+    try {                    
+        const {tokenKey, email} = await getSupplierFromStorage()            
+        const response = await fetch(urlInsertRefereeService(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({refereeName,
+                supplierId,
+                latitude,
+                longitude,
+                address,
+                radius}),
+        })                       
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??  
+            return { refereeName, supplierId, message: ''}
+        } else {            
+            return { refereeName, supplierId, message: 'Cannot insert referee service'}
+        }
+    } catch (error) {        
+        return error
+    }
+}
 export const checkPlayerServiceExist = async (supplierId) => {
     try {                    
         const response = await fetch(urlCheckPlayerServiceExist(supplierId))               

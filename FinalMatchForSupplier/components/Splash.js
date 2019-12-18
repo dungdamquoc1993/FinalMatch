@@ -14,6 +14,7 @@ from '../colors/colors'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
+import {tokenCheck} from '../server/myServices'
 
 const {height, width} = Dimensions.get('window')
 class Splash extends Component {
@@ -25,10 +26,7 @@ class Splash extends Component {
         titleMarginTop: new Animated.Value(height / 2)
     }
     async componentDidMount() {
-        //Add animations here
-        const stackNavigation = this.props.navigation
-        //dispatch = call action
-        this.props.dispatch(getStackNavigation(stackNavigation))
+        //Add animations here        
         Animated.sequence([
             //animations by sequence
             Animated.timing(this.state.logoOpacity,{
@@ -42,13 +40,23 @@ class Splash extends Component {
             })
         ]).start(async () => {
             //End of animations
+            debugger
+            let {tokenKey, supplierId} = await getSupplierFromStorage()     
+            let {result, data, message, time} = await tokenCheck(tokenKey, supplierId)       
+            if(result == "failed") {
+                await saveSupplierToStorage('', '', '')
+                tokenKey = ''
+                supplierId = '' 
+            }
             
-            const {tokenKey} = await getSupplierFromStorage()            
             if(tokenKey.length > 0) {
                 this.props.navigation.navigate("MyTabNavigator")
             } else {
                 this.props.navigation.navigate("LoginRegister")    
             }            
+            const stackNavigation = this.props.navigation
+            //dispatch = call action
+            this.props.dispatch(getStackNavigation(stackNavigation))
         })
     }
     render() {
