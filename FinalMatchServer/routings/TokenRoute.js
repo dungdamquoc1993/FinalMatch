@@ -6,14 +6,19 @@ const {checkToken} = require('./helpers')
 router.post('/tokenCheck', async (req, res) => {  
   const {tokenkey = '', supplierid = ''} = req.headers  
   debugger
-  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
+  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))    
   if(checkTokenResult == false) {
     res.json({
       result: "failed", 
       data: {}, 
       message: 'Token is invalid',
-      time: Date.now()})
-      return
+      time: Date.now()})      
+  } else {
+    res.json({
+      result: "ok", 
+      data: {}, 
+      message: 'Token is Good',
+      time: Date.now()})      
   }   
 })
 
