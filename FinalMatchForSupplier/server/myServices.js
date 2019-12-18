@@ -10,7 +10,7 @@ import {getSupplierFromStorage} from '../helpers/Helpers'
 
 export const registerSupplier = async (email, password) => {
     try {            
-        const response = await fetch(urlRegisterSupplier(), {
+        const response = await fetch(await urlRegisterSupplier(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -36,7 +36,7 @@ export const registerSupplier = async (email, password) => {
 }
 export const loginSupplier = async (email, password) => {
     try {            
-        const response = await fetch(urlLoginSupplier(), {
+        const response = await fetch(await urlLoginSupplier(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -115,7 +115,7 @@ export const insertPlayerService = async (playerName,position,supplierId,latitud
 export const insertRefereeService = async (refereeName,supplierId,latitude,longitude,address,radius) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()            
-        const response = await fetch(urlInsertRefereeService(), {
+        const response = await fetch(await urlInsertRefereeService(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -143,7 +143,7 @@ export const insertRefereeService = async (refereeName,supplierId,latitude,longi
 }
 export const checkPlayerServiceExist = async (supplierId) => {
     try {                    
-        const response = await fetch(urlCheckPlayerServiceExist(supplierId))               
+        const response = await fetch(await urlCheckPlayerServiceExist(supplierId))               
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson                   
         if (result.toUpperCase() === "OK") {                 
@@ -159,7 +159,7 @@ export const checkPlayerServiceExist = async (supplierId) => {
 
 export const getSupplierById = async (supplierId) => {
     try {            
-        const response = await fetch(urlGetSupplierById(supplierId))               
+        const response = await fetch(await urlGetSupplierById(supplierId))               
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson                
         let { phoneNumber = '', 
