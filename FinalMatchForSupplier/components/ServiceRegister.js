@@ -9,7 +9,7 @@ import Stadium from './Stadium'
 import PlayerService from './PlayerService'
 import { connect } from 'react-redux'
 
-import {checkPlayerServiceExist} from '../server/myServices'
+import {checkPlayerServiceExist, checkRefereeServiceExist} from '../server/myServices'
 import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
 
 class ServiceRegister extends Component {
@@ -21,12 +21,19 @@ class ServiceRegister extends Component {
             this.props.stackNavigation.navigate("PlayerService", {}) 
         } else {            
             this.props.navigation.navigate("Settings", {}) 
+        }        
+    }
+    _navigateToRefereeService = async () => {
+        const {supplierId, tokenKey, email} = await getSupplierFromStorage()         
+        const { data, message} = await checkRefereeServiceExist(supplierId)
+        const {numberOfRefereeServices} = data                
+        if(parseInt(numberOfRefereeServices) == 0) {
+            this.props.stackNavigation.navigate("RefereeService", {})    
+        } else {            
+            this.props.navigation.navigate("Settings", {}) 
         }
 
         
-    }
-    _navigateToRefereeService = () => {
-        this.props.stackNavigation.navigate("RefereeService", {})    
     }
     _navigateToStadium = () => {
         this.props.stackNavigation.navigate("Stadium", {}) 

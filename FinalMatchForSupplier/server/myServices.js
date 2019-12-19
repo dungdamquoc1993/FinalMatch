@@ -4,7 +4,8 @@ import {urlLoginSupplier,
     urlInsertPlayerService,
     urlCheckPlayerServiceExist,
     urlTokenCheck,
-    urlInsertRefereeService
+    urlInsertRefereeService,
+    urlCheckRefereeServiceExist
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 
@@ -145,6 +146,23 @@ export const checkPlayerServiceExist = async (supplierId) => {
     try {                    
         const response = await fetch(await urlCheckPlayerServiceExist(supplierId))               
         const responseJson = await response.json();
+        const {result, data, message, time} = responseJson                   
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??              
+            return { data, message: ''}
+        } else {    
+            return { data, message}
+        }
+    } catch (error) {               
+        return { data, message: error}
+    }
+}
+
+export const checkRefereeServiceExist = async (supplierId) => {
+    try {                    
+       
+        const response = await fetch(await urlCheckRefereeServiceExist(supplierId))                       
+        const responseJson = await response.json();                
         const {result, data, message, time} = responseJson                   
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              

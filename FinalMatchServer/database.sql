@@ -243,6 +243,7 @@ WHERE id=1;
 --Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
 
 --Màn hình PlayerService, sau khi bấm Save
+DROP PROCEDURE insertPlayerService;
 delimiter //
 CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
                                     position VARCHAR(10), 
@@ -253,6 +254,11 @@ CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300),
                                     radius FLOAT
                                     ) 
 BEGIN    
+    DECLARE numberOfPlayerServices INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfPlayerServices FROM PlayerService WHERE PlayerService.supplierId = supplierId;
+    IF numberOfPlayerServices > 0 THEN
+        signal sqlstate '45000' set message_text = "This supplier has PlayerService already";
+    END IF;
     INSERT INTO PlayerService(playerName, position, supplierId)
     VALUES(playerName, position, supplierId);
     UPDATE Supplier SET Supplier.address = address, 
@@ -401,6 +407,11 @@ CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),
                                     radius FLOAT
                                     ) 
 BEGIN    
+    DECLARE numberOfRefereeServices INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfRefereeServices FROM RefereeService WHERE RefereeService.supplierId = supplierId;
+    IF numberOfRefereeServices > 0 THEN
+        signal sqlstate '45000' set message_text = "This supplier has RefereeService already";
+    END IF;
     INSERT INTO RefereeService(refereeName, supplierId)
     VALUES(refereeName, supplierId);
     UPDATE Supplier SET Supplier.address = address, 

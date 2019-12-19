@@ -29,7 +29,7 @@ export const alert = (content) => Alert.alert("FinalMatch",content,[],{cancelabl
 
 export const alertWithOKButton = (content, callback) => {
     const buttons = [        
-        { text: 'OK', onPress: () => callback() },
+        { text: 'OK', onPress: () => callback!= null ? callback() : {} },
     ]
     Alert.alert("FinalMatch",content,buttons,{cancelable: false})
 }

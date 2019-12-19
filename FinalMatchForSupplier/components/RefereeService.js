@@ -15,6 +15,8 @@ import {insertRefereeService, getSupplierById} from '../server/myServices'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
+import { connect } from 'react-redux'
+import {NavigationActions} from 'react-navigation'
 
 import {
   daysBetween2Dates,
@@ -28,7 +30,7 @@ import {
 } from '../server/googleServices';
 
 
-export default class RefereeService extends Component {
+export class RefereeService extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -40,11 +42,11 @@ export default class RefereeService extends Component {
     phoneNumber: '',
     showIOSDatePicker: false,
     currentLocation: {
-      address: '',
+      address: 'giap nhat xx',
       district: '',
       province: '',
-      latitude: 0.0, 
-      longitude: 0.0, 
+      latitude: 12.22, 
+      longitude: 11.11, 
     },
     radius: 12
   }
@@ -89,8 +91,10 @@ export default class RefereeService extends Component {
     }
   }
   _insertRefereeService = async () => {        
-    const {refereeName, radius} = this.state      
-    const {latitude,longitude, address} = this.state.currentLocation
+    const {refereeName} = this.state      
+    //const {latitude,longitude, address} = this.state.currentLocation
+    //fake
+    let latitude = 11.22; let longitude = 22.33; let radius = 12.11; let address = "xx11";//nho xoa
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
       return
@@ -98,15 +102,28 @@ export default class RefereeService extends Component {
     
     try {      
       const {supplierId, email} = await getSupplierFromStorage()      
+      /* chua test
       await insertRefereeService(refereeName,        
         supplierId,
         latitude,
         longitude,
         address,
         radius)
-      alertWithOKButton("Insert referee service successfully", () => {
-        this.props.stackNavigation.dispatch(NavigationActions.back())
-      })      
+        */
+       /*da test ok */
+       const {message } = await insertRefereeService("tt x",        
+        supplierId,
+        12.22,
+        22.33,
+        "nha xua x",
+        50.00)        
+      if(message.length  == 0) {
+        alertWithOKButton("Insert referee service successfully", () => {
+          this.props.stackNavigation.dispatch(NavigationActions.back())
+        })      
+      } else {
+        alertWithOKButton(message, null)
+      }      
     } catch(error) {
       alert('Cannot get data from Server'+error)
     } 
@@ -266,6 +283,14 @@ export default class RefereeService extends Component {
     )
   }
 }
+const mapStateToProps = state => ({
+  //convert "global object"(shared state) => ServiceRegister's props
+  stackNavigation: state.navigationReducers.stackNavigation,
+  tabNavigation: state.navigationReducers.tabNavigation
+})
+export default connect(
+  mapStateToProps
+)(RefereeService)
 
 const styles = StyleSheet.create({
   container: {

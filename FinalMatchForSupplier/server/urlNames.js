@@ -18,6 +18,10 @@ export const urlInsertPlayerService = () => {
 export const urlInsertRefereeService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/insertRefereeService`
 }
+export const urlCheckRefereeServiceExist = (supplierId) => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}`
+}
+
 
 export const urlGetSupplierById = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}`
