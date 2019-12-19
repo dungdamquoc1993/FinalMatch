@@ -6,11 +6,18 @@ import {
 } from 'react-native'
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
-    try {        
+    try {    
+        debugger    
         const response = await fetch(
-            urlGetAddressFromLatLong(latitude, longitude)    
-        );        
+            urlGetAddressFromLatLong(latitude, longitude),{
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+        debugger            
         const responseJson = await response.json();
+        debugger    
         if (responseJson.status.toUpperCase() === "OK") {
             //console.log(JSON.stringify(responseJson.results[0]["address_components"][0]["long_name"]))
             if (responseJson.results.length > 0) {
@@ -22,6 +29,7 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
             return { address: '', district: '', province:''}
         }
     } catch (error) {
+        debugger
         console.error(`Cannot get Address From Lat Long. Error: ${error}`)
         return { address: '', district: '', province:''}
     }

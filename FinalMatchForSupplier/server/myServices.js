@@ -158,10 +158,13 @@ export const checkPlayerServiceExist = async (supplierId) => {
 }
 
 export const getSupplierById = async (supplierId) => {
-    try {            
+    try {     
+        debugger       
         const response = await fetch(await urlGetSupplierById(supplierId))               
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson                
+        debugger
+        const {result, data, message, time} = responseJson   
+        debugger             
         let { phoneNumber = '', 
                     latitude = '', 
                     longitude = '', 

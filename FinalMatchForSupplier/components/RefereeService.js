@@ -7,11 +7,15 @@ import {
   TextInput,
   SafeAreaView,
   Dimensions,
+  DatePickerAndroid,
   Image
 } from 'react-native';
+import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert} from '../helpers/Helpers'
+import {insertRefereeService, getSupplierById} from '../server/myServices'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
+
 import {
   daysBetween2Dates,
   convertDayMonthYearToString,
@@ -44,6 +48,19 @@ export default class RefereeService extends Component {
     },
     radius: 12
   }
+  componentDidMount = async () => {
+    try {
+      const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+      const { data, message} = await getSupplierById(supplierId)      
+      const { phoneNumber, latitude, 
+                    longitude, radius, address} = data
+      debugger
+      this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
+    } catch(error) {
+      alert("Cannot get Supplier information"+error)
+    }
+  };
+
   _displayAge (age) {
     if (age > 0) {
       return age > 1 ? `${age} ages` : `${age} age`;
@@ -57,9 +74,11 @@ export default class RefereeService extends Component {
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         async (position) => {
+          debugger
           const { latitude, longitude } = position.coords
+          debugger
           const { address = '', district = '', province = '' } = await getAddressFromLatLong(latitude, longitude)
-
+          debugger
           this.setState({ currentLocation: { address, district, province } })
         },
         (error) => {
