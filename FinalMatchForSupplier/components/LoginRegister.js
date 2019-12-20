@@ -13,6 +13,7 @@ import {getStackNavigation} from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
 import {registerSupplier, loginSupplier} from '../server/myServices'
 import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
+import { LoginManager, LoginResult, AccessToken } from "react-native-fbsdk";
 
 //export = public
 //Component = thẻ
@@ -24,11 +25,33 @@ class LoginRegister extends Component {
         retypePassword: '12345'
     }
     _loginWithFacebook = async () => {
-        const {email} = this.state
+        const { email } = this.state
         const stackNavigation = this.props.navigation
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        this.props.navigation.navigate("MyTabNavigator", {email})
+        /**
+         * Bo qua login facebook
+        this.props.navigation.navigate("MyTabNavigator", { email })
+        return
+         */
+        LoginManager.logInWithPermissions(["public_profile", "email"]).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log("Login cancelled");
+                } else {
+
+                    AccessToken.getCurrentAccessToken().then(accessToken => {
+                        debugger
+                        console.log("dd")
+                        this.props.navigation.navigate("MyTabNavigator", { email })
+                    }).catch(error => {
+                        console.log("Cannot get access token:" + error)
+                    })
+                }
+            }).catch(function (error) {
+                console.log("Login fail with error: " + error);
+            })
+
     }
     _login = async () => {
         this.setState({isLogin: true})

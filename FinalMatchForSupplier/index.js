@@ -8,6 +8,8 @@
  * yarn add redux react-redux
  * react-native link @react-native-community/geolocation
  * yarn add @react-native-community/async-storage
+ * npm install --save react-native-fbsdk
+ * 
  */
 
 import {AppRegistry} from 'react-native';
