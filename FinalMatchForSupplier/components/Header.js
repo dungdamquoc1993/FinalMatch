@@ -7,6 +7,7 @@ import {View, StyleSheet, Image,
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
+import {MAIN_COLOR} from '../colors/colors'
 
 //hideBack: boolean
 class Header extends Component {
@@ -20,12 +21,13 @@ class Header extends Component {
                 onPress={() => {
                     this.props.stackNavigation.dispatch(NavigationActions.back())
                 }}
-                name={"arrow-circle-left"} size={30} color={'white'} />}
+                name={"arrow-circle-left"} size={50} 
+                color={MAIN_COLOR} />}
             <Text style={styles.title}>
                 {title}
             </Text>
             <FontAwesome5 style={{ opacity: 0 }}
-                name={"arrow-circle-left"} size={30} color={'white'} />
+                name={"arrow-circle-left"} size={30} color={'black'} /> 
         </View>
     }
 }
@@ -35,18 +37,17 @@ const mapStateToProps = state => ({
     tabNavigation: state.navigationReducers.tabNavigation
 })
 const styles = StyleSheet.create({
-    container: {            
-        height: 50,
+    container: {
+        height: 80,
         width: '100%',
-        backgroundColor: 'red',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },    
     title: {
         alignSelf: "center", 
         lineHeight: 50, 
-        fontSize: 16,
+        fontSize: 30,
         fontFamily: 'arial',
         textAlign:'center'
     }

@@ -24,6 +24,7 @@ import {
 import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
+
 /**
  * yarn add react-native-date-picker
  * 
@@ -131,7 +132,7 @@ export default class Settings extends Component {
     const {isGK, isCB, isMF, isCF} = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Quản lý tài khoản'} />
+        <Header title={'Quản Lý Tài Khoản'} />
 
         <View style={styles.scrollView}>
           <View style={styles.personalInformation}>
@@ -178,7 +179,7 @@ export default class Settings extends Component {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              SDT:
+              SĐT:
             </Text>
             <TextInput
               style={styles.textInput}
@@ -192,30 +193,35 @@ export default class Settings extends Component {
           </View>
           {/* Quan ly dich vu */}
           
-          <View style={styles.radiusInput}>
-            <Text style={styles.textLabelRadius}>
-              Bán kính phục vụ:
+          <View style={styles.serviceArea}>
+            <View>
+
+              <TouchableOpacity
+                onPress={() => {
+                  this._pressLocation();
+                }}
+                style={styles.buttonGetLocation} >
+                <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
+              </TouchableOpacity>
+            </View>
+
+            <View style = {styles.radius}>
+
+              <Text style={styles.radiusLabel}>
+                Bán kính làm việc:
             </Text>
-            <View style={styles.dropDownRadius}>
-              {/* <Dropdown placeholder={'12'} data={radius} /> */}
+
               <TextInput
-                style={styles.textInput}
+                style={styles.radiusInput}
                 placeholder={'Enter radius'}
                 keyboardType={'numeric'}
                 value={radius}
                 onChangeText={radius => {
-                  this.setState ({radius});
+                  this.setState({ radius });
                 }}
               />
             </View>
-            <TouchableOpacity
-            onPress={() => {
-              this._pressLocation ();
-            }}
-            style={styles.buttonGetLocation}
-            >
-            <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
-          </TouchableOpacity>
+
           </View>
         </View>
         {isIOS () &&
@@ -253,96 +259,7 @@ export default class Settings extends Component {
         {/* get location  */}
         {/* ban kinh */}
 
-        <ScrollView style={{width: '100%'}}>
-          <View
-            style={{
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'black',
-              alignItems: 'center',
-            }}
-          >
-            <View style={styles.personalInformation}>
-              <Text style={styles.textLabel}>Role: </Text>
-              <Text style={styles.textRole}>Cầu thủ</Text>
-            </View>
-            <Text style={{marginBottom: 5}}>Position</Text>
-            <View style={styles.positions}>
-              <TouchableOpacity
-                style={styles.eachPosition}
-                onPress={() => {
-                  this.setState ({isGK: !this.state.isGK});
-                }}
-              >
-                <Text>GK</Text>
-                <FontAwesome5
-                  name={isGK == true ? 'check-square' : 'square'}
-                  size={35}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.eachPosition}
-                onPress={() => {
-                  this.setState ({isCB: !this.state.isCB});
-                }}
-              >
-                <Text>CB</Text>
-                <FontAwesome5
-                  name={isCB == true ? 'check-square' : 'square'}
-                  size={35}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.eachPosition}
-                onPress={() => {
-                  this.setState ({isMF: !this.state.isMF});
-                }}
-              >
-                <Text>MF</Text>
-                <FontAwesome5
-                  name={isMF == true ? 'check-square' : 'square'}
-                  size={35}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.eachPosition}
-                onPress={() => {
-                  this.setState ({isCF: !this.state.isCF});
-                }}
-              >
-                <Text>CF</Text>
-                <FontAwesome5
-                  name={isCF == true ? 'check-square' : 'square'}
-                  size={35}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'black',
-              alignItems: 'center',
-            }}
-          >
-            <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Role: </Text>
-              <Text style={styles.textRolereferee}>Trọng tài</Text>
-            </View>
-            <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Completed watch: </Text>
-              <Text style={styles.textRolereferee}>11</Text>
-            </View>
-
-          </View>
-
-          {/* test them de thu scrollView */}
-
+        <ScrollView style={{width: '100%', height: 200}}>
           <View
             style={{
               borderRadius: 5,
@@ -438,6 +355,7 @@ export default class Settings extends Component {
 }
 
 const styles = StyleSheet.create ({
+
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -446,18 +364,10 @@ const styles = StyleSheet.create ({
   },
   scrollView: {
     width: '100%',
-    borderRadius: 5,
-    borderColor: 'black',
-    borderWidth: 1,
-    margin: 2,
+    margin: 3,
+    padding: 5,
   },
-  personalInformation: {
-    flexDirection: 'row',
-    height: 60,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  
   dateTime: {
     flexDirection: 'row',
     height: 60,
@@ -465,14 +375,47 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  personalInformation: {
+    flexDirection: 'row',
+    height: 60,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red'
+  },
   textLabel: {
     width: '20%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
+    fontSize : 20
   },
+  
   textInput: {
     width: '80%',
+    height: 40,
+    borderRadius: 5,
+    borderColor: 'black',
+    marginEnd: 30,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    color: 'black',
+  },
+  radius: {
+    flexDirection: 'row',
+    justifyContent: "space-around",
+    width: '100%',
+    padding: 5,
+    margin: 2,
+    backgroundColor: 'blue'
+  },
+  radiusLabel: {
+    height: 40,
+    lineHeight: 40,
+    paddingStart: 30,
+    fontSize : 20  
+  },
+  radiusInput: {
     height: 40,
     borderRadius: 5,
     borderColor: 'black',
@@ -512,28 +455,12 @@ const styles = StyleSheet.create ({
     flexDirection: 'row',
     marginVertical: 10,
   },
-  textGetLocation: {
-    marginRight: 10,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  radiusInput: {
-    flexDirection: 'row',
+  serviceArea: {
+    flexDirection: 'column',
     height: 60,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  textLabelRadius: {
-    width: '40%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 30,
-  },
-  dropDownRadius: {
-    width: 100,
-    marginLeft: 8,
-    marginBottom: 20,
   },
   textRolereferee: {
     width: '60%',
