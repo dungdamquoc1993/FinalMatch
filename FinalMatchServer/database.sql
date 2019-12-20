@@ -12,10 +12,10 @@ CREATE TABLE IF NOT EXISTS Supplier (
     email VARCHAR(250) UNIQUE,
     userType VARCHAR(150) DEFAULT 'default',
     point POINT,
-    address TEXT DEFAULT '', 
-    radius FLOAT DEFAULT 0.0,
+    address VARCHAR(500) DEFAULT '', 
+    radius FLOAT DEFAULT 15.0,
     isActive INTEGER DEFAULT 1,
-    tokenKey VARCHAR(500)    
+    tokenKey VARCHAR(500) DEFAULT ''    
 );
 --Màn hình "Đăng ký dịch vụ"
 DROP TABLE PlayerService;
@@ -398,7 +398,8 @@ SELECT * from viewSupplierRefereeService WHERE supplierId = ?
 DROP PROCEDURE insertRefereeService;
 --Màn hình RefereeService, sau khi bấm Save
 delimiter //
-CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),                                     
+CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),          
+                                    phoneNumber VARCHAR(300),
                                     supplierId INTEGER,
                                     dateOfBirth DATE,
                                     latitude FLOAT, 
@@ -415,6 +416,7 @@ BEGIN
     INSERT INTO RefereeService(refereeName, supplierId)
     VALUES(refereeName, supplierId);
     UPDATE Supplier SET Supplier.address = address, 
+                    Supplier.phoneNumber = phoneNumber,                    
                     Supplier.radius = radius,
                     Supplier.dateOfBirth = dateOfBirth,
                     Supplier.point = POINT(latitude, longitude)                    

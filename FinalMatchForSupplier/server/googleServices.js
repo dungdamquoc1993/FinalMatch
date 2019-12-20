@@ -7,29 +7,24 @@ import {
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    
-        debugger    
-        const response = await fetch(
-            urlGetAddressFromLatLong(latitude, longitude),{
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-        debugger            
-        const responseJson = await response.json();
-        debugger    
-        if (responseJson.status.toUpperCase() === "OK") {
-            //console.log(JSON.stringify(responseJson.results[0]["address_components"][0]["long_name"]))
-            if (responseJson.results.length > 0) {
-                const address = responseJson.results[0]["address_components"][0]["long_name"]
-                const district = responseJson.results[0]["address_components"][1]["long_name"]
-                const province = responseJson.results[0]["address_components"][2]["long_name"]
+            
+        const response = await fetch(urlGetAddressFromLatLong(latitude, longitude))
+        const resJson = await response.json();
+        const { result, data, message, time } = resJson    
+        if (result.toUpperCase() === "OK") {
+            if (data.results.length > 0) {
+                let result2 = data.results[0]
+                const address = result2["address_components"][0]["long_name"]
+                const district = result2["address_components"][1]["long_name"]
+                const province = result2["address_components"][2]["long_name"]
                 return { address, district, province }
             }
             return { address: '', district: '', province:''}
-        }
+        } else {
+            return { address: '', district: '', province:''}
+        }                        
     } catch (error) {
-        debugger
+        
         console.error(`Cannot get Address From Lat Long. Error: ${error}`)
         return { address: '', district: '', province:''}
     }

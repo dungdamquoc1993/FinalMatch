@@ -64,7 +64,7 @@ export default class Settings extends Component {
   }
   _onPressDateTextInput = async () => {
     try {
-      debugger;
+      ;
       if (isIOS ()) {
         this.setState ({showIOSDatePicker: true});
         return;
@@ -87,7 +87,7 @@ export default class Settings extends Component {
     }
   };
   _pressLocation = async () => {
-    debugger
+    
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (

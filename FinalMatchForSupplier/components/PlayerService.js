@@ -53,11 +53,11 @@ class PlayerService extends Component {
   componentDidMount = async () => {
     try {
       const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
-      debugger
+      
       const { data, message} = await getSupplierById(supplierId)      
       const { phoneNumber, latitude, 
                     longitude, radius, address} = data
-      debugger
+      
       this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
     } catch(error) {
       alert("Cannot get Supplier information"+error)

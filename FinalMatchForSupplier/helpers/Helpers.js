@@ -16,11 +16,24 @@ export function convertDayMonthYearToString(day, month, year) {
     const strMonth = month < 10 ? `0${month}` : `${month}`
     return `${strDay}/${strMonth}/${year}`
 }
+export function convertDayMonthYearToStringYYYYMMDD(day, month, year) {
+    const strDay = day < 10 ? `0${day}` : `${day}`
+    month += 1
+    const strMonth = month < 10 ? `0${month}` : `${month}`
+    return `${year}-${strMonth}-${strDay}`
+}
+
 export function convertDateToString(date) {
     const day = date.getDate()
-    const month = date.getMonth() + 1
+    const month = date.getMonth()
     const year = date.getFullYear()
     return convertDayMonthYearToString(day, month, year)
+}
+export function convertDateToStringYYYYMMDD(date) {
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    return convertDayMonthYearToStringYYYYMMDD(day, month, year)
 }
 export const isIOS = () => {
     return Platform.OS === "ios"

@@ -18,8 +18,7 @@ router.get('/', async (req, res) => {
 //Link http://localhost:3000/suppliers/register
 router.post('/register', async (req, res) => {    
     const {email, password,userType = "default"} = req.body        
-    connection.query(POST_REGISTER_SUPPLIER, [email, password,userType], (error, results) => {
-            debugger
+    connection.query(POST_REGISTER_SUPPLIER, [email, password,userType], (error, results) => {            
             if(error) {
                 res.json({
                   result: "failed", 
@@ -27,8 +26,7 @@ router.post('/register', async (req, res) => {
                   message: error.sqlMessage,
                   time: Date.now()})
             } else {
-                if(results != null && results.length > 0) {
-                    debugger;
+                if(results != null && results.length > 0) {                    
                     res.json({
                       result: "ok", 
                       data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
@@ -43,7 +41,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const {email, password,userType = "default"} = req.body      
   connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {
-          debugger
+          
           if(error) {
               res.json({
                 result: "failed", 
@@ -63,7 +61,7 @@ router.post('/login', async (req, res) => {
 })
 //Link http://localhost:3000/suppliers/urlGetSupplierById
 router.get('/urlGetSupplierById', async (req, res) => {
-  debugger
+  
   const { supplierId = '' } = req.query
   //validate, check token ?  
   connection.query(GET_SUPPLIER_PLAYER_SERVICE,
@@ -79,7 +77,7 @@ router.get('/urlGetSupplierById', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
-        debugger
+        
         const {name, phoneNumber, latitude, longitude, radius, address} = results[0]
           res.json({
             result: "ok",

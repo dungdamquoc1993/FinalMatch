@@ -22,7 +22,7 @@ export const registerSupplier = async (email, password) => {
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
         const {tokenKeySupplierId = ''} = data
-        debugger
+        
         if (result.toUpperCase() === "OK") {                   
             return { 
                 tokenKey: tokenKeySupplierId.split(";")[0], 
@@ -48,7 +48,7 @@ export const loginSupplier = async (email, password) => {
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
         const {tokenKeySupplierId = ''} = data
-        debugger
+        
         if (result.toUpperCase() === "OK") {                   
             return { 
                 tokenKey: tokenKeySupplierId.split(";")[0], 
@@ -64,7 +64,7 @@ export const loginSupplier = async (email, password) => {
 
 export const tokenCheck = async (tokenKey,supplierId) => {
     try {       
-        debugger                     
+                             
         const response = await fetch(await urlTokenCheck(), {
             method: 'POST',
             headers: {
@@ -74,9 +74,9 @@ export const tokenCheck = async (tokenKey,supplierId) => {
             },
             body: JSON.stringify({}),
         })        
-        debugger               
+                       
         const responseJson = await response.json()
-        debugger
+        
         const {result, data, message, time} = responseJson
         return {result, data, message, time}
     } catch (error) {        
@@ -113,9 +113,10 @@ export const insertPlayerService = async (playerName,position,supplierId,latitud
         return error
     }
 }
-export const insertRefereeService = async (refereeName,supplierId,latitude,longitude,address,radius) => {
-    try {                    
-        const {tokenKey, email} = await getSupplierFromStorage()            
+export const insertRefereeService = async (refereeName,phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
+    try {             
+        const {tokenKey, email} = await getSupplierFromStorage()                
+        
         const response = await fetch(await urlInsertRefereeService(), {
             method: 'POST',
             headers: {
@@ -124,7 +125,9 @@ export const insertRefereeService = async (refereeName,supplierId,latitude,longi
                 tokenKey, supplierId
             },
             body: JSON.stringify({refereeName,
+                phoneNumber,
                 supplierId,
+                dateOfBirth,
                 latitude,
                 longitude,
                 address,
@@ -136,8 +139,8 @@ export const insertRefereeService = async (refereeName,supplierId,latitude,longi
             //Logger ??  
             return { refereeName, supplierId, message: ''}
         } else {            
-            return { refereeName, supplierId, message: 'Cannot insert referee service'}
-        }
+            return { refereeName, supplierId, message}
+        }        
     } catch (error) {        
         return error
     }
@@ -177,12 +180,12 @@ export const checkRefereeServiceExist = async (supplierId) => {
 
 export const getSupplierById = async (supplierId) => {
     try {     
-        debugger       
+               
         const response = await fetch(await urlGetSupplierById(supplierId))               
         const responseJson = await response.json();
-        debugger
+        
         const {result, data, message, time} = responseJson   
-        debugger             
+                     
         let { phoneNumber = '', 
                     latitude = '', 
                     longitude = '', 

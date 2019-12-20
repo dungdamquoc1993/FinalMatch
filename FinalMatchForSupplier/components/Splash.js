@@ -40,7 +40,7 @@ class Splash extends Component {
             })
         ]).start(async () => {
             //End of animations
-            debugger
+            
             let {tokenKey, supplierId} = await getSupplierFromStorage()     
             let {result, data, message, time} = await tokenCheck(tokenKey, supplierId)       
             if(result == "failed") {

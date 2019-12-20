@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/checkPlayerServiceExist
 router.get('/checkPlayerServiceExist', async (req, res) => {
-  debugger
+  
   const { supplierId = '' } = req.query
   //validate, check token ?  
   connection.query(GET_CHECK_PLAYER_SERVICE_EXIST,
@@ -30,7 +30,7 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
-        debugger
+        
         const { numberOfPlayerServices = 0 } = results[0]
         if (numberOfPlayerServices > 0) {
           res.json({
@@ -54,9 +54,9 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 router.post('/insertPlayerService', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers
-  debugger
+  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
-  debugger
+  
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
@@ -82,7 +82,7 @@ router.post('/insertPlayerService', async (req, res) => {
         address,
         radius ]
     , (error, results) => {
-          debugger
+          
           if(error) {
               res.json({
                 result: "failed", 

@@ -47,7 +47,7 @@ class LoginRegister extends Component {
             }            
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)
-            debugger
+            
             if (tokenKey.length > 0) {
                 saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation
@@ -55,7 +55,7 @@ class LoginRegister extends Component {
                 this.props.dispatch(getStackNavigation(stackNavigation))
                 this.props.navigation.navigate("MyTabNavigator", { email })
             } else {
-                debugger
+                
                 alert(message)
             }
         } catch(error) {

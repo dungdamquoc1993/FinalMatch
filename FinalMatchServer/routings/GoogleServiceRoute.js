@@ -2,8 +2,8 @@ var express = require('express')
 const https = require('https')
 var router = express.Router()
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
-const urlGetAddressFromLatLong = (latitude, longitude) => {
-    debugger
+
+const urlGetAddressFromLatLong = (latitude, longitude) => {    
     return `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${GoogleAPIKey}`
 }
 router.get('/getAddressFromLatLong', async (req, res) => {    
@@ -17,7 +17,7 @@ router.get('/getAddressFromLatLong', async (req, res) => {
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-            debugger
+            
             res.json({
                 result: "ok",
                 data: JSON.parse(data),

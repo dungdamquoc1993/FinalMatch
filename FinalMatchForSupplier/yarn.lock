@@ -854,9 +854,9 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.7.1.tgz#ef2104d865de61ad91bba66613e57e689ff4e6a1"
   integrity sha512-/oX/x+EU4xNaqIaC/epVKzO8XghzImPA7l8cLz3USEFmtFiXFjBbTeeIFjjEm/u4/cv38Wi1xMEa10PHIWygRg==
 
-"@react-native-community/cli-debugger-ui@^3.0.0":
+"@react-native-community/cli--ui@^3.0.0":
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cli--ui/-/cli--ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
   integrity sha512-m3X+iWLsK/H7/b7PpbNO33eQayR/+M26la4ZbYe1KRke5Umg4PIWsvg21O8Tw4uJcY8LA5hsP+rBi/syBkBf0g==
   dependencies:
     serve-static "^1.13.1"
@@ -905,7 +905,7 @@
   integrity sha512-fh7hZHNmGciBOIJHUdS4D6/7KaIlmdJLG0i/efxm7spuMI0uviWwz4IcjNRanFbAgYu3Yp4rfke+Gm/gcHSRaA==
   dependencies:
     "@hapi/joi" "^15.0.3"
-    "@react-native-community/cli-debugger-ui" "^3.0.0"
+    "@react-native-community/cli--ui" "^3.0.0"
     "@react-native-community/cli-tools" "^3.0.0"
     "@react-native-community/cli-types" "^3.0.0"
     chalk "^2.4.2"

@@ -4,7 +4,7 @@ const {checkToken} = require('./helpers')
 const {connection} = require('../database/database')
 
 const GET_CHECK_REFEREE_SERVICE_EXIST = "SELECT COUNT(*) as numberOfRefereeServices FROM RefereeService WHERE supplierId = ?"
-const POST_INSERT_REFEREE_SERVICE = "CALL insertRefereeService(?, ?, ?, ?, ?, ?, ?)"
+const POST_INSERT_REFEREE_SERVICE = "CALL insertRefereeService(?, ?, ?, ?, ?, ?, ?, ?)"
                                     
 // define the home page route
 router.get('/', async (req, res) => {
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/checkRefereeServiceExist
 router.get('/checkRefereeServiceExist', async (req, res) => {
-  debugger
+  
   const { supplierId = '' } = req.query
   //validate, check token ?  
   connection.query(GET_CHECK_REFEREE_SERVICE_EXIST,
@@ -30,7 +30,7 @@ router.get('/checkRefereeServiceExist', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
-        debugger
+        
         const { numberOfRefereeServices = 0 } = results[0]
         if (numberOfRefereeServices > 0) {
           res.json({
@@ -53,7 +53,7 @@ router.get('/checkRefereeServiceExist', async (req, res) => {
 //Link http://localhost:3000/suppliers/insertRefereeService
 router.post('/insertRefereeService', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers  
-  debugger
+  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   if(checkTokenResult == false) {
     res.json({
@@ -63,25 +63,29 @@ router.post('/insertRefereeService', async (req, res) => {
       time: Date.now()})
       return
   }
-  debugger
-  const {refereeName = '',      
+  
+  const {refereeName = '',   
+      phoneNumber,   
       supplierId = 0,
+      dateOfBirth,      
       latitude = '',
       longitude = '',
       address = '',
-      dateOfBirth,
-      radius = 10} = req.body    
-  debugger
+      
+      radius} = req.body    
+  
   //validate, check token ?  
   connection.query(POST_INSERT_REFEREE_SERVICE, 
-        [ refereeName, supplierId,
+        [ refereeName, 
+          phoneNumber,
+          supplierId,
           dateOfBirth,
         latitude,
         longitude,
         address,
         radius ]
     , (error, results) => {
-          debugger
+          
           if(error) {
               res.json({
                 result: "failed", 

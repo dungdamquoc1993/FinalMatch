@@ -10,17 +10,18 @@ import {
   DatePickerAndroid,
   Image
 } from 'react-native';
-import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert} from '../helpers/Helpers'
-import {insertRefereeService, getSupplierById} from '../server/myServices'
+import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert } from '../helpers/Helpers'
+import { insertRefereeService, getSupplierById } from '../server/myServices'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
-import {NavigationActions} from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 
 import {
   daysBetween2Dates,
   convertDayMonthYearToString,
+  convertDateToStringYYYYMMDD, 
   isIOS,
   convertDateToString,
 } from '../helpers/Helpers';
@@ -35,35 +36,34 @@ export class RefereeService extends Component {
     header: null,
   };
   state = {
-    isAddress: false,
-    age: '',
-    dateOfBirth: new Date (),
-    stringDateOfBirth: '',
+    age: 0,
+    refereeName: '',
     phoneNumber: '',
+    dateOfBirth: new Date(),
+    stringDateOfBirth: '',    
     showIOSDatePicker: false,
     currentLocation: {
-      address: 'giap nhat xx',
+      address: '',
       district: '',
       province: '',
-      latitude: 12.22, 
-      longitude: 11.11, 
+      latitude: 0.00,
+      longitude: 0.00,
     },
-    radius: 12
+    radius: 0
   }
   componentDidMount = async () => {
     try {
-      const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
-      const { data, message} = await getSupplierById(supplierId)      
-      const { phoneNumber, latitude, 
-                    longitude, radius, address} = data
-      debugger
-      this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
-    } catch(error) {
-      alert("Cannot get Supplier information"+error)
+      const { supplierId, tokenKey, email } = await getSupplierFromStorage()
+      const { data, message } = await getSupplierById(supplierId)
+      const { phoneNumber, latitude,
+        longitude, radius, address } = data      
+      this.setState({ phoneNumber, currentLocation: { latitude, longitude, address }, radius })
+    } catch (error) {
+      alertWithOKButton("Cannot get Supplier information" + error)
     }
   };
 
-  _displayAge (age) {
+  _displayAge(age) {
     if (age > 0) {
       return age > 1 ? `${age} ages` : `${age} age`;
     } else {
@@ -72,16 +72,16 @@ export class RefereeService extends Component {
   }
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission()
-    debugger
+
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         async (position) => {
-          debugger
+
           const { latitude, longitude } = position.coords
-          debugger
+
           const { address = '', district = '', province = '' } = await getAddressFromLatLong(latitude, longitude)
-          debugger
-          this.setState({ currentLocation: { address, district, province } })
+
+          this.setState({ currentLocation: { address, district, province, latitude, longitude } })
         },
         (error) => {
           console.log(error.code, error.message);
@@ -90,85 +90,75 @@ export class RefereeService extends Component {
       );
     }
   }
-  _insertRefereeService = async () => {        
-    const {refereeName} = this.state      
-    //const {latitude,longitude, address} = this.state.currentLocation
-    //fake
-    let latitude = 11.22; let longitude = 22.33; let radius = 12.11; let address = "xx11";//nho xoa
-    if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
-      alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+  _insertRefereeService = async () => {    
+    const {refereeName, radius, phoneNumber, dateOfBirth} = this.state    
+    const {address,latitude, longitude} = this.state.currentLocation
+    const { supplierId, email } = await getSupplierFromStorage()      
+
+    if (latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
+      alertWithOKButton("Bạn phải nút bấm nút lấy Location và chọn bán kính")
       return
     }
-    
-    try {      
-      const {supplierId, email} = await getSupplierFromStorage()      
-      /* chua test
-      await insertRefereeService(refereeName,        
+    try {          
+      const {message} = await insertRefereeService(refereeName,
+        phoneNumber,
         supplierId,
+        convertDateToStringYYYYMMDD(dateOfBirth),
         latitude,
         longitude,
         address,
         radius)
-        */
-       /*da test ok */
-       const {message } = await insertRefereeService("tt x",        
-        supplierId,
-        12.22,
-        22.33,
-        "nha xua x",
-        50.00)        
-      if(message.length  == 0) {
+      if (message.length == 0) {
         alertWithOKButton("Insert referee service successfully", () => {
           this.props.stackNavigation.dispatch(NavigationActions.back())
-        })      
+        })
       } else {
         alertWithOKButton(message, null)
-      }      
-    } catch(error) {
-      alert('Cannot get data from Server'+error)
-    } 
-    
+      }
+    } catch (error) {
+      alertWithOKButton('Cannot get data from Server' + error)
+    }
+
   }
   _onPressDateTextInput = async () => {
     try {
-      debugger;
-      if (isIOS ()) {
-        this.setState ({showIOSDatePicker: true});
+      ;
+      if (isIOS()) {
+        this.setState({ showIOSDatePicker: true });
         return;
       }
-      const {action, year, month, day} = await DatePickerAndroid.open ({
-        date: new Date (),
+      const { action, year, month, day } = await DatePickerAndroid.open({
+        date: new Date(),
         mode: 'spinner',
       });
-      let selectedDate = new Date (year, month, day);
-      let today = new Date ();
+      let selectedDate = new Date(year, month, day);
+      let today = new Date();
       if (action === DatePickerAndroid.dateSetAction) {
-        this.setState ({
+        this.setState({
           dateOfBirth: selectedDate,
-          stringDateOfBirth: convertDayMonthYearToString (day, month, year),
-          age: daysBetween2Dates (today, selectedDate),
+          stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+          age: daysBetween2Dates(today, selectedDate),
         });
       }
-    } catch ({code, message}) {
-      console.warn ('Cannot open date picker', message);
+    } catch ({ code, message }) {
+      console.warn('Cannot open date picker', message);
     }
   }
-  render() {    
+  render() {
     const {
-      name,
+      refereeName,
       age,
       dateOfBirth,
       phoneNumber,
       stringDateOfBirth,
       showIOSDatePicker,
-    } = this.state;
+      radius
+    } = this.state
     const {
       address = '',
       district = '',
       province = '',
-    } = this.state.currentLocation;
-    const { isAddress } = this.state    
-    const {radius} = this.state
+    } = this.state.currentLocation
 
     return (
       <SafeAreaView style={styles.container}>
@@ -182,6 +172,10 @@ export class RefereeService extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            value={refereeName}
+            onChangeText={(refereeName) => {
+              this.setState({refereeName})
+            }}
             placeholder={'Please enter name'}
           />
         </View>
@@ -191,55 +185,65 @@ export class RefereeService extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            value={phoneNumber}
+            onChangeText={(phoneNumber) => {
+              this.setState({phoneNumber})
+            }}
             placeholder={'Please enter phone number'}
             keyboardType={'number-pad'}
           />
         </View>
         <View style={styles.dateTime}>
-            <Text style={styles.textLabel}>
-              Tuổi:
+          <Text style={styles.textLabel}>
+            Tuổi:
             </Text>
-            <TouchableOpacity
-              style={[
-                styles.textInput,
-                {width: '40%'},
-                isIOS () && {paddingTop: 10},
-              ]}
+          <TouchableOpacity
+            style={[
+              styles.textInput,
+              { width: '40%' },
+              isIOS() && { paddingTop: 10 },
+            ]}
+            onPress={() => {
+              this._onPressDateTextInput();
+            }}
+          >
+            <TextInput
+              keyboardType={'default'}
+              placeholder={'dd/mm/yyyy'}
+              editable={false}
+              value={stringDateOfBirth}
               onPress={() => {
-                this._onPressDateTextInput ();
+                this._onPressDateTextInput();
               }}
-            >
-              <TextInput
-                keyboardType={'default'}
-                placeholder={'dd/mm/yyyy'}
-                editable={false}
-                value={stringDateOfBirth}
-                onPress={() => {
-                  this._onPressDateTextInput ();
-                }}
-                // value={"djsijhd"}
-              />
-            </TouchableOpacity>
-            <Text style={styles.age}>
-              {this._displayAge (age)}
-            </Text>
-          </View>
+            // value={"djsijhd"}
+            />
+          </TouchableOpacity>
+          <Text style={styles.age}>
+            {this._displayAge(age)}
+          </Text>
+        </View>
         <TouchableOpacity onPress={() => {
           this._pressLocation()
         }}
-        style={styles.buttonGetLocation}
+          style={styles.buttonGetLocation}
         >
           <Text style={styles.textGetLocation}> Get Location</Text>
-          <Image source={require("../images/placeholder.png")} style={{height:30,width:30}}/>
+          <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
         </TouchableOpacity>
         {(address.length > 0 || district.length > 0 || province.length > 0)
           && <Text>{address} - {district} - {province}</Text>}
-          <View style={styles.radiusInput}>
+        <View style={styles.radiusInput}>
           <Text style={styles.textLabelRadius}>
             Bán kính phục vụ:
           </Text>
-          <View style={styles.dropDownRadius}>            
-            <TextInput placeholder="Radius ?"></TextInput>
+          <View style={styles.dropDownRadius}>
+            <TextInput placeholder="Radius ?" 
+            onChangeText = {(text) => {
+              this.setState({radius: parseInt(text)})
+            }}
+            value={`${radius}`}>
+
+            </TextInput>
           </View>
 
         </View>
@@ -248,7 +252,7 @@ export class RefereeService extends Component {
         }}>
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
-        {isIOS () &&
+        {isIOS() &&
           showIOSDatePicker &&
           <View>
             <View
@@ -260,7 +264,7 @@ export class RefereeService extends Component {
             >
               <TouchableOpacity
                 onPress={() => {
-                  this.setState ({showIOSDatePicker: false});
+                  this.setState({ showIOSDatePicker: false });
                 }}
               >
                 <Text>Save</Text>
@@ -268,13 +272,13 @@ export class RefereeService extends Component {
             </View>
             <DatePicker
               mode={'date'}
-              date={this.state.dateOfBirth}
+              date={dateOfBirth}
               onDateChange={dateOfBirth => {
-                const today = new Date ();
-                this.setState ({
+                const today = new Date();
+                this.setState({
                   dateOfBirth,
-                  stringDateOfBirth: convertDateToString (dateOfBirth),
-                  age: daysBetween2Dates (today, dateOfBirth),
+                  stringDateOfBirth: convertDateToString(dateOfBirth),
+                  age: daysBetween2Dates(today, dateOfBirth),
                 });
               }}
             />
