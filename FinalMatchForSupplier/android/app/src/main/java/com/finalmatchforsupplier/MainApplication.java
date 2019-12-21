@@ -1,4 +1,4 @@
-package com.training;
+package com.finalmatchforsupplier;
 
 import android.app.Application;
 import android.content.Context;
