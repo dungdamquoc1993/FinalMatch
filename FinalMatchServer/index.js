@@ -1,13 +1,16 @@
 /**
- * yarn add express http request express mysql
+ * yarn add express http request express mysql express-fileupload
  */
-const { HOSTNAME, PORT} = require('./constants/constants')
+const { HOSTNAME, PORT, MAXMUM_FILE_SIZE} = require('./constants/constants')
 const {app} = require('./server')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+app.use(fileUpload({
+    limits: { fileSize: MAXMUM_FILE_SIZE * 1024 * 1024 },  //Maximum = 50 MB  
+}))
 const SupplierRoute = require('./routings/SupplierRoute')
 const PlayerServiceRoute = require('./routings/PlayerServiceRoute')
 const RefereeServiceRoute = require('./routings/RefereeServiceRoute')

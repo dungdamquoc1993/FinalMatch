@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS Supplier (
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500) DEFAULT ''    
 );
+ALTER TABLE Supplier DROP COLUMN avatar;
+ALTER TABLE Supplier ADD avatar VARCHAR(500) DEFAULT '';
+
 --Màn hình "Đăng ký dịch vụ"
 DROP TABLE PlayerService;
 CREATE TABLE IF NOT EXISTS PlayerService (    
