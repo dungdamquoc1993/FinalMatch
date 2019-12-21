@@ -54,7 +54,7 @@ class LoginRegister extends Component {
                 alert("Cannot login Facebook: " +error)
                 //console.log("Login fail with error: " + error);
             })
-        */
+        
     }
     _login = async () => {
         this.setState({isLogin: true})
