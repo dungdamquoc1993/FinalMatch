@@ -29,11 +29,11 @@ class LoginRegister extends Component {
         const stackNavigation = this.props.navigation
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        /**
-         * Bo qua login facebook
+        
+        //* Bo qua login facebook
         this.props.navigation.navigate("MyTabNavigator", { email })
         return
-         */
+        
         debugger
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
             (result) => {
@@ -54,7 +54,7 @@ class LoginRegister extends Component {
                 alert("Cannot login Facebook: " +error)
                 //console.log("Login fail with error: " + error);
             })
-
+        */
     }
     _login = async () => {
         this.setState({isLogin: true})

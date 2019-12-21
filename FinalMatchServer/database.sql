@@ -64,6 +64,8 @@ CREATE TABLE IF NOT EXISTS Orders (
     dateTimeStart DATETIME,    
     dateTimeEnd DATETIME
 );
+ALTER TABLE Orders ADD typeRole ENUM('player', 'referee') NOT NULL;
+
 ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
 --Customer
 --https://maps.googleapis.com/maps/api/geocode/json?address=Thanh%20Xuan,%20Ha%20Noi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
@@ -278,6 +280,7 @@ CREATE VIEW viewSupplierPlayerService AS
 SELECT 
 Supplier.id as supplierId,
 Supplier.name as name,
+Supplier.avatar as avatar,
 Supplier.password as password,
 Supplier.phoneNumber as phoneNumber,
 Supplier.dateOfBirth as dateOfBirth,
@@ -304,6 +307,7 @@ CREATE VIEW viewSupplierRefereeService AS
 SELECT 
 Supplier.id as supplierId,
 Supplier.name as name,
+Supplier.avatar as avatar,
 Supplier.password as password,
 Supplier.phoneNumber as phoneNumber,
 Supplier.dateOfBirth as dateOfBirth,
@@ -317,12 +321,12 @@ Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
-RefereeService.refereeName as refereeName,
-RefereeService.position as position
+RefereeService.refereeName as refereeName
 FROM Supplier 
-INNER JOIN RefereeService 
+LEFT JOIN RefereeService 
 ON Supplier.id=RefereeService.supplierId 
 ORDER BY Supplier.id;
+
 
 
 --Tổng số trận đã đấu?
@@ -331,16 +335,35 @@ SELECT * FROM viewSupplierPlayerService;
 SELECT playerName, phoneNumber, position, latitude, longitude, radius, address FROM viewSupplierPlayerService;
 --Check dich vu cau thu, Mr A co dich vu cau thu chua?
 SELECT COUNT(*) FROM PlayerService WHERE supplierId = 
+
 DROP VIEW viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
 
 SELECT viewSupplierPlayerService.*, 
 RefereeService.refereeName FROM viewSupplierPlayerService
-INNER JOIN RefereeService 
+LEFT JOIN RefereeService 
 ON viewSupplierPlayerService.supplierId=RefereeService.supplierId
 ORDER BY RefereeService.supplierId;
 
 SELECT * FROM viewSupplierServices;
+
+DROP VIEW viewSupplierServicesOrders;
+CREATE VIEW viewSupplierServicesOrders AS
+
+SELECT viewSupplierServices.*, 
+Orders.id as orderId,
+Orders.customerId as customerId,
+Orders.point as orderPoint,
+Orders.status as status,
+Orders.typeRole as typeRole,
+Orders.dateTimeStart as dateTimeStart,
+Orders.dateTimeEnd as dateTimeEnd
+FROM viewSupplierServices
+LEFT JOIN Orders 
+ON viewSupplierServices.supplierId = Orders.supplierId
+ORDER BY Orders.supplierId;
+
+SELECT * FROM viewSupplierServicesOrders;
 
 --Trước khi vào PlayerService, kiểm tra xem supplier đã đăng ký "dịch vụ cầu thủ" chưa ?
 SELECT COUNT(*) FROM PlayerService WHERE supplierId=1;

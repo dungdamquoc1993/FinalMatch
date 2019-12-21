@@ -6,6 +6,7 @@ import {
   StyleSheet,
   DatePickerAndroid,
   TextInput,
+  Image, 
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -37,6 +38,7 @@ import Geolocation from 'react-native-geolocation-service';
 export default class Settings extends Component {
   state = {
     name: '',
+    avatar: '',
     age: '',
     dateOfBirth: new Date (),
     stringDateOfBirth: '',
@@ -54,7 +56,13 @@ export default class Settings extends Component {
       longitude: 0.0,
     },
     radius: 0.0,
-  };
+  }
+  async componentDidMount() {
+    
+  }
+  _chooseAvatar() {
+    alert("chon avvvv")
+  }
   _displayAge (age) {
     if (age > 0) {
       return age > 1 ? `${age} ages` : `${age} age`;
@@ -128,12 +136,22 @@ export default class Settings extends Component {
       district = '',
       province = '',
     } = this.state.currentLocation;
-    const {radius} = this.state;
-    const {isGK, isCB, isMF, isCF} = this.state;
+    const {radius, avatar} = this.state;
+    const {isGK, isCB, isMF, isCF} = this.state;    
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} />
+        <View style={styles.avatar}> 
+          <TouchableOpacity onPress={() => {
+            this._chooseAvatar()
+          }}>
+            <Image source={avatar.length > 0 ? { uri: avatar } : require('../images/defaultAvatar.png')}
+              style={styles.avatarImage}
+            >
 
+            </Image>
+          </TouchableOpacity>          
+        </View>
         <View style={styles.scrollView}>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
@@ -361,6 +379,16 @@ const styles = StyleSheet.create ({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
+  },
+  avatar: {
+    width: '100%', 
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  avatarImage: {
+    width: 80, 
+    height: 80, 
+    borderRadius: 40
   },
   scrollView: {
     width: '100%',
