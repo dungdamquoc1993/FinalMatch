@@ -80,7 +80,7 @@ export const tokenCheck = async (tokenKey,supplierId) => {
         const {result, data, message, time} = responseJson
         return {result, data, message, time}
     } catch (error) {        
-        return error
+        return {result:'failed', data: {}, message: error}        
     }
 }
 export const insertPlayerService = async (playerName,position,supplierId,latitude,longitude,address,radius) => {
