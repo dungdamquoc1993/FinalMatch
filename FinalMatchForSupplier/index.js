@@ -5,10 +5,10 @@
  * rm -rf Pods
  * rm -rf Podfile.lock
  * pod install
- * yarn add redux react-redux
+ * yarn add redux react-redux react-native-vector-icons
  * react-native link @react-native-community/geolocation
  * yarn add @react-native-community/async-storage
- * npm install --save react-native-fbsdk
+ * npm install --save react-native-fbsdk 
  * 
  */
 

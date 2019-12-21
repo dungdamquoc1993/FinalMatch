@@ -34,22 +34,25 @@ class LoginRegister extends Component {
         this.props.navigation.navigate("MyTabNavigator", { email })
         return
          */
+        debugger
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-            function (result) {
+            (result) => {
                 if (result.isCancelled) {
                     console.log("Login cancelled");
                 } else {
 
                     AccessToken.getCurrentAccessToken().then(accessToken => {
                         debugger
-                        console.log("dd")
+                        //alert(accessToken)
                         this.props.navigation.navigate("MyTabNavigator", { email })
                     }).catch(error => {
+                        alert(error)
                         console.log("Cannot get access token:" + error)
                     })
                 }
-            }).catch(function (error) {
-                console.log("Login fail with error: " + error);
+            }).catch((error) => {
+                alert("Cannot login Facebook: " +error)
+                //console.log("Login fail with error: " + error);
             })
 
     }
