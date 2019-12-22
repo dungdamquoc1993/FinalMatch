@@ -3,7 +3,7 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-
+Podfile.lock
 # Other files and folders
 .settings/
 Podfile.lock
