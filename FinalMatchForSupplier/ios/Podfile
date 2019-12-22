@@ -33,21 +33,8 @@ target 'FinalMatchForSupplier' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-  target 'FinalMatchForSupplierTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
   use_native_modules!
-end
-
-target 'FinalMatchForSupplier-tvOS' do
-  # Pods for FinalMatchForSupplier-tvOS
-
-  target 'FinalMatchForSupplier-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
 end
+

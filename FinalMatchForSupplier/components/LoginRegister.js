@@ -26,6 +26,7 @@ class LoginRegister extends Component {
     }
     _loginWithFacebook = async () => {
         const { email } = this.state
+        debugger
         const stackNavigation = this.props.navigation
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
