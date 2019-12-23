@@ -6,7 +6,7 @@ import {
   StyleSheet,
   DatePickerAndroid,
   TextInput,
-  Image, 
+  Image,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -56,12 +56,10 @@ export default class Settings extends Component {
       longitude: 0.0,
     },
     radius: 0.0,
-  }
-  async componentDidMount() {
-    
-  }
-  _chooseAvatar() {
-    alert("chon avvvv")
+  };
+  async componentDidMount () {}
+  _chooseAvatar () {
+    alert ('chon avvvv');
   }
   _displayAge (age) {
     if (age > 0) {
@@ -72,7 +70,6 @@ export default class Settings extends Component {
   }
   _onPressDateTextInput = async () => {
     try {
-      ;
       if (isIOS ()) {
         this.setState ({showIOSDatePicker: true});
         return;
@@ -95,7 +92,6 @@ export default class Settings extends Component {
     }
   };
   _pressLocation = async () => {
-    
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
@@ -137,22 +133,28 @@ export default class Settings extends Component {
       province = '',
     } = this.state.currentLocation;
     const {radius, avatar} = this.state;
-    const {isGK, isCB, isMF, isCF} = this.state;    
+    const {isGK, isCB, isMF, isCF} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} />
-        <View style={styles.avatar}> 
-          <TouchableOpacity onPress={() => {
-            this._chooseAvatar()
-          }}>
-            <Image source={avatar.length > 0 ? { uri: avatar } : require('../images/defaultAvatar.png')}
+        <View style={styles.avatar}>
+          <TouchableOpacity
+            onPress={() => {
+              this._chooseAvatar ();
+            }}
+          >
+            <Image
+              source={
+                avatar.length > 0
+                  ? {uri: avatar}
+                  : require ('../images/defaultAvatar.png')
+              }
               style={styles.avatarImage}
-            >
-
-            </Image>
-          </TouchableOpacity>          
+            />
+          </TouchableOpacity>
         </View>
-        <View style={styles.scrollView}>
+        <ScrollView style={styles.scrollView}>
+
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
               Tên:
@@ -210,74 +212,69 @@ export default class Settings extends Component {
             />
           </View>
           {/* Quan ly dich vu */}
-          
           <View style={styles.serviceArea}>
-            <View>
-
+            <View style={{height: 50}}>
               <TouchableOpacity
                 onPress={() => {
-                  this._pressLocation();
+                  this._pressLocation ();
                 }}
-                style={styles.buttonGetLocation} >
-                <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
+                style={styles.buttonGetLocation}
+              >
+                <FontAwesome5
+                  name={'map-marker-alt'}
+                  size={30}
+                  color={'black'}
+                />
               </TouchableOpacity>
             </View>
-
-            <View style = {styles.radius}>
-
+            <View style={styles.radius}>
               <Text style={styles.radiusLabel}>
                 Bán kính làm việc:
-            </Text>
-
+              </Text>
               <TextInput
                 style={styles.radiusInput}
                 placeholder={'Enter radius'}
                 keyboardType={'numeric'}
                 value={radius}
                 onChangeText={radius => {
-                  this.setState({ radius });
+                  this.setState ({radius});
                 }}
               />
             </View>
-
           </View>
-        </View>
-        {isIOS () &&
-          showIOSDatePicker &&
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                height: 40,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState ({showIOSDatePicker: false});
+          {isIOS () &&
+            showIOSDatePicker &&
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  height: 40,
                 }}
               >
-                <Text>Save</Text>
-              </TouchableOpacity>
-            </View>
-            <DatePicker
-              mode={'date'}
-              date={this.state.dateOfBirth}
-              onDateChange={dateOfBirth => {
-                const today = new Date ();
-                this.setState ({
-                  dateOfBirth,
-                  stringDateOfBirth: convertDateToString (dateOfBirth),
-                  age: daysBetween2Dates (today, dateOfBirth),
-                });
-              }}
-            />
-          </View>}
-
-        {/* get location  */}
-        {/* ban kinh */}
-
-        <ScrollView style={{width: '100%', height: 200}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState ({showIOSDatePicker: false});
+                  }}
+                >
+                  <Text>Save</Text>
+                </TouchableOpacity>
+              </View>
+              <DatePicker
+                mode={'date'}
+                date={this.state.dateOfBirth}
+                onDateChange={dateOfBirth => {
+                  const today = new Date ();
+                  this.setState ({
+                    dateOfBirth,
+                    stringDateOfBirth: convertDateToString (dateOfBirth),
+                    age: daysBetween2Dates (today, dateOfBirth),
+                  });
+                }}
+              />
+            </View>}
+          {/* get location  */}
+          {/* ban kinh */}
           <View
             style={{
               borderRadius: 5,
@@ -286,11 +283,14 @@ export default class Settings extends Component {
               alignItems: 'center',
             }}
           >
+
+
+          
             <View style={styles.personalInformation}>
               <Text style={styles.textLabel}>Role: </Text>
               <Text style={styles.textRole}>Cầu thủ</Text>
             </View>
-            <Text style={{marginBottom: 5}}>Position</Text>
+            <Text style={{marginBottom: 5,fontSize:20}}>Position</Text>
             <View style={styles.positions}>
               <TouchableOpacity
                 style={styles.eachPosition}
@@ -359,21 +359,16 @@ export default class Settings extends Component {
               <Text style={styles.textRolereferee}>Trọng tài</Text>
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Completed watch: </Text>
-              <Text style={styles.textRolereferee}>11</Text>
+              <Text style={styles.textLableReferee}>Completed : </Text>
+              <Text style={styles.textRolereferee}> 11</Text>
             </View>
-
           </View>
-
         </ScrollView>
-
       </SafeAreaView>
     );
   }
 }
-
 const styles = StyleSheet.create ({
-
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -381,21 +376,21 @@ const styles = StyleSheet.create ({
     flex: 1,
   },
   avatar: {
-    width: '100%', 
+    width: '100%',
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   },
   avatarImage: {
-    width: 80, 
-    height: 80, 
-    borderRadius: 40
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   scrollView: {
     width: '100%',
     margin: 3,
     padding: 5,
   },
-  
+
   dateTime: {
     flexDirection: 'row',
     height: 60,
@@ -409,16 +404,15 @@ const styles = StyleSheet.create ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red'
   },
   textLabel: {
     width: '20%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
-    fontSize : 20
+    fontSize: 20,
   },
-  
+
   textInput: {
     width: '80%',
     height: 40,
@@ -431,17 +425,25 @@ const styles = StyleSheet.create ({
   },
   radius: {
     flexDirection: 'row',
-    justifyContent: "space-around",
+    justifyContent: 'space-around',
     width: '100%',
+    height: 50,
     padding: 5,
     margin: 2,
-    backgroundColor: 'blue'
+  },
+  serviceArea: {
+    flexDirection: 'column',
+    height: 60,
+    width: '100%',
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   radiusLabel: {
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
-    fontSize : 20  
+    fontSize: 20,
   },
   radiusInput: {
     height: 40,
@@ -451,6 +453,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
+    width: 100,
   },
   age: {
     width: '40%',
@@ -463,6 +466,7 @@ const styles = StyleSheet.create ({
     marginEnd: 30,
     color: 'black',
     lineHeight: 40,
+    fontSize:20
   },
   positions: {
     flexDirection: 'row',
@@ -483,24 +487,20 @@ const styles = StyleSheet.create ({
     flexDirection: 'row',
     marginVertical: 10,
   },
-  serviceArea: {
-    flexDirection: 'column',
-    height: 60,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   textRolereferee: {
     width: '60%',
     height: 40,
     marginEnd: 30,
     color: 'black',
     lineHeight: 40,
+    fontSize:20
   },
   textLableReferee: {
     width: '40%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
+    fontSize:20
   },
 });
