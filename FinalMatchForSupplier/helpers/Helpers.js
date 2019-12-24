@@ -76,3 +76,26 @@ export const getSupplierFromStorage = async () => {
     debugger
     return {tokenKey, supplierId, email}
 }
+
+export const getPosition = (positionObject) => {
+    const {isGK = false, isCB = false, isMF = false, isCF = false} = positionObject
+    return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
+}
+export const setPosition = (position = '0000') => {
+    return {
+        isGK: parseInt(position[0]) == 0 ? false : true,
+        isCB: parseInt(position[0]) == 0 ? false : true,
+        isMF: parseInt(position[0]) == 0 ? false : true,
+        isCF: parseInt(position[0]) == 0 ? false : true,
+    }
+}
+
+
+
+
+
+
+
+
+
+

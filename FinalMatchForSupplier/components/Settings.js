@@ -13,18 +13,25 @@ import {
 import Header from './Header';
 import {
   daysBetween2Dates,
+  getSupplierFromStorage,
   convertDayMonthYearToString,
+  saveSupplierToStorage,
   isIOS,
   convertDateToString,
+  setPosition,
+  getPosition
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
+import {
+  getSupplierServicesOrders
+} from '../server/myServices'
 
 import DatePicker from 'react-native-date-picker';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Geolocation from 'react-native-geolocation-service';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Geolocation from 'react-native-geolocation-service'
 
 /**
  * yarn add react-native-date-picker
@@ -38,26 +45,63 @@ import Geolocation from 'react-native-geolocation-service';
 export default class Settings extends Component {
   state = {
     name: '',
+    point: null, 
+    phoneNumber: '',              
+    facebookId: '', 
+    email: '', 
+    userType: 'default',
+    address: '',               
+    playerName: '', 
+    position: '0000',
+    refereeName: '',
+    orderId: 0,
+    customerId: '',
+    orderPoint: null,
+    status: '',
+    typeRole: '',
+    dateTimeStart: new Date(),
+    dateTimeEnd: new Date(),
     avatar: '',
     age: '',
     dateOfBirth: new Date (),
-    stringDateOfBirth: '',
-    phoneNumber: '',
+    stringDateOfBirth: '',    
     showIOSDatePicker: false,
     isGK: false,
     isCB: false,
     isMF: false,
     isCF: false,
     currentLocation: {
-      address: '',
-      district: '',
+      address: '',      
       province: '',
       latitude: 0.0,
       longitude: 0.0,
     },
     radius: 0.0,
   };
-  async componentDidMount () {}
+
+  async componentDidMount () {    
+    const {supplierId, email} = await getSupplierFromStorage()      
+    //call api
+    
+    try {  
+        const { data, message} =  await getSupplierServicesOrders(supplierId)        
+        const { name, position, dateOfBirth, dateOfBirthObject } = data
+        const {day, month, year} = dateOfBirthObject
+
+        alert(dateOfBirthObject)        
+        const {isGK, isCB, isMF, isCF} = setPosition(position)
+        this.setState({
+          isGK, isCB, isMF, isCF,          
+          name, position,
+          stringDateOfBirth: convertDayMonthYearToString(day, month, year)
+        })
+    } catch (error) {               
+        alert(`Cannot getSupplierServicesOrders. error = ${error}`)
+    }
+    
+
+  }
+
   _chooseAvatar () {
     alert ('chon avvvv');
   }
@@ -132,7 +176,7 @@ export default class Settings extends Component {
       district = '',
       province = '',
     } = this.state.currentLocation;
-    const {radius, avatar} = this.state;
+    const {radius, avatar} = this.state;    
     const {isGK, isCB, isMF, isCF} = this.state;
     return (
       <SafeAreaView style={styles.container}>

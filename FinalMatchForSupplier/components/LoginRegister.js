@@ -65,16 +65,16 @@ class LoginRegister extends Component {
     }
     _loginOrRegister = async () => {
         try {
+
             const { email, password, retypePassword, isLogin } = await this.state
-            if(isLogin != true) {
+            if(isLogin != true) {                
                 if(retypePassword != password) {
                     alert('Password and retype password does not match')
                     return
                 }
-            }            
+            }                        
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
-                                                        await registerSupplier(email, password)
-            
+                                                        await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
                 saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation

@@ -31,12 +31,14 @@ class Splash extends Component {
             //animations by sequence
             Animated.timing(this.state.logoOpacity,{
                 toValue: 1,                  
-                duration: 1500,              
+                //duration: 1500,              
+                duration: 10,              
             }),
             //Animate Text ?
             Animated.timing(this.state.titleMarginTop, {
                 toValue: 10,
-                duration: 1000, //1000 miliseconds = 1 second
+                //duration: 1000, //1000 miliseconds = 1 second
+                duration: 10,              
             })
         ]).start(async () => {
             //End of animations

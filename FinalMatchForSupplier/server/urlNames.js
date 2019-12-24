@@ -1,6 +1,6 @@
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
-const SERVER_NAME = '192.168.1.59' //mrDung
-//const SERVER_NAME = '192.168.1.149' //Giap Nhat
+//const SERVER_NAME = '192.168.1.59' //mrDung
+const SERVER_NAME = '192.168.1.149' //Giap Nhat
 // const SERVER_NAME = '192.168.1.88' //mrHoang
 const SERVER_PORT = '3000'
 
@@ -34,4 +34,7 @@ export const urlGetAddressFromLatLong = (latitude, longitude) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}`
 }
 
+export const urlGetSupplierServicesOrders = (supplierId) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getSupplierServicesOrders?supplierId=${supplierId}`
+}
 

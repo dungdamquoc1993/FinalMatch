@@ -5,7 +5,8 @@ import {urlLoginSupplier,
     urlCheckPlayerServiceExist,
     urlTokenCheck,
     urlInsertRefereeService,
-    urlCheckRefereeServiceExist
+    urlCheckRefereeServiceExist,
+    urlGetSupplierServicesOrders    
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 
@@ -44,7 +45,7 @@ export const loginSupplier = async (email, password) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({email, password}),
-        })               
+        })             
         const responseJson = await response.json();
         const {result, data, message, time} = responseJson
         const {tokenKeySupplierId = ''} = data
@@ -202,6 +203,22 @@ export const getSupplierById = async (supplierId) => {
             return { data: {phoneNumber, latitude, longitude, radius, address}, message}
         }
     } catch (error) {        
+        return { data, message: error}
+    }
+}
+
+export const getSupplierServicesOrders = async (supplierId) => {
+    try {                    
+        const response = await fetch(await urlGetSupplierServicesOrders(supplierId))               
+        const responseJson = await response.json();                
+        const {result, data, message, time} = responseJson                   
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??              
+            return { data, message: ''}
+        } else {    
+            return { data, message}
+        }
+    } catch (error) {               
         return { data, message: error}
     }
 }

@@ -21,7 +21,14 @@ const checkToken = (tokenKey = '', supplierId = 0) => {
         }) 
     })
 }
-
+const convertDateToDayMonthYear = (date) => {
+    return {
+        day: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+    }
+}
 module.exports = {
-    checkToken
+    checkToken,
+    convertDateToDayMonthYear
 }

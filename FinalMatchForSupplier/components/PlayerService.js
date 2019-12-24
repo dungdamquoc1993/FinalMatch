@@ -14,22 +14,18 @@ import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
 import { connect } from 'react-redux'
-
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
 import {insertPlayerService, getSupplierById} from '../server/myServices'
-import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton} from '../helpers/Helpers'
+import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition} from '../helpers/Helpers'
 import {NavigationActions} from 'react-navigation'
 class PlayerService extends Component {
   static navigationOptions = {
     header: null,
   };
-  getPosition() {
-    const {isGK = false, isCB = false, isMF = false, isCF = false} = this.state
-    return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
-  }
+  
   constructor (props) {
     super (props);
     this.state = {
@@ -70,7 +66,7 @@ class PlayerService extends Component {
     //Test ok in postman
     const {playerName, radius} = this.state
     
-    const position = this.getPosition()
+    const position = this.getPosition(this.state)
     const {latitude,longitude, address} = this.state.currentLocation
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")

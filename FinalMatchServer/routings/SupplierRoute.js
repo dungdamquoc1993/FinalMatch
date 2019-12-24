@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const {checkToken} = require('./helpers')
+const {checkToken, convertDateToDayMonthYear} = require('./helpers')
 const {connection} = require('../database/database')
 const fs = require('fs')//fs = file system
 const path = require('path')
@@ -9,7 +9,9 @@ const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupp
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
 const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latitude, Y(point) as longitude,"+
                                     "radius, address FROM Supplier WHERE id = ?"
-const POST_UPDATE_AVATAR_FOR_SUPPLIER = "UPDATE Supplier SET Supplier.avatar = ? WHERE Supplier.id = ?"                                    
+const POST_UPDATE_AVATAR_FOR_SUPPLIER = "UPDATE Supplier SET Supplier.avatar = ? WHERE Supplier.id = ?"    
+const GET_SUPPLIER_SERVICES_ORDERS = "SELECT * FROM viewSupplierServicesOrders WHERE supplierId = ?" 
+
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 // define the home page route
 router.get('/', async (req, res) => {
@@ -225,4 +227,63 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
       }
     })
 })
+//Link http://localhost:3000/suppliers/getSupplierServicesOrders
+router.get('/getSupplierServicesOrders', async (req, res) => {  
+  const { supplierId = '' } = req.query
+  debugger
+  connection.query(GET_SUPPLIER_SERVICES_ORDERS,
+    [supplierId]
+    , (error, results) => {
+      debugger
+      if(error) {
+        res.json({
+          result: "failed",
+          data: {},
+          message: error.sqlMessage,
+          time: Date.now()
+        })
+        return
+      }
+      if (results != null && results.length > 0) {
+        debugger        
+        let data = {...results[0]} //... = spread object
+        const { 
+                name, 
+                avatar,
+                point, 
+                phoneNumber,
+                dateOfBirth,                
+                facebookId, 
+                email, 
+                userType,
+                address,
+                radius, 
+                playerName, 
+                position,
+                refereeName,
+                orderId,
+                customerId,
+                orderPoint,
+                status,
+                typeRole,
+                dateTimeStart,
+                dateTimeEnd} = data
+          data.dateOfBirthObject = convertDateToDayMonthYear(dateOfBirth)  
+          res.json({
+            result: "ok",
+            data,
+            message: `Get SupplierServicesOrders successfully`,
+            time: Date.now()
+          })             
+      } else {
+        res.json({
+              result: "failed",
+              data: {},
+              message: `Cannot find Supplier with id = ${supplierId}`,
+              time: Date.now()
+        })
+      }
+    })
+})
+
 module.exports = router
