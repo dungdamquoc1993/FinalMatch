@@ -84,9 +84,9 @@ export const getPosition = (positionObject) => {
 export const setPosition = (position = '0000') => {
     return {
         isGK: parseInt(position[0]) == 0 ? false : true,
-        isCB: parseInt(position[0]) == 0 ? false : true,
-        isMF: parseInt(position[0]) == 0 ? false : true,
-        isCF: parseInt(position[0]) == 0 ? false : true,
+        isCB: parseInt(position[1]) == 0 ? false : true,
+        isMF: parseInt(position[2]) == 0 ? false : true,
+        isCF: parseInt(position[3]) == 0 ? false : true,
     }
 }
 

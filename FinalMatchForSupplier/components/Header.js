@@ -15,10 +15,11 @@ class Header extends Component {
         super(props)
     }
     render() {
-        const {title, hideBack = false} = this.props
+        const {title, hideBack = false, pressBackButton} = this.props
         return <View style={styles.container}>
             {hideBack === false && <FontAwesome5
-                onPress={() => {
+                onPress={async () => {
+                    await pressBackButton()
                     this.props.stackNavigation.dispatch(NavigationActions.back())
                 }}
                 name={"arrow-circle-left"} size={50} 

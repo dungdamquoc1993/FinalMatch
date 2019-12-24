@@ -297,7 +297,7 @@ Supplier.tokenKey as tokenKey,
 PlayerService.playerName as playerName,
 PlayerService.position as position
 FROM Supplier 
-INNER JOIN PlayerService 
+LEFT JOIN PlayerService 
 ON Supplier.id=PlayerService.supplierId 
 ORDER BY Supplier.id;
 
@@ -354,8 +354,6 @@ SELECT viewSupplierServices.*,
 Orders.id as orderId,
 Orders.customerId as customerId,
 Orders.point as orderPoint,
-X(Orders.point) as latitude,
-Y(Orders.point) as longitude,
 Orders.status as status,
 Orders.typeRole as typeRole,
 Orders.dateTimeStart as dateTimeStart,

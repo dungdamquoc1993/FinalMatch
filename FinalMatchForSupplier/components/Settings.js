@@ -78,22 +78,31 @@ export default class Settings extends Component {
     },
     radius: 0.0,
   };
-
+  _saveSettings() {
+    alert("aa")
+  }
   async componentDidMount () {    
     const {supplierId, email} = await getSupplierFromStorage()      
     //call api
     
     try {  
         const { data, message} =  await getSupplierServicesOrders(supplierId)        
-        const { name, position, dateOfBirth, dateOfBirthObject } = data
-        const {day, month, year} = dateOfBirthObject
-
-        alert(dateOfBirthObject)        
+        const { name, position, dateOfBirth, phoneNumber, 
+                dateOfBirthObject, radius,address, playerName = '',
+                refereeName = '',
+              } = data
+                
+        const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
+        //
+        
         this.setState({
           isGK, isCB, isMF, isCF,          
-          name, position,
-          stringDateOfBirth: convertDayMonthYearToString(day, month, year)
+          name, position, phoneNumber,radius, playerName, refereeName,
+          stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+          currentLocation: {
+            address
+          }
         })
     } catch (error) {               
         alert(`Cannot getSupplierServicesOrders. error = ${error}`)
@@ -168,19 +177,24 @@ export default class Settings extends Component {
       age,
       dateOfBirth,
       phoneNumber,
+      radius, avatar,    
+      position,  
+      isGK, isCB, isMF, isCF,
+      playerName,refereeName,
       stringDateOfBirth,
       showIOSDatePicker,
     } = this.state;
+
     const {
       address = '',
       district = '',
       province = '',
-    } = this.state.currentLocation;
-    const {radius, avatar} = this.state;    
-    const {isGK, isCB, isMF, isCF} = this.state;
+    } = this.state.currentLocation;        
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Quản Lý Tài Khoản'} />
+        <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
+          this._saveSettings()
+        }}/>
         <View style={styles.avatar}>
           <TouchableOpacity
             onPress={() => {
@@ -264,12 +278,15 @@ export default class Settings extends Component {
                 }}
                 style={styles.buttonGetLocation}
               >
+              {(address.length > 0 || district.length > 0 || province.length > 0) &&
+                <Text>{address} - {district} - {province}</Text>}
                 <FontAwesome5
                   name={'map-marker-alt'}
                   size={30}
                   color={'black'}
                 />
               </TouchableOpacity>
+
             </View>
             <View style={styles.radius}>
               <Text style={styles.radiusLabel}>
@@ -279,7 +296,7 @@ export default class Settings extends Component {
                 style={styles.radiusInput}
                 placeholder={'Enter radius'}
                 keyboardType={'numeric'}
-                value={radius}
+                value={`${radius}`}
                 onChangeText={radius => {
                   this.setState ({radius});
                 }}
@@ -319,7 +336,7 @@ export default class Settings extends Component {
             </View>}
           {/* get location  */}
           {/* ban kinh */}
-          <View
+          {playerName.length > 0 && <View
             style={{
               borderRadius: 5,
               borderWidth: 1,
@@ -327,13 +344,18 @@ export default class Settings extends Component {
               alignItems: 'center',
             }}
           >
-
-
-          
+            
             <View style={styles.personalInformation}>
-              <Text style={styles.textLabel}>Role: </Text>
-              <Text style={styles.textRole}>Cầu thủ</Text>
+              <Text style={styles.textLabel}>Role: </Text>              
+              <TextInput style={[styles.textRole, {backgroundColor: 'red'}]} 
+                  value={playerName} onChangeText={(playerName) => {
+                    this.setState({playerName})
+              }} />              
             </View>
+            <View style={styles.personalInformation}>
+                <Text style={styles.textLableReferee}>Completed : </Text>
+                <Text style={styles.textRolereferee}> 11</Text>
+              </View>
             <Text style={{marginBottom: 5,fontSize:20}}>Position</Text>
             <View style={styles.positions}>
               <TouchableOpacity
@@ -389,8 +411,8 @@ export default class Settings extends Component {
                 />
               </TouchableOpacity>
             </View>
-          </View>
-          <View
+              </View> }
+          {refereeName.length > 0 && <View
             style={{
               borderRadius: 5,
               borderWidth: 1,
@@ -399,14 +421,17 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Role: </Text>
-              <Text style={styles.textRolereferee}>Trọng tài</Text>
+              <Text style={styles.textLableReferee}>Referee name: </Text>
+              <TextInput style={[styles.textRole, {backgroundColor: 'red'}]} 
+                  value={refereeName} onChangeText={(refereeName) => {
+                    this.setState({refereeName})
+              }} />              
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textLableReferee}>Completed : </Text>
               <Text style={styles.textRolereferee}> 11</Text>
             </View>
-          </View>
+          </View>}
         </ScrollView>
       </SafeAreaView>
     );
@@ -510,7 +535,7 @@ const styles = StyleSheet.create ({
     marginEnd: 30,
     color: 'black',
     lineHeight: 40,
-    fontSize:20
+    fontSize:15,
   },
   positions: {
     flexDirection: 'row',

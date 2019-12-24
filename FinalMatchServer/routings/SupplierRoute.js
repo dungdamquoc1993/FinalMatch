@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const {checkToken, convertDateToDayMonthYear} = require('./helpers')
+const {checkToken, convertDateToDayMonthYear, removeNullProperties} = require('./helpers')
 const {connection} = require('../database/database')
 const fs = require('fs')//fs = file system
 const path = require('path')
@@ -246,7 +246,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
       }
       if (results != null && results.length > 0) {
         debugger        
-        let data = {...results[0]} //... = spread object
+        let data = removeNullProperties(results[0])
         const { 
                 name, 
                 avatar,
@@ -268,6 +268,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
                 typeRole,
                 dateTimeStart,
                 dateTimeEnd} = data
+          data.position = position.length > 0 ? position : '0000'
           data.dateOfBirthObject = convertDateToDayMonthYear(dateOfBirth)  
           res.json({
             result: "ok",

@@ -28,7 +28,17 @@ const convertDateToDayMonthYear = (date) => {
         year: date.getFullYear(),
     }
 }
+const removeNullProperties = (jsObject) => {
+    let clonedObject = {...jsObject}    
+    for (key in clonedObject) {        
+        if(!clonedObject[key]) {
+            clonedObject[key] = ''
+        }
+    } 
+    return clonedObject
+}
 module.exports = {
     checkToken,
-    convertDateToDayMonthYear
+    convertDateToDayMonthYear,
+    removeNullProperties
 }
