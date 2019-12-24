@@ -37,4 +37,10 @@ export const urlGetAddressFromLatLong = (latitude, longitude) => {
 export const urlGetSupplierServicesOrders = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getSupplierServicesOrders?supplierId=${supplierId}`
 }
-
+export const urlUploadAvatar = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/uploadAvatar`
+}
+//Get Avatar
+export const urlGetAvatar = (fileName) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
+}

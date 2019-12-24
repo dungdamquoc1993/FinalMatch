@@ -6,9 +6,13 @@ import {urlLoginSupplier,
     urlTokenCheck,
     urlInsertRefereeService,
     urlCheckRefereeServiceExist,
-    urlGetSupplierServicesOrders    
+    urlGetSupplierServicesOrders,
+    urlUploadAvatar,
+    urlGetAvatar
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
+import axios from 'axios'
+const axiosObject = axios.create()
 
 export const registerSupplier = async (email, password) => {
     try {            
@@ -220,5 +224,60 @@ export const getSupplierServicesOrders = async (supplierId) => {
         }
     } catch (error) {               
         return { data, message: error}
+    }
+}
+
+//Upload image
+export const createFormData = (photos, body) => {
+    const data = new FormData();
+    var i = 0
+    photos.forEach(photo => {
+        photo.filename = photo.path.split('/').pop()
+        data.append(`photo${i}`, {
+            name: photo.filename,
+            type: photo.mime,
+            uri:
+                Platform.OS === "android" ? photo.path : photo.path.replace("file://", "")
+        });
+        i = i + 1
+    })
+    Object.keys(body).forEach(key => {
+        data.append(key, body[key]);
+    });
+
+    return data;
+};
+export const postUploadPhoto = async (photos) => {
+    try {         
+        //alert(JSON.stringify(photos))           
+        debugger
+        axiosObject.defaults.timeout = 5000;
+        let response =  await axiosObject.post(urlUploadAvatar,
+            createFormData(photos, { name: "Hoang" }),
+             {  
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                },                    
+        });
+        debugger
+        //let responseJson = await response.json()
+        let responseJson = await response.data        
+        debugger
+        if(responseJson.result === "ok") {                
+            debugger
+            let imageUrls = responseJson.imageNames.map(imageName => {
+                return urlGetAvatar(imageName)
+            })
+            debugger
+            return { data: imageUrls, message: ''}            
+        } else {
+            debugger
+            return { data, message: 'Cannot upload image'}
+        }        
+        debugger
+    } catch (error) {
+        debugger
+        alert("Upload failed!:" + error)
     }
 }

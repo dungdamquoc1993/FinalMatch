@@ -9,6 +9,8 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  Dimensions,    
+  CameraRoll,   
 } from 'react-native';
 import Header from './Header';
 import {
@@ -26,12 +28,14 @@ import {
   checkLocationPermission,
 } from '../server/googleServices';
 import {
-  getSupplierServicesOrders
+  getSupplierServicesOrders,
+  postUploadPhoto,
 } from '../server/myServices'
 
 import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
+import ImagePicker from 'react-native-image-crop-picker';
 
 /**
  * yarn add react-native-date-picker
@@ -110,10 +114,16 @@ export default class Settings extends Component {
     
 
   }
-
-  _chooseAvatar () {
-    alert ('chon avvvv');
-  }
+  async _chooseAvatar () {
+    try {
+      let photos = await ImagePicker.openPicker({
+        multiple: true
+      })
+      const { data, message=''} = await postUploadPhoto(photos)      
+    } catch(error) {
+      alert(`Cannot upload avatar: ${error}`)
+    }    
+  }  
   _displayAge (age) {
     if (age > 0) {
       return age > 1 ? `${age} ages` : `${age} age`;
