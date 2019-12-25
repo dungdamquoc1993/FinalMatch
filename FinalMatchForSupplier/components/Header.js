@@ -7,7 +7,7 @@ import {View, StyleSheet, Image,
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-import {MAIN_COLOR} from '../colors/colors'
+import {COLOR_PINK_LIGHT} from '../colors/colors'
 
 //hideBack: boolean
 class Header extends Component {
@@ -23,7 +23,7 @@ class Header extends Component {
                     this.props.stackNavigation.dispatch(NavigationActions.back())
                 }}
                 name={"arrow-circle-left"} size={50} 
-                color={MAIN_COLOR} />}
+                color={COLOR_PINK_LIGHT} />}
             <Text style={styles.title}>
                 {title}
             </Text>

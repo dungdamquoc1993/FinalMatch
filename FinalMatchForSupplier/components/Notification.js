@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity,SafeAreaView } from 'react-native';
 import Header from './Header'
 export default class Notification extends Component {
     render() {
         return (
-            <View style ={styles.container}>
+            <SafeAreaView style ={styles.container}>
                 <Header title={"Thong bao"}/> 
                 <Text>Notificaiton</Text>                
-            </View>
+            </SafeAreaView>
         )
     }
 }

@@ -8,7 +8,7 @@ import {
   Dimensions
 } from 'react-native'
 import {
-    COLOR_PINK, COLOR_PINK_LIGHT, 
+    COLOR_PINK, MAIN_COLOR, 
     COLOR_FACEBOOK, COLOR_PINK_MEDIUM} 
 from '../colors/colors'
 import { connect } from 'react-redux'
@@ -63,12 +63,12 @@ class Splash extends Component {
     }
     render() {
         return <View style={styles.container}>
-            <Animated.Image source={require('../images/logo.png')} 
+            <Animated.Image source={require('../images/LOGO_Dung_2.png')} 
                 style={{...styles.logo, opacity: this.state.logoOpacity}}>                
             </Animated.Image>
             <Animated.Text style={{...styles.title, 
                                 marginTop:this.state.titleMarginTop}}>
-                Share images to everyone
+                Never miss FinalMatch
             </Animated.Text>
         </View>
     }
@@ -87,12 +87,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: COLOR_PINK_LIGHT    
+        backgroundColor: MAIN_COLOR    
     },
     logo: {
-        width: 130,
-        height: 130,
-        borderRadius: 130 / 2,
+        width: 200,
+        height: 200,
+        borderRadius: 200 / 2,
     },
     title: {        
         color: COLOR_PINK_MEDIUM,

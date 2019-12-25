@@ -94,7 +94,7 @@ class LoginRegister extends Component {
         const {email, password, isLogin} = this.state
         return <KeyboardAvoidingView style={styles.container} 
             enabled>
-            <Image style={styles.logo} source={require('../images/cat.jpeg')} />
+            <Image style={styles.logo} source={require('../images/LOGO_Dung_2.png')} />
             
             <Icon.Button
                 style={styles.facebookButton}
@@ -180,10 +180,10 @@ const styles = StyleSheet.create({
     },
     logo: {
         margin: 20,
-        width: 100,
+        width: 150,
         backgroundColor: 'red',
-        height: 100,
-        borderRadius: 50,
+        height: 150,
+        borderRadius: 75,
     },
     facebookButton: {
         height: 60,
