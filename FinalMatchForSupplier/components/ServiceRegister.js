@@ -100,8 +100,7 @@ const styles = StyleSheet.create ({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    flex: 1,
-    backgroundColor:MAIN_COLOR
+    flex: 1
   },
   txt:{
     lineHeight:0.13 * screenHeight,

@@ -15,7 +15,7 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices' 
-
+import {MAIN_COLOR} from '../colors/colors'
 export default class Stadium extends Component {
   static navigationOptions = {
       header: null,
