@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Supplier (
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500) DEFAULT ''    
 );
-ALTER TABLE Supplier DROP COLUMN avatar;
+--ALTER TABLE Supplier DROP COLUMN avatar;
 ALTER TABLE Supplier ADD avatar VARCHAR(500) DEFAULT '';
 
 --Màn hình "Đăng ký dịch vụ"
@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS Stadium (
     supplierId INTEGER
 );
 --Đơn hàng = Order
-DROP TABLE Order;
 --status: "pending", "confirmed", "completed", "cancelled", 
 --"completed" = currentDAte > date
 --"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
@@ -63,7 +62,7 @@ CREATE TABLE IF NOT EXISTS Orders (
     supplierId INTEGER,
     point POINT NOT NULL,
     status VARCHAR(120) DEFAULT "pending", 
-    createdDate DATETIME(6) DEFAULT NOW(),
+    createdDate DATETIME DEFAULT NOW(),
     dateTimeStart DATETIME,    
     dateTimeEnd DATETIME
 );
@@ -79,7 +78,7 @@ CREATE TABLE IF NOT EXISTS Conversations (
     orderId INTEGER,
     sms TEXT,
     senderId VARCHAR(400),
-    createdDate DATETIME(6) DEFAULT NOW(),
+    createdDate DATETIME DEFAULT NOW(),
     seen BOOLEAN DEFAULT FALSE
 );
 
@@ -111,9 +110,7 @@ BEGIN
     END IF;
 END; //                                 
 delimiter ;
-SELECT checkToken("'2agr'oog&a'y;bb'b'wp;b", 6)
-
-
+--ok tai day
 delimiter //
 CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
  FOR EACH ROW BEGIN
@@ -125,13 +122,7 @@ CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
 END;//
 delimiter ;
 DROP TRIGGER tSupplier;
-
 DESCRIBE Supplier;
-
---meters
-SELECT 100000*ST_Distance(POINT(20.991267,105.812368),POINT(20.990314,105.815973));
-SELECT 100000*GLength(LineStringFromWKB(LineString(POINT(20.991267,105.812368), POINT(20.990314,105.815973))));
---tu 322 NGuyen TRai den 5 diem con lai
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
@@ -182,8 +173,6 @@ BEGIN
     END IF;
 END; //                                 
 delimiter ;
-SET @tokenKey=loginFacebook("fb112", "fb11@gmail.com", "Nguyen Van A");
-SELECT @tokenKey;
 
 DROP FUNCTION registerSupplier;
 --select md5("123456") = "e10adc3949ba59abbe56e057f20f883e"
@@ -199,7 +188,7 @@ BEGIN
     RETURN CONCAT(@myToken, ';', mySupplierId);           
 END; //                                 
 delimiter ;
-SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
+--SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 DROP FUNCTION loginSupplier;
 delimiter //
@@ -221,7 +210,7 @@ BEGIN
 END;//                              
 delimiter ;
 
-SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
+--SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 --login Supplier
 select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456") = password;
@@ -243,12 +232,7 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
---Màn hình PlayerService, khi bấm Submit(2 câu lênh):
-INSERT INTO PlayerService(playerName, position, supplierId)
-VALUES("Nguyen Van A", "1001", 1);
-UPDATE Supplier SET phoneNumber = "0912356" 
-WHERE id=1;
---Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
+
 
 --Màn hình PlayerService, sau khi bấm Save
 DROP PROCEDURE insertPlayerService;
@@ -277,7 +261,7 @@ BEGIN
 END;//
 delimiter;
 CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1);
-
+--ok den day
 DROP VIEW viewSupplierPlayerService;
 CREATE VIEW viewSupplierPlayerService AS
 SELECT 
