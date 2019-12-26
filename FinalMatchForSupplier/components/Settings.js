@@ -31,7 +31,7 @@ import {
   getSupplierServicesOrders,
   postUploadPhoto,
 } from '../server/myServices'
-
+import {urlGetAvatar} from '../server/urlNames'
 import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
@@ -91,7 +91,7 @@ export default class Settings extends Component {
     
     try {  
         const { data, message} =  await getSupplierServicesOrders(supplierId)        
-        const { name, position, dateOfBirth, phoneNumber, 
+        const { name, position, dateOfBirth, phoneNumber, avatar,
                 dateOfBirthObject, radius,address, playerName = '',
                 refereeName = '',
               } = data
@@ -102,7 +102,7 @@ export default class Settings extends Component {
         
         this.setState({
           isGK, isCB, isMF, isCF,          
-          name, position, phoneNumber,radius, playerName, refereeName,
+          name, avatar, position, phoneNumber,radius, playerName, refereeName,
           stringDateOfBirth: convertDayMonthYearToString(day, month, year),
           currentLocation: {
             address
@@ -119,7 +119,9 @@ export default class Settings extends Component {
       let photos = await ImagePicker.openPicker({
         multiple: true
       })
-      const { data, message=''} = await postUploadPhoto(photos)      
+      const {supplierId, email} = await getSupplierFromStorage() 
+      const { data, message=''} = await postUploadPhoto(photos, supplierId)        
+      this.setState({avatar: data})    
     } catch(error) {
       alert(`Cannot upload avatar: ${error}`)
     }    
@@ -199,7 +201,8 @@ export default class Settings extends Component {
       address = '',
       district = '',
       province = '',
-    } = this.state.currentLocation;        
+    } = this.state.currentLocation; 
+    console.log('avatar ='+urlGetAvatar(avatar))       
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
@@ -211,14 +214,14 @@ export default class Settings extends Component {
               this._chooseAvatar ();
             }}
           >
-            <Image
+             <Image
               source={
                 avatar.length > 0
-                  ? {uri: avatar}
+                  ? {uri: urlGetAvatar(avatar)}
                   : require ('../images/defaultAvatar.png')
               }
               style={styles.avatarImage}
-            />
+            />             
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.scrollView}>
