@@ -72,8 +72,7 @@ export const getSupplierFromStorage = async () => {
     let email = await AsyncStorage.getItem('email')
     if(email == null) {
         email = ''
-    }
-    debugger
+    }    
     return {tokenKey, supplierId, email}
 }
 

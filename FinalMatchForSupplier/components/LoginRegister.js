@@ -32,9 +32,7 @@ class LoginRegister extends Component {
         this.props.dispatch(getStackNavigation(stackNavigation))
         
         //* Bo qua login facebook
-        this.props.navigation.navigate("MyTabNavigator", { email })
-        return
-        
+        this.props.navigation.navigate("MyTabNavigator", { email })        
         debugger
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
             (result) => {
@@ -76,7 +74,7 @@ class LoginRegister extends Component {
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
-                saveSupplierToStorage(tokenKey, supplierId, email)                
+                await saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation
                 //dispatch = call action
                 this.props.dispatch(getStackNavigation(stackNavigation))

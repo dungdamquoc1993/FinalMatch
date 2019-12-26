@@ -8,7 +8,8 @@ import {urlLoginSupplier,
     urlCheckRefereeServiceExist,
     urlGetSupplierServicesOrders,
     urlUploadAvatar,
-    urlGetAvatar
+    urlGetAvatar,
+    urlUpdateSettings
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 import axios from 'axios'
@@ -250,7 +251,8 @@ export const createFormData = (photos, body) => {
         data.append(key, body[key]);
     });     
     return data;
-};
+}
+
 export const postUploadPhoto = async (photos, supplierId) => {
     try {         
         //alert(JSON.stringify(photos))           
@@ -282,5 +284,41 @@ export const postUploadPhoto = async (photos, supplierId) => {
     } catch (error) {
         debugger
         alert("Upload failed!:" + error)
+    }
+}
+
+export const updateSettings = async (supplierId,name,dateOfBirth,phoneNumber,address,latitude,longitude,radius,playerName,position,refereeName) => {
+    try {                    
+        const {tokenKey, email} = await getSupplierFromStorage()     
+        console.log("supplierId: "+JSON.stringify(supplierId))       
+        const response = await fetch(urlUpdateSettings(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                name,
+                dateOfBirth,
+                phoneNumber,
+                address,
+                latitude,
+                longitude,
+                radius,
+                playerName,
+                position,
+                refereeName}),
+        })                       
+        const responseJson = await response.json();        
+        const {result, data, message, time} = responseJson
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??  
+            return { data, message: ''}
+        } else {            
+            return { data, message: 'Cannot update settings'}
+        }
+    } catch (error) {        
+        return error
     }
 }

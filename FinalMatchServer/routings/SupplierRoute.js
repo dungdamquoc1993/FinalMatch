@@ -11,8 +11,8 @@ const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latit
                                     "radius, address FROM Supplier WHERE id = ?"
 const POST_UPDATE_AVATAR_FOR_SUPPLIER = "UPDATE Supplier SET Supplier.avatar = ? WHERE Supplier.id = ?"    
 const GET_SUPPLIER_SERVICES_ORDERS = "SELECT * FROM viewSupplierServicesOrders WHERE supplierId = ?" 
+const POST_UPDATE_SETTINGS = "CALL updateSettings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-//CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 // define the home page route
 router.get('/', async (req, res) => {
     //....
@@ -249,6 +249,8 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
         let data = removeNullProperties(results[0])
         const { 
                 name, 
+                playerId, 
+                refereeId,
                 avatar,
                 point, 
                 phoneNumber,
@@ -285,6 +287,65 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
         })
       }
     })
+})
+
+//Link http://localhost:3000/suppliers/updateSettings
+router.post('/updateSettings', async (req, res) => {  
+  const {tokenkey, supplierid} = req.headers  
+  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
+  debugger
+  if(checkTokenResult == false) {
+    res.json({
+      result: "failed", 
+      data: {}, 
+      message: 'Token is invalid',
+      time: Date.now()})
+      return
+  }
+  
+  const {
+    name,
+    dateOfBirth,
+    phoneNumber,
+    address,
+    latitude,
+    longitude,
+    radius,
+    playerName,
+    position,
+    refereeName} = req.body    
+  
+  //validate, check token ?  
+  connection.query(POST_UPDATE_SETTINGS, 
+        [ supplierid,
+          name,
+          dateOfBirth,
+          phoneNumber,
+          address,
+          latitude,
+          longitude,
+          radius,
+          playerName,
+          position,
+          refereeName]
+    , (error, results) => {
+          debugger
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {
+              if(results) {                  
+                  res.json({
+                    result: "ok", 
+                    data: {}, 
+                    message: 'Update settings  successfully',
+                    time: Date.now()})
+              }                
+          }
+  })    
 })
 
 module.exports = router

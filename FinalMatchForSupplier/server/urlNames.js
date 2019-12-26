@@ -44,3 +44,6 @@ export const urlUploadAvatar = () => {
 export const urlGetAvatar = (fileName) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
 }
+export const urlUpdateSettings = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
+}

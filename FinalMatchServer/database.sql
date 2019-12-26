@@ -27,12 +27,15 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
+ALTER TABLE PlayerService ADD id INTEGER AUTO_INCREMENT PRIMARY KEY;
+
 --Màn hình "Đăng ký dv trong tai"
 DROP TABLE RefereeService;
 CREATE TABLE IF NOT EXISTS RefereeService (    
     refereeName VARCHAR(300) NOT NULL ,    
     supplierId INTEGER
 );
+ALTER TABLE RefereeService ADD id INTEGER AUTO_INCREMENT PRIMARY KEY;
 --Sân bóng
 DROP TABLE Stadium;
 CREATE TABLE IF NOT EXISTS Stadium (
@@ -294,6 +297,7 @@ Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
+PlayerService.id as playerId,
 PlayerService.playerName as playerName,
 PlayerService.position as position
 FROM Supplier 
@@ -321,6 +325,7 @@ Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
+RefereeService.id as refereeId,
 RefereeService.refereeName as refereeName
 FROM Supplier 
 LEFT JOIN RefereeService 
@@ -338,8 +343,8 @@ SELECT COUNT(*) FROM PlayerService WHERE supplierId =
 
 DROP VIEW viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
-
 SELECT viewSupplierPlayerService.*, 
+RefereeService.id as refereeId,
 RefereeService.refereeName FROM viewSupplierPlayerService
 LEFT JOIN RefereeService 
 ON viewSupplierPlayerService.supplierId=RefereeService.supplierId
@@ -452,6 +457,42 @@ END;//
 delimiter;
 CALL insertRefereeService("trong tai x", 1, '1993-12-31', 44.55, 130.22, "Giap Nhat", 22.1);
 
+
+DROP PROCEDURE updateSettings;
+--Màn hình RefereeService, sau khi bấm Save
+delimiter //
+CREATE PROCEDURE updateSettings(supplierId INT,
+                                name VARCHAR(300),
+                                dateOfBirth DATE,
+                                phoneNumber VARCHAR(300),
+                                address TEXT,
+                                latitude FLOAT,
+                                longitude FLOAT,
+                                radius FLOAT,
+                                playerName VARCHAR(300),
+                                position VARCHAR(10),
+                                refereeName VARCHAR(300)
+                                ) 
+BEGIN    
+    UPDATE Supplier SET Supplier.name = name, 
+            Supplier.dateOfBirth = dateOfBirth, 
+            Supplier.phoneNumber = phoneNumber,
+            Supplier.address = address,
+            Supplier.point = POINT(latitude,longitude),
+            Supplier.radius = radius
+    WHERE Supplier.id = supplierId;
+    
+    UPDATE PlayerService SET 
+            PlayerService.playerName = playerName,
+            PlayerService.position = position
+    WHERE PlayerService.supplierId = supplierId;
+
+    UPDATE RefereeService SET 
+            RefereeService.refereeName = refereeName            
+    WHERE RefereeService.supplierId = supplierId;
+
+END;//
+delimiter;
 
 --Notifications 
 

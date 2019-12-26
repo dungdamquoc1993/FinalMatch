@@ -30,6 +30,7 @@ import {
 import {
   getSupplierServicesOrders,
   postUploadPhoto,
+  updateSettings,
 } from '../server/myServices'
 import {urlGetAvatar} from '../server/urlNames'
 import DatePicker from 'react-native-date-picker';
@@ -47,7 +48,11 @@ import ImagePicker from 'react-native-image-crop-picker';
  */
 
 export default class Settings extends Component {
+  
   state = {
+    supplierId: 0,
+    playerId: 0,
+    refereeId: 0,
     name: '',
     point: null, 
     phoneNumber: '',              
@@ -82,27 +87,55 @@ export default class Settings extends Component {
     },
     radius: 0.0,
   };
-  _saveSettings() {
-    alert("aa")
+  _saveSettings = async () => {
+    const {supplierId} = this.state   
+        
+    const {      
+      name,
+      dateOfBirth,
+      phoneNumber,
+      address,
+      latitude,
+      longitude,
+      radius,
+      playerName,      
+      refereeName} = this.state
+    let position = getPosition({
+        isGK: this.state.isGK, 
+        isCB: this.state.isCB, 
+        isMF: this.state.isMF, 
+        isCF: this.state.isCF
+      })      
+    await updateSettings(
+      supplierId,
+      name,
+      dateOfBirth,
+      phoneNumber,
+      address,
+      latitude,
+      longitude,
+      radius,
+      playerName,
+      position,
+      refereeName)
   }
   async componentDidMount () {    
-    const {supplierId, email} = await getSupplierFromStorage()      
-    //call api
-    
+    const {supplierId, email} = await getSupplierFromStorage()          
+    //call api    
     try {  
         const { data, message} =  await getSupplierServicesOrders(supplierId)        
         const { name, position, dateOfBirth, phoneNumber, avatar,
                 dateOfBirthObject, radius,address, playerName = '',
-                refereeName = '',
-              } = data
-                
+                refereeName = '', playerId, refereeId
+              } = data        
         const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //
         
         this.setState({
           isGK, isCB, isMF, isCF,          
-          name, avatar, position, phoneNumber,radius, playerName, refereeName,
+          name, avatar, position, phoneNumber,radius, playerName, refereeName, supplierId,
+          playerId, refereeId,
           stringDateOfBirth: convertDayMonthYearToString(day, month, year),
           currentLocation: {
             address
@@ -119,7 +152,7 @@ export default class Settings extends Component {
       let photos = await ImagePicker.openPicker({
         multiple: true
       })
-      const {supplierId, email} = await getSupplierFromStorage() 
+      const {supplierId} = this.state 
       const { data, message=''} = await postUploadPhoto(photos, supplierId)        
       this.setState({avatar: data})    
     } catch(error) {
@@ -187,12 +220,15 @@ export default class Settings extends Component {
     const {
       name,
       age,
+      playerId, 
+      refereeId,
       dateOfBirth,
       phoneNumber,
       radius, avatar,    
       position,  
       isGK, isCB, isMF, isCF,
-      playerName,refereeName,
+      playerName,
+      refereeName,
       stringDateOfBirth,
       showIOSDatePicker,
     } = this.state;
@@ -202,7 +238,8 @@ export default class Settings extends Component {
       district = '',
       province = '',
     } = this.state.currentLocation; 
-    console.log('avatar ='+urlGetAvatar(avatar))       
+    console.log(`refereeName = ${refereeName}`)
+    console.log(`xyy = ${refereeName.length}`)
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
@@ -349,7 +386,7 @@ export default class Settings extends Component {
             </View>}
           {/* get location  */}
           {/* ban kinh */}
-          {playerName.length > 0 && <View
+          {playerId > 0 && <View
             style={{
               borderRadius: 5,
               borderWidth: 1,
@@ -425,7 +462,7 @@ export default class Settings extends Component {
               </TouchableOpacity>
             </View>
               </View> }
-          {refereeName.length > 0 && <View
+          {refereeId > 0 && <View
             style={{
               borderRadius: 5,
               borderWidth: 1,
