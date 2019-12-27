@@ -15,7 +15,7 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-import {MAIN_COLOR} from '../colors/colors';
+import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors';
 export default class Stadium extends Component {
   static navigationOptions = {
     header: null,
@@ -57,7 +57,8 @@ export default class Stadium extends Component {
     const {address, district, province} = this.state.currentLocation;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Stadium'} />
+        <Header title={'Stadium'} pressBackButton={() => {
+        }} />
         <Text style={{fontSize: 20, marginVertical: 20}}>Đăng ký sân bóng</Text>
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
@@ -77,8 +78,8 @@ export default class Stadium extends Component {
                 </Text>
                 <Text
                   style={styles.txtShowAddresses}
-                  placeholder={'Please enter Address'}
-                />
+                  
+                >Click get location</Text>
                 <TouchableOpacity
                 onPress={() => {
                   this._pressLocation ();
@@ -88,7 +89,7 @@ export default class Stadium extends Component {
                 <FontAwesome5
                   name={'map-marker-alt'}
                   size={30}
-                  color={'black'}
+                  color={MAIN_COLOR}
                 />
               </TouchableOpacity>
 
@@ -133,11 +134,11 @@ export default class Stadium extends Component {
               this.setState ({isFree: true});
             }}
           >
-            <Text>Miễn phí</Text>
+            <Text style={styles.txtFree}>Miễn phí</Text>
             <FontAwesome5
               name={isFree == true ? 'check-square' : 'square'}
               size={35}
-              color={'black'}
+              color={MAIN_COLOR}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -146,11 +147,11 @@ export default class Stadium extends Component {
               this.setState ({isFree: false});
             }}
           >
-            <Text>Thu phí</Text>
+            <Text style={styles.txtFree}>Thu phí</Text>
             <FontAwesome5
               name={isFree == false ? 'check-square' : 'square'}
               size={35}
-              color={'black'}
+              color={MAIN_COLOR}
             />
           </TouchableOpacity>
         </View>
@@ -211,9 +212,11 @@ const styles = StyleSheet.create ({
     height: 60,
     width: 200,
     backgroundColor: MAIN_COLOR,
-    borderRadius: 7,
+    borderRadius: 10,
     alignItems: 'center',
     marginTop: 30,
+    borderWidth: 4,
+    borderColor:COLOR_BUTTON
   },
   txtSubmit: {
     lineHeight: 60,
@@ -244,7 +247,10 @@ const styles = StyleSheet.create ({
     paddingHorizontal: 10,
     color: 'black',
     fontSize: 17,
+    lineHeight:45
   },buttonGetLocation:{
     width: '20%',
+  },txtFree:{
+    marginBottom:10,fontSize:17
   }
 });

@@ -14,7 +14,7 @@ import { Header } from 'react-navigation-stack'
 import {registerSupplier, loginSupplier} from '../server/myServices'
 import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
 import { LoginManager, LoginResult, AccessToken } from "react-native-fbsdk";
-import {MAIN_COLOR} from '../colors/colors'
+import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -237,19 +237,20 @@ const styles = StyleSheet.create({
         fontSize:17
     },
     loginButton: { 
-        height: 45, 
+        height: 70, 
         marginTop: 20,
-        width: '90%',        
+        width: '60%',        
         alignSelf: 'center',
-        borderRadius: 6, 
+        borderRadius: 15, 
         paddingHorizontal: 10,
-        fontSize: 17,
         backgroundColor: MAIN_COLOR,
         justifyContent: 'center',
+        borderColor: COLOR_BUTTON,
+        borderWidth:4
     },txtLoginRegister:{
         textAlign: 'center',
         color: 'white',
-        fontSize:17
+        fontSize:19
     },txtLoginFaceBook:{
         fontSize:20,
         color:'white'

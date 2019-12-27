@@ -13,7 +13,7 @@ import RefereeService from './RefereeService';
 import Stadium from './Stadium';
 import PlayerService from './PlayerService';
 import {connect} from 'react-redux';
-import {MAIN_COLOR} from '../colors/colors';
+import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors';
 import {
   checkPlayerServiceExist,
   checkRefereeServiceExist,
@@ -24,6 +24,8 @@ import {
 } from '../helpers/Helpers';
 const screenWidth = Math.round (Dimensions.get ('window').width);
 const screenHeight = Math.round (Dimensions.get ('window').height);
+
+
 class ServiceRegister extends Component {
   _navigateToPlayerService = async () => {
     const {supplierId, tokenKey, email} = await getSupplierFromStorage ();
@@ -48,13 +50,10 @@ class ServiceRegister extends Component {
   _navigateToStadium = () => {
     this.props.stackNavigation.navigate ('Stadium', {});
   };
-
   render () {
     return (
       <SafeAreaView style={styles.container}>
-
-        <Header title={'Service Register'} />
-        
+        <Header title={'Service Register'} hideBack={true}/>  
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -110,12 +109,14 @@ const styles = StyleSheet.create ({
   },
   button: {
     backgroundColor:MAIN_COLOR,
+    borderWidth:4,
+    borderColor:COLOR_BUTTON,
     padding: 10,
     margin: 20,
     fontSize: 30,
     width: 0.8 * screenWidth,
     height: 0.15 * screenHeight,
-    borderRadius: 20,
+    borderRadius: 25,
     alignItems: 'center'
   },
 });
