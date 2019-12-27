@@ -17,7 +17,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-
+import {MAIN_COLOR} from '../colors/colors';
 import {
   daysBetween2Dates,
   convertDayMonthYearToString,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   btnSubmit: {
     height: 60,
     width: 200,
-    backgroundColor: '#7FFFD4',
+    backgroundColor: MAIN_COLOR,
     borderRadius: 7,
     alignItems: 'center',
     marginTop: 20,

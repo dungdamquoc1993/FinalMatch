@@ -15,14 +15,17 @@ CREATE TABLE IF NOT EXISTS Supplier (
     address VARCHAR(500) DEFAULT '', 
     radius FLOAT DEFAULT 15.0,
     isActive INTEGER DEFAULT 1,
-    tokenKey VARCHAR(500) DEFAULT ''    
+    tokenKey VARCHAR(500) DEFAULT '',
+    avatar VARCHAR(500) DEFAULT ''
+
 );
 ALTER TABLE Supplier DROP COLUMN avatar;
 ALTER TABLE Supplier ADD avatar VARCHAR(500) DEFAULT '';
 
 --Màn hình "Đăng ký dịch vụ"
 DROP TABLE PlayerService;
-CREATE TABLE IF NOT EXISTS PlayerService (    
+CREATE TABLE IF NOT EXISTS PlayerService (   
+     
     playerName VARCHAR(300) NOT NULL ,
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE

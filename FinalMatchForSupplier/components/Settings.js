@@ -494,13 +494,14 @@ const styles = StyleSheet.create ({
 
   textInput: {
     width: '80%',
-    height: 40,
+    height: 45,
     borderRadius: 5,
     borderColor: 'black',
     marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
+    fontSize:17
   },
   radius: {
     flexDirection: 'row',
@@ -525,7 +526,7 @@ const styles = StyleSheet.create ({
     fontSize: 20,
   },
   radiusInput: {
-    height: 40,
+    height: 45,
     borderRadius: 5,
     borderColor: 'black',
     marginEnd: 30,
@@ -533,6 +534,7 @@ const styles = StyleSheet.create ({
     paddingHorizontal: 10,
     color: 'black',
     width: 100,
+    fontSize:17
   },
   age: {
     width: '40%',

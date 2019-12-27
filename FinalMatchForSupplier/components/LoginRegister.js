@@ -14,7 +14,7 @@ import { Header } from 'react-navigation-stack'
 import {registerSupplier, loginSupplier} from '../server/myServices'
 import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
 import { LoginManager, LoginResult, AccessToken } from "react-native-fbsdk";
-
+import {MAIN_COLOR} from '../colors/colors'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -104,7 +104,7 @@ class LoginRegister extends Component {
                     this._loginWithFacebook()
                 }}
             >
-                Login with Facebook
+                <Text style={styles.txtLoginFaceBook}>Login with Facebook</Text>
              </Icon.Button>
             <View style={styles.viewLoginRegister}>
                 <View style={styles.viewLogin}>
@@ -153,7 +153,7 @@ class LoginRegister extends Component {
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
-                <Text style={{textAlign: 'center'}}>
+                <Text style={styles.txtLoginRegister}>
                     {isLogin === true ? "Login to your account" : "Register new user"}
                 </Text>
             </TouchableOpacity>
@@ -180,10 +180,10 @@ const styles = StyleSheet.create({
     },
     logo: {
         margin: 20,
-        width: 150,
+        width: 100,
         backgroundColor: 'red',
-        height: 150,
-        borderRadius: 75,
+        height: 100,
+        borderRadius: 50,
     },
     facebookButton: {
         height: 60,
@@ -199,16 +199,13 @@ const styles = StyleSheet.create({
     },
     viewLoginRegister: {
         height: 50,
-        // width: '100%',
         alignSelf: 'stretch',
         marginHorizontal: 30,
         flexDirection: 'row',  
-
     },
     viewLogin: {
         height: 50,
         width: '50%',
-        // alignSelf: 'stretch',
         flexDirection: 'column'
     },
     line: {
@@ -229,14 +226,15 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     textInput: { 
-        height: 45, 
+        height: 50, 
         marginTop: 20,
         width: '90%',
         borderColor: 'gray',      
         borderWidth: 1, 
         alignSelf: 'center',
         borderRadius: 6, 
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        fontSize:17
     },
     loginButton: { 
         height: 45, 
@@ -246,10 +244,15 @@ const styles = StyleSheet.create({
         borderRadius: 6, 
         paddingHorizontal: 10,
         fontSize: 17,
-        backgroundColor: 'red',
-        
+        backgroundColor: MAIN_COLOR,
         justifyContent: 'center',
-        
+    },txtLoginRegister:{
+        textAlign: 'center',
+        color: 'white',
+        fontSize:17
+    },txtLoginFaceBook:{
+        fontSize:20,
+        color:'white'
     }
 })
 

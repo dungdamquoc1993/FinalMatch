@@ -104,12 +104,13 @@ const styles = StyleSheet.create ({
   },
   txt:{
     lineHeight:0.13 * screenHeight,
-    fontSize:20,
-    fontWeight:'300'
+    fontSize:25,
+    fontWeight:'300',
+    color:'white'
   },
   button: {
     // backgroundColor: MAIN_COLOR,
-    backgroundColor:'#68a0cf',
+    backgroundColor:MAIN_COLOR,
     padding: 10,
     margin: 20,
     fontSize: 30,
