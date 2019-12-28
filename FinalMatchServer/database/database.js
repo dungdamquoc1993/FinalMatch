@@ -3,7 +3,7 @@ const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 const connection = mysql.createConnection({
     host: HOSTNAME,
     user: "root",
-    password: "",
+    password: "CC=2Yw#j5",
     database: DB_NAME,
     port: DB_PORT
 })
