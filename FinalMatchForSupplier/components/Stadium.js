@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
+import {NavigationActions} from 'react-navigation'
 import {
   Text,
   View,
@@ -15,22 +17,60 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
+import {
+  insertStadium
+} from '../server/myServices';
+import {
+  getSupplierFromStorage,
+  alertWithOKButton,
+} from '../helpers/Helpers'
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors';
-export default class Stadium extends Component {
+
+class Stadium extends Component {
   static navigationOptions = {
     header: null,
   };
-  state = {
-    isFree: false,
+  state = {    
+    type: 0,
+    stadiumName: '',  
+    phoneNumber : '',
+    supplierId: 0,
     currentLocation: {
       address: '',
       district: '',
       province: '',
+      latitude: 0,
+      longitude: 0,
     },
   };
-  _isOnpressSubmit = () => {
-    alert ('hihi');
-  };
+  async componentDidMount () {    
+    const {supplierId} = await getSupplierFromStorage()          
+    this.setState({supplierId})
+  }
+  _isOnpressSubmit = async () => {
+    //test
+    const {supplierId, type,stadiumName,phoneNumber,} = this.state
+    const {address, latitude, longitude, district, province} = this.state.currentLocation    
+    //alert(JSON.stringify({type,stadiumName,phoneNumber,address, latitude, longitude, district, province}))    
+    try {            
+      const {message} = await insertStadium(type,
+        stadiumName,
+        latitude,
+        longitude,
+        address,
+        phoneNumber,
+        supplierId)
+      if(message.length > 0) {
+        alertWithOKButton(`Cannot insert Stadium. Error = ${message}`, null)      
+      } else {
+        alertWithOKButton("Insert stadium successfully", () => {
+          this.props.stackNavigation.dispatch(NavigationActions.back())
+        })      
+      }       
+    } catch(error) {
+      alert('Cannot get data from Server'+error)
+    }     
+  }
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission ();
     if (hasLocationPermission) {
@@ -41,8 +81,8 @@ export default class Stadium extends Component {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong (latitude, longitude);
-          this.setState ({currentLocation: {address, district, province}});
+          } = await getAddressFromLatLong (latitude, longitude);          
+          this.setState ({currentLocation: {address, district, province, latitude, longitude}});
         },
         error => {
           console.log (error.code, error.message);
@@ -53,8 +93,8 @@ export default class Stadium extends Component {
   };
 
   render () {
-    const {isFree} = this.state;
-    const {address, district, province} = this.state.currentLocation;
+    const {type,stadiumName,phoneNumber,} = this.state
+    const {address, latitude, longitude, district, province} = this.state.currentLocation            
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Stadium'} pressBackButton={() => {
@@ -66,20 +106,22 @@ export default class Stadium extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            value={stadiumName}
+            onChangeText = {(stadiumName) => {
+              this.setState({stadiumName})
+            }}
             placeholder={'Please enter name'}
           />
         </View>
 
-        {isFree === true
-          ? 
+        {type == 0 ? 
               <View style={styles.txtAddresses}>
                 <Text style={styles.txtDC}>
                   Đ/C:
                 </Text>
                 <Text
                   style={styles.txtShowAddresses}
-                  
-                >Click get location</Text>
+                  >{address.length > 0 ? address : "Click get location"}</Text>
                 <TouchableOpacity
                 onPress={() => {
                   this._pressLocation ();
@@ -91,12 +133,7 @@ export default class Stadium extends Component {
                   size={30}
                   color={MAIN_COLOR}
                 />
-              </TouchableOpacity>
-
-              {(address.length > 0 ||
-                district.length > 0 ||
-                province.length > 0) &&
-                <Text>{address} - {district} - {province}</Text>}
+              </TouchableOpacity>              
               </View>
           : 
         <View style={{width:'100%'}}>        
@@ -108,6 +145,10 @@ export default class Stadium extends Component {
                 style={styles.textInput}
                 placeholder={'Please enter phone number'}
                 keyboardType={'number-pad'}
+                value={phoneNumber}
+                onChangeText = {(phoneNumber) => {
+                  this.setState({phoneNumber})
+                }}
               />
               
             </View>
@@ -117,6 +158,13 @@ export default class Stadium extends Component {
               </Text>
               <TextInput
                 style={styles.textInput}
+                value={address}
+                editable = {type == 0 ? false: true}
+                onChangeText = {(address) => {
+                  let updatedState = {...this.state}
+                  updatedState.currentLocation.address = address                  
+                  this.setState(updatedState)
+                }}
                 placeholder={'Please enter address'}
               />
               
@@ -131,12 +179,12 @@ export default class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isFree: true});
+              this.setState ({type: 0});
             }}
           >
             <Text style={styles.txtFree}>Miễn phí</Text>
             <FontAwesome5
-              name={isFree == true ? 'check-square' : 'square'}
+              name={type == 0 ? 'check-square' : 'square'}
               size={35}
               color={MAIN_COLOR}
             />
@@ -144,12 +192,15 @@ export default class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isFree: false});
+              let updatedState = {...this.state}
+              updatedState.currentLocation.address = ""
+              updatedState.type = 1
+              this.setState(updatedState)
             }}
           >
             <Text style={styles.txtFree}>Thu phí</Text>
             <FontAwesome5
-              name={isFree == false ? 'check-square' : 'square'}
+              name={type == 1 ? 'check-square' : 'square'}
               size={35}
               color={MAIN_COLOR}
             />
@@ -169,6 +220,14 @@ export default class Stadium extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  //convert "global object"(shared state) => ServiceRegister's props
+  stackNavigation: state.navigationReducers.stackNavigation,
+  tabNavigation: state.navigationReducers.tabNavigation
+})
+export default connect(
+  mapStateToProps
+)(Stadium)
 
 const styles = StyleSheet.create ({
   container: {

@@ -9,8 +9,7 @@ const POST_INSERT_STADIUM = "CALL insertStadium(?, ?, ?, ?, ?, ?, ?)"
 router.post('/insertStadium', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers
   
-  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
-  
+  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
@@ -46,15 +45,14 @@ router.post('/insertStadium', async (req, res) => {
                 time: Date.now()})
           } else {
               if(results != null && results.length > 0) {
-                  const {playerName, position, supplierId } = results[0][0]
+                  const {stadiumName, supplierId } = results[0][0]
                   res.json({
                     result: "ok", 
-                    data: {playerName, position, supplierId }, 
+                    data: {stadiumName, supplierId }, 
                     message: 'insert Stadium  successfully',
                     time: Date.now()})
               }                
           }
   })    
 })
-
 module.exports = router

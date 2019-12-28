@@ -9,7 +9,8 @@ import {urlLoginSupplier,
     urlGetSupplierServicesOrders,
     urlUploadAvatar,
     urlGetAvatar,
-    urlUpdateSettings
+    urlUpdateSettings, 
+    urlInsertStadium
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 import axios from 'axios'
@@ -317,6 +318,44 @@ export const updateSettings = async (supplierId,name,dateOfBirth,phoneNumber,add
             return { data, message: ''}
         } else {            
             return { data, message: 'Cannot update settings'}
+        }
+    } catch (error) {        
+        return error
+    }
+}
+
+export const insertStadium = async (type,
+                                    stadiumName,
+                                    latitude,
+                                    longitude,
+                                    address,
+                                    phoneNumber,
+                                    supplierId) => {
+    try {                    
+        const {tokenKey, email} = await getSupplierFromStorage()            
+        const response = await fetch(urlInsertStadium(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                    type,
+                    stadiumName,
+                    latitude,
+                    longitude,
+                    address,
+                    phoneNumber,
+                    supplierId}),
+        })                       
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??  
+            return { stadiumName, supplierId, message: ''}
+        } else {            
+            return { stadiumName, supplierId, message}
         }
     } catch (error) {        
         return error

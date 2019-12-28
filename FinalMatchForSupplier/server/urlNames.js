@@ -47,3 +47,6 @@ export const urlGetAvatar = (fileName) => {
 export const urlUpdateSettings = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
 }
+export const urlInsertStadium = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/insertStadium`
+}

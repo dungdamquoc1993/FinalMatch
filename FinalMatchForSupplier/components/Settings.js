@@ -21,7 +21,7 @@ import {
   isIOS,
   convertDateToString,
   setPosition,
-  getPosition
+  getPosition,  
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
