@@ -1,6 +1,6 @@
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 //const SERVER_NAME = '192.168.1.59' //mrDung
-const SERVER_NAME = '192.168.1.149' //Giap Nhat
+const SERVER_NAME = '192.168.1.150' //Giap Nhat
 // const SERVER_NAME = '192.168.1.88' //mrHoang
 const SERVER_PORT = '3000'
 
@@ -43,4 +43,7 @@ export const urlUploadAvatar = () => {
 //Get Avatar
 export const urlGetAvatar = (fileName) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
+}
+export const urlUpdateSettings = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
 }

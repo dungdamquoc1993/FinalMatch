@@ -8,11 +8,14 @@ import {urlLoginSupplier,
     urlCheckRefereeServiceExist,
     urlGetSupplierServicesOrders,
     urlUploadAvatar,
-    urlGetAvatar
+    urlGetAvatar,
+    urlUpdateSettings
 } from './urlNames'
 import {getSupplierFromStorage} from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
+
+import {Platform} from 'react-native'
 
 export const registerSupplier = async (email, password) => {
     try {            
@@ -230,9 +233,12 @@ export const getSupplierServicesOrders = async (supplierId) => {
 //Upload image
 export const createFormData = (photos, body) => {
     const data = new FormData();
+    debugger
     var i = 0
+        
     photos.forEach(photo => {
         photo.filename = photo.path.split('/').pop()
+            
         data.append(`photo${i}`, {
             name: photo.filename,
             type: photo.mime,
@@ -243,33 +249,32 @@ export const createFormData = (photos, body) => {
     })
     Object.keys(body).forEach(key => {
         data.append(key, body[key]);
-    });
-
+    });     
     return data;
-};
-export const postUploadPhoto = async (photos) => {
+}
+
+export const postUploadPhoto = async (photos, supplierId) => {
     try {         
         //alert(JSON.stringify(photos))           
-        debugger
+        const {tokenKey, email} = await getSupplierFromStorage()                
+    
         axiosObject.defaults.timeout = 5000;
-        let response =  await axiosObject.post(urlUploadAvatar,
+        let response =  await axiosObject.post(urlUploadAvatar(),
             createFormData(photos, { name: "Hoang" }),
              {  
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data',
+                    tokenKey, supplierId
                 },                    
         });
-        debugger
+        
         //let responseJson = await response.json()
-        let responseJson = await response.data        
-        debugger
+        let responseJson = await response.data                
         if(responseJson.result === "ok") {                
-            debugger
-            let imageUrls = responseJson.imageNames.map(imageName => {
-                return urlGetAvatar(imageName)
-            })
-            debugger
+            let imageUrls = responseJson.data.map(fileName => {
+                return fileName
+            })            
             return { data: imageUrls, message: ''}            
         } else {
             debugger
@@ -279,5 +284,41 @@ export const postUploadPhoto = async (photos) => {
     } catch (error) {
         debugger
         alert("Upload failed!:" + error)
+    }
+}
+
+export const updateSettings = async (supplierId,name,dateOfBirth,phoneNumber,address,latitude,longitude,radius,playerName,position,refereeName) => {
+    try {                    
+        const {tokenKey, email} = await getSupplierFromStorage()     
+        console.log("supplierId: "+JSON.stringify(supplierId))       
+        const response = await fetch(urlUpdateSettings(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                name,
+                dateOfBirth,
+                phoneNumber,
+                address,
+                latitude,
+                longitude,
+                radius,
+                playerName,
+                position,
+                refereeName}),
+        })                       
+        const responseJson = await response.json();        
+        const {result, data, message, time} = responseJson
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??  
+            return { data, message: ''}
+        } else {            
+            return { data, message: 'Cannot update settings'}
+        }
+    } catch (error) {        
+        return error
     }
 }

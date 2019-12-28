@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Supplier (
     avatar VARCHAR(500) DEFAULT ''
 
 );
-ALTER TABLE Supplier DROP COLUMN avatar;
+--ALTER TABLE Supplier DROP COLUMN avatar;
 ALTER TABLE Supplier ADD avatar VARCHAR(500) DEFAULT '';
 
 --Màn hình "Đăng ký dịch vụ"
@@ -30,12 +30,15 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
+ALTER TABLE PlayerService ADD id INTEGER AUTO_INCREMENT PRIMARY KEY;
+
 --Màn hình "Đăng ký dv trong tai"
 DROP TABLE RefereeService;
 CREATE TABLE IF NOT EXISTS RefereeService (    
     refereeName VARCHAR(300) NOT NULL ,    
     supplierId INTEGER
 );
+ALTER TABLE RefereeService ADD id INTEGER AUTO_INCREMENT PRIMARY KEY;
 --Sân bóng
 DROP TABLE Stadium;
 CREATE TABLE IF NOT EXISTS Stadium (
@@ -48,7 +51,6 @@ CREATE TABLE IF NOT EXISTS Stadium (
     supplierId INTEGER
 );
 --Đơn hàng = Order
-DROP TABLE Order;
 --status: "pending", "confirmed", "completed", "cancelled", 
 --"completed" = currentDAte > date
 --"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Orders (
     supplierId INTEGER,
     point POINT NOT NULL,
     status VARCHAR(120) DEFAULT "pending", 
-    createdDate DATETIME(6) DEFAULT NOW(),
+    createdDate DATETIME DEFAULT NOW(),
     dateTimeStart DATETIME,    
     dateTimeEnd DATETIME
 );
@@ -79,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Conversations (
     orderId INTEGER,
     sms TEXT,
     senderId VARCHAR(400),
-    createdDate DATETIME(6) DEFAULT NOW(),
+    createdDate DATETIME DEFAULT NOW(),
     seen BOOLEAN DEFAULT FALSE
 );
 
@@ -111,9 +113,7 @@ BEGIN
     END IF;
 END; //                                 
 delimiter ;
-SELECT checkToken("'2agr'oog&a'y;bb'b'wp;b", 6)
-
-
+--ok tai day
 delimiter //
 CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
  FOR EACH ROW BEGIN
@@ -125,13 +125,7 @@ CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
 END;//
 delimiter ;
 DROP TRIGGER tSupplier;
-
 DESCRIBE Supplier;
-
---meters
-SELECT 100000*ST_Distance(POINT(20.991267,105.812368),POINT(20.990314,105.815973));
-SELECT 100000*GLength(LineStringFromWKB(LineString(POINT(20.991267,105.812368), POINT(20.990314,105.815973))));
---tu 322 NGuyen TRai den 5 diem con lai
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
@@ -182,8 +176,6 @@ BEGIN
     END IF;
 END; //                                 
 delimiter ;
-SET @tokenKey=loginFacebook("fb112", "fb11@gmail.com", "Nguyen Van A");
-SELECT @tokenKey;
 
 DROP FUNCTION registerSupplier;
 --select md5("123456") = "e10adc3949ba59abbe56e057f20f883e"
@@ -199,7 +191,7 @@ BEGIN
     RETURN CONCAT(@myToken, ';', mySupplierId);           
 END; //                                 
 delimiter ;
-SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
+--SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 DROP FUNCTION loginSupplier;
 delimiter //
@@ -221,7 +213,7 @@ BEGIN
 END;//                              
 delimiter ;
 
-SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
+--SELECT loginSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
 --login Supplier
 select count(*) from Supplier where email = "hoang12@gmail.com" AND md5("123456") = password;
@@ -243,12 +235,7 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
---Màn hình PlayerService, khi bấm Submit(2 câu lênh):
-INSERT INTO PlayerService(playerName, position, supplierId)
-VALUES("Nguyen Van A", "1001", 1);
-UPDATE Supplier SET phoneNumber = "0912356" 
-WHERE id=1;
---Trước khi vào PlayerService, lấy số điện thoại của supplier, lat, lon ?
+
 
 --Màn hình PlayerService, sau khi bấm Save
 DROP PROCEDURE insertPlayerService;
@@ -277,7 +264,7 @@ BEGIN
 END;//
 delimiter;
 CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1);
-
+--ok den day
 DROP VIEW viewSupplierPlayerService;
 CREATE VIEW viewSupplierPlayerService AS
 SELECT 
@@ -297,6 +284,7 @@ Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
+PlayerService.id as playerId,
 PlayerService.playerName as playerName,
 PlayerService.position as position
 FROM Supplier 
@@ -324,6 +312,7 @@ Supplier.address as address,
 Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
+RefereeService.id as refereeId,
 RefereeService.refereeName as refereeName
 FROM Supplier 
 LEFT JOIN RefereeService 
@@ -341,8 +330,8 @@ SELECT COUNT(*) FROM PlayerService WHERE supplierId =
 
 DROP VIEW viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
-
 SELECT viewSupplierPlayerService.*, 
+RefereeService.id as refereeId,
 RefereeService.refereeName FROM viewSupplierPlayerService
 LEFT JOIN RefereeService 
 ON viewSupplierPlayerService.supplierId=RefereeService.supplierId
@@ -455,6 +444,42 @@ END;//
 delimiter;
 CALL insertRefereeService("trong tai x", 1, '1993-12-31', 44.55, 130.22, "Giap Nhat", 22.1);
 
+
+DROP PROCEDURE updateSettings;
+--Màn hình RefereeService, sau khi bấm Save
+delimiter //
+CREATE PROCEDURE updateSettings(supplierId INT,
+                                name VARCHAR(300),
+                                dateOfBirth DATE,
+                                phoneNumber VARCHAR(300),
+                                address TEXT,
+                                latitude FLOAT,
+                                longitude FLOAT,
+                                radius FLOAT,
+                                playerName VARCHAR(300),
+                                position VARCHAR(10),
+                                refereeName VARCHAR(300)
+                                ) 
+BEGIN    
+    UPDATE Supplier SET Supplier.name = name, 
+            Supplier.dateOfBirth = dateOfBirth, 
+            Supplier.phoneNumber = phoneNumber,
+            Supplier.address = address,
+            Supplier.point = POINT(latitude,longitude),
+            Supplier.radius = radius
+    WHERE Supplier.id = supplierId;
+    
+    UPDATE PlayerService SET 
+            PlayerService.playerName = playerName,
+            PlayerService.position = position
+    WHERE PlayerService.supplierId = supplierId;
+
+    UPDATE RefereeService SET 
+            RefereeService.refereeName = refereeName            
+    WHERE RefereeService.supplierId = supplierId;
+
+END;//
+delimiter;
 
 --Notifications 
 
