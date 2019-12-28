@@ -1,4 +1,4 @@
-DROP PROCEDURE insertStadium;
+DROP PROCEDURE IF EXISTS insertStadium;
 delimiter //
 CREATE PROCEDURE insertStadium( type INTEGER,
                                 stadiumName VARCHAR(300), 
@@ -28,37 +28,7 @@ BEGIN
     SELECT * FROM Stadium WHERE Stadium.supplierId = supplierId;
 END;//
 
-
-DROP VIEW viewSupplierStadium;
-CREATE VIEW viewSupplierStadium AS
-SELECT 
-Supplier.id as supplierId,
-Supplier.name as name,
-Supplier.avatar as avatar,
-Supplier.password as password,
-Supplier.phoneNumber as phoneNumber,
-Supplier.dateOfBirth as dateOfBirth,
-Supplier.facebookId as facebookId,
-Supplier.email as email,
-Supplier.userType as userType,
-Supplier.point as point,
-X(Supplier.point) as latitude,
-Y(Supplier.point) as longitude,
-Supplier.address as address,
-Supplier.radius as radius,
-Supplier.isActive as isActive,
-Supplier.tokenKey as tokenKey,
-Stadium.id as stadiumId,
-Stadium.stadiumName,
-X(Stadium.point) as stadiumLatitude,
-Y(Stadium.point) as stadiumLongitude,
-Stadium.address as stadiumAddress,
-Stadium.phoneNumber as stadiumPhoneNumber
-FROM Supplier 
-LEFT JOIN Stadium 
-ON Supplier.id=Stadium.supplierId 
-ORDER BY Supplier.id;
-
+DROP FUNCTION IF EXISTS checkToken;
 --Trigger - procedures
 delimiter //
 CREATE FUNCTION checkToken(tokenKey VARCHAR(500), supplierId INT) RETURNS BOOLEAN
@@ -73,8 +43,9 @@ BEGIN
     END IF;
 END; //                                 
 delimiter ;
---ok tai day
+
 delimiter //
+DROP TRIGGER IF EXISTS tSupplier;
 CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
  FOR EACH ROW BEGIN
    DECLARE numLength INT;
@@ -84,8 +55,7 @@ CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
    END IF;
 END;//
 delimiter ;
-DROP TRIGGER tSupplier;
-DESCRIBE Supplier;
+
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
@@ -106,11 +76,10 @@ SELECT
     )
   ) * 100000
   AS distance
-FROM Supplier HAVING distance <= radius + orderRadius;
-//
+FROM Supplier HAVING distance <= radius + orderRadius;//
 DELIMITER ;
 
-DROP FUNCTION loginFacebook;
+DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
 CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), email VARCHAR(300), name VARCHAR(250)) RETURNS VARCHAR(500)
 BEGIN
@@ -134,8 +103,7 @@ BEGIN
 END; //                                 
 delimiter ;
 
-DROP FUNCTION registerSupplier;
---select md5("123456") = "e10adc3949ba59abbe56e057f20f883e"
+DROP FUNCTION IF EXISTS registerSupplier;
 delimiter //
 CREATE FUNCTION registerSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
 BEGIN
@@ -148,9 +116,8 @@ BEGIN
     RETURN CONCAT(@myToken, ';', mySupplierId);           
 END; //                                 
 delimiter ;
---SELECT registerSupplier("hoang12@gmail.com", "123456", "default") AS tokenKeySupplierId;
 
-DROP FUNCTION loginSupplier;
+DROP FUNCTION IF EXISTS loginSupplier;
 delimiter //
 CREATE FUNCTION loginSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
 BEGIN
@@ -170,8 +137,7 @@ BEGIN
 END;//                              
 delimiter ;
 
---create token
-DROP FUNCTION createToken;
+DROP FUNCTION IF EXISTS createToken;
 delimiter //
 CREATE FUNCTION createToken() RETURNS VARCHAR(500)
 BEGIN    
@@ -179,7 +145,7 @@ BEGIN
 END; //   
 delimiter ;
 
-DROP PROCEDURE insertPlayerService;
+DROP PROCEDURE IF EXISTS insertPlayerService;
 delimiter //
 CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
                                     position VARCHAR(10), 
@@ -205,119 +171,7 @@ BEGIN
 END;//
 delimiter;
 
---ok den day
-DROP VIEW viewSupplierPlayerService;
-CREATE VIEW viewSupplierPlayerService AS
-SELECT 
-Supplier.id as supplierId,
-Supplier.name as name,
-Supplier.avatar as avatar,
-Supplier.password as password,
-Supplier.phoneNumber as phoneNumber,
-Supplier.dateOfBirth as dateOfBirth,
-Supplier.facebookId as facebookId,
-Supplier.email as email,
-Supplier.userType as userType,
-Supplier.point as point,
-X(point) as latitude,
-Y(point) as longitude,
-Supplier.address as address,
-Supplier.radius as radius,
-Supplier.isActive as isActive,
-Supplier.tokenKey as tokenKey,
-PlayerService.id as playerId,
-PlayerService.playerName as playerName,
-PlayerService.position as position
-FROM Supplier 
-LEFT JOIN PlayerService 
-ON Supplier.id=PlayerService.supplierId 
-ORDER BY Supplier.id;
-
-
-DROP VIEW viewSupplierRefereeService;
-CREATE VIEW viewSupplierRefereeService AS
-SELECT 
-Supplier.id as supplierId,
-Supplier.name as name,
-Supplier.avatar as avatar,
-Supplier.password as password,
-Supplier.phoneNumber as phoneNumber,
-Supplier.dateOfBirth as dateOfBirth,
-Supplier.facebookId as facebookId,
-Supplier.email as email,
-Supplier.userType as userType,
-Supplier.point as point,
-X(point) as latitude,
-Y(point) as longitude,
-Supplier.address as address,
-Supplier.radius as radius,
-Supplier.isActive as isActive,
-Supplier.tokenKey as tokenKey,
-RefereeService.id as refereeId,
-RefereeService.refereeName as refereeName
-FROM Supplier 
-LEFT JOIN RefereeService 
-ON Supplier.id=RefereeService.supplierId 
-ORDER BY Supplier.id;
-
-DROP VIEW viewSupplierServices;
-
-CREATE VIEW viewSupplierServices AS
-SELECT viewSupplierPlayerService.*, 
-RefereeService.id as refereeId,
-RefereeService.refereeName FROM viewSupplierPlayerService
-LEFT JOIN RefereeService 
-ON viewSupplierPlayerService.supplierId=RefereeService.supplierId
-ORDER BY RefereeService.supplierId;
-
-DROP VIEW viewSupplierServicesOrders;
-
-CREATE VIEW viewSupplierServicesOrders AS
-SELECT viewSupplierServices.*, 
-Orders.id as orderId,
-Orders.customerId as customerId,
-Orders.point as orderPoint,
-Orders.status as status,
-Orders.typeRole as typeRole,
-Orders.dateTimeStart as dateTimeStart,
-Orders.dateTimeEnd as dateTimeEnd
-FROM viewSupplierServices
-LEFT JOIN Orders 
-ON viewSupplierServices.supplierId = Orders.supplierId
-ORDER BY Orders.supplierId;
-
-DROP TRIGGER tCheckTime;
-delimiter //
-CREATE TRIGGER tCheckTime BEFORE INSERT ON Orders
- FOR EACH ROW BEGIN
-    IF (NEW.dateTimeStart < NEW.createdDate OR TIMESTAMPDIFF(MINUTE,NEW.dateTimeStart, NEW.dateTimeEnd) < 180) THEN
-     signal sqlstate '45000' set message_text = "dateTimeStart, dateTimeEnd error in range";     
-   END IF;
-END;//
-delimiter ;
-
-delimiter //
-CREATE TRIGGER tCreateCustomerId BEFORE INSERT ON Customer
-    FOR EACH ROW 
-    SET NEW.customerId = md5(UUID());//    
-delimiter ;
-
-
-SELECT Orders.id as orderId, 
-Orders.customerId as customerId,
-Orders.supplierId as supplierId,
-X(Orders.point) as latitude,
-Y(Orders.point) as longitude,
-Orders.status as status,
-Conversations.sms as sms,
-Conversations.senderId as senderId,
-Conversations.seen as seen
-FROM Conversations
-INNER JOIN Orders
-ON Conversations.orderId=Orders.id
-ORDER BY Conversations.createdDate DESC;
-
-DROP PROCEDURE insertRefereeService;
+DROP PROCEDURE IF EXISTS insertRefereeService;
 delimiter //
 CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),          
                                     phoneNumber VARCHAR(300),
@@ -346,8 +200,7 @@ BEGIN
 END;//
 delimiter;
 
-DROP PROCEDURE updateSettings;
---Màn hình RefereeService, sau khi bấm Save
+DROP PROCEDURE IF EXISTS updateSettings;
 delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
                                 name VARCHAR(300),
