@@ -44,18 +44,72 @@ DROP TABLE Stadium;
 CREATE TABLE IF NOT EXISTS Stadium (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     type INTEGER DEFAULT 0,
-    name VARCHAR(300) NOT NULL,
+    stadiumName VARCHAR(300) NOT NULL,
     point POINT,
-    address TEXT,
+    address VARCHAR(500) NOT NULL UNIQUE,
     phoneNumber VARCHAR(300),
     supplierId INTEGER
 );
---Đơn hàng = Order
---status: "pending", "confirmed", "completed", "cancelled", 
---"completed" = currentDAte > date
---"missing"="confirmed" với thằng khác => phải xử lý local storage trong RN
---Nhap vi tri: VD: Quan Thnh Xuan, Hanoi
---https://maps.googleapis.com/maps/api/geocode/json?address=Quan TX, Hanoi&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+DROP PROCEDURE insertStadium;
+delimiter //
+CREATE PROCEDURE insertStadium( type INTEGER,
+                                stadiumName VARCHAR(300), 
+                                latitude FLOAT, 
+                                longitude FLOAT,
+                                address VARCHAR(500), 
+                                phoneNumber VARCHAR(300), 
+                                supplierId INTEGER) 
+BEGIN    
+    DECLARE numberOfStadiums INT DEFAULT 0;
+    DECLARE MAX_STADIUMS INT;
+    SET MAX_STADIUMS = 4;    
+    IF supplierId = 0 THEN
+        signal sqlstate '45000' set message_text = "You must enter supplierId";
+    END IF;
+
+    SELECT COUNT(*) INTO numberOfStadiums FROM Stadium WHERE Stadium.supplierId = supplierId;
+    IF numberOfStadiums > MAX_STADIUMS THEN
+        signal sqlstate '45000' set message_text = "This supplier only has MAX_STADIUMS = 5";
+    END IF;
+    IF type = 0 AND (latitude = 0 OR longitude = 0) AND address = '' THEN
+        signal sqlstate '45000' set message_text = "type = 0 => point, address not null";
+    END IF;
+
+    INSERT INTO Stadium(type, stadiumName, point, address, phoneNumber, supplierId)
+    VALUES(type, stadiumName, POINT(latitude, longitude), address, phoneNumber, supplierId);        
+    SELECT * FROM Stadium WHERE Stadium.supplierId = supplierId;
+END;//
+CALL insertStadium(0, 'hang day', 1.2, 2.2, "acc", '', 3);
+
+DROP VIEW viewSupplierStadium;
+CREATE VIEW viewSupplierStadium AS
+SELECT 
+Supplier.id as supplierId,
+Supplier.name as name,
+Supplier.avatar as avatar,
+Supplier.password as password,
+Supplier.phoneNumber as phoneNumber,
+Supplier.dateOfBirth as dateOfBirth,
+Supplier.facebookId as facebookId,
+Supplier.email as email,
+Supplier.userType as userType,
+Supplier.point as point,
+X(Supplier.point) as latitude,
+Y(Supplier.point) as longitude,
+Supplier.address as address,
+Supplier.radius as radius,
+Supplier.isActive as isActive,
+Supplier.tokenKey as tokenKey,
+Stadium.id as stadiumId,
+Stadium.stadiumName,
+X(Stadium.point) as stadiumLatitude,
+Y(Stadium.point) as stadiumLongitude,
+Stadium.address as stadiumAddress,
+Stadium.phoneNumber as stadiumPhoneNumber
+FROM Supplier 
+LEFT JOIN Stadium 
+ON Supplier.id=Stadium.supplierId 
+ORDER BY Supplier.id;
 
 
 DROP TABLE Orders;
@@ -263,7 +317,6 @@ BEGIN
     SELECT * FROM PlayerService WHERE PlayerService.supplierId = supplierId;
 END;//
 delimiter;
-CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1);
 --ok den day
 DROP VIEW viewSupplierPlayerService;
 CREATE VIEW viewSupplierPlayerService AS

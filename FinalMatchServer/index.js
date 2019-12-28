@@ -13,6 +13,7 @@ app.use(fileUpload({
 }))
 const SupplierRoute = require('./routings/SupplierRoute')
 const PlayerServiceRoute = require('./routings/PlayerServiceRoute')
+const StadiumRoute = require('./routings/StadiumRoute')
 const RefereeServiceRoute = require('./routings/RefereeServiceRoute')
 const GoogleServiceRoute = require('./routings/GoogleServiceRoute')
 const TokenRoute = require('./routings/TokenRoute')
@@ -23,6 +24,7 @@ app.use('/playerServices', PlayerServiceRoute)
 app.use('/refereeServices', RefereeServiceRoute)
 app.use('/token', TokenRoute)
 app.use('/googleServiceRoute', GoogleServiceRoute)
+app.use('/stadium', StadiumRoute)
 
 
 app.listen(PORT, () => {
