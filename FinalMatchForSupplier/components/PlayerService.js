@@ -66,15 +66,24 @@ class PlayerService extends Component {
     //Test ok in postman
     const {playerName, radius} = this.state
     
-    const position = this.getPosition(this.state)
+    const position = getPosition(this.state)
     const {latitude,longitude, address} = this.state.currentLocation
+    const {supplierId, email} = await getSupplierFromStorage()          
+    
+    alert(`aa = ${JSON.stringify({playerName,
+      position,
+      supplierId,
+      latitude,
+      longitude,
+      address,
+      radius})}`)
+
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
       return
-    }
-    
+    }    
     try {      
-      const {supplierId, email} = await getSupplierFromStorage()      
+      
       await insertPlayerService(playerName,
         position,
         supplierId,

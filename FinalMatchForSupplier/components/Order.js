@@ -1,19 +1,80 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity,SafeAreaView } from 'react-native';
+import { Text, 
+    View, StyleSheet, TouchableOpacity,
+    SafeAreaView,
+    Modal, Image,    
+    Animated,
+ } from 'react-native';
 import Header from './Header'
+import LinearGradient from 'react-native-linear-gradient'
 
 export default class Order extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            fadeIn: new Animated.Value(0)
+        }
+    }
+    _pressMail = () => {
+        alert("an vao mail")
+    }
+    componentDidMount() {        
+        const {fadeIn} = this.state
+        setInterval(() => {            
+            Animated.timing(
+                fadeIn,
+                {
+                  toValue: 1,
+                  duration: 200,
+                }
+              ).start(() => {                                    
+                  fadeIn.setValue(0)
+              })
+        }, 500)        
+    }
     render() {
+        
         return (
-            <SafeAreaView style ={styles.container}>
-                <Header title={"ĐẶt hàng"}/> 
-                <Text style={{fontSize: 50}}>Order</Text>
-                
+            <SafeAreaView style ={styles.container}>               
+                <OpacityView 
+                fadeIn = {this.state.fadeIn}
+                pressMail={() => {
+                    this._pressMail()
+                    
+                }} >
+                </OpacityView>
+                <View>
+                        <Header title={"ĐẶt hàng"} />
+                        <Text style={{ fontSize: 50 }}>Order</Text>
+                    </View>                            
             </SafeAreaView>
         )
     }
 }
+const OpacityView = (props) => {
+    return <LinearGradient colors = {['black', 'white']} 
+    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+    useAngle = {true}
+    angle= {0}
+    angleCenter = {{ x: 0.5, y: 0.5}}
+    style={{
+        backgroundColor: 'black',
+        opacity: 1,
+        position: 'absolute',
+        justifyContent: 'center', alignItems: 'center',
+        zIndex: 100, 
+        top: 0, bottom: 0, left: 0, right: 0
+    }}>
+        <TouchableOpacity style={{ width: 100, height: 100, borderRadius: 50 }}
+            onPress={props.pressMail}>
+            <Animated.Image
+                source={require('../images/mail.png')}
+                style={{ width: 100, height: 100, opacity: props.fadeIn }}>
 
+            </Animated.Image>
+        </TouchableOpacity>        
+    </LinearGradient>
+}
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
