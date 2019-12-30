@@ -25,15 +25,12 @@ class LoginRegister extends Component {
         retypePassword: '12345'
     }
     _loginWithFacebook = async () => {
-        const { email } = this.state
-        debugger
+        const { email } = this.state        
         const stackNavigation = this.props.navigation
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
         
-        //* Bo qua login facebook
-        this.props.navigation.navigate("MyTabNavigator", { email })        
-        debugger
+        //* Bo qua login facebook        
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
             (result) => {
                 if (result.isCancelled) {
@@ -79,8 +76,7 @@ class LoginRegister extends Component {
                 //dispatch = call action
                 this.props.dispatch(getStackNavigation(stackNavigation))
                 this.props.navigation.navigate("MyTabNavigator", { email })
-            } else {
-                
+            } else {                
                 alert(message)
             }
         } catch(error) {

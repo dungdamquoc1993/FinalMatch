@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 import { Text, 
     View, StyleSheet, TouchableOpacity,
     SafeAreaView,
-    Modal, Image,    
+    Image,    
     Animated,
+    ImageBackground,
+    Dimensions,
  } from 'react-native';
 import Header from './Header'
 import LinearGradient from 'react-native-linear-gradient'
-
+import Modal, { ModalContent } from 'react-native-modals'
+const {width, height} = Dimensions.get("window")
 export default class Order extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            fadeIn: new Animated.Value(0)
+            fadeIn: new Animated.Value(0),
+            showMail: false
         }
     }
     _pressMail = () => {
-        alert("an vao mail")
+        this.setState({showMail: true})
     }
     componentDidMount() {        
         const {fadeIn} = this.state
@@ -33,20 +37,34 @@ export default class Order extends Component {
         }, 500)        
     }
     render() {
-        
+        const {showMail, fadeIn} = this.state
         return (
             <SafeAreaView style ={styles.container}>               
                 <OpacityView 
                 fadeIn = {this.state.fadeIn}
                 pressMail={() => {
-                    this._pressMail()
-                    
+                    this._pressMail()                    
                 }} >
                 </OpacityView>
+                <Modal                              
+                    visible={showMail}                    
+                    onTouchOutside={() => {
+                        this.setState({ showMail: false });
+                    }}
+                >
+                    <ModalContent                     
+                        style={{justifyContent: 'center',                        
+                        alignItems: 'center',width: 0.6*width}} >
+                        <ImageBackground source={require("../images/backgroundMail.jpg")} 
+                            style={{ width: '100%', height: '100%'}}>
+                            <Text>Inside</Text>
+                        </ImageBackground>
+                    </ModalContent>
+                </Modal>
                 <View>
-                        <Header title={"ĐẶt hàng"} />
-                        <Text style={{ fontSize: 50 }}>Order</Text>
-                    </View>                            
+                    <Header title={"ĐẶt hàng"} />
+                    <Text style={{ fontSize: 50 }}>Order</Text>
+                </View>                            
             </SafeAreaView>
         )
     }

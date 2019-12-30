@@ -32,7 +32,7 @@ const StackNavigator = createAppContainer(createStackNavigator({
     screen: Stadium,
   },
 }, {
-  initialRouteName: 'LoginRegister',
+  initialRouteName: 'Splash',
   header: null
 }))
 export default () => <Provider store={store}>

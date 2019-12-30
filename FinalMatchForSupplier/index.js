@@ -10,6 +10,7 @@
  * yarn add @react-native-community/async-storage 
  * yarn add react-native-linear-gradient
  * npm install --save react-native-fbsdk 
+ * yarn add react-native-modals
  * 
  */
 
