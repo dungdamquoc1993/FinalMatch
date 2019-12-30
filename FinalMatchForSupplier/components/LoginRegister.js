@@ -13,7 +13,9 @@ import {getStackNavigation} from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
 import {registerSupplier, loginSupplier} from '../server/myServices'
 import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
-import { LoginManager, LoginResult, AccessToken } from "react-native-fbsdk";
+import { LoginManager, LoginResult, 
+    AccessToken, GraphRequest,
+    GraphRequestManager, } from "react-native-fbsdk";
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 //export = public
 //Component = thẻ
@@ -24,33 +26,62 @@ class LoginRegister extends Component {
         password: '12345',
         retypePassword: '12345'
     }
+    componentDidMount() {        
+        this.graphRequestManager = new GraphRequestManager()                
+    }
     _loginWithFacebook = async () => {
-        const { email } = this.state        
+        const { email } = this.state
         const stackNavigation = this.props.navigation
+        const that = this
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        
-        //* Bo qua login facebook        
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-            (result) => {
+            (result) => {           
+                
                 if (result.isCancelled) {
                     console.log("Login cancelled");
                 } else {
+                    AccessToken.getCurrentAccessToken().then(tokenObject => {              
+                        const {accessToken, userID} = tokenObject
+                        //alert(JSON.stringify({accessToken, userID}))                         
+                        const infoRequest = new GraphRequest(
+                            `/${userID}`,
+                            null,
+                            (error, facebookUser) => {
+                                alert(JSON.stringify(facebookUser))
+                                if (error) {
+                                    alert('Error fetching data: ' + error.toString());
+                                } else {
+                                    alert('Success fetching data: ' + facebookUser.toString());
+                                }
+                            },
+                        )                        
+                        const avatarRequest = new GraphRequest(
+                            `/${userID}/picture?type=square`,
+                            null,
+                            (error, result) => {
+                                alert("aa" + JSON.stringify({error, result}))
+                                if (error) {
+                                    alert('Error fetching data: ' + error.toString());
+                                } else {
+                                    alert('Success fetching data: ' + result.toString());
+                                }
+                            },
+                        )                        
+                        that.graphRequestManager.addRequest(infoRequest).start();
+                        that.graphRequestManager.addRequest(avatarRequest).start();                       
 
-                    AccessToken.getCurrentAccessToken().then(accessToken => {
-                        debugger
-                        //alert(accessToken)
-                        this.props.navigation.navigate("MyTabNavigator", { email })
+                        //call ham login tren server
+                        //this.props.navigation.navigate("MyTabNavigator", { email })
                     }).catch(error => {
                         alert(error)
                         console.log("Cannot get access token:" + error)
                     })
                 }
             }).catch((error) => {
-                alert("Cannot login Facebook: " +error)
-                //console.log("Login fail with error: " + error);
+                debugger
+                alert("Cannot login Facebook: " + error)
             })
-        
     }
     _login = async () => {
         this.setState({isLogin: true})
