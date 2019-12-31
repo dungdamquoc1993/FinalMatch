@@ -329,7 +329,7 @@ export default class Settings extends Component {
                 style={styles.buttonGetLocation}
               >
               {(address.length > 0 || district.length > 0 || province.length > 0) &&
-                <Text>{address} - {district} - {province}</Text>}
+                <Text style={{marginRight:7,fontSize:17}}>{address} - {district} - {province}</Text>}
                 <FontAwesome5
                   name={'map-marker-alt'}
                   size={30}
@@ -344,13 +344,16 @@ export default class Settings extends Component {
               </Text>
               <TextInput
                 style={styles.radiusInput}
-                placeholder={'Enter radius'}
+                placeholder={'radius'}
                 keyboardType={'numeric'}
                 value={`${radius}`}
                 onChangeText={radius => {
                   this.setState ({radius});
                 }}
               />
+              <Text style={{fontSize: 20,height:40,lineHeight:40,marginLeft:5}}>
+                KM
+              </Text>
             </View>
           </View>
           {isIOS () &&
@@ -384,26 +387,24 @@ export default class Settings extends Component {
                 }}
               />
             </View>}
+            <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black',marginVertical:5}}/>
           {/* get location  */}
           {/* ban kinh */}
           {playerId > 0 && <View
             style={{
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'black',
               alignItems: 'center',
             }}
           >
             
             <View style={styles.personalInformation}>
-              <Text style={styles.textLabel}>Role: </Text>              
-              <TextInput style={[styles.textRole, {backgroundColor: 'red'}]} 
+              <Text style={styles.textRole}>Role: </Text>              
+              <TextInput style={styles.textInputRole} 
                   value={playerName} onChangeText={(playerName) => {
                     this.setState({playerName})
               }} />              
             </View>
             <View style={styles.personalInformation}>
-                <Text style={styles.textLableReferee}>Completed : </Text>
+                <Text style={styles.textRole}>Completed : </Text>
                 <Text style={styles.textRolereferee}> 11</Text>
               </View>
             <Text style={{marginBottom: 5,fontSize:20}}>Position</Text>
@@ -462,23 +463,21 @@ export default class Settings extends Component {
               </TouchableOpacity>
             </View>
               </View> }
+              <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black'}}/>
           {refereeId > 0 && <View
             style={{
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'black',
               alignItems: 'center',
             }}
           >
             <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Referee name: </Text>
-              <TextInput style={[styles.textRole, {backgroundColor: 'red'}]} 
+              <Text style={styles.textRole}>Referee name: </Text>
+              <TextInput style={styles.textInputRole} 
                   value={refereeName} onChangeText={(refereeName) => {
                     this.setState({refereeName})
               }} />              
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textLableReferee}>Completed : </Text>
+              <Text style={styles.textRole}>Completed : </Text>
               <Text style={styles.textRolereferee}> 11</Text>
             </View>
           </View>}
@@ -562,10 +561,25 @@ const styles = StyleSheet.create ({
   radiusLabel: {
     height: 40,
     lineHeight: 40,
-    paddingStart: 30,
     fontSize: 20,
   },
   radiusInput: {
+    height: 45,
+    borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: 1,
+    paddingHorizontal:35 ,
+    color: 'black',
+    width: 100,
+    fontSize:17,
+  },
+  age: {
+    width: '40%',
+    height: 60,
+    lineHeight: 60,
+  },
+  textInputRole: {
+    width: '60%',
     height: 45,
     borderRadius: 5,
     borderColor: 'black',
@@ -573,21 +587,14 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
-    width: 100,
     fontSize:17
   },
-  age: {
-    width: '40%',
-    height: 60,
-    lineHeight: 60,
-  },
   textRole: {
-    width: '80%',
+    width: '40%',
     height: 40,
-    marginEnd: 30,
-    color: 'black',
     lineHeight: 40,
-    fontSize:15,
+    paddingStart: 30,
+    fontSize: 20,
   },
   positions: {
     flexDirection: 'row',
@@ -617,11 +624,5 @@ const styles = StyleSheet.create ({
     lineHeight: 40,
     fontSize:20
   },
-  textLableReferee: {
-    width: '40%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 30,
-    fontSize:20
-  },
+ 
 });
