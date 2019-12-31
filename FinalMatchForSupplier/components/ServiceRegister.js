@@ -53,7 +53,9 @@ class ServiceRegister extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Service Register'} hideBack={true}/>  
+          <View style={{marginLeft:90}}>
+          <Header title={'Service Register'} hideBack={true}/>
+          </View>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {

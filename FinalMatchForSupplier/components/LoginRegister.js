@@ -17,6 +17,7 @@ import { LoginManager, LoginResult,
     AccessToken, GraphRequest,
     GraphRequestManager, } from "react-native-fbsdk";
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
+
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
