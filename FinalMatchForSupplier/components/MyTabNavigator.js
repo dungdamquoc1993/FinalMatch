@@ -12,6 +12,7 @@ import ServiceRegister from './ServiceRegister';
 import Notification from './Notification';
 import Order from './Order';
 import Settings from './Settings';
+import {Image} from 'react-native'
 //mau sac
 import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
 
@@ -29,22 +30,22 @@ const TabNavigator = createBottomTabNavigator(
                 let iconName = ""
                 switch (routeName) {
                     case 'ServiceRegister':
-                        iconName = 'accessible-icon'
+                        iconName = require('../images/document.png')
                         break
                     case 'Notification':
-                        iconName = `accessible-icon`
+                        iconName = require('../images/notification.png')
                         break
                     case 'Order':
-                        iconName = `accessible-icon`
+                        iconName = require('../images/order.png')
                         break
                     case 'Settings':
-                        iconName = `accessible-icon`
+                        iconName = require('../images/football-player.png')
                         break
                     default:
                         iconName = ""
                         break
                 }
-                return <FontAwesome5 name={iconName} size={20} color={tintColor} />
+                return <Image source={iconName} style={{width:30,height:30}} />
             },
         }),
         tabBarOptions: {
