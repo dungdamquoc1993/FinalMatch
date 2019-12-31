@@ -53,8 +53,8 @@ class ServiceRegister extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-          <View style={{marginLeft:90}}>
-          <Header title={'Service Register'} hideBack={true}/>
+          <View style={{marginLeft:25}}>
+          <Header title={'Đăng Ký Cung Cấp Dịch Vụ'} hideBack={true}/>
           </View>
         <TouchableOpacity
           style={styles.button}
@@ -63,7 +63,7 @@ class ServiceRegister extends Component {
           }}
         >
           <Text style={styles.txt}>
-            Đăng Ký Dịch Vụ Cầu Thủ
+            Cầu Thủ
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -73,7 +73,7 @@ class ServiceRegister extends Component {
           }}
         >
           <Text style={styles.txt}>
-            Đăng Ký Dịch Vụ Trọng Tài{' '}
+            Trọng Tài{' '}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -83,7 +83,7 @@ class ServiceRegister extends Component {
           }}
         >
           <Text style={styles.txt}>
-            Đăng Ký Sân Bóng
+            Sân Bóng
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -104,21 +104,21 @@ const styles = StyleSheet.create ({
     flex: 1
   },
   txt:{
-    lineHeight:0.13 * screenHeight,
+    lineHeight:0.08 * screenHeight,
     fontSize:25,
     fontWeight:'300',
     color:'white'
   },
   button: {
     backgroundColor:MAIN_COLOR,
-    borderWidth:4,
+    borderWidth:8,
     borderColor:COLOR_BUTTON,
     padding: 10,
-    margin: 20,
+    margin: 30,
     fontSize: 30,
     width: 0.8 * screenWidth,
     height: 0.15 * screenHeight,
-    borderRadius: 25,
+    borderRadius: 40,
     alignItems: 'center'
   },
 });

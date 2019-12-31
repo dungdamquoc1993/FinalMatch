@@ -462,8 +462,9 @@ export default class Settings extends Component {
                 />
               </TouchableOpacity>
             </View>
+            <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black'}}/>
               </View> }
-              <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black'}}/>
+             
           {refereeId > 0 && <View
             style={{
               alignItems: 'center',

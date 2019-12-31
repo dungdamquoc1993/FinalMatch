@@ -7,7 +7,7 @@ export default class Notification extends Component {
         return (
             <SafeAreaView style ={styles.container}>
             <View style ={{marginLeft:0.3*width}}>
-            <Header title={"Thong bao"} hideBack={true}/> 
+            <Header title={"Thông Báo"} hideBack={true}/> 
             </View>
                 
                 <Text>Notificaiton</Text>                

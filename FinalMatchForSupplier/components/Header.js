@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
         lineHeight: 50, 
         fontSize: 30,
         fontFamily: 'arial',
-        textAlign:'center'
+        textAlign:'center',
+        fontWeight: 'bold',
     }
 })
 export default connect(

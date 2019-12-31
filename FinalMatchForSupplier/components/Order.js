@@ -68,8 +68,8 @@ export default class Order extends Component {
             </ImageBackground>
           </ModalContent>
         </Modal>
-        <View style={{marginLeft: 0.35 * width}}>
-          <Header title={'Order'} hideBack={true} />
+        <View style={{marginLeft: 0.3 * width}}>
+          <Header title={'Đơn Hàng'} hideBack={true} />
         </View>
       </SafeAreaView>
     );

@@ -32,13 +32,13 @@ class Splash extends Component {
             Animated.timing(this.state.logoOpacity,{
                 toValue: 1,                  
                 //duration: 1500,              
-                duration: 10,              
+                duration: 1500,              
             }),
             //Animate Text ?
             Animated.timing(this.state.titleMarginTop, {
                 toValue: 10,
                 //duration: 1000, //1000 miliseconds = 1 second
-                duration: 10,              
+                duration: 1000,              
             })
         ]).start(async () => {
             //End of animations            
@@ -67,7 +67,7 @@ class Splash extends Component {
             </Animated.Image>
             <Animated.Text style={{...styles.title, 
                                 marginTop:this.state.titleMarginTop}}>
-                Never miss FinalMatch
+                Never miss the FinalMatch
             </Animated.Text>
         </View>
     }
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
         marginTop: 10,    
         textAlign: 'center',
         width: 400,
-        fontSize: 21
+        fontSize: 35
     }
 })
