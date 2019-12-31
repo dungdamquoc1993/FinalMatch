@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Picker,
+  Image
 } from 'react-native';
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,6 +22,7 @@ import {
 import {insertPlayerService, getSupplierById} from '../server/myServices'
 import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition} from '../helpers/Helpers'
 import {NavigationActions} from 'react-navigation'
+import {MAIN_COLOR} from '../colors/colors';
 class PlayerService extends Component {
   static navigationOptions = {
     header: null,
@@ -127,8 +129,9 @@ class PlayerService extends Component {
     const {radius} = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'PlayerService'}/>
-        
+        <Header title={'PlayerService'} pressBackButton={() => {
+        }}/>
+        <View style={{marginTop:30}}/>
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
             Tên Thi Đấu:
@@ -156,9 +159,16 @@ class PlayerService extends Component {
             }}
           />
         </View>
-        <Text style={styles.textPosition}>
-          Position:
-        </Text>
+        <TouchableOpacity onPress={() => {
+          this._pressLocation()
+        }}
+          style={styles.buttonGetLocation}
+        >
+          <Text style={styles.textGetLocation}> Get Location</Text>
+          <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
+        </TouchableOpacity>
+        {(address.length > 0 || district.length > 0 || province.length > 0)
+          && <Text style={{fontSize:16}}>{address} - {district} - {province}</Text>}
         <View style={styles.positions}>
           <TouchableOpacity
             style={styles.eachPosition}
@@ -169,7 +179,7 @@ class PlayerService extends Component {
             <Text>GK</Text>
             <FontAwesome5
               name={isGK == true ? 'check-square' : 'square'}
-              size={35}
+              size={40}
               color={'black'}
             />
           </TouchableOpacity>
@@ -182,7 +192,7 @@ class PlayerService extends Component {
             <Text>CB</Text>
             <FontAwesome5
               name={isCB == true ? 'check-square' : 'square'}
-              size={35}
+              size={40}
               color={'black'}
             />
           </TouchableOpacity>
@@ -195,7 +205,7 @@ class PlayerService extends Component {
             <Text>MF</Text>
             <FontAwesome5
               name={isMF == true ? 'check-square' : 'square'}
-              size={35}
+              size={40}
               color={'black'}
             />
           </TouchableOpacity>
@@ -208,46 +218,34 @@ class PlayerService extends Component {
             <Text>CF</Text>
             <FontAwesome5
               name={isCF == true ? 'check-square' : 'square'}
-              size={35}
+              size={40}
               color={'black'}
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            this._pressLocation ();
-          }}
-          style={styles.buttonGetLocation}
-        >
-          <Text style={styles.textGetLocation}>
-            {' '}Get Location
-          </Text>
-          <FontAwesome5 name={'map-marker-alt'} size={25} color={'black'} />
-        </TouchableOpacity>
-
-        {(address.length > 0 || district.length > 0 || province.length > 0) &&
-          <Text>{address} - {district} - {province}</Text>}
         <View style={styles.radiusInput}>
           <Text style={styles.textLabelRadius}>
             Bán kính phục vụ:
           </Text>
-          <View style={styles.dropDownRadius}>
-            {/* <Dropdown placeholder={'12'} data={radius} /> */}
+            
               <TextInput
-              style={styles.textInput}
+              style={styles.textInputRadius}
               placeholder={'Enter radius'}
               keyboardType={'numeric'}
               onChangeText={radius => {
                 this.setState ({radius});
               }}
               />
-          </View>
+          <Text style={styles.textKM}>
+            KM
+          </Text>
 
         </View>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
+          
             this._insertPlayerService()
         }}>
-          <Text>Insert PlayerService</Text>
+          <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -275,15 +273,17 @@ const styles = StyleSheet.create ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical:7
   },
   textLabel: {
-    width: '35%',
+    width: '40%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
+    fontSize:20,
   },
   textInput: {
-    width: '65%',
+    width: '60%',
     height: 50,
     borderRadius: 8,
     borderColor: 'black',
@@ -291,9 +291,10 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
-    fontSize: 16
+    fontSize: 20
   },
   positions: {
+    marginVertical:25,
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 50,
@@ -312,21 +313,22 @@ const styles = StyleSheet.create ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom:20
   },
   textLabelRadius: {
-    width: '40%',
+    width: '50%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
+    fontSize:20
   },
   buttonGetLocation: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginVertical: 30,
+    marginVertical: 20,
   },
   textGetLocation: {
-    marginRight: 10,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -335,9 +337,34 @@ const styles = StyleSheet.create ({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  dropDownRadius: {
-    width: 100,
-    marginLeft: 8,
-    marginBottom: 20,
+  textInputRadius: {
+    width: '35%',
+    height: 50,
+    borderRadius: 8,
+    borderColor: 'black',
+    marginEnd:5,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    color: 'black',
+    fontSize: 20
   },
+  textKM:{
+    width: '15%',
+    height: 40,
+    lineHeight: 40,
+    fontSize:20
+  },
+  btnSubmit: {
+    height: 60,
+    width: 200,
+    backgroundColor: MAIN_COLOR,
+    borderRadius: 7,
+    alignItems: 'center',
+    marginTop: 20,
+  }, txtSubmit: {
+    lineHeight: 60,
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'white'
+  }
 });

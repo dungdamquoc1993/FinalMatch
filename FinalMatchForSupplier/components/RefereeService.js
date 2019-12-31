@@ -162,13 +162,12 @@ export class RefereeService extends Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'RefereeService'} />
-        <Text style={{ fontSize: 20, marginVertical: 20 }}>
-          Đăng ký dịch vụ trọng tài
-        </Text>
+        <Header title={'RefereeService'} pressBackButton={() => {
+        }}/>
+        <View style={{marginTop:20}}/>
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
-            Tên:
+            Tên Trọng Tài:
           </Text>
           <TextInput
             style={styles.textInput}
@@ -231,20 +230,23 @@ export class RefereeService extends Component {
           <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
         </TouchableOpacity>
         {(address.length > 0 || district.length > 0 || province.length > 0)
-          && <Text>{address} - {district} - {province}</Text>}
-        <View style={styles.radiusInput}>
+          && <Text style={{ fontSize:16}}>{address} - {district} - {province}</Text>}
+          <View style={styles.radiusInput}>
           <Text style={styles.textLabelRadius}>
             Bán kính phục vụ:
           </Text>
-          <View style={styles.dropDownRadius}>
-            <TextInput placeholder="Radius ?" 
-            onChangeText = {(text) => {
-              this.setState({radius: parseInt(text)})
-            }}
-            value={`${radius}`}>
-
-            </TextInput>
-          </View>
+            
+              <TextInput
+              style={styles.textInputRadius}
+              placeholder={'Enter radius'}
+              keyboardType={'numeric'}
+              onChangeText={radius => {
+                this.setState ({radius});
+              }}
+              />
+          <Text style={styles.textKM}>
+            KM
+          </Text>
 
         </View>
         <TouchableOpacity style={styles.btnSubmit} onPress={() => {
@@ -309,6 +311,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical:5,
   },
   dateTime: {
     flexDirection: 'row',
@@ -318,20 +321,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textLabel: {
-    width: '20%',
+    width: '40%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
+    fontSize:20
   },
   textInput: {
-    width: '80%',
-    height: 40,
+    width: '60%',
+    height: 50,
     borderRadius: 5,
     borderColor: 'black',
     marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
+    fontSize: 20
   },
   btnSubmit: {
     height: 60,
@@ -352,7 +357,8 @@ const styles = StyleSheet.create({
     height: 60,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical:10
   },
   textLabelRadius: {
     width: '40%',
@@ -375,5 +381,30 @@ const styles = StyleSheet.create({
     width: 90,
     marginLeft: 8,
     marginBottom: 20,
-  },
+  },age:{
+    width: '20%',
+    height: 40,
+    lineHeight: 40,
+  }, textInputRadius: {
+    width: '35%',
+    height: 50,
+    borderRadius: 8,
+    borderColor: 'black',
+    marginEnd:5,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    color: 'black',
+    fontSize: 20
+  },  textLabelRadius: {
+    width: '50%',
+    height: 40,
+    lineHeight: 40,
+    paddingStart: 30,
+    fontSize:20
+  },  textKM:{
+    width: '15%',
+    height: 40,
+    lineHeight: 40,
+    fontSize:20
+  }
 });
