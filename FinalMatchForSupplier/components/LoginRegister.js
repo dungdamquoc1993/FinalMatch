@@ -22,18 +22,19 @@ import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 //Component = thẻ
 class LoginRegister extends Component {
     state = {
-        isLogin: true,
+        isLogin: true,        
         email: 'hoang3@gmail.com', 
+        facebookId: '',
+        avatar: '',
+        name: '',
         password: '12345',
-        retypePassword: '12345'
+        retypePassword: '12345',        
     }
-    componentDidMount() {        
-        this.graphRequestManager = new GraphRequestManager()                
+    componentDidMount() {                        
     }
     _loginWithFacebook = async () => {
         const { email } = this.state
-        const stackNavigation = this.props.navigation
-        const that = this
+        const stackNavigation = this.props.navigation        
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
         LoginManager.logInWithPermissions(["public_profile", "email"]).then(
@@ -49,31 +50,36 @@ class LoginRegister extends Component {
                             `/${userID}`,
                             null,
                             (error, facebookUser) => {
-                                alert(JSON.stringify(facebookUser))
+                                // alert(JSON.stringify(facebookUser))
                                 if (error) {
-                                    alert('Error fetching data: ' + error.toString());
+                                    console.log('Error fb user: ' + error.toString());
                                 } else {
-                                    alert('Success fetching data: ' + facebookUser.toString());
+                                    const facebookId = facebookUser.id
+                                    const {name} = facebookUser
+                                    this.setState({facebookId, name})                                    
                                 }
                             },
-                        )                        
-                        const avatarRequest = new GraphRequest(
-                            `/${userID}/picture?type=square`,
-                            null,
-                            (error, result) => {
-                                alert("aa" + JSON.stringify({error, result}))
-                                if (error) {
-                                    alert('Error fetching data: ' + error.toString());
-                                } else {
-                                    alert('Success fetching data: ' + result.toString());
-                                }
+                        )           
+                        const avatarRequest = new GraphRequest('/me', {
+                            accessToken: accessToken.accessToken,
+                            parameters: {
+                                fields: {
+                                    string: 'picture.type(large)',
+                                },
                             },
-                        )                        
-                        that.graphRequestManager.addRequest(infoRequest).start();
-                        that.graphRequestManager.addRequest(avatarRequest).start();                       
-
+                        }, (error, avatarObject) => {
+                            if (error) {
+                                alert('Error avatar ' + error.toString());
+                            } else {
+                                const avatar = avatarObject.picture.data.url
+                                this.setState({avatar})                                    
+                            }
+                        })                        
+                        new GraphRequestManager().addRequest(infoRequest).start();
+                        new GraphRequestManager().addRequest(avatarRequest).start();                        
                         //call ham login tren server
-                        //this.props.navigation.navigate("MyTabNavigator", { email })
+                        
+                        this.props.navigation.navigate("MyTabNavigator", { email })
                     }).catch(error => {
                         alert(error)
                         console.log("Cannot get access token:" + error)
@@ -119,7 +125,7 @@ class LoginRegister extends Component {
     render() {
         const {email, password, isLogin} = this.state
         return <KeyboardAvoidingView style={styles.container} 
-            enabled>
+            enabled>                
             <Image style={styles.logo} source={require('../images/LOGO_Dung_2.png')} />
             
             <Icon.Button

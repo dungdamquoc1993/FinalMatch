@@ -81,7 +81,7 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
-CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), email VARCHAR(300), name VARCHAR(250)) RETURNS VARCHAR(500)
+CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), email VARCHAR(300), name VARCHAR(250), avatar VARCHAR(500)) RETURNS VARCHAR(500)
 BEGIN
     DECLARE numberOfSuppliers INT;
     SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier WHERE Supplier.facebookId = facebookId;
@@ -93,8 +93,8 @@ BEGIN
         END;
     ELSE
         BEGIN
-            INSERT INTO Supplier(facebookId, name, email)
-            VALUES(facebookId, name, email);
+            INSERT INTO Supplier(facebookId, name, email, avatar)
+            VALUES(facebookId, name, email, avatar);
             SET @myToken = createToken();
             UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.facebookId = facebookId;            
             RETURN @myToken;
