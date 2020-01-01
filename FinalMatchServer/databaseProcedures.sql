@@ -86,22 +86,16 @@ BEGIN
     DECLARE numberOfSuppliers INT;
     DECLARE mySupplierId INT DEFAULT 0; 
     SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier WHERE Supplier.facebookId = facebookId;
-    IF (numberOfSuppliers > 0) THEN
-        BEGIN
-            SET @myToken = createToken();
-            UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.facebookId = facebookId;            
-            RETURN @myToken;
-        END;
-    ELSE
+    SET @myToken = createToken();
+    IF (numberOfSuppliers = 0) THEN
         BEGIN
             INSERT INTO Supplier(facebookId, name, email, avatar, password, userType)
-            VALUES(facebookId, name, email, avatar, '11111', 'facebook');
-            SET @myToken = createToken();
-            UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.facebookId = facebookId;        
-            SELECT id INTO mySupplierId FROM Supplier WHERE Supplier.facebookId = facebookId AND tokenKey=@myToken;
-            RETURN CONCAT(@myToken, ';', mySupplierId);        
-        END;
+            VALUES(facebookId, name, email, avatar, '11111', 'facebook');                        
+        END;            
     END IF;
+    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.facebookId = facebookId;        
+    SELECT id INTO mySupplierId FROM Supplier WHERE Supplier.facebookId = facebookId AND tokenKey=@myToken;
+    RETURN CONCAT(@myToken, ';', mySupplierId);        
 END; //                                 
 delimiter ;
 

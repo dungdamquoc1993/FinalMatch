@@ -119,15 +119,15 @@ export default class Settings extends Component {
       position,
       refereeName)
   }
-  async componentDidMount () {    
-    const {supplierId, email} = await getSupplierFromStorage()          
+  async componentDidMount () {        
+    const {supplierId, email} = await getSupplierFromStorage()              
     //call api    
     try {  
         const { data, message} =  await getSupplierServicesOrders(supplierId)        
         const { name, position, dateOfBirth, phoneNumber, avatar,
                 dateOfBirthObject, radius,address, playerName = '',
                 refereeName = '', playerId, refereeId
-              } = data        
+              } = data                
         const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //

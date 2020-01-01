@@ -82,10 +82,8 @@ class LoginRegister extends Component {
         const stackNavigation = this.props.navigation                
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        try {
-            debugger
-            const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                    
-            debugger
+        try {            
+            const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                                
             if (loginResult.isCancelled) {
                 console.log("Login cancelled");
             } else {
@@ -94,8 +92,8 @@ class LoginRegister extends Component {
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
                 const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
-                if (tokenKey.length > 0) {
-                    alert(tokenKey)
+                alert(`ssss= ${supplierId}`)
+                if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     //dispatch = call action                                        
                     this.props.navigation.navigate("MyTabNavigator", {})
@@ -103,8 +101,7 @@ class LoginRegister extends Component {
                     alert(message)
                 }
             }
-        } catch(error) {
-            debugger
+        } catch(error) {            
             alert("Cannot login Facebook: " + error)
         }        
     }
