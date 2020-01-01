@@ -127,11 +127,11 @@ class PlayerService extends Component {
     const {radius} = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'PlayerService'} />
-        <Text style={{fontSize: 50}}>PlayerService</Text>
+        <Header title={'PlayerService'}/>
+        
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
-            Tên:
+            Tên Thi Đấu:
           </Text>
           <TextInput
             style={styles.textInput}
@@ -277,20 +277,21 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
   },
   textLabel: {
-    width: '20%',
+    width: '35%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
   },
   textInput: {
-    width: '80%',
-    height: 40,
-    borderRadius: 5,
+    width: '65%',
+    height: 50,
+    borderRadius: 8,
     borderColor: 'black',
     marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
+    fontSize: 16
   },
   positions: {
     flexDirection: 'row',
