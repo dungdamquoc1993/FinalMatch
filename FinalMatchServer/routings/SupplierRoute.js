@@ -7,7 +7,7 @@ const path = require('path')
 
 const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
-const POST_LOGIN_FACEBOOK = "CALL loginFacebook(?, ?, ?, ?)"
+const POST_LOGIN_FACEBOOK = "SELECT loginFacebook(?, ?, ?, ?) as tokenKeySupplierId"
 
 const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latitude, Y(point) as longitude,"+
                                     "radius, address FROM Supplier WHERE id = ?"
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
 //Link http://localhost:3000/suppliers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
   const {facebookId, email = '', name, avatar = ''} = req.body      
-  connection.query(POST_LOGIN_FACEBOOK, [email, password,userType], (error, results) => {
+  connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
           
           if(error) {
               res.json({
