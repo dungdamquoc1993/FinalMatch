@@ -66,7 +66,6 @@ router.post('/login', async (req, res) => {
   })    
 })
 
-facebookId VARCHAR(300), email VARCHAR(300), name
 //Link http://localhost:3000/suppliers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
   const {facebookId, email = '', name, avatar = ''} = req.body      
