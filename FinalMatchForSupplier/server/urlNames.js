@@ -51,3 +51,6 @@ export const urlUpdateSettings = () => {
 export const urlInsertStadium = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/insertStadium`
 }
+export const urlLoginFacebook = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginFacebook`
+}

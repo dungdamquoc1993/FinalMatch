@@ -10,9 +10,10 @@ import {urlLoginSupplier,
     urlUploadAvatar,
     urlGetAvatar,
     urlUpdateSettings, 
-    urlInsertStadium
+    urlInsertStadium,
+    urlLoginFacebook
 } from './urlNames'
-import {getSupplierFromStorage} from '../helpers/Helpers'
+import {getSupplierFromStorage, alert} from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
 
@@ -70,7 +71,31 @@ export const loginSupplier = async (email, password) => {
         return { tokenKey : '', message: error}
     }
 }
-
+export const loginFacebook = async (name, email, facebookId, avatar) => {
+    try {            
+        const response = await fetch(await urlLoginFacebook(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({name, email, facebookId, avatar}),
+        })             
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson                
+        const {tokenKeySupplierId = ''} = data
+        if (result.toUpperCase() === "OK") {                   
+            return { 
+                tokenKey: tokenKeySupplierId.split(";")[0], 
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
+                message: ''}
+        } else {            
+            return { tokenKey : '', message}
+        }
+    } catch (error) {        
+        return { tokenKey : '', message: error}
+    }
+}
 export const tokenCheck = async (tokenKey,supplierId) => {
     try {       
                              

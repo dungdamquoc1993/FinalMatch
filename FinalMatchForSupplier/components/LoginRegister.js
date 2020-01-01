@@ -11,8 +11,11 @@ import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
-import {registerSupplier, loginSupplier} from '../server/myServices'
-import {alert, saveSupplierToStorage, getSupplierFromStorage} from '../helpers/Helpers'
+import {registerSupplier, loginSupplier, loginFacebook} from '../server/myServices'
+import {alert, 
+    saveSupplierToStorage,
+    generateFakeString, 
+    getSupplierFromStorage} from '../helpers/Helpers'
 import { LoginManager, LoginResult, 
     AccessToken, GraphRequest,
     GraphRequestManager, } from "react-native-fbsdk";
@@ -32,63 +35,78 @@ class LoginRegister extends Component {
     }
     componentDidMount() {                        
     }
-    _loginWithFacebook = async () => {
-        const { email } = this.state
-        const stackNavigation = this.props.navigation        
+    _getFacebookAvatar = async (accessToken) => {
+        return new Promise((resolve, reject) => {
+            const avatarRequest = new GraphRequest('/me', {
+                accessToken,
+                parameters: {
+                    fields: {
+                        string: 'picture.type(large)',
+                    },
+                },
+            }, (error, avatarObject) => {
+                if (error) {
+                    alert('Error avatar ' + error.toString());
+                    reject(error)
+                } else {
+                    const avatar = avatarObject.picture.data.url
+                    this.setState({avatar})                                    
+                    resolve(avatar)
+                }
+            })                                
+            new GraphRequestManager().addRequest(avatarRequest).start();    
+        })        
+    }
+    _getFacebookInfo = async (accessToken, userID) => {
+        return new Promise((resolve, reject) => {
+            const infoRequest = new GraphRequest(
+                `/${userID}`,
+                null,
+                async (error, facebookUser) => {
+                    // alert(JSON.stringify(facebookUser))
+                    if (error) {
+                        console.log('Error fb user: ' + error.toString());
+                        reject(error)
+                    } else {
+                        const facebookId = facebookUser.id
+                        const {name} = facebookUser     
+                        const avatar = await this._getFacebookAvatar(accessToken)                                                                   
+                        resolve({facebookId, name, avatar})                                                                                                
+                    }
+                },
+            )           
+            new GraphRequestManager().addRequest(infoRequest).start()
+        })
+    }
+    _loginWithFacebook = async () => {        
+        const stackNavigation = this.props.navigation                
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-            (result) => {           
-                
-                if (result.isCancelled) {
-                    console.log("Login cancelled");
+        try {
+            debugger
+            const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                    
+            debugger
+            if (loginResult.isCancelled) {
+                console.log("Login cancelled");
+            } else {
+                const tokenObject = await AccessToken.getCurrentAccessToken()                
+                const { accessToken, userID } = tokenObject                
+                const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
+                const email = generateFakeString()
+                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
+                if (tokenKey.length > 0) {
+                    alert(tokenKey)
+                    await saveSupplierToStorage(tokenKey, supplierId, email)
+                    //dispatch = call action                                        
+                    this.props.navigation.navigate("MyTabNavigator", {})
                 } else {
-                    AccessToken.getCurrentAccessToken().then(tokenObject => {              
-                        const {accessToken, userID} = tokenObject
-                        //alert(JSON.stringify({accessToken, userID}))                         
-                        const infoRequest = new GraphRequest(
-                            `/${userID}`,
-                            null,
-                            (error, facebookUser) => {
-                                // alert(JSON.stringify(facebookUser))
-                                if (error) {
-                                    console.log('Error fb user: ' + error.toString());
-                                } else {
-                                    const facebookId = facebookUser.id
-                                    const {name} = facebookUser
-                                    this.setState({facebookId, name})                                    
-                                }
-                            },
-                        )           
-                        const avatarRequest = new GraphRequest('/me', {
-                            accessToken: accessToken.accessToken,
-                            parameters: {
-                                fields: {
-                                    string: 'picture.type(large)',
-                                },
-                            },
-                        }, (error, avatarObject) => {
-                            if (error) {
-                                alert('Error avatar ' + error.toString());
-                            } else {
-                                const avatar = avatarObject.picture.data.url
-                                this.setState({avatar})                                    
-                            }
-                        })                        
-                        new GraphRequestManager().addRequest(infoRequest).start();
-                        new GraphRequestManager().addRequest(avatarRequest).start();                        
-                        //call ham login tren server
-                        
-                        this.props.navigation.navigate("MyTabNavigator", { email })
-                    }).catch(error => {
-                        alert(error)
-                        console.log("Cannot get access token:" + error)
-                    })
+                    alert(message)
                 }
-            }).catch((error) => {
-                debugger
-                alert("Cannot login Facebook: " + error)
-            })
+            }
+        } catch(error) {
+            debugger
+            alert("Cannot login Facebook: " + error)
+        }        
     }
     _login = async () => {
         this.setState({isLogin: true})
@@ -132,8 +150,8 @@ class LoginRegister extends Component {
                 style={styles.facebookButton}
                 name="facebook"
                 backgroundColor="#3b5998"
-                onPress={() => {
-                    this._loginWithFacebook()
+                onPress={async () => {
+                    await this._loginWithFacebook()
                 }}
             >
                 <Text style={styles.txtLoginFaceBook}>Login with Facebook</Text>

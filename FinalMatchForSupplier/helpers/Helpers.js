@@ -88,6 +88,10 @@ export const setPosition = (position = '0000') => {
         isCF: parseInt(position[3]) == 0 ? false : true,
     }
 }
+export const generateFakeString = () => {
+    return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`;
+}
+
 
 
 
