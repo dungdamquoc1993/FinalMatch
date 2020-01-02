@@ -330,11 +330,7 @@ export default class Settings extends Component {
               >
               {(address.length > 0 || district.length > 0 || province.length > 0) &&
                 <Text style={{marginRight:7,fontSize:17}}>{address} - {district} - {province}</Text>}
-                <FontAwesome5
-                  name={'map-marker-alt'}
-                  size={30}
-                  color={'black'}
-                />
+                <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
               </TouchableOpacity>
 
             </View>
@@ -355,6 +351,7 @@ export default class Settings extends Component {
                 KM
               </Text>
             </View>
+            <View style={{ width:'100%',borderBottomWidth:1,borderBottomColor:'black',marginVertical:5}}/>
           </View>
           {isIOS () &&
             showIOSDatePicker &&
@@ -386,8 +383,10 @@ export default class Settings extends Component {
                   });
                 }}
               />
-            </View>}
-            <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black',marginVertical:5}}/>
+              
+            </View>
+            }
+            
           {/* get location  */}
           {/* ban kinh */}
           {playerId > 0 && <View
@@ -397,15 +396,15 @@ export default class Settings extends Component {
           >
             
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Role: </Text>              
+              <Text style={styles.textRole}>Tên thi đấu: </Text>              
               <TextInput style={styles.textInputRole} 
                   value={playerName} onChangeText={(playerName) => {
                     this.setState({playerName})
               }} />              
             </View>
             <View style={styles.personalInformation}>
-                <Text style={styles.textRole}>Completed : </Text>
-                <Text style={styles.textRolereferee}> 11</Text>
+                <Text style={styles.textRole}>Completed: </Text>
+                <Text style={styles.textRolereferee}> 0</Text>
               </View>
             <Text style={{marginBottom: 5,fontSize:20}}>Position</Text>
             <View style={styles.positions}>
@@ -470,15 +469,15 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Referee name: </Text>
+              <Text style={styles.textRole}>Tên trọng tài: </Text>
               <TextInput style={styles.textInputRole} 
                   value={refereeName} onChangeText={(refereeName) => {
                     this.setState({refereeName})
               }} />              
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Completed : </Text>
-              <Text style={styles.textRolereferee}> 11</Text>
+              <Text style={styles.textRole}>Completed: </Text>
+              <Text style={styles.textRolereferee}> 0</Text>
             </View>
           </View>}
         </ScrollView>
