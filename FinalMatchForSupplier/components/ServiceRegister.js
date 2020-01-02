@@ -13,7 +13,7 @@ import RefereeService from './RefereeService';
 import Stadium from './Stadium';
 import PlayerService from './PlayerService';
 import {connect} from 'react-redux';
-import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors';
+import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors';
 import {
   checkPlayerServiceExist,
   checkRefereeServiceExist,
@@ -24,7 +24,6 @@ import {
 } from '../helpers/Helpers';
 const screenWidth = Math.round (Dimensions.get ('window').width);
 const screenHeight = Math.round (Dimensions.get ('window').height);
-
 
 class ServiceRegister extends Component {
   _navigateToPlayerService = async () => {
@@ -53,39 +52,56 @@ class ServiceRegister extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-          <View style={{marginLeft:25}}>
-          <Header title={'Đăng Ký Cung Cấp Dịch Vụ'} hideBack={true}/>
-          </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            this._navigateToPlayerService ();
-          }}
-        >
-          <Text style={styles.txt}>
-            Cầu Thủ
+        <View style={{marginLeft: 0.05 * screenWidth, marginTop: 10}}>
+          <Text
+            style={{
+              fontSize: 25,
+              fontFamily: 'arial',
+              color: MAIN_COLOR,
+              fontWeight: 'bold',
+              
+           
+            }}
+          >
+            Finalmatch
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            this._navigateToRefereeService ();
-          }}
-        >
-          <Text style={styles.txt}>
-            Trọng Tài{' '}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            this._navigateToStadium ();
-          }}
-        >
-          <Text style={styles.txt}>
-            Sân Bóng
-          </Text>
-        </TouchableOpacity>
+        </View>
+        <View style={{marginLeft: 0.15 * screenWidth}}>
+          <Header title={'Đăng Ký Cung Cấp Dịch Vụ'} hideBack={true} />
+        </View>
+        <View style={{alignItems: 'center', marginBottom: 20}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this._navigateToPlayerService ();
+            }}
+          >
+            <Text style={styles.txt}>
+              Cầu Thủ
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this._navigateToRefereeService ();
+            }}
+          >
+            <Text style={styles.txt}>
+              Trọng Tài{' '}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              this._navigateToStadium ();
+            }}
+          >
+            <Text style={styles.txt}>
+              Sân Bóng
+            </Text>
+          </TouchableOpacity>
+        </View>
+
       </SafeAreaView>
     );
   }
@@ -100,25 +116,25 @@ const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    flex: 1
+    // alignItems: 'center',
+    flex: 1,
   },
-  txt:{
-    lineHeight:0.08 * screenHeight,
-    fontSize:25,
-    fontWeight:'300',
-    color:'white'
+  txt: {
+    lineHeight: 0.08 * screenHeight,
+    fontSize: 25,
+    fontWeight: '300',
+    color: 'white',
   },
   button: {
-    backgroundColor:MAIN_COLOR,
-    borderWidth:8,
-    borderColor:COLOR_BUTTON,
+    backgroundColor: MAIN_COLOR,
+    borderWidth: 8,
+    borderColor: COLOR_BUTTON,
     padding: 10,
     margin: 30,
     fontSize: 30,
     width: 0.8 * screenWidth,
     height: 0.15 * screenHeight,
     borderRadius: 40,
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });

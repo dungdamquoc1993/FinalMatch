@@ -5,15 +5,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  Image,
   Animated,
   ImageBackground,
   Dimensions,
 } from 'react-native';
 import Header from './Header';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal, {ModalContent} from 'react-native-modals';
-const {width, height} = Dimensions.get ('window');
+import Modal from "react-native-modal";
+const screenWidth = Math.round (Dimensions.get ('window').width);
+const screenHeight = Math.round (Dimensions.get ('window').height);
 export default class Order extends Component {
   constructor (props) {
     super (props);
@@ -30,89 +29,68 @@ export default class Order extends Component {
     setInterval (() => {
       Animated.timing (fadeIn, {
         toValue: 1,
-        duration: 200,
+        duration: 1000,
       }).start (() => {
         fadeIn.setValue (0);
       });
-    }, 500);
+    }, 2000);
   }
   render () {
     const {showMail, fadeIn} = this.state;
     return (
       <SafeAreaView style={styles.container}>
-
-        <OpacityView
-          fadeIn={this.state.fadeIn}
-          pressMail={() => {
-            this._pressMail ();
-          }}
-        />
-        <Modal
-          visible={showMail}
-          onTouchOutside={() => {
-            this.setState ({showMail: false});
-          }}
+        <ImageBackground
+          source={require ('../images/backgroundOrderScreen.jpeg')}
+          style={{width:'100%', height:'100%',justifyContent:'center',alignItems:'center'}}
         >
-          <ModalContent
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 0.6 * width,
+          <OpacityView
+            fadeIn={this.state.fadeIn}
+            pressMail={() => {
+              this._pressMail ();
             }}
+          />
+          <Modal
+            visible={showMail}
+            onBackdropPress={() => {
+              this.setState ({showMail: false});
+            }}
+           
+            
+           
           >
-            <ImageBackground
-              source={require ('../images/backgroundMail.jpg')}
-              style={{width: '100%', height: '100%'}}
-            >
-              <Text>Inside</Text>
-            </ImageBackground>
-          </ModalContent>
-        </Modal>
-        <View style={{marginLeft: 0.3 * width}}>
-          <Header title={'Đơn Hàng'} hideBack={true} />
-        </View>
+              <ImageBackground
+                source={require ('../images/msgOrder.png')}
+                style={{width: '100%', height:'80%',alignItems: 'center'}}
+              >
+              <Text style={{marginTop: 120,marginHorizontal:50,fontSize: 32}}>ĐƠN HÀNG đầu tiên của bạn sẽ đến trong vòng 1 tháng</Text>
+              </ImageBackground>
+              
+          </Modal>
+          <View/>
+
+        </ImageBackground>
+
       </SafeAreaView>
     );
   }
 }
 const OpacityView = props => {
   return (
-    <LinearGradient
-      colors={['black', 'white']}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      useAngle={true}
-      angle={0}
-      angleCenter={{x: 0.5, y: 0.5}}
-      style={{
-        backgroundColor: 'black',
-        opacity: 1,
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100,
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      }}
+    <TouchableOpacity
+      style={{width: 200, height: 200, borderRadius: 50}}
+      onPress={props.pressMail}
     >
-      <TouchableOpacity
-        style={{width: 100, height: 100, borderRadius: 50}}
-        onPress={props.pressMail}
-      >
-        <Animated.Image
-          source={require ('../images/mail.png')}
-          style={{width: 100, height: 100, opacity: props.fadeIn}}
-        />
-      </TouchableOpacity>
-    </LinearGradient>
+      <Animated.Image
+        source={require ('../images/icon_box.jpeg')}
+        style={{width: 200, height: 200, opacity: props.fadeIn}}
+      />
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
   },

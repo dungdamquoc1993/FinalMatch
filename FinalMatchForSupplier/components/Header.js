@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     title: {
         alignSelf: "center", 
         lineHeight: 50, 
-        fontSize: 30,
+        fontSize: 20,
         fontFamily: 'arial',
         textAlign:'center',
         fontWeight: 'bold',
