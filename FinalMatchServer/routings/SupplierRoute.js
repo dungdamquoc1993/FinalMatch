@@ -13,7 +13,7 @@ const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latit
                                     "radius, address FROM Supplier WHERE id = ?"
 const POST_UPDATE_AVATAR_FOR_SUPPLIER = "UPDATE Supplier SET Supplier.avatar = ? WHERE Supplier.id = ?"    
 const GET_SUPPLIER_SERVICES_ORDERS = "SELECT * FROM viewSupplierServicesOrders WHERE supplierId = ?" 
-const POST_UPDATE_SETTINGS = "CALL updateSettings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+const POST_UPDATE_SETTINGS = "CALL updateSettings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
 // define the home page route
 router.get('/', async (req, res) => {
@@ -331,6 +331,7 @@ router.post('/updateSettings', async (req, res) => {
   
   const {
     name,
+    avatar,
     dateOfBirth,
     phoneNumber,
     address,
@@ -345,6 +346,7 @@ router.post('/updateSettings', async (req, res) => {
   connection.query(POST_UPDATE_SETTINGS, 
         [ supplierid,
           name,
+          avatar,
           dateOfBirth,
           phoneNumber,
           address,

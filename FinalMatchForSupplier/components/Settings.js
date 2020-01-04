@@ -21,7 +21,8 @@ import {
   isIOS,
   convertDateToString,
   setPosition,
-  getPosition,  
+  getPosition,
+  alert,  
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
@@ -37,6 +38,7 @@ import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 import ImagePicker from 'react-native-image-crop-picker';
+import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors';
 
 /**
  * yarn add react-native-date-picker
@@ -92,6 +94,7 @@ export default class Settings extends Component {
         
     const {      
       name,
+      avatar,
       dateOfBirth,
       phoneNumber,
       address,
@@ -109,6 +112,7 @@ export default class Settings extends Component {
     await updateSettings(
       supplierId,
       name,
+      avatar,
       dateOfBirth,
       phoneNumber,
       address,
@@ -127,7 +131,8 @@ export default class Settings extends Component {
         const { name, position, dateOfBirth, phoneNumber, avatar,
                 dateOfBirthObject, radius,address, playerName = '',
                 refereeName = '', playerId, refereeId
-              } = data                
+              } = data   
+        alert(JSON.stringify(data))             
         const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //
@@ -152,9 +157,10 @@ export default class Settings extends Component {
       let photos = await ImagePicker.openPicker({
         multiple: true
       })
-      const {supplierId} = this.state 
-      const { data, message=''} = await postUploadPhoto(photos, supplierId)        
-      this.setState({avatar: data})    
+      const {supplierId} = this.state       
+      const { data, message=''} = await postUploadPhoto(photos, supplierId)  
+      debugger                  
+      this.setState({avatar: typeof data == "object" ? data[0] : data})    
     } catch(error) {
       alert(`Cannot upload avatar: ${error}`)
     }    
@@ -166,9 +172,9 @@ export default class Settings extends Component {
       return '';
     }
   }
-  _onPressDateTextInput = async () => {
+  _onPressDateTextInput = async () => {    
     try {
-      if (isIOS ()) {
+      if (isIOS()) {
         this.setState ({showIOSDatePicker: true});
         return;
       }
@@ -237,9 +243,7 @@ export default class Settings extends Component {
       address = '',
       district = '',
       province = '',
-    } = this.state.currentLocation; 
-    console.log(`refereeName = ${refereeName}`)
-    console.log(`xyy = ${refereeName.length}`)
+    } = this.state.currentLocation;        
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
@@ -283,23 +287,20 @@ export default class Settings extends Component {
             <TouchableOpacity
               style={[
                 styles.textInput,
-                {width: '40%'},
+                {width: '40%', zIndex: 100},
                 isIOS () && {paddingTop: 10},
               ]}
-              onPress={() => {
+              onPress={() => {                
                 this._onPressDateTextInput ();
               }}
             >
-              <TextInput
-                keyboardType={'default'}
-                placeholder={'dd/mm/yyyy'}
-                editable={false}
-                value={stringDateOfBirth}
-                onPress={() => {
-                  this._onPressDateTextInput ();
+              <Text              
+                keyboardType={'default'}                
+                onPress={() => {                    
+                    this._onPressDateTextInput ();
                 }}
                 // value={"djsijhd"}
-              />
+              >{stringDateOfBirth.length > 0 ? stringDateOfBirth : 'dd/mm/yyyy'}</Text>
             </TouchableOpacity>
             <Text style={styles.age}>
               {this._displayAge (age)}
@@ -364,16 +365,26 @@ export default class Settings extends Component {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => {
-                    this.setState ({showIOSDatePicker: false});
-                  }}
+                  style= {{backgroundColor: MAIN_COLOR,
+                    padding: 10, 
+                    margin: 10,
+                    borderRadius: 5,
+                    height: 40, 
+                    paddingHorizontal: 20,
+                    alignItems: 'center'}}
+                    onPress={() => {
+                      this.setState ({showIOSDatePicker: false});
+                    }}
                 >
-                  <Text>Save</Text>
+                  <Text style={{fontSize: 15, }}>Save</Text>
                 </TouchableOpacity>
               </View>
-              <DatePicker
+              <DatePicker              
                 mode={'date'}
                 date={this.state.dateOfBirth}
+                style = {{
+                    justifyContent: "center",                     
+                    alignSelf: "center"}}
                 onDateChange={dateOfBirth => {
                   const today = new Date ();
                   this.setState ({

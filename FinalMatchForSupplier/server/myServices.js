@@ -258,24 +258,24 @@ export const getSupplierServicesOrders = async (supplierId) => {
 
 //Upload image
 export const createFormData = (photos, body) => {
-    const data = new FormData();
-    debugger
-    var i = 0
-        
+    const data = new FormData();    
+    var i = 0      
     photos.forEach(photo => {
-        photo.filename = photo.path.split('/').pop()
-            
+              
+        photo.filename = photo.path.split('/').pop()            
+              
         data.append(`photo${i}`, {
             name: photo.filename,
             type: photo.mime,
             uri:
                 Platform.OS === "android" ? photo.path : photo.path.replace("file://", "")
         });
+              
         i = i + 1
     })
     Object.keys(body).forEach(key => {
         data.append(key, body[key]);
-    });     
+    });        
     return data;
 }
 
@@ -293,27 +293,26 @@ export const postUploadPhoto = async (photos, supplierId) => {
                     'Content-Type': 'multipart/form-data',
                     tokenKey, supplierId
                 },                    
-        });
-        
+        });        
         //let responseJson = await response.json()
         let responseJson = await response.data                
         if(responseJson.result === "ok") {                
             let imageUrls = responseJson.data.map(fileName => {
                 return fileName
-            })            
+            })                        
             return { data: imageUrls, message: ''}            
-        } else {
-            debugger
+        } else {            
             return { data, message: 'Cannot upload image'}
-        }        
-        debugger
-    } catch (error) {
-        debugger
+        }                
+    } catch (error) {        
         alert("Upload failed!:" + error)
     }
 }
 
-export const updateSettings = async (supplierId,name,dateOfBirth,phoneNumber,address,latitude,longitude,radius,playerName,position,refereeName) => {
+export const updateSettings = async (supplierId,name,
+            avatar,
+            dateOfBirth,phoneNumber,address,
+            latitude,longitude,radius,playerName,position,refereeName) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()     
         console.log("supplierId: "+JSON.stringify(supplierId))       
@@ -326,6 +325,7 @@ export const updateSettings = async (supplierId,name,dateOfBirth,phoneNumber,add
             },
             body: JSON.stringify({
                 name,
+                avatar,
                 dateOfBirth,
                 phoneNumber,
                 address,

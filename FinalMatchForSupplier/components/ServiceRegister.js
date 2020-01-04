@@ -121,9 +121,9 @@ const styles = StyleSheet.create ({
   },
   txt: {
     lineHeight: 0.08 * screenHeight,
-    fontSize: 25,
-    fontWeight: '300',
+    fontSize: 25,    
     color: 'white',
+    fontWeight: 'bold'
   },
   button: {
     backgroundColor: MAIN_COLOR,

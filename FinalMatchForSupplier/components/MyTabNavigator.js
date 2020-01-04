@@ -9,7 +9,7 @@ import React from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 //man hinh 
 import ServiceRegister from './ServiceRegister';
-import Notification from './Notification';
+// import Notification from './Notification';
 import Order from './Order';
 import Settings from './Settings';
 import {Image} from 'react-native'
@@ -19,7 +19,7 @@ import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
 const TabNavigator = createBottomTabNavigator(
     {
         ServiceRegister: { screen: ServiceRegister },
-        "Notification": { screen: Notification },
+        // Notification: { screen: Notification },
         Order: { screen: Order },
         Settings: { screen: Settings }
     },
@@ -32,9 +32,9 @@ const TabNavigator = createBottomTabNavigator(
                     case 'ServiceRegister':
                         iconName = require('../images/document.png')
                         break
-                    case 'Notification':
-                        iconName = require('../images/notification.png')
-                        break
+                    // case 'Notification':
+                    //     iconName = require('../images/notification.png')
+                    //     break
                     case 'Order':
                         iconName = require('../images/order.png')
                         break

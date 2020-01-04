@@ -15,7 +15,8 @@ import {registerSupplier, loginSupplier, loginFacebook} from '../server/myServic
 import {alert, 
     saveSupplierToStorage,
     generateFakeString, 
-    getSupplierFromStorage} from '../helpers/Helpers'
+    getSupplierFromStorage,
+    isIOS} from '../helpers/Helpers'
 import { LoginManager, LoginResult, 
     AccessToken, GraphRequest,
     GraphRequestManager, } from "react-native-fbsdk";
@@ -24,14 +25,17 @@ import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
+    static navigationOptions = {
+        header: null,
+    }
     state = {
         isLogin: true,        
-        email: 'hoang3@gmail.com', 
+        email: '', 
         facebookId: '',
         avatar: '',
         name: '',
-        password: '12345',
-        retypePassword: '12345',        
+        password: '',
+        retypePassword: '',        
     }
     componentDidMount() {                        
     }
@@ -115,7 +119,7 @@ class LoginRegister extends Component {
         try {
 
             const { email, password, retypePassword, isLogin } = await this.state
-            if(isLogin != true) {                
+            if(isLogin != true) {                            
                 if(retypePassword != password) {
                     alert('Password and retype password does not match')
                     return
@@ -139,6 +143,7 @@ class LoginRegister extends Component {
     }
     render() {
         const {email, password, isLogin} = this.state
+        
         return <KeyboardAvoidingView style={styles.container} 
             enabled>                
             <Image style={styles.logo} source={require('../images/LOGO_Dung_2.png')} />
@@ -178,6 +183,7 @@ class LoginRegister extends Component {
                         this.setState({email})
                     }}
                     value={email}
+                    autoCapitalize = {false}
                     keyboardType={"email-address"}
                     placeholder={"Email:"} />
                 <TextInput style={styles.textInput} 
@@ -219,8 +225,9 @@ export default connect(
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
-    container: {
+    container: {        
         flex: 1,                
+        paddingTop: isIOS() ? 80 : 0,
         flexDirection: 'column',
         justifyContent:'flex-start',
         alignItems: 'center',
@@ -294,9 +301,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: COLOR_BUTTON,
         borderWidth:4
-    },txtLoginRegister:{
+    },
+    txtLoginRegister:{
         textAlign: 'center',
-        color: 'white',
+        color: 'black',
         fontSize:19
     },txtLoginFaceBook:{
         fontSize:20,

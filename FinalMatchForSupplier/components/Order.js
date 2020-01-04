@@ -31,9 +31,15 @@ export default class Order extends Component {
         toValue: 1,
         duration: 1000,
       }).start (() => {
-        fadeIn.setValue (0);
+        fadeIn.setValue (1);
+        Animated.timing (fadeIn, {
+          toValue: 0,
+          duration: 2000,
+        }).start (() => {
+          fadeIn.setValue (0);
+        })        
       });
-    }, 2000);
+    }, 3000);
   }
   render () {
     const {showMail, fadeIn} = this.state;

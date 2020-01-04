@@ -200,6 +200,7 @@ DROP PROCEDURE IF EXISTS updateSettings;
 delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
                                 name VARCHAR(300),
+                                avatar VARCHAR(500),
                                 dateOfBirth DATE,
                                 phoneNumber VARCHAR(300),
                                 address TEXT,
@@ -212,6 +213,7 @@ CREATE PROCEDURE updateSettings(supplierId INT,
                                 ) 
 BEGIN    
     UPDATE Supplier SET Supplier.name = name, 
+            Supplier.avatar = avatar, 
             Supplier.dateOfBirth = dateOfBirth, 
             Supplier.phoneNumber = phoneNumber,
             Supplier.address = address,
