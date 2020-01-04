@@ -53,7 +53,6 @@ class Stadium extends Component {
       district,
       province,
     } = this.state.currentLocation;
-    //alert(JSON.stringify({type,stadiumName,phoneNumber,address, latitude, longitude, district, province}))
     try {
       const {message} = await insertStadium (
         type,

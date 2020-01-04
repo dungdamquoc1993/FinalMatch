@@ -23,6 +23,7 @@ import {
   setPosition,
   getPosition,
   alert,  
+  convertDateToStringYYYYMMDD
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
@@ -109,11 +110,12 @@ export default class Settings extends Component {
         isMF: this.state.isMF, 
         isCF: this.state.isCF
       })      
+    console.log(`avatar = ${avatar}`)
     await updateSettings(
       supplierId,
       name,
       avatar,
-      dateOfBirth,
+      convertDateToStringYYYYMMDD(dateOfBirth),
       phoneNumber,
       address,
       latitude,
@@ -132,7 +134,6 @@ export default class Settings extends Component {
                 dateOfBirthObject, radius,address, playerName = '',
                 refereeName = '', playerId, refereeId
               } = data   
-        alert(JSON.stringify(data))             
         const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //
@@ -159,7 +160,6 @@ export default class Settings extends Component {
       })
       const {supplierId} = this.state       
       const { data, message=''} = await postUploadPhoto(photos, supplierId)  
-      debugger                  
       this.setState({avatar: typeof data == "object" ? data[0] : data})    
     } catch(error) {
       alert(`Cannot upload avatar: ${error}`)

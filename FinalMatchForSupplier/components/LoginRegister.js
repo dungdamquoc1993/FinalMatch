@@ -96,7 +96,6 @@ class LoginRegister extends Component {
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
                 const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
-                alert(`ssss= ${supplierId}`)
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     //dispatch = call action                                        
