@@ -112,7 +112,7 @@ class Stadium extends Component {
         <View style={{marginTop: 20}} />
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
-            Tên Sân Bóng :
+            Tên :
           </Text>
           <TextInput
             style={styles.textInput}
