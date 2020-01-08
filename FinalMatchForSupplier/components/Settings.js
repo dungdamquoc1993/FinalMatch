@@ -17,7 +17,6 @@ import {
   daysBetween2Dates,
   getSupplierFromStorage,
   convertDayMonthYearToString,
-  saveSupplierToStorage,
   isIOS,
   convertDateToString,
   setPosition,
@@ -125,7 +124,21 @@ export default class Settings extends Component {
       position,
       refereeName)
   }
-  async componentDidMount () {        
+  onScreenFocus = () => {
+    // Screen was focused, our on focus logic goes here    
+  }
+  
+  shouldComponentUpdate(nextProps, nextState, nextContext) {    
+    return true
+  }
+  
+  componentWillUnmount() {    
+  }
+  componentDidCatch(error, errorInfo) {
+    // alert(`error = ${error}, errorInfo = ${errorInfo}`)
+  }
+
+  async componentDidMount () {          
     const {supplierId, email} = await getSupplierFromStorage()              
     //call api    
     try {  
@@ -496,6 +509,7 @@ export default class Settings extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',

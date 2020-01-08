@@ -1,2 +1,4 @@
 export const ACTION_GET_TAB_NAVIGATION = "ACTION_GET_TAB_NAVIGATION"
 export const ACTION_GET_STACK_NAVIGATION = "ACTION_GET_STACK_NAVIGATION"
+//action khi thay đổi dữ liệu 1 màn hình bất kỳ
+export const ACTION_SAVE_DATA = "ACTION_SAVE_DATA"

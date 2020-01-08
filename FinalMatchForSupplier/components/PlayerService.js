@@ -5,6 +5,8 @@ import {
   ScrollView,
   StyleSheet,
   DatePickerAndroid,
+  TouchableWithoutFeedback,
+  Keyboard,
   TextInput,
   SafeAreaView,
   TouchableOpacity,
@@ -20,7 +22,7 @@ import {
   checkLocationPermission,
 } from '../server/googleServices';
 import {insertPlayerService, getSupplierById} from '../server/myServices'
-import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition} from '../helpers/Helpers'
+import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition, alert} from '../helpers/Helpers'
 import {NavigationActions} from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors';
 class PlayerService extends Component {
@@ -77,14 +79,23 @@ class PlayerService extends Component {
       return
     }    
     try {      
-      
+      let xx = {playerName,
+        position,
+        supplierId,
+        latitude,
+        longitude,
+        address,
+        radius
+      }
+      console.log("xx11 = "+JSON.stringify(xx))
+
       await insertPlayerService(playerName,
         position,
         supplierId,
         latitude,
         longitude,
         address,
-        radius)
+        radius)        
       alertWithOKButton("Insert player service successfully", () => {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })      
@@ -120,6 +131,7 @@ class PlayerService extends Component {
     const {address = '', district = '', province = ''} = this.state.currentLocation;
     const {radius} = this.state;
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={styles.container}>
         <Header title={'PlayerService'} pressBackButton={() => {
         }}/>
@@ -240,7 +252,8 @@ class PlayerService extends Component {
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
       </SafeAreaView>
-    );
+      </TouchableWithoutFeedback>
+    )
   }
 }
 const mapStateToProps = state => ({
