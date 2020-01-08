@@ -11,7 +11,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Picker,
-  Image
+  Image,
+  KeyboardAvoidingView
 } from 'react-native';
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -131,10 +132,13 @@ class PlayerService extends Component {
     const {address = '', district = '', province = ''} = this.state.currentLocation;
     const {radius} = this.state;
     return (
+      <ScrollView>  
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        
       <SafeAreaView style={styles.container}>
+        
         <Header title={'PlayerService'} pressBackButton={() => {
-        }}/>
+        }}/>        
         <View style={{marginTop:30}}/>
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
@@ -250,9 +254,10 @@ class PlayerService extends Component {
             this._insertPlayerService()
         }}>
           <Text style={styles.txtSubmit}>Submit</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+        </TouchableOpacity>        
+      </SafeAreaView>      
       </TouchableWithoutFeedback>
+      </ScrollView>  
     )
   }
 }
