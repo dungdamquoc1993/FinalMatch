@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
   TextInput,
   SafeAreaView,
-  Dimensions,
+  Dimensions,  
   DatePickerAndroid,
+  TouchableWithoutFeedback,
+  Keyboard,
   Image
 } from 'react-native';
 import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert } from '../helpers/Helpers'
@@ -29,7 +31,7 @@ import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-
+import DatePicker from 'react-native-date-picker'
 
 export class RefereeService extends Component {
   static navigationOptions = {
@@ -100,6 +102,16 @@ export class RefereeService extends Component {
       return
     }
     try {          
+      let xx = {refereeName,
+        phoneNumber,
+        supplierId,
+        dateOfBirth: convertDateToStringYYYYMMDD(dateOfBirth),
+        latitude,
+        longitude,
+        address,
+        radius
+      }
+      console.log("xx = "+JSON.stringify(xx))
       const {message} = await insertRefereeService(refereeName,
         phoneNumber,
         supplierId,
@@ -161,7 +173,8 @@ export class RefereeService extends Component {
     } = this.state.currentLocation
 
     return (
-      <SafeAreaView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <SafeAreaView style={styles.container}>
         <Header title={'RefereeService'} pressBackButton={() => {
         }}/>
         <View style={{marginTop:20}}/>
@@ -171,7 +184,7 @@ export class RefereeService extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
-            value={refereeName}
+            value={refereeName}            
             onChangeText={(refereeName) => {
               this.setState({refereeName})
             }}
@@ -286,6 +299,8 @@ export class RefereeService extends Component {
             />
           </View>}
       </SafeAreaView>
+      </TouchableWithoutFeedback>
+      
     )
   }
 }

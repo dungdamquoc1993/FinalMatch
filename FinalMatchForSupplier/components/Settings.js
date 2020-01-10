@@ -17,7 +17,6 @@ import {
   daysBetween2Dates,
   getSupplierFromStorage,
   convertDayMonthYearToString,
-  saveSupplierToStorage,
   isIOS,
   convertDateToString,
   setPosition,
@@ -40,6 +39,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 import ImagePicker from 'react-native-image-crop-picker';
 import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors';
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * yarn add react-native-date-picker
@@ -125,7 +125,20 @@ export default class Settings extends Component {
       position,
       refereeName)
   }
-  async componentDidMount () {        
+  onScreenFocus = () => {
+    // Screen was focused, our on focus logic goes here    
+  }
+  
+  shouldComponentUpdate(nextProps, nextState, nextContext) {    
+    return true
+  }
+  
+  componentWillUnmount() {    
+  }
+  componentDidCatch(error, errorInfo) {
+    // alert(`error = ${error}, errorInfo = ${errorInfo}`)
+  }
+  reloadDataFromServer = async () => {
     const {supplierId, email} = await getSupplierFromStorage()              
     //call api    
     try {  
@@ -150,8 +163,9 @@ export default class Settings extends Component {
     } catch (error) {               
         alert(`Cannot getSupplierServicesOrders. error = ${error}`)
     }
-    
-
+  }
+  async componentDidMount () {          
+    reloadDataFromServer()    
   }
   async _chooseAvatar () {
     try {
@@ -249,6 +263,11 @@ export default class Settings extends Component {
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
           this._saveSettings()
         }}/>
+        <NavigationEvents          
+          onWillFocus={payload => {
+            this.reloadDataFromServer()
+          }}          
+        />
         <View style={styles.avatar}>
           <TouchableOpacity
             onPress={() => {
@@ -496,6 +515,7 @@ export default class Settings extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',
