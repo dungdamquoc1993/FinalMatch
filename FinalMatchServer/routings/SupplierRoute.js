@@ -270,8 +270,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {        
-        let data = removeNullProperties(results[0])
-        console.log(JSON.stringify(data))
+        let data = removeNullProperties(results[0])        
         const { 
                 name, 
                 playerId, 

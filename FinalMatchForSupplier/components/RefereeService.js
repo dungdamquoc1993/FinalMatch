@@ -175,7 +175,9 @@ export class RefereeService extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView style={styles.container}>
-        <Header title={'RefereeService'} pressBackButton={() => {
+        <Header title={'RefereeService'} pressBackButton={async () => {
+          //validate ok
+          return true
         }}/>
         <View style={{marginTop:20}}/>
         <View style={styles.personalInformation}>
