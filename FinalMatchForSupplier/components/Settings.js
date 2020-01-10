@@ -39,6 +39,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 import ImagePicker from 'react-native-image-crop-picker';
 import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors';
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * yarn add react-native-date-picker
@@ -137,8 +138,7 @@ export default class Settings extends Component {
   componentDidCatch(error, errorInfo) {
     // alert(`error = ${error}, errorInfo = ${errorInfo}`)
   }
-
-  async componentDidMount () {          
+  reloadDataFromServer = async () => {
     const {supplierId, email} = await getSupplierFromStorage()              
     //call api    
     try {  
@@ -163,8 +163,9 @@ export default class Settings extends Component {
     } catch (error) {               
         alert(`Cannot getSupplierServicesOrders. error = ${error}`)
     }
-    
-
+  }
+  async componentDidMount () {          
+    reloadDataFromServer()    
   }
   async _chooseAvatar () {
     try {
@@ -262,6 +263,11 @@ export default class Settings extends Component {
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
           this._saveSettings()
         }}/>
+        <NavigationEvents          
+          onWillFocus={payload => {
+            this.reloadDataFromServer()
+          }}          
+        />
         <View style={styles.avatar}>
           <TouchableOpacity
             onPress={() => {
