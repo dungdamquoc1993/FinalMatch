@@ -244,7 +244,7 @@ export const getSupplierServicesOrders = async (supplierId) => {
     try {                    
         const response = await fetch(await urlGetSupplierServicesOrders(supplierId))               
         const responseJson = await response.json();                
-        const {result, data, message, time} = responseJson                           
+        const {result, data, message, time} = responseJson                                   
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              
             return { data, message: ''}

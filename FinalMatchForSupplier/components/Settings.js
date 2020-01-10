@@ -155,6 +155,7 @@ export default class Settings extends Component {
                 latitude, longitude
               } = data           
         const {day, month, year} = dateOfBirthObject        
+        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //
         // alert(JSON.stringify({latitude,longitude}))
