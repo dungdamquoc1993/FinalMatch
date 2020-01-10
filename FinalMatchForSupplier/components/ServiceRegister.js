@@ -55,12 +55,12 @@ class ServiceRegister extends Component {
         <View style={{marginLeft: 0.05 * screenWidth, marginTop: 10}}>
           <Text
             style={{
+              width: '100%',
               fontSize: 25,
               fontFamily: 'arial',
               color: MAIN_COLOR,
-              fontWeight: 'bold',
-              
-           
+              fontWeight: 'bold',              
+              textAlign:'left'
             }}
           >
             Finalmatch

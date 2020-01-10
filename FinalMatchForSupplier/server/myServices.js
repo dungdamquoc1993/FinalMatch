@@ -313,9 +313,9 @@ export const updateSettings = async (supplierId,name,
             avatar,
             dateOfBirth,phoneNumber,address,
             latitude,longitude,radius,playerName,position,refereeName) => {
-    try {                    
-        const {tokenKey, email} = await getSupplierFromStorage()     
-        console.log("supplierId: "+JSON.stringify(supplierId))       
+                        
+    try {                            
+        const {tokenKey, email} = await getSupplierFromStorage()                     
         const response = await fetch(urlUpdateSettings(), {
             method: 'POST',
             headers: {
@@ -335,8 +335,8 @@ export const updateSettings = async (supplierId,name,
                 playerName,
                 position,
                 refereeName}),
-        })                       
-        const responseJson = await response.json();        
+        })                               
+        const responseJson = await response.json();                
         const {result, data, message, time} = responseJson
         if (result.toUpperCase() === "OK") {                 
             //Logger ??  

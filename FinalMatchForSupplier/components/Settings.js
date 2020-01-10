@@ -10,7 +10,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Dimensions,    
-  CameraRoll,   
+  CameraRoll,
+  Alert,   
 } from 'react-native';
 import Header from './Header';
 import {
@@ -90,27 +91,24 @@ export default class Settings extends Component {
     },
     radius: 0.0,
   };
-  _saveSettings = async () => {
-    const {supplierId} = this.state   
-        
+  _saveSettings = async () => {        
+    const {supplierId} = this.state           
     const {      
       name,
       avatar,
       dateOfBirth,
-      phoneNumber,
-      address,
-      latitude,
-      longitude,
+      phoneNumber,            
       radius,
       playerName,      
-      refereeName} = this.state
+      refereeName} = this.state      
+    const {address, latitude, longitude, district, province} = this.state.currentLocation
     let position = getPosition({
         isGK: this.state.isGK, 
         isCB: this.state.isCB, 
         isMF: this.state.isMF, 
         isCF: this.state.isCF
-      })      
-    console.log(`avatar = ${avatar}`)
+      })          
+    
     await updateSettings(
       supplierId,
       name,
@@ -123,8 +121,9 @@ export default class Settings extends Component {
       radius,
       playerName,
       position,
-      refereeName)
+      refereeName)      
   }
+  
   onScreenFocus = () => {
     // Screen was focused, our on focus logic goes here    
   }
@@ -132,7 +131,14 @@ export default class Settings extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {    
     return true
   }
-  
+  validateInput() {    
+    const {phoneNumber} = this.state   
+    if(phoneNumber.trim().length == 0) {      
+      alert("Please enter phone number")
+      return false
+    }    
+    return true
+  }
   componentWillUnmount() {    
   }
   componentDidCatch(error, errorInfo) {
@@ -143,21 +149,25 @@ export default class Settings extends Component {
     //call api    
     try {  
         const { data, message} =  await getSupplierServicesOrders(supplierId)        
-        const { name, position, dateOfBirth, phoneNumber, avatar,
+        const { name, position, phoneNumber, avatar,
                 dateOfBirthObject, radius,address, playerName = '',
-                refereeName = '', playerId, refereeId
-              } = data   
+                refereeName = '', playerId, refereeId,
+                latitude, longitude
+              } = data           
         const {day, month, year} = dateOfBirthObject        
         const {isGK, isCB, isMF, isCF} = setPosition(position)
         //
-        
+        // alert(JSON.stringify({latitude,longitude}))
         this.setState({
           isGK, isCB, isMF, isCF,          
-          name, avatar, position, phoneNumber,radius, playerName, refereeName, supplierId,
+          name, 
+          
+          avatar, position, phoneNumber,radius, playerName, refereeName, supplierId,
           playerId, refereeId,
           stringDateOfBirth: convertDayMonthYearToString(day, month, year),
           currentLocation: {
-            address
+            address, 
+            latitude, longitude
           }
         })
     } catch (error) {               
@@ -165,7 +175,7 @@ export default class Settings extends Component {
     }
   }
   async componentDidMount () {          
-    reloadDataFromServer()    
+    this.reloadDataFromServer()    
   }
   async _chooseAvatar () {
     try {
@@ -260,11 +270,15 @@ export default class Settings extends Component {
     } = this.state.currentLocation;        
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Quản Lý Tài Khoản'} pressBackButton={() => {
-          this._saveSettings()
+        <Header title={'Quản Lý Tài Khoản'} pressBackButton={async () => {             
+          if(this.validateInput() == true) {                      
+            await this._saveSettings()              
+            return true
+          }           
+          return false
         }}/>
         <NavigationEvents          
-          onWillFocus={payload => {
+          onWillFocus={payload => {            
             this.reloadDataFromServer()
           }}          
         />

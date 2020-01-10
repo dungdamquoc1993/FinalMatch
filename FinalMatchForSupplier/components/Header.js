@@ -19,8 +19,10 @@ class Header extends Component {
         return <View style={styles.container}>
             {hideBack === false && <FontAwesome5
                 onPress={async () => {
-                    await pressBackButton()
-                    this.props.stackNavigation.dispatch(NavigationActions.back())
+                    let result = await pressBackButton()
+                    if(result == true) {
+                        this.props.stackNavigation.dispatch(NavigationActions.back())
+                    }                    
                 }}
                 name={"arrow-circle-left"} size={50} 
                 color={MAIN_COLOR} />}
