@@ -6,6 +6,8 @@ const SwitchNavigator = createSwitchNavigator({
     AuthLoading:LoginAndSignup,
     App:MyStackNavigator,
     Auth:MyTabnavigator
+},{
+    header: null
 })
 const App = createAppContainer(SwitchNavigator)
 export default App

@@ -32,7 +32,7 @@ export default class Service extends Component {
             borderRadius: 30,
           }}
           onPress={() => {
-            navigate('Stadium')
+            navigate('OrderPlayer')
               
             }}
         >
@@ -83,6 +83,9 @@ export default class Service extends Component {
             width: '80%',
             backgroundColor: '#33FF99',
             borderRadius: 30,
+          }}
+          onPress={() => {
+            navigate('OrderArbitration')
           }}
         >
           <View

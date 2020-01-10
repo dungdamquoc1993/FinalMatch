@@ -292,7 +292,7 @@ export class RefereeService extends Component {
 const mapStateToProps = state => ({
   //convert "global object"(shared state) => ServiceRegister's props
   stackNavigation: state.navigationReducers.stackNavigation,
-  tabNavigation: state.navigationReducers.tabNavigation
+z
 })
 export default connect(
   mapStateToProps

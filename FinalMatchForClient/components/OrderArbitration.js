@@ -7,10 +7,18 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import Header from './Header'
 export default class OrderArbitration extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   render () {
     return (
+      
       <SafeAreaView style={styles.container}>
+      <Header title="Đặt Trọng Tài" hideBack={true} pressBackButton={() => {
+        this.props.navigation.navigate('Service')
+        }}/>
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>
             Tên:{' '}
@@ -26,17 +34,14 @@ export default class OrderArbitration extends Component {
             placeholder={'Enter phone number'}
           />
         </View>
-
-        <Text style={styles.textPlayer}>
-          Trọng tài của bạn:
-        </Text>
+        <View style={{borderBottomWidth:1,color:'black',width:'80%',marginVertical:20}} />
         <View style={styles.personalInformation}>
           <Text style={styles.textLabelPosition}>
             Địa điểm thi đấu:
           </Text>
           <TextInput
             style={styles.textInputPosition}
-            placeholder={'input position'}
+            placeholder={'Enter position'}
           />
         </View>
         <TouchableOpacity style={styles.buttonSubmit}>
@@ -50,7 +55,6 @@ export default class OrderArbitration extends Component {
 }
 const styles = StyleSheet.create ({
   container: {
-    marginTop: 20,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
@@ -58,42 +62,46 @@ const styles = StyleSheet.create ({
   },
   personalInformation: {
     flexDirection: 'row',
-    height: 60,
+    height: 75,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   textLabel: {
     width: '20%',
-    height: 40,
-    lineHeight: 40,
+    height: 50,
+    lineHeight: 50,
     paddingStart: 30,
+    fontSize: 20
   },
   textInput: {
     width: '80%',
-    height: 40,
-    borderRadius: 5,
+    height: 50,
+    borderRadius: 10,
     borderColor: 'black',
     borderWidth: 1,
     paddingHorizontal: 10,
     marginEnd: 30,
     color: 'black',
+    fontSize: 20,
   },
   textLabelPosition: {
-    width: '40%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 40,
+    width: '45%',
+    height: 50,
+    lineHeight: 50,
+    paddingStart: 30,
+    fontSize: 20
   },
   textInputPosition: {
-    width: '60%',
-    height: 40,
-    borderRadius: 5,
+    width: '55%',
+    height: 50,
+    borderRadius: 10,
     borderColor: 'black',
     borderWidth: 1,
     paddingHorizontal: 10,
     marginEnd: 30,
     color: 'black',
+    fontSize: 20
   },
   buttonSubmit: {
     width: 200,
@@ -108,13 +116,5 @@ const styles = StyleSheet.create ({
     lineHeight: 60,
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  textPlayer: {
-    height: 40,
-    lineHeight: 40,
-    marginTop: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical:20,
   },
 });
