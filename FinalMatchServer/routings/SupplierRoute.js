@@ -259,8 +259,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
   debugger
   connection.query(GET_SUPPLIER_SERVICES_ORDERS,
     [supplierId]
-    , (error, results) => {
-      debugger
+    , (error, results) => {      
       if(error) {
         res.json({
           result: "failed",
@@ -270,9 +269,9 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
         })
         return
       }
-      if (results != null && results.length > 0) {
-        debugger        
+      if (results != null && results.length > 0) {        
         let data = removeNullProperties(results[0])
+        console.log(JSON.stringify(data))
         const { 
                 name, 
                 playerId, 
