@@ -154,11 +154,9 @@ export default class Settings extends Component {
                 refereeName = '', playerId, refereeId,
                 latitude, longitude
               } = data           
-        const {day, month, year} = dateOfBirthObject        
-        
-        const {isGK, isCB, isMF, isCF} = setPosition(position)
-        //
-        // alert(JSON.stringify({latitude,longitude}))
+        const {day, month, year} = dateOfBirthObject                
+        let selectedDate = new Date (year, month, day)        
+        const {isGK, isCB, isMF, isCF} = setPosition(position)                
         this.setState({
           isGK, isCB, isMF, isCF,          
           name, 
@@ -166,6 +164,8 @@ export default class Settings extends Component {
           avatar, position, phoneNumber,radius, playerName, refereeName, supplierId,
           playerId, refereeId,
           stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+          selectedDate,
+          dateOfBirth: selectedDate,
           currentLocation: {
             address, 
             latitude, longitude
@@ -176,7 +176,7 @@ export default class Settings extends Component {
     }
   }
   async componentDidMount () {          
-    this.reloadDataFromServer()    
+    // this.reloadDataFromServer()    
   }
   async _chooseAvatar () {
     try {
