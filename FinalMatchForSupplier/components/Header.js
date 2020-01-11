@@ -14,16 +14,23 @@ import { alert } from '../helpers/Helpers'
 class Header extends Component {
     constructor(props) {
         super(props)        
+        this.disableBackButton = false
     }
     render() {
         const {title, hideBack = false, pressBackButton} = this.props        
         return <View style={styles.container}>
             {hideBack === false && <FontAwesome5                
-                onPress={async () => {                                        
+                onPress={async () => {
+                    if(this.disableBackButton == true){
+                        return
+                    }         
+                    this.disableBackButton = true                               
                     let result = await pressBackButton()
-                    if(result == true) {
-                        alert(this.props.stackNavigation.state.routeName)
-                        this.props.stackNavigation.dispatch(NavigationActions.back())
+                    if(result == true) {                        
+                        this.props.stackNavigation.dispatch(NavigationActions.back())                                             
+                        setTimeout(() => {
+                            this.disableBackButton = false
+                        },1000)
                     }                    
                 }}
                 name={"arrow-circle-left"} size={50} 

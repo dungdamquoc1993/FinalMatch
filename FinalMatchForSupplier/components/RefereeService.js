@@ -276,10 +276,17 @@ export class RefereeService extends Component {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
-                height: 40,
+                height: 30,
               }}
             >
               <TouchableOpacity
+                style= {{backgroundColor: MAIN_COLOR,
+                padding: 10,
+                borderRadius: 10,
+                height: 40, 
+                paddingHorizontal: 20,
+                alignItems: 'center',
+              }}
                 onPress={() => {
                   this.setState({ showIOSDatePicker: false });
                 }}
