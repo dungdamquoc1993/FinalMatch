@@ -33,7 +33,9 @@ export default class LoginAndSignup extends Component {
           name="facebook"
           backgroundColor="#3b5998"
           borderRadius={30}
-
+          onPress={() => {
+              navigate ('Service');
+            }}
           
         >
         <Text style={{fontSize:18,color:'white'}}>Login with Facebook</Text>
