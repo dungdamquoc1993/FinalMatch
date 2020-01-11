@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
         borderRadius: 200 / 2,
     },
     title: {        
-        color: COLOR_PINK_MEDIUM,
+        color: 'white',
         marginTop: 10,    
         textAlign: 'center',
-        width: 400,
+        width: '90%',
         fontSize: 35
     }
 })

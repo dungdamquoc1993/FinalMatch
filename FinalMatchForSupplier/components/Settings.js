@@ -395,7 +395,7 @@ export default class Settings extends Component {
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
-                  height: 40,
+                  height: 20,
                 }}
               >
                 <TouchableOpacity
