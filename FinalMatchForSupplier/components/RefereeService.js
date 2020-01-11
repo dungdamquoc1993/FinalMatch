@@ -236,39 +236,6 @@ export class RefereeService extends Component {
             {this._displayAge(age)}
           </Text>
         </View>
-        <TouchableOpacity onPress={() => {
-          this._pressLocation()
-        }}
-          style={styles.buttonGetLocation}
-        >
-          <Text style={styles.textGetLocation}> Get Location</Text>
-          <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
-        </TouchableOpacity>
-        {(address.length > 0 || district.length > 0 || province.length > 0)
-          && <Text style={{ fontSize:16}}>{address} - {district} - {province}</Text>}
-          <View style={styles.radiusInput}>
-          <Text style={styles.textLabelRadius}>
-            Bán kính phục vụ:
-          </Text>
-            
-              <TextInput
-              style={styles.textInputRadius}
-              placeholder={'Enter radius'}
-              keyboardType={'numeric'}
-              onChangeText={radius => {
-                this.setState ({radius});
-              }}
-              />
-          <Text style={styles.textKM}>
-            KM
-          </Text>
-
-        </View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
-          this._insertRefereeService()
-        }}>
-          <Text style={styles.txtSubmit}>Submit</Text>
-        </TouchableOpacity>
         {isIOS() &&
           showIOSDatePicker &&
           <View>
@@ -307,6 +274,40 @@ export class RefereeService extends Component {
               }}
             />
           </View>}
+        <TouchableOpacity onPress={() => {
+          this._pressLocation()
+        }}
+          style={styles.buttonGetLocation}
+        >
+          <Text style={styles.textGetLocation}> Get Location</Text>
+          <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
+        </TouchableOpacity>
+        {(address.length > 0 || district.length > 0 || province.length > 0)
+          && <Text style={{ fontSize:16}}>{address} - {district} - {province}</Text>}
+          <View style={styles.radiusInput}>
+          <Text style={styles.textLabelRadius}>
+            Bán kính phục vụ:
+          </Text>
+            
+              <TextInput
+              style={styles.textInputRadius}
+              placeholder={'Enter radius'}
+              keyboardType={'numeric'}
+              onChangeText={radius => {
+                this.setState ({radius});
+              }}
+              />
+          <Text style={styles.textKM}>
+            KM
+          </Text>
+
+        </View>
+        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
+          this._insertRefereeService()
+        }}>
+          <Text style={styles.txtSubmit}>Submit</Text>
+        </TouchableOpacity>
+       
       </SafeAreaView>
       </TouchableWithoutFeedback>
       

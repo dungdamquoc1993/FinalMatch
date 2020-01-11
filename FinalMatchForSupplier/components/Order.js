@@ -29,7 +29,7 @@ export default class Order extends Component {
     setInterval (() => {
       Animated.timing (fadeIn, {
         toValue: 1,
-        duration: 1000,
+        duration: 500,
       }).start (() => {
         fadeIn.setValue (1);
         Animated.timing (fadeIn, {
@@ -39,7 +39,7 @@ export default class Order extends Component {
           fadeIn.setValue (0);
         })        
       });
-    }, 3000);
+    }, 2500);
   }
   render () {
     const {showMail, fadeIn} = this.state;
