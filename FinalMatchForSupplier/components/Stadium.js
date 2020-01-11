@@ -108,7 +108,10 @@ class Stadium extends Component {
     } = this.state.currentLocation;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Stadium'} pressBackButton={() => {}} />
+        <Header title={'Stadium'} pressBackButton={async () => {
+          //validate ok
+          return true
+        }}/>
         <View style={{marginTop: 20}} />
         <View style={styles.personalInformation}>
           <Text style={styles.textLabel}>

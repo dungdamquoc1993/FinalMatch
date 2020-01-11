@@ -5,10 +5,15 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Header from './Header'
 export default class OrderPlayer extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor (props) {
     super (props);
     this.state = {
@@ -24,22 +29,23 @@ export default class OrderPlayer extends Component {
     const {isGK, isCB, isMF, isCF} = this.state;
     return (
       <SafeAreaView style={styles.container}>
+      <Header title="Đặt cầu thủ" hideBack={true} pressBackButton={() => {
+        this.props.navigation.navigate('Service')
+        }}/>
+        <ScrollView>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            Tên:{' '}
-          </Text>
-          <TextInput style={styles.textInput} placeholder={'Enter name'} />
+          <TextInput style={styles.textInput} placeholder={'Nhập tên'} />
         </View>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            SĐT:{' '}
-          </Text>
           <TextInput
             style={styles.textInput}
-            placeholder={'Enter phone number'}
+            placeholder={'Nhập số điện thoại'}
           />
         </View>
-        <Text style={{height:40,lineHeight:40,marginTop:10,fontSize:20,fontWeight:'bold'}}>Cầu thủ của bạn:</Text>
+        <View style={{height:40,width:'100%',alignItems:'center'}}>
+        <Text style={{height:40,lineHeight:40,fontSize:20,fontWeight:'bold'}}>Cầu thủ của bạn:</Text>
+        </View>
+        
         <View style={styles.positions}>
           <TouchableOpacity
             style={styles.eachPosition}
@@ -95,17 +101,27 @@ export default class OrderPlayer extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabelPosition}>
-            Địa điểm thi đấu:
-          </Text>
           <TextInput
-            style={styles.textInputPosition}
-            placeholder={'Enter name'}
+            style={styles.textInput}
+            placeholder={'Địa điểm thi đấu'}
           />
         </View>
-        <TouchableOpacity style={{width:200,height:60,backgroundColor:'#7FFFD4',marginVertical:30,alignItems:'center',borderRadius:10}}>
-          <Text style={{height:60,lineHeight:60,fontSize:20,fontWeight:'bold'}}>Gửi yêu cầu</Text>
+        <View style={styles.personalInformation}>
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Giờ thi đấu'}
+          />
+        </View>
+        
+        <View style={styles.personalInformation}>
+        <TouchableOpacity style={styles.buttonSubmit}>
+          <Text style={styles.textSubmit}>
+            Gửi yêu cầu
+          </Text>
         </TouchableOpacity>
+        </View>
+        
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -119,34 +135,27 @@ const styles = StyleSheet.create ({
     justifyContent: 'flex-start',
   },
   personalInformation: {
-    flexDirection: 'row',
-    height: 60,
+    height: 75,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textLabel: {
-    width: '20%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 30,
-  },
   textInput: {
-    width: '80%',
-    height: 40,
-    borderRadius: 5,
-    borderColor: 'black',
+    width: '90%',
+    height: 50,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    marginEnd: 30,
-    color: 'black',
+    paddingStart:15,
+    fontSize: 17,
   },
   positions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 50,
     width: '100%',
-    marginVertical:30
+    marginVertical:25
   },
   eachPosition: {
     flexDirection: 'column',
@@ -161,14 +170,24 @@ const styles = StyleSheet.create ({
     lineHeight: 40,
     paddingStart: 40,
   },
-  textInputPosition: {
-    width: '60%',
-    height: 40,
-    borderRadius: 5,
-    borderColor: 'black',
-    borderWidth: 1,
+  buttonSubmit: {
+    height: 50,
+    marginTop: 20,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
     paddingHorizontal: 10,
-    marginEnd: 30,
-    color: 'black',
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+  },
+  textSubmit: {
+    height: 60,
+    lineHeight: 60,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white'
   },
 });

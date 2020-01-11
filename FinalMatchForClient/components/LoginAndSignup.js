@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon5 from 'react-native-vector-icons/FontAwesome5';
 export default class LoginAndSignup extends Component {
   state = {
     isLogin: true,
@@ -33,8 +32,12 @@ export default class LoginAndSignup extends Component {
           style={styles.facebookButton}
           name="facebook"
           backgroundColor="#3b5998"
+          borderRadius={30}
+
+          
         >
-          Login with Facebook
+        <Text style={{fontSize:18,color:'white'}}>Login with Facebook</Text>
+          
         </Icon.Button>
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
@@ -113,13 +116,12 @@ const styles = StyleSheet.create ({
   logo: {
     margin: 20,
     width: 100,
-    backgroundColor: 'red',
     height: 100,
     borderRadius: 50,
   },
   facebookButton: {
-    height: 60,
-    width: 0.8 * screenWidth,
+    height: 50,
+    width: 0.9 * screenWidth,
     backgroundColor: '#3b5998',
     color: 'white',
     textAlign: 'center',
@@ -131,7 +133,6 @@ const styles = StyleSheet.create ({
   },
   viewLoginRegister: {
     height: 50,
-    // width: '100%',
     alignSelf: 'stretch',
     marginHorizontal: 30,
     flexDirection: 'row',
@@ -139,7 +140,6 @@ const styles = StyleSheet.create ({
   viewLogin: {
     height: 50,
     width: '50%',
-    // alignSelf: 'stretch',
     flexDirection: 'column',
   },
   line: {
@@ -160,25 +160,29 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   textInput: {
-    height: 45,
+    height: 50,
     marginTop: 20,
     width: '90%',
-    borderColor: 'gray',
+    borderColor: '#d3d3d3',
     borderWidth: 1,
     alignSelf: 'center',
     borderRadius: 6,
     paddingHorizontal: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 25,
+    fontSize:18,
+    paddingStart:15
   },
   loginButton: {
-    height: 45,
+    height: 50,
     marginTop: 20,
-    width: '50%',
+    width: '90%',
     alignSelf: 'center',
     borderRadius: 6,
     paddingHorizontal: 10,
-    fontSize: 17,
+    fontSize: 18,
     backgroundColor: '#00CCFF',
     justifyContent: 'center',
-    borderRadius:8,
+    borderRadius: 25,
   },
 });

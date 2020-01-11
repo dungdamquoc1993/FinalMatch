@@ -92,7 +92,7 @@ export default class Service extends Component {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-around',
-              marginVertical: 35,
+              alignItems: 'center',
               height: 100,
             }}
           >

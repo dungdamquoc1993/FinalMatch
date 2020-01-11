@@ -137,7 +137,9 @@ class PlayerService extends Component {
         
       <SafeAreaView style={styles.container}>
         
-        <Header title={'PlayerService'} pressBackButton={() => {
+        <Header title={'PlayerService'} pressBackButton={async () => {
+          //validate ok
+          return true
         }}/>        
         <View style={{marginTop:30}}/>
         <View style={styles.personalInformation}>

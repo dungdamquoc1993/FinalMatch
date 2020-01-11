@@ -8,19 +8,21 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors'
+import { alert } from '../helpers/Helpers'
 
 //hideBack: boolean
 class Header extends Component {
     constructor(props) {
-        super(props)
+        super(props)        
     }
     render() {
-        const {title, hideBack = false, pressBackButton} = this.props
+        const {title, hideBack = false, pressBackButton} = this.props        
         return <View style={styles.container}>
-            {hideBack === false && <FontAwesome5
-                onPress={async () => {
+            {hideBack === false && <FontAwesome5                
+                onPress={async () => {                                        
                     let result = await pressBackButton()
                     if(result == true) {
+                        alert(this.props.stackNavigation.state.routeName)
                         this.props.stackNavigation.dispatch(NavigationActions.back())
                     }                    
                 }}
