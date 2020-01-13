@@ -112,6 +112,10 @@ export default class Service extends Component {
             backgroundColor: '#33FF99',
             borderRadius: 30,
           }}
+          onPress={() => {
+            navigate('Stadium')
+              
+            }}
         >
           <View
             style={{

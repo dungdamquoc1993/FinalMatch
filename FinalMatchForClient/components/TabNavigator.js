@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import Stadium from './Stadium'
+import Tabtownavigator from './Tabtownavigator'
 import Service from './Service'
 import { createAppContainer } from 'react-navigation'
 const Tabnavigator = createBottomTabNavigator(
     {
         Service:{screen: Service},
-        Stadium: { screen: Stadium }
+        Tabtownavigator: { screen: Tabtownavigator }
     },
     {
         tabBarOptions: {

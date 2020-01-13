@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   Dimensions,
+  SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 export default class LoginAndSignup extends Component {
@@ -25,7 +26,7 @@ export default class LoginAndSignup extends Component {
     const {navigate} = this.props.navigation;
     const {email, password, isLogin} = this.state
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image style={styles.logo} source={require ('../images/cat.jpeg')} />
 
         <Icon.Button
@@ -102,7 +103,7 @@ export default class LoginAndSignup extends Component {
             {isLogin === true ? 'Sign-in' : 'Sign-up'}
           </Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -114,6 +115,7 @@ const styles = StyleSheet.create ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop:'10%'
   },
   logo: {
     margin: 20,
