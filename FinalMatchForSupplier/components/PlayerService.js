@@ -137,18 +137,15 @@ class PlayerService extends Component {
         
       <SafeAreaView style={styles.container}>
         
-        <Header title={'PlayerService'} pressBackButton={async () => {
+        <Header title={'PLAYER SERVICE'} pressBackButton={async () => {
           //validate ok
           return true
         }}/>        
         <View style={{marginTop:30}}/>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            Tên Thi Đấu:
-          </Text>
           <TextInput
             style={styles.textInput}
-            placeholder={'Please enter playerName'}
+            placeholder={'Tên Thi Đấu của Bạn (Đấu Danh) :)'}
             value={playerName}
             onChangeText={playerName => {
               this.setState ({playerName});
@@ -156,12 +153,9 @@ class PlayerService extends Component {
           />
         </View>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            SDT:
-          </Text>
           <TextInput
             style={styles.textInput}
-            placeholder={'Please enter phone'}
+            placeholder={'Số Điện Thoại của Bạn'}
             keyboardType={'phone-pad'}
             value={phoneNumber}
             onChangeText={phoneNumber => {
@@ -295,11 +289,10 @@ const styles = StyleSheet.create ({
     fontSize:20,
   },
   textInput: {
-    width: '60%',
+    width: '90%',
     height: 50,
     borderRadius: 8,
     borderColor: 'black',
-    marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',

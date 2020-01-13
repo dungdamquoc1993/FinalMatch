@@ -108,15 +108,12 @@ class Stadium extends Component {
     } = this.state.currentLocation;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Stadium'} pressBackButton={async () => {
+        <Header title={'STADIUM'} pressBackButton={async () => {
           //validate ok
           return true
         }}/>
         <View style={{marginTop: 20}} />
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            Tên :
-          </Text>
           <TextInput
             style={styles.textInput}
             value={stadiumName}
@@ -129,11 +126,8 @@ class Stadium extends Component {
 
         {type == 0
           ? <View style={styles.txtAddresses}>
-              <Text style={styles.txtDC}>
-                Đ/C:
-              </Text>
               <Text style={styles.txtShowAddresses}>
-                {address.length > 0 ? address : 'Click get location'}
+                {address.length > 0 ? address : 'Click to get location'}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -149,12 +143,9 @@ class Stadium extends Component {
             </View>
           : <View style={{width: '100%'}}>
               <View style={styles.personalInformation}>
-                <Text style={styles.textLabel}>
-                  SĐT:
-                </Text>
                 <TextInput
                   style={styles.textInput}
-                  placeholder={'Please enter phone number'}
+                  placeholder={'số điện thoại sân bóng 09xxxx...'}
                   keyboardType={'number-pad'}
                   value={phoneNumber}
                   onChangeText={phoneNumber => {
@@ -164,9 +155,6 @@ class Stadium extends Component {
 
               </View>
               <View style={styles.personalInformation}>
-                <Text style={styles.textLabel}>
-                  Đ/C:
-                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={address}
@@ -176,7 +164,7 @@ class Stadium extends Component {
                     updatedState.currentLocation.address = address;
                     this.setState (updatedState);
                   }}
-                  placeholder={'Please enter address'}
+                  placeholder={'Địa chỉ sân bóng'}
                 />
 
               </View>
@@ -259,11 +247,10 @@ const styles = StyleSheet.create ({
     fontSize: 20,
   },
   textInput: {
-    width: '80%',
+    width: '85%',
     height: 50,
     borderRadius: 5,
     borderColor: 'black',
-    marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
