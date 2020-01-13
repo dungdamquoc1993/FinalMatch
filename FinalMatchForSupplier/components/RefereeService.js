@@ -175,46 +175,37 @@ export class RefereeService extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView style={styles.container}>
-        <Header title={'RefereeService'} pressBackButton={async () => {
+        <Header title={'REFEREE SERVICE'} pressBackButton={async () => {
           //validate ok
           return true
         }}/>
         <View style={{marginTop:20}}/>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            Tên Trọng Tài:
-          </Text>
           <TextInput
             style={styles.textInput}
             value={refereeName}            
             onChangeText={(refereeName) => {
               this.setState({refereeName})
             }}
-            placeholder={'Please enter name'}
+            placeholder={'Tên trọng tài của Bạn (còi danh) :)'}
           />
         </View>
         <View style={styles.personalInformation}>
-          <Text style={styles.textLabel}>
-            SDT:
-          </Text>
           <TextInput
             style={styles.textInput}
             value={phoneNumber}
             onChangeText={(phoneNumber) => {
               this.setState({phoneNumber})
             }}
-            placeholder={'Please enter phone number'}
+            placeholder={'Số điện thoại của Bạn '}
             keyboardType={'number-pad'}
           />
         </View>
         <View style={styles.dateTime}>
-          <Text style={styles.textLabel}>
-            Tuổi:
-            </Text>
           <TouchableOpacity
             style={[
               styles.textInput,
-              { width: '40%' },
+              { width: '70%' },
               isIOS() && { paddingTop: 10 },
             ]}
             onPress={() => {
@@ -223,7 +214,7 @@ export class RefereeService extends Component {
           >
             <TextInput
               keyboardType={'default'}
-              placeholder={'dd/mm/yyyy'}
+              placeholder={'Ngày sinh: dd/mm/yyyy'}
               editable={false}
               value={stringDateOfBirth}
               onPress={() => {
@@ -352,11 +343,10 @@ const styles = StyleSheet.create({
     fontSize:20
   },
   textInput: {
-    width: '60%',
+    width: '90%',
     height: 50,
     borderRadius: 5,
     borderColor: 'black',
-    marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
