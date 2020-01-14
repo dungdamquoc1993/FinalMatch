@@ -85,7 +85,7 @@ export default class Service extends Component {
             borderRadius: 30,
           }}
           onPress={() => {
-            navigate('OrderArbitration')
+            navigate('OrderReferee')
           }}
         >
           <View

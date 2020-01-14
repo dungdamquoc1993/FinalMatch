@@ -26,6 +26,7 @@ export default class OrderPlayer extends Component {
     };
   }
   render () {
+    const {navigate} = this.props.navigation;
     const {isGK, isCB, isMF, isCF} = this.state;
     return (
       <SafeAreaView style={styles.container}>
@@ -114,7 +115,9 @@ export default class OrderPlayer extends Component {
         </View>
         
         <View style={styles.personalInformation}>
-        <TouchableOpacity style={styles.buttonSubmit}>
+        <TouchableOpacity style={styles.buttonSubmit} onPress={() => {
+              navigate ('ListPlayers');
+            }}>
           <Text style={styles.textSubmit}>
             Gửi yêu cầu
           </Text>
