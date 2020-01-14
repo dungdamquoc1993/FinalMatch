@@ -116,7 +116,7 @@ export default class OrderPlayer extends Component {
         
         <View style={styles.personalInformation}>
         <TouchableOpacity style={styles.buttonSubmit} onPress={() => {
-              navigate ('ListPlayers');
+              navigate ('PlayersList');
             }}>
           <Text style={styles.textSubmit}>
             Gửi yêu cầu
