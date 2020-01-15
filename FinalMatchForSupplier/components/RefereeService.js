@@ -39,6 +39,7 @@ export class RefereeService extends Component {
   };
   state = {
     age: 0,
+    price: 100000,
     refereeName: '',
     phoneNumber: '',
     dateOfBirth: new Date(),
@@ -54,7 +55,7 @@ export class RefereeService extends Component {
     radius: 0
   }
   componentDidMount = async () => {
-    try {
+    try {      
       const { supplierId, tokenKey, email } = await getSupplierFromStorage()
       const { data, message } = await getSupplierById(supplierId)
       const { phoneNumber, latitude,
@@ -93,7 +94,7 @@ export class RefereeService extends Component {
     }
   }
   _insertRefereeService = async () => {    
-    const {refereeName, radius, phoneNumber, dateOfBirth} = this.state    
+    const {refereeName, price,radius, phoneNumber, dateOfBirth} = this.state    
     const {address,latitude, longitude} = this.state.currentLocation
     const { supplierId, email } = await getSupplierFromStorage()      
 
@@ -101,18 +102,9 @@ export class RefereeService extends Component {
       alertWithOKButton("Bạn phải nút bấm nút lấy Location và chọn bán kính")
       return
     }
-    try {          
-      let xx = {refereeName,
-        phoneNumber,
-        supplierId,
-        dateOfBirth: convertDateToStringYYYYMMDD(dateOfBirth),
-        latitude,
-        longitude,
-        address,
-        radius
-      }
-      console.log("xx = "+JSON.stringify(xx))
+    try {                
       const {message} = await insertRefereeService(refereeName,
+        price,
         phoneNumber,
         supplierId,
         convertDateToStringYYYYMMDD(dateOfBirth),
@@ -159,6 +151,7 @@ export class RefereeService extends Component {
   render() {
     const {
       refereeName,
+      price,
       age,
       dateOfBirth,
       phoneNumber,
@@ -200,6 +193,17 @@ export class RefereeService extends Component {
             placeholder={'Số điện thoại của Bạn '}
             keyboardType={'number-pad'}
           />
+        </View>
+        <View style={styles.personalInformation}>
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Gia dich vu'}
+            keyboardType={'number-pad'}
+            value={price}
+            onChangeText={price => {
+              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)});
+            }}
+          />          
         </View>
         <View style={styles.dateTime}>
           <TouchableOpacity

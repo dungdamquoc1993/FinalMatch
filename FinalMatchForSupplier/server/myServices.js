@@ -150,7 +150,9 @@ export const insertPlayerService = async (playerName,
         return error
     }
 }
-export const insertRefereeService = async (refereeName,phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
+export const insertRefereeService = async (refereeName,
+    price,
+    phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
     try {             
         const {tokenKey, email} = await getSupplierFromStorage()                
         
@@ -162,6 +164,7 @@ export const insertRefereeService = async (refereeName,phoneNumber, supplierId,d
                 tokenKey, supplierId
             },
             body: JSON.stringify({refereeName,
+                price,
                 phoneNumber,
                 supplierId,
                 dateOfBirth,
