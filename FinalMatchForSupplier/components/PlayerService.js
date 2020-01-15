@@ -35,6 +35,7 @@ class PlayerService extends Component {
     super (props);
     this.state = {
       playerName: '',
+      price: 30000,
       phoneNumber: '',
       isGK: false,
       isCB: false,
@@ -69,7 +70,7 @@ class PlayerService extends Component {
 
   _insertPlayerService = async () => {    
     //Test ok in postman
-    const {playerName, radius} = this.state
+    const {playerName, price, radius} = this.state
     
     const position = getPosition(this.state)
     const {latitude,longitude, address} = this.state.currentLocation
@@ -80,23 +81,14 @@ class PlayerService extends Component {
       return
     }    
     try {      
-      let xx = {playerName,
-        position,
-        supplierId,
-        latitude,
-        longitude,
-        address,
-        radius
-      }
-      console.log("xx11 = "+JSON.stringify(xx))
-
       await insertPlayerService(playerName,
+        price,
         position,
         supplierId,
         latitude,
         longitude,
         address,
-        radius)        
+        radius)                    
       alertWithOKButton("Insert player service successfully", () => {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })      
@@ -127,7 +119,7 @@ class PlayerService extends Component {
     }
   };
   render () {
-    const {playerName, phoneNumber} = this.state;
+    const {playerName,price, phoneNumber} = this.state;
     const {isGK, isCB, isMF, isCF} = this.state;
     const {address = '', district = '', province = ''} = this.state.currentLocation;
     const {radius} = this.state;
@@ -161,7 +153,18 @@ class PlayerService extends Component {
             onChangeText={phoneNumber => {
               this.setState ({phoneNumber});
             }}
-          />
+          />          
+        </View>
+        <View style={styles.personalInformation}>
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Gia dich vu'}
+            keyboardType={'number-pad'}
+            value={price}
+            onChangeText={price => {
+              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)});
+            }}
+          />          
         </View>
         <TouchableOpacity onPress={() => {
           this._pressLocation()

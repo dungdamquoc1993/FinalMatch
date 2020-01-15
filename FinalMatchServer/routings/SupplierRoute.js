@@ -296,6 +296,31 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
                 typeRole,
                 dateTimeStart,
                 dateTimeEnd} = data
+          console.log("ddddd = "+JSON.stringify({ 
+            name, 
+            playerPrice,
+            refereePrice,
+            playerId, 
+            refereeId,
+            avatar,
+            point, 
+            phoneNumber,
+            dateOfBirth,                
+            facebookId, 
+            email, 
+            userType,
+            address,
+            radius, 
+            playerName, 
+            position,
+            refereeName,
+            orderId,
+            customerId,
+            orderPoint,
+            status,
+            typeRole,
+            dateTimeStart,
+            dateTimeEnd}))
           data.position = position.length > 0 ? position : '0000'
           data.dateOfBirthObject = convertDateToDayMonthYear(dateOfBirth)  
           res.json({
