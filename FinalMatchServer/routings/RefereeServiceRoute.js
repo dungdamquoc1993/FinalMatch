@@ -4,7 +4,7 @@ const {checkToken} = require('./helpers')
 const {connection} = require('../database/database')
 
 const GET_CHECK_REFEREE_SERVICE_EXIST = "SELECT COUNT(*) as numberOfRefereeServices FROM RefereeService WHERE supplierId = ?"
-const POST_INSERT_REFEREE_SERVICE = "CALL insertRefereeService(?, ?, ?, ?, ?, ?, ?, ?)"
+const POST_INSERT_REFEREE_SERVICE = "CALL insertRefereeService(?, ?, ?, ?, ?, ?, ?, ?, ?)"
                                     
 // define the home page route
 router.get('/', async (req, res) => {
@@ -65,6 +65,7 @@ router.post('/insertRefereeService', async (req, res) => {
   }
   
   const {refereeName = '',   
+      price = 100000,
       phoneNumber,   
       supplierId = 0,
       dateOfBirth,      
@@ -77,6 +78,7 @@ router.post('/insertRefereeService', async (req, res) => {
   //validate, check token ?  
   connection.query(POST_INSERT_REFEREE_SERVICE, 
         [ refereeName, 
+          price,
           phoneNumber,
           supplierId,
           dateOfBirth,

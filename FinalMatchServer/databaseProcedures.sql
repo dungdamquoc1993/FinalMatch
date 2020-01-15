@@ -144,6 +144,7 @@ delimiter ;
 DROP PROCEDURE IF EXISTS insertPlayerService;
 delimiter //
 CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
+                                    price FLOAT, 
                                     position VARCHAR(10), 
                                     supplierId INTEGER,
                                     latitude FLOAT, 
@@ -157,8 +158,8 @@ BEGIN
     IF numberOfPlayerServices > 0 THEN
         signal sqlstate '45000' set message_text = "This supplier has PlayerService already";
     END IF;
-    INSERT INTO PlayerService(playerName, position, supplierId)
-    VALUES(playerName, position, supplierId);
+    INSERT INTO PlayerService(playerName, price, position, supplierId)
+    VALUES(playerName, price, position, supplierId);
     UPDATE Supplier SET Supplier.address = address, 
                     Supplier.radius = radius,
                     Supplier.point = POINT(latitude, longitude)                    
@@ -169,7 +170,8 @@ delimiter;
 
 DROP PROCEDURE IF EXISTS insertRefereeService;
 delimiter //
-CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),          
+CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),         
+                                    price FLOAT,
                                     phoneNumber VARCHAR(300),
                                     supplierId INTEGER,
                                     dateOfBirth DATE,
@@ -184,8 +186,8 @@ BEGIN
     IF numberOfRefereeServices > 0 THEN
         signal sqlstate '45000' set message_text = "This supplier has RefereeService already";
     END IF;
-    INSERT INTO RefereeService(refereeName, supplierId)
-    VALUES(refereeName, supplierId);
+    INSERT INTO RefereeService(refereeName, price, supplierId)
+    VALUES(refereeName, price, supplierId);
     UPDATE Supplier SET Supplier.address = address, 
                     Supplier.phoneNumber = phoneNumber,                    
                     Supplier.radius = radius,
@@ -199,7 +201,9 @@ delimiter;
 DROP PROCEDURE IF EXISTS updateSettings;
 delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
-                                name VARCHAR(300),
+                                playerPrice FLOAT,
+                                refereePrice FLOAT,
+                                name VARCHAR(300),                                
                                 avatar VARCHAR(500),
                                 dateOfBirth DATE,
                                 phoneNumber VARCHAR(300),
@@ -223,11 +227,13 @@ BEGIN
     
     UPDATE PlayerService SET 
             PlayerService.playerName = playerName,
+            PlayerService.price = playerPrice,            
             PlayerService.position = position
     WHERE PlayerService.supplierId = supplierId;
 
     UPDATE RefereeService SET 
-            RefereeService.refereeName = refereeName            
+            RefereeService.refereeName = refereeName,
+            RefereeService.price = refereePrice                        
     WHERE RefereeService.supplierId = supplierId;
 
 END;//
