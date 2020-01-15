@@ -41,8 +41,7 @@ export default class Header extends Component {
         <Text style={styles.title}>
           {title}
         </Text>
-
-        <View style={{width:'30%'}}/>
+<View style={{width: '10%'}}/>
       </View>
     );
   }
@@ -62,7 +61,6 @@ const styles = StyleSheet.create ({
     fontSize: 20,
     fontFamily: 'arial',
     fontWeight: 'bold',
-    width:'40%',
-    textAlign:'center',
+    width:'60%',
   },
 });
