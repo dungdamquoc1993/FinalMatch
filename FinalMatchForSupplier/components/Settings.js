@@ -55,6 +55,8 @@ export default class Settings extends Component {
   
   state = {
     supplierId: 0,
+    playerPrice: 3000,
+    refereePrice: 100000,    
     playerId: 0,
     refereeId: 0,
     name: '',
@@ -95,6 +97,8 @@ export default class Settings extends Component {
     const {supplierId} = this.state           
     const {      
       name,
+      playerPrice, 
+      refereePrice,
       avatar,
       dateOfBirth,
       phoneNumber,            
@@ -111,6 +115,8 @@ export default class Settings extends Component {
     
     await updateSettings(
       supplierId,
+      playerPrice, 
+      refereePrice,
       name,
       avatar,
       convertDateToStringYYYYMMDD(dateOfBirth),
@@ -148,19 +154,23 @@ export default class Settings extends Component {
     const {supplierId, email} = await getSupplierFromStorage()              
     //call api    
     try {  
-        const { data, message} =  await getSupplierServicesOrders(supplierId)        
-        const { name, position, phoneNumber, avatar,
-                dateOfBirthObject, radius,address, playerName = '',
-                refereeName = '', playerId, refereeId,
-                latitude, longitude
-              } = data           
+        const { data, message} =  await getSupplierServicesOrders(supplierId)     
+        const { name, 
+          playerPrice,
+          refereePrice,
+          position, phoneNumber, avatar,
+          dateOfBirthObject, radius,address, playerName = '',
+          refereeName = '', playerId, refereeId,
+          latitude, longitude
+        } = data            
         const {day, month, year} = dateOfBirthObject                
         let selectedDate = new Date (year, month, day)        
         const {isGK, isCB, isMF, isCF} = setPosition(position)                
         this.setState({
-          isGK, isCB, isMF, isCF,          
-          name, 
-          
+          name,
+          playerPrice,
+          refereePrice,
+          isGK, isCB, isMF, isCF,                               
           avatar, position, phoneNumber,radius, playerName, refereeName, supplierId,
           playerId, refereeId,
           stringDateOfBirth: convertDayMonthYearToString(day, month, year),
@@ -250,6 +260,8 @@ export default class Settings extends Component {
   render () {
     const {
       name,
+      playerPrice,
+      refereePrice,
       age,
       playerId, 
       refereeId,
@@ -524,6 +536,21 @@ export default class Settings extends Component {
               <Text style={styles.textRole}>Completed: </Text>
               <Text style={styles.textRolereferee}> 0</Text>
             </View>
+            <View style={styles.personalInformation}>
+              <Text style={styles.textRole}>playerPrice: </Text>
+              <TextInput style={styles.textInputRole} 
+                  value={`${playerPrice}`} onChangeText={(playerPrice) => {
+                    this.setState({playerPrice: isNaN(playerPrice) == false ? playerPrice: parseFloat(playerPrice)})
+              }} />              
+            </View>
+            <View style={styles.personalInformation}>
+              <Text style={styles.textRole}>refereePrice: </Text>
+              <TextInput style={styles.textInputRole} 
+                  value={`${refereePrice}`} onChangeText={(refereePrice) => {
+                    this.setState({refereePrice: isNaN(refereePrice) == false ? refereePrice: parseFloat(refereePrice)})
+              }} />              
+            </View>
+            
           </View>}
         </ScrollView>
       </SafeAreaView>

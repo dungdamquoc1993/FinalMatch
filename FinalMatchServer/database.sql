@@ -20,20 +20,18 @@ CREATE TABLE IF NOT EXISTS Supplier (
 
 CREATE TABLE IF NOT EXISTS PlayerService (       
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    price FLOAT,
     playerName VARCHAR(300) NOT NULL ,
     position VARCHAR(10) NOT NULL ,
-    supplierId INTEGER UNIQUE
+    supplierId INTEGER UNIQUE    
 );
-ALTER TABLE PlayerService ADD price FLOAT;
-ALTER TABLE PlayerService ADD CONSTRAINT checkMaxPrice CHECK(price>150000); 
 
 CREATE TABLE IF NOT EXISTS RefereeService (    
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    price FLOAT,
     refereeName VARCHAR(300) NOT NULL ,    
     supplierId INTEGER
 );
-ALTER TABLE RefereeService ADD price FLOAT;
-ALTER TABLE RefereeService ADD CONSTRAINT checkMaxPrice CHECK(price>300000);
 
 CREATE TABLE IF NOT EXISTS Stadium (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,

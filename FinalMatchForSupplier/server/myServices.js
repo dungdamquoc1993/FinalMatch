@@ -117,7 +117,9 @@ export const tokenCheck = async (tokenKey,supplierId) => {
         return {result:'failed', data: {}, message: error}        
     }
 }
-export const insertPlayerService = async (playerName,position,supplierId,latitude,longitude,address,radius) => {
+export const insertPlayerService = async (playerName,
+    price, 
+    position,supplierId,latitude,longitude,address,radius) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()            
         const response = await fetch(urlInsertPlayerService(), {
@@ -128,6 +130,7 @@ export const insertPlayerService = async (playerName,position,supplierId,latitud
                 tokenKey, supplierId
             },
             body: JSON.stringify({playerName,
+                price,
                 position,
                 supplierId,
                 latitude,
@@ -147,7 +150,9 @@ export const insertPlayerService = async (playerName,position,supplierId,latitud
         return error
     }
 }
-export const insertRefereeService = async (refereeName,phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
+export const insertRefereeService = async (refereeName,
+    price,
+    phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
     try {             
         const {tokenKey, email} = await getSupplierFromStorage()                
         
@@ -159,6 +164,7 @@ export const insertRefereeService = async (refereeName,phoneNumber, supplierId,d
                 tokenKey, supplierId
             },
             body: JSON.stringify({refereeName,
+                price,
                 phoneNumber,
                 supplierId,
                 dateOfBirth,
@@ -309,7 +315,10 @@ export const postUploadPhoto = async (photos, supplierId) => {
     }
 }
 
-export const updateSettings = async (supplierId,name,
+export const updateSettings = async (supplierId,
+            playerPrice,
+            refereePrice,
+            name,
             avatar,
             dateOfBirth,phoneNumber,address,
             latitude,longitude,radius,playerName,position,refereeName) => {
@@ -325,6 +334,8 @@ export const updateSettings = async (supplierId,name,
             },
             body: JSON.stringify({
                 name,
+                playerPrice,
+                refereePrice,
                 avatar,
                 dateOfBirth,
                 phoneNumber,
