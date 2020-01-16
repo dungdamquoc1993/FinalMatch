@@ -60,13 +60,12 @@ export default class PlayersList extends Component {
     super(props);
     this.state ={
       order: false,
-    };
-    this.setState = this.setState.bind(this);
+    }
   }
   render () {
     const {navigate} = this.props.navigation;
     const {order} = this.state;
-    function Item({
+    const Item = ({
       name,
       position,
       price,
@@ -74,7 +73,7 @@ export default class PlayersList extends Component {
       iamgeAvatar,
       imagechecked,
       orderPlayer,
-    }) {
+    }) =>{
       return (
         <View style={styles.ViewAllInformation}>
           <View style={styles.ViewDetail}>
