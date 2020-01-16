@@ -7,18 +7,116 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import Header from './Header';
+const DATA = [
+  {
+    id: '011',
+    name: 'Vũ Trung Kiên',
+    position: 'GK',
+    matched: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/soccer.png'),
+    imagechecked: require ('../images/Order.png'),
+    orderPlayer: 'Đặt',
+  },
+  {
+    id: '015',
+    name: 'acb',
+    position: 'GK',
+    matched: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/soccer.png'),
+    imagechecked: require ('../images/Order.png'),
+    orderPlayer: 'Đặt',
+  },
+  {
+    id: '012',
+    name: 'Vũ Trung Kiên',
+    position: 'GK',
+    matched: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/soccer.png'),
+    imagechecked: require ('../images/Order.png'),
+    orderPlayer: 'Đặt',
+  },
+  {
+    id: '013',
+    name: 'Vũ Trung Kiên',
+    position: 'GK',
+    matched: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/soccer.png'),
+    imagechecked: require ('../images/Order.png'),
+    orderPlayer: 'Đặt',
+  },
+];
 export default class PlayersList extends Component {
   static navigationOptions = {
     header: null,
   };
-  state = {
-    order: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state ={
+      order: false,
+    };
+    this.setState = this.setState.bind(this);
+  }
   render () {
     const {navigate} = this.props.navigation;
     const {order} = this.state;
+    function Item({
+      name,
+      position,
+      price,
+      matched,
+      iamgeAvatar,
+      imagechecked,
+      orderPlayer,
+    }) {
+      return (
+        <View style={styles.ViewAllInformation}>
+          <View style={styles.ViewDetail}>
+            <View style={styles.ViewNamedetailArbitration}>
+              <Text style={styles.textLable}>Tên: </Text>
+              <Text style={styles.textLable}>{name}</Text>
+            </View>
+            <View style={styles.ViewNamedetailArbitration}>
+              <Text style={styles.textLable}>Vị trí: </Text>
+              <Text style={styles.textLable}>{position}</Text>
+            </View>
+            <View style={styles.ViewNamedetailArbitration}>
+              <Text style={styles.textLable}>Số trận đã đấu: </Text>
+              <Text style={styles.textLable}>{matched}</Text>
+            </View>
+            <View style={styles.ViewNamedetailArbitration}>
+              <Text style={styles.textLable}>Giá: </Text>
+              <Text style={styles.textLable}>{price}</Text>
+            </View>
+          </View>
+
+          <View style={styles.viewButton}>
+            <Image source={iamgeAvatar} style={styles.images} />
+
+            <TouchableOpacity
+              style={styles.btnOrder}
+              onPress={() => 
+                this.setState({order: !this.state.order})}
+            >
+
+              {order == false
+                ? <Text style={styles.textOrder}>{orderPlayer}</Text>
+                : <Image
+                    source={imagechecked}
+                    style={{height: 50, width: 90, borderRadius: 10}}
+                  />}
+
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -28,51 +126,22 @@ export default class PlayersList extends Component {
             this.props.navigation.navigate ('OrderPlayer');
           }}
         />
-        <ScrollView style={{width: '100%'}}>
-          <View style={styles.ViewAllInformation}>
-            <View style={styles.ViewDetail}>
-              <View style={styles.ViewNamedetailArbitration}>
-                <Text style={styles.textLable}>Tên: </Text>
-                <Text style={styles.textLable}>Vũ Trung Kiên</Text>
-              </View>
-              <View style={styles.ViewNamedetailArbitration}>
-                <Text style={styles.textLable}>Vị trí: </Text>
-                <Text style={styles.textLable}>GK,CB,MF,CF</Text>
-              </View>
-              <View style={styles.ViewNamedetailArbitration}>
-                <Text style={styles.textLable}>Số trận đã đấu: </Text>
-                <Text style={styles.textLable}>0</Text>
-              </View>
-              <View style={styles.ViewNamedetailArbitration}>
-                <Text style={styles.textLable}>Giá: </Text>
-                <Text style={styles.textLable}>1000$</Text>
-              </View>
-            </View>
-
-            <View style={styles.viewButton}>
-              <Image
-                source={require ('../images/soccer.png')}
-                style={styles.images}
-              />
-
-              <TouchableOpacity
-                style={styles.btnOrder}
-                onPress={() => {
-                  this.setState ({order: !this.state.order});
-                }}
-              >
-
-                {order == false
-                  ? <Text style={styles.textOrder}>Đặt</Text>
-                  : <Image
-                      source={require ('../images/Order.png')}
-                      style={{height: 50, width: 90, borderRadius: 10}}
-                    />}
-
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
+        <FlatList
+          width={'100%'}
+          data={DATA}
+          renderItem={({item}) => (
+            <Item
+              name={item.name}
+              position={item.position}
+              matched={item.matched}
+              price={item.price}
+              iamgeAvatar={item.iamgeAvatar}
+              orderPlayer={item.orderPlayer}
+              imagechecked={item.imagechecked}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
         <TouchableOpacity
           style={styles.buttonSubmit}
           onPress={() => {

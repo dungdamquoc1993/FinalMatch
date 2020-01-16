@@ -48,6 +48,7 @@ Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
 PlayerService.id as playerId,
+PlayerService.price as playerPrice,
 PlayerService.playerName as playerName,
 PlayerService.position as position
 FROM Supplier 
@@ -76,6 +77,7 @@ Supplier.radius as radius,
 Supplier.isActive as isActive,
 Supplier.tokenKey as tokenKey,
 RefereeService.id as refereeId,
+RefereeService.price as refereePrice,
 RefereeService.refereeName as refereeName
 FROM Supplier 
 LEFT JOIN RefereeService 
@@ -87,6 +89,7 @@ DROP VIEW IF EXISTS viewSupplierServices;
 CREATE VIEW viewSupplierServices AS
 SELECT viewSupplierPlayerService.*, 
 RefereeService.id as refereeId,
+RefereeService.price as refereePrice,
 RefereeService.refereeName FROM viewSupplierPlayerService
 LEFT JOIN RefereeService 
 ON viewSupplierPlayerService.supplierId=RefereeService.supplierId

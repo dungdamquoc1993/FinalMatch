@@ -24,12 +24,16 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
+ALTER TABLE PlayerService ADD price FLOAT;
+ALTER TABLE PlayerService ADD CONSTRAINT checkMaxPrice CHECK(price>150000); 
 
 CREATE TABLE IF NOT EXISTS RefereeService (    
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     refereeName VARCHAR(300) NOT NULL ,    
     supplierId INTEGER
 );
+ALTER TABLE RefereeService ADD price FLOAT;
+ALTER TABLE RefereeService ADD CONSTRAINT checkMaxPrice CHECK(price>300000);
 
 CREATE TABLE IF NOT EXISTS Stadium (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
