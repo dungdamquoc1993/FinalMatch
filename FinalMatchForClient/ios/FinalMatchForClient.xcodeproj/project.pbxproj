@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -19,7 +20,7 @@
 		00E356F21AD99517003FC87E /* FinalMatchForSupplierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalMatchForSupplierTests.m; sourceTree = "<group>"; };
 		01FE69BD6F4E4F1496A6B8A4 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		122E2CC2A7EB43FEACEC7473 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* FinalMatchForSupplier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMatchForSupplier.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* FinalMatchForClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMatchForClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = FinalMatchForSupplier/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = FinalMatchForSupplier/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -147,7 +148,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* FinalMatchForSupplier.app */,
+				13B07F961A680F5B00A75B9A /* FinalMatchForClient.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,9 +179,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* FinalMatchForSupplier */ = {
+		13B07F861A680F5B00A75B9A /* FinalMatchForClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinalMatchForSupplier" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinalMatchForClient" */;
 			buildPhases = (
 				7E4529C68FFB0FC0C0D2E16B /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -194,9 +195,9 @@
 			);
 			dependencies = (
 			);
-			name = FinalMatchForSupplier;
+			name = FinalMatchForClient;
 			productName = FinalMatchForSupplier;
-			productReference = 13B07F961A680F5B00A75B9A /* FinalMatchForSupplier.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* FinalMatchForClient.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -213,7 +214,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FinalMatchForSupplier" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FinalMatchForClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -227,7 +228,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* FinalMatchForSupplier */,
+				13B07F861A680F5B00A75B9A /* FinalMatchForClient */,
 			);
 		};
 /* End PBXProject section */
@@ -397,7 +398,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = FinalMatchForSupplier;
+				PRODUCT_NAME = FinalMatchForClient;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -417,7 +418,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = FinalMatchForSupplier;
+				PRODUCT_NAME = FinalMatchForClient;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -524,7 +525,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinalMatchForSupplier" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinalMatchForClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -533,7 +534,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FinalMatchForSupplier" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FinalMatchForClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

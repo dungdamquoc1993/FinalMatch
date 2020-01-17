@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FinalMatchForSupplier.xcodeproj">
+      location = "group:/Users/macbook/Documents/FinalMatch/FinalMatchForClient/ios/FinalMatchForClient.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
