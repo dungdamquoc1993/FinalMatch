@@ -197,7 +197,7 @@ export class RefereeService extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Gia dich vu'}
+            placeholder={'Giá dịch vụ của Bạn (ít hơn 300k)'}
             keyboardType={'number-pad'}
             value={price}
             onChangeText={price => {
