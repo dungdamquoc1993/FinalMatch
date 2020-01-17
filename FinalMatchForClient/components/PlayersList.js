@@ -58,66 +58,14 @@ export default class PlayersList extends Component {
   };
   constructor (props) {
     super (props);
-    this.state = {
-      order: false,
+    this.state = {    
       keyId: '',
     };
   }
   render () {
     const {navigate} = this.props.navigation;
-    const {order} = this.state;
-    const Item = ({
-      name,
-      position,
-      price,
-      matched,
-      iamgeAvatar,
-      imagechecked,
-      orderPlayer,
-      id,
-    }) => {
-      return (
-        <View style={styles.ViewAllInformation}>
-          <View style={styles.ViewDetail}>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Tên: </Text>
-              <Text style={styles.textLable}>{name}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Vị trí: </Text>
-              <Text style={styles.textLable}>{position}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Số trận đã đấu: </Text>
-              <Text style={styles.textLable}>{matched}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Giá: </Text>
-              <Text style={styles.textLable}>{price}</Text>
-              <Text >{id}</Text>
-            </View>
-          </View>
-
-          <View style={styles.viewButton}>
-            <Image source={iamgeAvatar} style={styles.images} />
-
-            <TouchableOpacity
-              style={styles.btnOrder}
-              onPress={() => this.setState ({order: !this.state.order})}
-            >
-
-              {order == false
-                ? <Text style={styles.textOrder}>{orderPlayer}</Text>
-                : <Image
-                    source={imagechecked}
-                    style={{height: 50, width: 90, borderRadius: 10}}
-                  />}
-
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    };
+    
+  
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -158,6 +106,70 @@ export default class PlayersList extends Component {
     );
   }
 }
+class Item extends Component {
+  constructor (props) {
+    super (props)    
+    this.state = {
+      order: false,      
+    };    
+  }
+  render () {
+    const {
+      name,
+      position,
+      price,
+      matched,
+      iamgeAvatar,
+      imagechecked,
+      orderPlayer,
+      id,
+    } = this.props
+    const {order} = this.state
+    return (
+      <View style={styles.ViewAllInformation}>
+        <View style={styles.ViewDetail}>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Tên: </Text>
+            <Text style={styles.textLable}>{name}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Vị trí: </Text>
+            <Text style={styles.textLable}>{position}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Số trận đã đấu: </Text>
+            <Text style={styles.textLable}>{matched}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Giá: </Text>
+            <Text style={styles.textLable}>{price}</Text>
+            <Text >{id}</Text>
+          </View>
+        </View>
+  
+        <View style={styles.viewButton}>
+          <Image source={iamgeAvatar} style={styles.images} />
+  
+          <TouchableOpacity
+            style={styles.btnOrder}
+            onPress={() => this.setState ({order: !this.state.order})}
+          >
+  
+            {order == false
+              ? <Text style={styles.textOrder}>{orderPlayer}</Text>
+              : <Image
+                  source={imagechecked}
+                  style={{height: 50, width: 90, borderRadius: 10}}
+                />}
+  
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
+
+
 const styles = StyleSheet.create ({
   container: {
     flex: 1,

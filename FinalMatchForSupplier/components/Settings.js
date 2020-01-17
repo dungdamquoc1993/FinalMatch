@@ -398,7 +398,7 @@ export default class Settings extends Component {
                 KM
               </Text>
             </View>
-            <View style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: 'black', marginVertical: 5 }} />
+           
           </View>
           {isIOS() &&
             showIOSDatePicker &&
@@ -456,7 +456,7 @@ export default class Settings extends Component {
               borderColor: '#d3d3d3',
               borderRadius: 15,
               marginVertical: 10,
-              marginHorizontal: 20,
+              marginHorizontal: 5,
             }}
           >
 
@@ -534,7 +534,7 @@ export default class Settings extends Component {
                 }} />
             </View>
           </View>}
-          <View style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: 'black' }} />
+          
           {refereeId > 0 && <View
             style={{
               alignItems: 'center',
@@ -542,7 +542,7 @@ export default class Settings extends Component {
               borderColor: '#d3d3d3',
               borderRadius: 15,
               marginVertical: 10,
-              marginHorizontal: 20,
+              marginHorizontal: 5,
             }}
           >
             <View style={styles.personalInformation}>
@@ -554,7 +554,7 @@ export default class Settings extends Component {
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Completed: </Text>
-              <Text style={styles.textRolereferee}> 0</Text>
+              <Text style={styles.textInputRole}> 0</Text>
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Referee Price: </Text>
@@ -619,8 +619,8 @@ const styles = StyleSheet.create({
   textInput: {
     width: '70%',
     height: 45,
-    borderRadius: 5,
-    borderColor: 'black',
+    borderRadius: 10,
+    borderColor: '#d3d3d3',
     marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
@@ -652,8 +652,8 @@ const styles = StyleSheet.create({
   },
   radiusInput: {
     height: 45,
-    borderRadius: 5,
-    borderColor: 'black',
+    borderRadius: 10,
+    borderColor: '#d3d3d3',
     borderWidth: 1,
     paddingHorizontal: 35,
     color: 'black',
@@ -666,10 +666,10 @@ const styles = StyleSheet.create({
     lineHeight: 60,
   },
   textInputRole: {
-    width: '60%',
+    width: '50%',
     height: 45,
-    borderRadius: 5,
-    borderColor: 'black',
+    borderRadius: 10,
+    borderColor: '#d3d3d3',
     marginEnd: 30,
     borderWidth: 1,
     paddingHorizontal: 10,
@@ -677,7 +677,7 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   textRole: {
-    width: '40%',
+    width: '50%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
@@ -701,15 +701,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginVertical: 10,
-  },
-
-  textRolereferee: {
-    width: '60%',
-    height: 40,
-    marginEnd: 30,
-    color: 'black',
-    lineHeight: 40,
-    fontSize: 20
   },
 
 });
