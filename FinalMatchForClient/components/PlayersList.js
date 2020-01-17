@@ -56,11 +56,12 @@ export default class PlayersList extends Component {
   static navigationOptions = {
     header: null,
   };
-  constructor(props) {
-    super(props);
-    this.state ={
+  constructor (props) {
+    super (props);
+    this.state = {
       order: false,
-    }
+      keyId: '',
+    };
   }
   render () {
     const {navigate} = this.props.navigation;
@@ -73,7 +74,8 @@ export default class PlayersList extends Component {
       iamgeAvatar,
       imagechecked,
       orderPlayer,
-    }) =>{
+      id,
+    }) => {
       return (
         <View style={styles.ViewAllInformation}>
           <View style={styles.ViewDetail}>
@@ -92,6 +94,7 @@ export default class PlayersList extends Component {
             <View style={styles.ViewNamedetailArbitration}>
               <Text style={styles.textLable}>Giá: </Text>
               <Text style={styles.textLable}>{price}</Text>
+              <Text >{id}</Text>
             </View>
           </View>
 
@@ -100,8 +103,7 @@ export default class PlayersList extends Component {
 
             <TouchableOpacity
               style={styles.btnOrder}
-              onPress={() => 
-                this.setState({order: !this.state.order})}
+              onPress={() => this.setState ({order: !this.state.order})}
             >
 
               {order == false
@@ -115,7 +117,7 @@ export default class PlayersList extends Component {
           </View>
         </View>
       );
-    }
+    };
     return (
       <SafeAreaView style={styles.container}>
         <Header

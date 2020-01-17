@@ -387,18 +387,17 @@ export default class Settings extends Component {
               </Text>
               <TextInput
                 style={styles.radiusInput}
-                placeholder={'radius'}
+                placeholder={'Radius'}
                 keyboardType={'numeric'}
                 value={`${radius}`}
                 onChangeText={radius => {
                   this.setState ({radius});
                 }}
               />
-              <Text style={{fontSize: 20,height:40,lineHeight:40,marginLeft:5}}>
+              <Text style={{fontSize: 20,height:40,lineHeight:40,marginLeft:5,width:'10%'}}>
                 KM
               </Text>
             </View>
-            <View style={{ width:'100%',borderBottomWidth:1,borderBottomColor:'black',marginVertical:5}}/>
           </View>
           {isIOS () &&
             showIOSDatePicker &&
@@ -449,6 +448,11 @@ export default class Settings extends Component {
           {playerId > 0 && <View
             style={{
               alignItems: 'center',
+              borderWidth: 1,
+              borderColor: '#d3d3d3',
+              borderRadius: 15,
+              marginVertical: 10,
+              marginHorizontal: 20,
             }}
           >
             
@@ -519,10 +523,15 @@ export default class Settings extends Component {
               </TouchableOpacity>
             </View>
               </View> }
-              <View style={{ width: '100%',borderBottomWidth:1,borderBottomColor:'black'}}/>
+              
           {refereeId > 0 && <View
             style={{
               alignItems: 'center',
+              borderWidth: 1,
+              borderColor: '#d3d3d3',
+              borderRadius: 15,
+              marginVertical: 10,
+              marginHorizontal: 20,
             }}
           >
             <View style={styles.personalInformation}>
@@ -596,7 +605,7 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
   },
   textLabel: {
-    width: '20%',
+    width: '30%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
@@ -604,7 +613,7 @@ const styles = StyleSheet.create ({
   },
 
   textInput: {
-    width: '80%',
+    width: '70%',
     height: 45,
     borderRadius: 5,
     borderColor: 'black',
@@ -634,16 +643,18 @@ const styles = StyleSheet.create ({
     height: 40,
     lineHeight: 40,
     fontSize: 20,
+    width:'60%',
+    paddingStart:20
   },
   radiusInput: {
     height: 45,
     borderRadius: 5,
     borderColor: 'black',
     borderWidth: 1,
-    paddingHorizontal:35 ,
     color: 'black',
-    width: 100,
+    width: '30%',
     fontSize:17,
+    textAlign:'center'
   },
   age: {
     width: '40%',
