@@ -87,7 +87,9 @@ class LoginRegister extends Component {
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
         try {            
+            debugger   
             const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                                
+            debugger   
             if (loginResult.isCancelled) {
                 console.log("Login cancelled");
             } else {
@@ -96,6 +98,7 @@ class LoginRegister extends Component {
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
                 const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
+
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     //dispatch = call action                                        
@@ -104,7 +107,8 @@ class LoginRegister extends Component {
                     alert(message)
                 }
             }
-        } catch(error) {            
+        } catch(error) {  
+            debugger          
             alert("Cannot login Facebook: " + error)
         }        
     }
