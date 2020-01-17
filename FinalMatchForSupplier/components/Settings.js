@@ -526,10 +526,6 @@ export default class Settings extends Component {
                 />
               </TouchableOpacity>
             </View>
-<<<<<<< HEAD
-              </View> }
-              
-=======
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Player Price: </Text>
               <TextInput style={styles.textInputRole}
@@ -539,7 +535,6 @@ export default class Settings extends Component {
             </View>
           </View>}
           <View style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: 'black' }} />
->>>>>>> 74fe750d5b7669eac7cf1f296709662cf32c0697
           {refereeId > 0 && <View
             style={{
               alignItems: 'center',
@@ -660,17 +655,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'black',
     borderWidth: 1,
-<<<<<<< HEAD
-    color: 'black',
-    width: '30%',
-    fontSize:17,
-    textAlign:'center'
-=======
     paddingHorizontal: 35,
     color: 'black',
     width: 100,
     fontSize: 17,
->>>>>>> 74fe750d5b7669eac7cf1f296709662cf32c0697
   },
   age: {
     width: '40%',
