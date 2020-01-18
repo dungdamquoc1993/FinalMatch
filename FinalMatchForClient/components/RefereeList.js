@@ -62,58 +62,6 @@ export default class RefereeList extends Component {
   render () {
     const {navigate} = this.props.navigation;
     const {order} = this.state;
-    function Item ({
-      name,
-      age,
-      price,
-      matched,
-      iamgeAvatar,
-      imagechecked,
-      orderPlayer
-    }) {
-      return (
-        <View style={styles.ViewAllInformation}>
-          <View style={styles.ViewDetail}>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Tên: </Text>
-              <Text style={styles.textLable}>{name}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Tuổi: </Text>
-              <Text style={styles.textLable}>{age}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Số trận đã bắt: </Text>
-              <Text style={styles.textLable}>{matched}</Text>
-            </View>
-            <View style={styles.ViewNamedetailArbitration}>
-              <Text style={styles.textLable}>Giá: </Text>
-              <Text style={styles.textLable}>{price}</Text>
-            </View>
-          </View>
-
-          <View style={styles.viewButton}>
-            <Image source={iamgeAvatar} style={styles.images} />
-
-            <TouchableOpacity
-              style={styles.btnOrder}
-              onPress={() => {
-                this.setState ({order: !this.state.order});
-              }}
-            >
-
-              {order == false
-                ? <Text style={styles.textOrder}>{orderPlayer}</Text>
-                : <Image
-                    source={imagechecked}
-                    style={{height: 50, width: 90}}
-                  />}
-
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -154,6 +102,65 @@ export default class RefereeList extends Component {
     );
   }
 }
+class Item extends Component {
+  state = {
+    order: false   
+    } 
+render () {
+  const {
+    name,
+    age,
+    price,
+    matched,
+    iamgeAvatar,
+    imagechecked,
+    orderPlayer,
+    id,
+  } = this.props
+  const {order} = this.state
+  return (
+    <View style={styles.ViewAllInformation}>
+      <View style={styles.ViewDetail}>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Tên: </Text>
+          <Text style={styles.textLable}>{name}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Tuổi: </Text>
+          <Text style={styles.textLable}>{age}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Số trận đã đấu: </Text>
+          <Text style={styles.textLable}>{matched}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Giá: </Text>
+          <Text style={styles.textLable}>{price}</Text>
+          <Text >{id}</Text>
+        </View>
+      </View>
+
+      <View style={styles.viewButton}>
+        <Image source={iamgeAvatar} style={styles.images} />
+
+        <TouchableOpacity
+          style={styles.btnOrder}
+          onPress={() => this.setState ({order: !this.state.order})}
+        >
+
+          {order == false
+            ? <Text style={styles.textOrder}>{orderPlayer}</Text>
+            : <Image
+                source={imagechecked}
+                style={{height: 50, width: 90}}
+              />}
+
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+}
 const styles = StyleSheet.create ({
   container: {
     flex: 1,
@@ -190,6 +197,7 @@ const styles = StyleSheet.create ({
     height: 50,
     borderRadius: 2,
     backgroundColor: '#dcdcdc',
+    justifyContent: 'center'
   },
   viewButton: {
     flexDirection: 'column',
@@ -215,15 +223,14 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     backgroundColor: '#00CCFF',
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 25,
     marginVertical: 20,
   },
   textSubmit: {
-    height: 60,
-    lineHeight: 60,
+    lineHeight: 50,
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
+    alignSelf: 'center',
   },
 });

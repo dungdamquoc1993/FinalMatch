@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import LinearGradient from 'react-native-linear-gradient';
 export default class Service extends Component {
   constructor (props) {
     super (props);
@@ -23,18 +24,24 @@ export default class Service extends Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 30, fontWeight: 'bold'}}>Dat mot dich vu</Text>
-        <TouchableOpacity
+        <Text style={{fontSize: 20, fontFamily:'JosefinSans-Bold',textAlign:'center'}}>Đặt một dịch vụ</Text>
+        
+         
+        
+        <LinearGradient
+          colors={['#CAF1C1', '#C2F3B7','#33FF99']}
           style={{
             height: 100,
             width: '80%',
-            backgroundColor: '#33FF99',
             borderRadius: 30,
           }}
+          
+        >
+        <TouchableOpacity
+          
           onPress={() => {
-            navigate('OrderPlayer')
-              
-            }}
+            navigate ('OrderPlayer');
+          }}
         >
           <View
             style={{
@@ -43,8 +50,8 @@ export default class Service extends Component {
               marginVertical: 10,
             }}
           >
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-              Dang ky mot cau thu
+            <Text style={{fontSize: 20, fontFamily:'JosefinSans-Italic',textAlign:'center'}}>
+              Đăng ký một cầu thủ
             </Text>
             <Image
               style={{height: 30, width: 30}}
@@ -76,16 +83,23 @@ export default class Service extends Component {
             </View>
           </View>
         </TouchableOpacity>
+        </LinearGradient>
 
-        <TouchableOpacity
+
+
+        <LinearGradient
+          colors={['#CAF1C1', '#C2F3B7','#33FF99']}
           style={{
             height: 100,
             width: '80%',
-            backgroundColor: '#33FF99',
             borderRadius: 30,
           }}
+          
+        >
+        <TouchableOpacity
+          
           onPress={() => {
-            navigate('OrderReferee')
+            navigate ('OrderReferee');
           }}
         >
           <View
@@ -96,8 +110,8 @@ export default class Service extends Component {
               height: 100,
             }}
           >
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-              Dang ky trong tai
+            <Text style={{fontSize: 20, fontFamily:'JosefinSans-Italic',textAlign:'center'}}>
+              Đăng ký trọng tài
             </Text>
             <Image
               style={{height: 30, width: 30}}
@@ -105,17 +119,24 @@ export default class Service extends Component {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
+        </LinearGradient>
+
+
+
+
+        <LinearGradient
+          colors={['#CAF1C1', '#C2F3B7','#33FF99']}
           style={{
             height: 100,
             width: '80%',
-            backgroundColor: '#33FF99',
             borderRadius: 30,
           }}
+          
+        >
+        <TouchableOpacity
           onPress={() => {
-            navigate('Stadium')
-              
-            }}
+            navigate ('Stadium');
+          }}
         >
           <View
             style={{
@@ -125,8 +146,8 @@ export default class Service extends Component {
               height: 100,
             }}
           >
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-              Dang ky san bong
+            <Text style={{fontSize: 20, fontFamily:'JosefinSans-Italic',textAlign:'center'}}>
+             Đăng ký sân bóng
             </Text>
             <Image
               style={{height: 30, width: 30}}
@@ -134,6 +155,7 @@ export default class Service extends Component {
             />
           </View>
         </TouchableOpacity>
+        </LinearGradient>
       </View>
     );
   }

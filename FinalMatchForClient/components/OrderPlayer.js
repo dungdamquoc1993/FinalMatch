@@ -183,14 +183,13 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     backgroundColor: '#00CCFF',
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 25,
   },
   textSubmit: {
-    height: 60,
-    lineHeight: 60,
+    lineHeight: 50,
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    alignSelf: 'center',
   },
 });

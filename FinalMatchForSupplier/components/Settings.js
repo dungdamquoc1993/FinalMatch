@@ -315,7 +315,7 @@ export default class Settings extends Component {
 
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              Tên:
+              Tên
             </Text>
             <TextInput
               style={styles.textInput}
@@ -326,9 +326,9 @@ export default class Settings extends Component {
               }}
             />
           </View>
-          <View style={styles.dateTime}>
+          <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              Tuổi:
+              Tuổi
             </Text>
             <TouchableOpacity
               style={[
@@ -345,6 +345,7 @@ export default class Settings extends Component {
                 onPress={() => {
                   this._onPressDateTextInput();
                 }}
+                style={{textAlign:'center',lineHeight:35}}
               // value={"djsijhd"}
               >{stringDateOfBirth.length > 0 ? stringDateOfBirth : 'dd/mm/yyyy'}</Text>
             </TouchableOpacity>
@@ -354,7 +355,7 @@ export default class Settings extends Component {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              SĐT:
+              SĐT
             </Text>
             <TextInput
               style={styles.textInput}
@@ -368,7 +369,7 @@ export default class Settings extends Component {
           </View>
           {/* Quan ly dich vu */}
           <View style={styles.serviceArea}>
-            <View style={{ height: 50 }}>
+            <View style={{ height: 50,width:'80%' }}>
               <TouchableOpacity
                 onPress={() => {
                   this._pressLocation();
@@ -376,14 +377,14 @@ export default class Settings extends Component {
                 style={styles.buttonGetLocation}
               >
                 {(address.length > 0 || district.length > 0 || province.length > 0) &&
-                  <Text style={{ marginRight: 7, fontSize: 17 }}>{address} - {district} - {province}</Text>}
+                  <Text style={{ marginRight: 7, fontSize: 17,fontFamily:'JosefinSans-Italic' }}>{address} - {district} - {province}</Text>}
                 <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
               </TouchableOpacity>
 
             </View>
             <View style={styles.radius}>
               <Text style={styles.radiusLabel}>
-                Bán kính làm việc:
+                Bán kính làm việc
               </Text>
               <TextInput
                 style={styles.radiusInput}
@@ -394,7 +395,7 @@ export default class Settings extends Component {
                   this.setState({ radius });
                 }}
               />
-              <Text style={{ fontSize: 20, height: 40, lineHeight: 40, marginLeft: 5 }}>
+              <Text style={{ fontSize: 17, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
                 KM
               </Text>
             </View>
@@ -424,7 +425,7 @@ export default class Settings extends Component {
                     this.setState({ showIOSDatePicker: false });
                   }}
                 >
-                  <Text style={{ fontSize: 15, }}>Save</Text>
+                  <Text style={{ fontSize: 15}}>Save</Text>
                 </TouchableOpacity>
               </View>
               <DatePicker
@@ -461,17 +462,17 @@ export default class Settings extends Component {
           >
 
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Tên thi đấu: </Text>
+              <Text style={styles.textRole}>Cầu thủ</Text>
               <TextInput style={styles.textInputRole}
                 value={playerName} onChangeText={(playerName) => {
                   this.setState({ playerName })
                 }} />
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Completed: </Text>
-              <Text style={styles.textRolereferee}> 0</Text>
+              <Text style={styles.textRole}>Số trận</Text>
+              <Text style={styles.textInputRole}> 0</Text>
             </View>
-            <Text style={{ marginBottom: 5, fontSize: 20 }}>Position</Text>
+            <Text style={{ marginBottom: 5, fontSize: 20 ,fontFamily:'JosefinSans-Italic'}}>Position</Text>
             <View style={styles.positions}>
               <TouchableOpacity
                 style={styles.eachPosition}
@@ -479,7 +480,7 @@ export default class Settings extends Component {
                   this.setState({ isGK: !this.state.isGK });
                 }}
               >
-                <Text>GK</Text>
+                <Text style={{fontFamily:'JosefinSans-Italic'}}>GK</Text>
                 <FontAwesome5
                   name={isGK == true ? 'check-square' : 'square'}
                   size={35}
@@ -492,7 +493,7 @@ export default class Settings extends Component {
                   this.setState({ isCB: !this.state.isCB });
                 }}
               >
-                <Text>CB</Text>
+                <Text style={{fontFamily:'JosefinSans-Italic'}}>CB</Text>
                 <FontAwesome5
                   name={isCB == true ? 'check-square' : 'square'}
                   size={35}
@@ -505,7 +506,7 @@ export default class Settings extends Component {
                   this.setState({ isMF: !this.state.isMF });
                 }}
               >
-                <Text>MF</Text>
+                <Text style={{fontFamily:'JosefinSans-Italic'}}>MF</Text>
                 <FontAwesome5
                   name={isMF == true ? 'check-square' : 'square'}
                   size={35}
@@ -518,7 +519,7 @@ export default class Settings extends Component {
                   this.setState({ isCF: !this.state.isCF });
                 }}
               >
-                <Text>CF</Text>
+                <Text style={{fontFamily:'JosefinSans-Italic'}}>CF</Text>
                 <FontAwesome5
                   name={isCF == true ? 'check-square' : 'square'}
                   size={35}
@@ -527,7 +528,7 @@ export default class Settings extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Player Price: </Text>
+              <Text style={styles.textRole}>Giá</Text>
               <TextInput style={styles.textInputRole}
                 value={`${playerPrice}`} onChangeText={(playerPrice) => {
                   this.setState({ playerPrice: isNaN(playerPrice) == false ? playerPrice : parseFloat(playerPrice) })
@@ -546,18 +547,18 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Tên trọng tài: </Text>
+              <Text style={styles.textRole}>Trọng tài</Text>
               <TextInput style={styles.textInputRole}
                 value={refereeName} onChangeText={(refereeName) => {
                   this.setState({ refereeName })
                 }} />
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Completed: </Text>
-              <Text style={styles.textInputRole}> 0</Text>
+              <Text style={styles.textRole}>Số trận</Text>
+              <Text style={styles.textInputRole}>0</Text>
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Referee Price: </Text>
+              <Text style={styles.textRole}>Giá </Text>
               <TextInput style={styles.textInputRole}
                 value={`${refereePrice}`} onChangeText={(refereePrice) => {
                   this.setState({ refereePrice: isNaN(refereePrice) == false ? refereePrice : parseFloat(refereePrice) })
@@ -596,10 +597,12 @@ const styles = StyleSheet.create({
 
   dateTime: {
     flexDirection: 'row',
+    lineHeight:60,
     height: 60,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center'
+
   },
   personalInformation: {
     flexDirection: 'row',
@@ -610,10 +613,11 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     width: '30%',
-    height: 40,
-    lineHeight: 40,
+    height: 45,
+    lineHeight: 45,
     paddingStart: 30,
     fontSize: 20,
+    fontFamily:'JosefinSans-Italic'
   },
 
   textInput: {
@@ -625,7 +629,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     color: 'black',
-    fontSize: 17
+    fontSize: 17,
+    fontFamily:'JosefinSans-Italic'
   },
   radius: {
     flexDirection: 'row',
@@ -648,22 +653,26 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     fontSize: 20,
     width:'60%',
-    paddingStart:20
+    paddingStart:10,
+    fontFamily:'JosefinSans-Italic'
   },
   radiusInput: {
     height: 45,
     borderRadius: 10,
     borderColor: '#d3d3d3',
     borderWidth: 1,
-    paddingHorizontal: 35,
+    textAlign: 'center',
     color: 'black',
-    width: 100,
+    width: '30%',
     fontSize: 17,
+    fontFamily:'JosefinSans-Italic'
   },
   age: {
-    width: '40%',
+    width: '30%',
     height: 60,
     lineHeight: 60,
+    textAlign:'center',
+    fontFamily:'JosefinSans-Italic'
   },
   textInputRole: {
     width: '50%',
@@ -672,22 +681,25 @@ const styles = StyleSheet.create({
     borderColor: '#d3d3d3',
     marginEnd: 30,
     borderWidth: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     color: 'black',
-    fontSize: 17
+    fontSize: 17,
+    fontFamily:'JosefinSans-Italic',
   },
   textRole: {
     width: '50%',
-    height: 40,
+    height: 45,
     lineHeight: 40,
     paddingStart: 30,
     fontSize: 20,
+    fontFamily:'JosefinSans-Italic'
   },
   positions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 60,
     width: '100%',
+    fontFamily:'JosefinSans-Italic'
   },
   eachPosition: {
     flexDirection: 'column',

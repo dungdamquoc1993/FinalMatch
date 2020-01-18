@@ -1,38 +1,204 @@
-import React, { Component } from 'react'
-import {   Text,
-    View,
-    Image,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    SafeAreaView,
-    PermissionsAndroid,
-    ToastAndroid,
-    Platform,
-    TouchableOpacity, } from 'react-native'
+import React, {Component} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  FlatList,
+} from 'react-native';
+import Header from './Header';
+const DATA = [
+  {
+    id: '011',
+    name: 'Vũ Trung Kiên',
+    phone: '015457887',
+    adress: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/avatar.png'),
+    Chat: 'Chat',
+  },
+  {
+    id: '015',
+    name: 'Vũ Trung Kiên',
+    phone: '015457887',
+    adress: 10,
+    price: 1200,
+    iamgeAvatar: require ('../images/avatar.png'),
+    Chat: 'Chat',
+  },
+  {
+    id: '012',
+    name: 'Vũ Trung Kiên',
+    phone: '015457887',
+    adress: 10,
+    price: 1200,
+    iamgeAvatar: require ('../images/avatar.png'),
+    Chat: 'Chat',
+  },
+  {
+    id: '013',
+    name: 'Vũ Trung Kiên',
+    phone: '015457887',
+    adress: 0,
+    price: 1200,
+    iamgeAvatar: require ('../images/avatar.png'),
+    Chat: 'Chat',
+  },
+];
+
 export default class Orders extends Component {
-    render() {
-        return (
-            <View style = {styles.containter}>
-            <Text style={styles.header}>Quản Lý Đơn Hàng</Text>
-
-            </View>
-        )
-    }
+  static navigationOptions = {
+    header: null,
+  };
+  render () {
+    const {navigate} = this.props.navigation;
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={{fontSize: 30, fontWeight: 'bold'}}>Dịch vụ của bạn</Text>
+        <FlatList
+          width={'100%'}
+          data={DATA}
+          renderItem={({item}) => (
+            <Item
+              name={item.name}
+              phone={item.phone}
+              adress={item.adress}
+              price={item.price}
+              iamgeAvatar={item.iamgeAvatar}
+              orderDate={item.orderDate}
+              Chat={item.Chat}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
+    );
+  }
 }
+class Item extends Component {
+  state = {
+    order: false   
+    } 
+render () {
+  const {
+    name,
+    phone,
+    adress,
+    price,
+    iamgeAvatar,
+    orderDate,
+    Chat
+  } = this.props
+  return (
+    <View style={styles.ViewAllInformation}>
+      <View style={styles.ViewDetail}>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Tên: </Text>
+          <Text style={styles.textLable}>{name}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>SĐT: </Text>
+          <Text style={styles.textLable}>{phone}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Điạ chỉ: </Text>
+          <Text style={styles.textLable}>{adress}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Giá: </Text>
+          <Text style={styles.textLable}>{price}</Text>
+        </View>
+        <View style={styles.ViewNamedetailArbitration}>
+          <Text style={styles.textLable}>Giờ thi đấu: </Text>
+          <Text style={styles.textLable}>{orderDate}</Text>
+        </View>
+      </View>
 
+      <View style={styles.viewButton}>
+        <Image source={iamgeAvatar} style={styles.images} />
+
+        <TouchableOpacity
+          style={styles.btnOrder}
+        >
+           <Text style={styles.textOrder}>{Chat}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+}
 const styles = StyleSheet.create ({
-    container: {
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    header: {
-        fontSize: 30, 
-        fontWeight: 'bold', 
-        alignSelf: 'center', 
-        marginTop: 30
-    }
-  });
-  
-
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  ViewAllInformation: {
+    flexDirection: 'row',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#d3d3d3',
+    borderRadius: 15,
+    marginVertical: 10,
+    marginHorizontal: 20,
+  },
+  ViewDetail: {
+    flexDirection: 'column',
+    width: '60%',
+    paddingEnd: '10%',
+  },
+  ViewNamedetailArbitration: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: '4%',
+  },
+  textLable: {
+    fontSize: 17,
+  },
+  btnOrder: {
+    width: 90,
+    height: 50,
+    borderRadius: 2,
+    backgroundColor: '#dcdcdc',
+    justifyContent: 'center'
+  },
+  viewButton: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingStart: '5%',
+  },
+  images: {
+    height: 90,
+    width: 90,
+  },
+  textOrder: {
+    lineHeight: 50,
+    alignSelf: 'center',
+    fontSize: 17,
+  },
+  buttonSubmit: {
+    height: 50,
+    marginTop: 20,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    borderRadius: 25,
+    marginVertical: 20,
+  },
+  textSubmit: {
+    lineHeight: 50,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    alignSelf: 'center',
+  },
+});

@@ -107,12 +107,9 @@ export default class PlayersList extends Component {
   }
 }
 class Item extends Component {
-  constructor (props) {
-    super (props)    
-    this.state = {
-      order: false,      
-    };    
-  }
+    state = {
+      order: false   
+      } 
   render () {
     const {
       name,
@@ -159,7 +156,7 @@ class Item extends Component {
               ? <Text style={styles.textOrder}>{orderPlayer}</Text>
               : <Image
                   source={imagechecked}
-                  style={{height: 50, width: 90, borderRadius: 10}}
+                  style={{height: 50, width: 90, borderRadius: 25}}
                 />}
   
           </TouchableOpacity>
@@ -204,8 +201,10 @@ const styles = StyleSheet.create ({
   btnOrder: {
     width: 90,
     height: 50,
-    borderRadius: 10,
+    justifyContent: 'center',
+    borderRadius: 25,
     backgroundColor: '#dcdcdc',
+    alignItems: 'center',
   },
   viewButton: {
     flexDirection: 'column',
@@ -218,7 +217,7 @@ const styles = StyleSheet.create ({
   },
   textOrder: {
     lineHeight: 50,
-    alignSelf: 'center',
+   
     fontSize: 17,
   },
   buttonSubmit: {
@@ -231,15 +230,14 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     backgroundColor: '#00CCFF',
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 25,
     marginVertical: 20,
   },
   textSubmit: {
-    height: 60,
-    lineHeight: 60,
+    lineHeight: 50,
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
+    alignSelf: 'center',
   },
 });
