@@ -28,8 +28,8 @@ public class MainActivity extends ReactActivity {
           for (Signature signature : info.signatures) {
               MessageDigest md = MessageDigest.getInstance("SHA");
               md.update(signature.toByteArray());
-              Log.d("KeyHash11:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-              Log.d("KeyHash11:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+              Log.d("KeyHash22:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//              Log.d("KeyHash11:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
           }
       } catch (PackageManager.NameNotFoundException e) {
 
