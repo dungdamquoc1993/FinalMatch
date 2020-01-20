@@ -21,6 +21,7 @@ import {Platform} from 'react-native'
 
 export const registerSupplier = async (email, password) => {
     try {            
+        alert("urlRegisterSupplier()" + urlRegisterSupplier()) 
         const response = await fetch(await urlRegisterSupplier(), {
             method: 'POST',
             headers: {
@@ -30,6 +31,7 @@ export const registerSupplier = async (email, password) => {
             body: JSON.stringify({email, password}),// stringify de lam gi 
         })               
         const responseJson = await response.json();
+        alert(`responseJson = ${JSON.stringify(responseJson)}`)
         const {result, data, message, time} = responseJson
         const {tokenKeySupplierId = ''} = data
         
@@ -42,6 +44,7 @@ export const registerSupplier = async (email, password) => {
             return { tokenKey : '', message}
         }
     } catch (error) {        
+        alert(error)
         return { tokenKey, message: ''}
     }
 }

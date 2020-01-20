@@ -128,9 +128,11 @@ class LoginRegister extends Component {
                     return
                 }
             }                        
+            alert("Before requesting server")
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
+                alert('tokenKey = '+tokenKey)
                 await saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation
                 //dispatch = call action

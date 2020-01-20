@@ -133,6 +133,76 @@ BEGIN
 END;//                              
 delimiter ;
 
+DROP PROCEDURE IF EXISTS registerCustomer;
+delimiter //
+CREATE PROCEDURE registerCustomer(
+    name VARCHAR(300),
+    email VARCHAR(250),
+    password VARCHAR(400),
+    phoneNumber VARCHAR(300),
+    facebookId VARCHAR(300),
+    userType VARCHAR(150),
+    isActive INTEGER    
+)
+BEGIN
+    DECLARE myToken VARCHAR(500) DEFAULT '';  
+    INSERT INTO Customer(name, email, password, phoneNumber, facebookId, userType, isActive)
+    VALUES(name, email, md5(password),phoneNumber, facebookId, userType, isActive);
+    SET myToken = createToken();
+    UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
+    SELECT name, email, tokenKey FROM Customer;
+END; //                                 
+delimiter ;
+
+DROP PROCEDURE IF EXISTS loginCustomer;
+delimiter //
+CREATE PROCEDURE loginCustomer(    
+    email VARCHAR(250),
+    password VARCHAR(400)    
+)
+BEGIN
+    DECLARE numberOfCustomers INT DEFAULT 0;
+    DECLARE myToken VARCHAR(500) DEFAULT '';
+    SELECT count(*) INTO numberOfCustomers FROM Customer  
+    WHERE Customer.email = email AND Customer.password = md5(password);
+    IF(numberOfCustomers > 0) THEN    
+        SET myToken = createToken();
+        UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
+        SELECT name, email, tokenKey FROM Customer;    
+    ELSE
+        signal sqlstate '45000' set message_text = "Please check email and password";        
+    END IF;
+    
+END; //                                 
+delimiter ;
+
+DROP PROCEDURE IF EXISTS loginFacebookCustomer;
+delimiter //
+CREATE PROCEDURE loginFacebookCustomer(
+    facebookId VARCHAR(300), 
+    email VARCHAR(300), 
+    name VARCHAR(250), 
+    avatar VARCHAR(500)) 
+BEGIN
+    DECLARE numberOfCustomers INT DEFAULT 0;    
+    SELECT COUNT(*) INTO numberOfCustomers FROM Customer 
+    WHERE Customer.facebookId = facebookId;
+    SET @myToken = createToken();
+    IF (numberOfCustomers = 0) THEN
+        BEGIN
+            INSERT INTO Customer(facebookId, name, email, avatar, password, userType)
+            VALUES(facebookId, name, email, avatar, '11111', 'facebook');                        
+        END;            
+    END IF;
+    UPDATE Customer SET tokenKey=@myToken WHERE Customer.facebookId = facebookId;        
+    SELECT customerId, facebookId,tokenKey FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
+END; //                                 
+delimiter;
+
+
+DROP FUNCTION IF EXISTS loginSupplier;
+delimiter //
+
 DROP FUNCTION IF EXISTS createToken;
 delimiter //
 CREATE FUNCTION createToken() RETURNS VARCHAR(500)

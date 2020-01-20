@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS Conversations (
 
 CREATE TABLE IF NOT EXISTS Customer (
     customerId VARCHAR(400) PRIMARY KEY,
+    avatar VARCHAR(500),
     name VARCHAR(300) NOT NULL ,
     password VARCHAR(400) NOT NULL ,
     phoneNumber VARCHAR(300) UNIQUE,    

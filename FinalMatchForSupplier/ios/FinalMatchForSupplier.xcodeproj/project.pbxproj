@@ -12,6 +12,16 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		482052AB463A7B93D95A4561 /* libPods-FinalMatchForSupplier.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E487326CD91E06E475F141D0 /* libPods-FinalMatchForSupplier.a */; };
+		AD90A66323D592E100BBF83B /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */; };
+		AD90A66423D592E100BBF83B /* JosefinSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65D23D5906200BBF83B /* JosefinSans-BoldItalic.ttf */; };
+		AD90A66523D592E100BBF83B /* JosefinSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65F23D5906200BBF83B /* JosefinSans-Italic.ttf */; };
+		AD90A66623D592E100BBF83B /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65C23D5906200BBF83B /* JosefinSans-Light.ttf */; };
+		AD90A66723D592E100BBF83B /* JosefinSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65923D5906200BBF83B /* JosefinSans-LightItalic.ttf */; };
+		AD90A66823D592E100BBF83B /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65E23D5906200BBF83B /* JosefinSans-Regular.ttf */; };
+		AD90A66923D592E100BBF83B /* JosefinSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */; };
+		AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */; };
+		AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */; };
+		AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +80,16 @@
 		AD90A65623D58A9C00BBF83B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../android/app/src/main/assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		AD90A65723D58A9C00BBF83B /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = ../android/app/src/main/assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
 		AD90A65823D58A9C00BBF83B /* JosefinSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-BoldItalic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		AD90A65923D5906200BBF83B /* JosefinSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-LightItalic.ttf"; path = "../assets/JosefinSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBoldItalic.ttf"; path = "../assets/JosefinSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Bold.ttf"; path = "../assets/JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
+		AD90A65C23D5906200BBF83B /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Light.ttf"; path = "../assets/JosefinSans-Light.ttf"; sourceTree = "<group>"; };
+		AD90A65D23D5906200BBF83B /* JosefinSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-BoldItalic.ttf"; path = "../assets/JosefinSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		AD90A65E23D5906200BBF83B /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Regular.ttf"; path = "../assets/JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
+		AD90A65F23D5906200BBF83B /* JosefinSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Italic.ttf"; path = "../assets/JosefinSans-Italic.ttf"; sourceTree = "<group>"; };
+		AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBold.ttf"; path = "../assets/JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Thin.ttf"; path = "../assets/JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
+		AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-ThinItalic.ttf"; path = "../assets/JosefinSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		AEBA27E12EE94C89A5DE4145 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		B7AA961D88B6717BBC78D056 /* Pods-FinalMatchForSupplierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplierTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplierTests/Pods-FinalMatchForSupplierTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF89F7712A70E1C892539FC6 /* Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplier-tvOSTests/Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +149,16 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */,
+				AD90A65D23D5906200BBF83B /* JosefinSans-BoldItalic.ttf */,
+				AD90A65F23D5906200BBF83B /* JosefinSans-Italic.ttf */,
+				AD90A65C23D5906200BBF83B /* JosefinSans-Light.ttf */,
+				AD90A65923D5906200BBF83B /* JosefinSans-LightItalic.ttf */,
+				AD90A65E23D5906200BBF83B /* JosefinSans-Regular.ttf */,
+				AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */,
+				AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */,
+				AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */,
+				AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				E487326CD91E06E475F141D0 /* libPods-FinalMatchForSupplier.a */,
@@ -296,6 +326,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD90A66323D592E100BBF83B /* JosefinSans-Bold.ttf in Resources */,
+				AD90A66423D592E100BBF83B /* JosefinSans-BoldItalic.ttf in Resources */,
+				AD90A66523D592E100BBF83B /* JosefinSans-Italic.ttf in Resources */,
+				AD90A66623D592E100BBF83B /* JosefinSans-Light.ttf in Resources */,
+				AD90A66723D592E100BBF83B /* JosefinSans-LightItalic.ttf in Resources */,
+				AD90A66823D592E100BBF83B /* JosefinSans-Regular.ttf in Resources */,
+				AD90A66923D592E100BBF83B /* JosefinSans-SemiBold.ttf in Resources */,
+				AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */,
+				AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */,
+				AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
