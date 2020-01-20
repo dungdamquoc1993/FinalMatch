@@ -30,18 +30,27 @@ export default class Stadium extends Component {
             this.props.navigation.navigate ('Service');
           }}
         />
-        <ScrollView width={'100%'} height={'100%'}>
+        <ScrollView width={'100%'}>
           <View
             style={{
-              width: '100%',
               height: 70,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
             }}
           >
-            <Text style={{width: '70%', paddingStart: '20%',paddingEnd:'2%',fontSize:17}}>
-              Lấy vị trí của bạn 
+            <Text
+              style={{
+                width: '70%',
+                paddingStart: '20%',
+                paddingEnd: '2%',
+                fontSize: 17,
+                fontFamily: Platform.OS === 'ios'
+                  ? 'arial'
+                  : 'JosefinSans-Italic',
+              }}
+            >
+              Lấy vị trí của bạn{' '}
             </Text>
             <TouchableOpacity style={{width: '30%', paddingEnd: '20%'}}>
               <Image
@@ -55,7 +64,17 @@ export default class Stadium extends Component {
             <TouchableOpacity
               onPress={() => this.setState ({isFee: !this.state.isFee})}
             >
-              <Text style={{fontSize:17,marginBottom:10}}>Fee</Text>
+              <Text
+                style={{
+                  fontSize: 17,
+                  marginBottom: 10,
+                  fontFamily: Platform.OS === 'ios'
+                    ? 'arial'
+                    : 'JosefinSans-Italic',
+                }}
+              >
+                Fee
+              </Text>
               <FontAwesome5
                 name={isFee == true ? 'check-square' : 'square'}
                 size={40}
@@ -65,7 +84,17 @@ export default class Stadium extends Component {
             <TouchableOpacity
               onPress={() => this.setState ({isFree: !this.state.isFree})}
             >
-              <Text style={{fontSize:17,marginBottom:10}}>Free</Text>
+              <Text
+                style={{
+                  fontSize: 17,
+                  marginBottom: 10,
+                  fontFamily: Platform.OS === 'ios'
+                    ? 'arial'
+                    : 'JosefinSans-Italic',
+                }}
+              >
+                Free
+              </Text>
               <FontAwesome5
                 name={isFree == true ? 'check-square' : 'square'}
                 size={40}
@@ -80,73 +109,64 @@ export default class Stadium extends Component {
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi:</Text>
+                  <Text style={styles.textDifine}>Dia chi  :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT:</Text>
+                  <Text style={styles.textDifine}>SĐT      :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
-                <View style={styles.bottomContainer}/>
               </View>
-              
             : <View />}
-            {isFree == true || isFee == true
+          {isFree == true || isFee == true
             ? <View style={styles.viewInformationStadium}>
                 <View style={styles.viewDetailStadium}>
                   <Text style={styles.textDifine}>Tên sân:</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi:</Text>
+                  <Text style={styles.textDifine}>Dia chi  :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT:</Text>
+                  <Text style={styles.textDifine}>SĐT      :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
-                <View style={styles.bottomContainer}/>
               </View>
-              
             : <View />}
-            {isFree == true || isFee == true
+          {isFree == true || isFee == true
             ? <View style={styles.viewInformationStadium}>
                 <View style={styles.viewDetailStadium}>
                   <Text style={styles.textDifine}>Tên sân:</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi:</Text>
+                  <Text style={styles.textDifine}>Dia chi  :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT:</Text>
+                  <Text style={styles.textDifine}>SĐT      :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
-                <View style={styles.bottomContainer}/>
               </View>
-              
             : <View />}
-            {isFree == true || isFee == true
+          {isFree == true || isFee == true
             ? <View style={styles.viewInformationStadium}>
                 <View style={styles.viewDetailStadium}>
                   <Text style={styles.textDifine}>Tên sân:</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi:</Text>
+                  <Text style={styles.textDifine}>Dia chi  :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
                 <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT:</Text>
+                  <Text style={styles.textDifine}>SĐT      :</Text>
                   <Text style={styles.textInformation}>san bong hang day</Text>
                 </View>
-                <View style={styles.bottomContainer}/>
               </View>
-              
             : <View />}
-           
-          
+
         </ScrollView>
       </SafeAreaView>
     );
@@ -164,35 +184,37 @@ const styles = StyleSheet.create ({
     height: 60,
     width: '100%',
     justifyContent: 'space-around',
-    marginVertical:25
+    marginVertical: 25,
   },
   viewInformationStadium: {
-    width: '100%',
     height: 150,
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#d3d3d3',
+    borderRadius: 15,
+    marginHorizontal: 15,
+    marginVertical: 15,
   },
-  bottomContainer:{
-    borderBottomWidth:1,
-    borderBottomColor:'black',
-    width:'80%'
+  bottomContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    width: '80%',
   },
   textDifine: {
     width: '50%',
-    fontFamily: 'arial',
-    fontSize:17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    fontSize: 17,
     paddingStart: '15%',
   },
   textInformation: {
     width: '50%',
-    fontFamily: 'arial',
-    fontSize:17,
-    paddingEnd:'5%'
-    
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    fontSize: 17,
+    paddingEnd: '5%',
   },
   viewDetailStadium: {
     flexDirection: 'row',
-    marginVertical:10,
-    
+    marginVertical: 10,
   },
 });

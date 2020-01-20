@@ -44,7 +44,7 @@ export default class OrderPlayer extends Component {
           />
         </View>
         <View style={{height:40,width:'100%',alignItems:'center'}}>
-        <Text style={{height:40,lineHeight:40,fontSize:20,fontWeight:'bold'}}>Cầu thủ của bạn:</Text>
+        <Text style={{height:40,lineHeight:40,fontSize:20,fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>Cầu thủ của bạn:</Text>
         </View>
         
         <View style={styles.positions}>
@@ -54,7 +54,7 @@ export default class OrderPlayer extends Component {
               this.setState ({isGK: ! this.state.isGK});
             }}
           >
-            <Text>GK</Text>
+            <Text style={styles.textPosition}>GK</Text>
             <FontAwesome5
               name={isGK == true ? 'check-square' : 'square'}
               size={35}
@@ -67,7 +67,7 @@ export default class OrderPlayer extends Component {
               this.setState ({isCB: !this.state.isCB});
             }}
           >
-            <Text>CB</Text>
+            <Text style={styles.textPosition}>CB</Text>
             <FontAwesome5
               name={isCB == true ? 'check-square' : 'square'}
               size={35}
@@ -80,7 +80,7 @@ export default class OrderPlayer extends Component {
               this.setState ({isMF: !this.state.isMF});
             }}
           >
-            <Text>MF</Text>
+            <Text style={styles.textPosition}>MF</Text>
             <FontAwesome5
               name={isMF == true ? 'check-square' : 'square'}
               size={35}
@@ -93,7 +93,7 @@ export default class OrderPlayer extends Component {
               this.setState ({isCF: !this.state.isCF});
             }}
           >
-            <Text>CF</Text>
+            <Text style={styles.textPosition}>CF</Text>
             <FontAwesome5
               name={isCF == true ? 'check-square' : 'square'}
               size={35}
@@ -152,6 +152,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart:15,
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
   },
   positions: {
     flexDirection: 'row',
@@ -172,6 +173,7 @@ const styles = StyleSheet.create ({
     height: 40,
     lineHeight: 40,
     paddingStart: 40,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
   },
   buttonSubmit: {
     height: 50,
@@ -188,8 +190,11 @@ const styles = StyleSheet.create ({
   textSubmit: {
     lineHeight: 50,
     fontSize: 20,
-    fontWeight: 'bold',
     color: 'white',
     alignSelf: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold'
   },
+  textPosition:{
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',fontSize: 17,
+  }
 });

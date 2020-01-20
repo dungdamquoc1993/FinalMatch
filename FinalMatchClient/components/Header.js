@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  Dimensions,
+  Platform,
 } from 'react-native';
 export default class Header extends Component {
   constructor (props) {
@@ -59,8 +59,7 @@ const styles = StyleSheet.create ({
   title: {
     lineHeight: 60,
     fontSize: 20,
-    fontFamily: 'arial',
-    fontWeight: 'bold',
     width:'60%',
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
   },
 });

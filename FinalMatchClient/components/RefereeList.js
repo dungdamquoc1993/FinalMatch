@@ -191,6 +191,7 @@ const styles = StyleSheet.create ({
   },
   textLable: {
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
   },
   btnOrder: {
     width: 90,
@@ -212,6 +213,7 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
   },
   buttonSubmit: {
     height: 50,
@@ -229,7 +231,7 @@ const styles = StyleSheet.create ({
   textSubmit: {
     lineHeight: 50,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
     color: 'white',
     alignSelf: 'center',
   },

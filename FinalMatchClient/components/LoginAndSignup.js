@@ -7,7 +7,7 @@ import {
   Text,
   TextInput,
   Dimensions,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 export default class LoginAndSignup extends Component {
@@ -24,7 +24,7 @@ export default class LoginAndSignup extends Component {
   };
   render () {
     const {navigate} = this.props.navigation;
-    const {email, password, isLogin} = this.state
+    const {email, password, isLogin} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.logo} source={require ('../images/cat.jpeg')} />
@@ -35,12 +35,21 @@ export default class LoginAndSignup extends Component {
           backgroundColor="#3b5998"
           borderRadius={30}
           onPress={() => {
-              navigate ('Service');
-            }}
-          
+            navigate ('Service');
+          }}
         >
-        <Text style={{fontSize:18,color:'white'}}>Login with Facebook</Text>
-          
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'white',
+              fontFamily: Platform.OS === 'ios'
+                ? 'arial'
+                : 'JosefinSans-Italic',
+            }}
+          >
+            Login with Facebook
+          </Text>
+
         </Icon.Button>
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
@@ -96,10 +105,20 @@ export default class LoginAndSignup extends Component {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-              navigate ('Service');
-            }}
+            navigate ('Service');
+          }}
         >
-          <Text style={{textAlign: 'center',color:'white',fontSize:20,fontWeight:'bold'}}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 20,
+              fontWeight: 'bold',
+              fontFamily: Platform.OS === 'ios'
+                ? 'arial'
+                : 'JosefinSans-Italic',
+            }}
+          >
             {isLogin === true ? 'Sign-in' : 'Sign-up'}
           </Text>
         </TouchableOpacity>
@@ -115,7 +134,7 @@ const styles = StyleSheet.create ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop:'10%'
+    marginTop: '10%',
   },
   logo: {
     margin: 20,
@@ -156,6 +175,7 @@ const styles = StyleSheet.create ({
     fontSize: 25,
     textAlign: 'center',
     paddingTop: 13,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
   },
   viewInput: {
     flexDirection: 'column',
@@ -174,8 +194,9 @@ const styles = StyleSheet.create ({
     paddingHorizontal: 10,
     backgroundColor: '#ffffff',
     borderRadius: 25,
-    fontSize:18,
-    paddingStart:15
+    fontSize: 18,
+    paddingStart: 15,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
   },
   loginButton: {
     height: 50,

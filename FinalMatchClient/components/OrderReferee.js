@@ -75,6 +75,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart:15,
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
   },
   textInputPosition: {
     width: '90%',
@@ -85,6 +86,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart:15,
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
   },
   buttonSubmit: {
     height: 50,
@@ -101,7 +103,7 @@ const styles = StyleSheet.create ({
   textSubmit: {
     lineHeight: 50,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
     color: 'white',
     alignSelf: 'center',
   },

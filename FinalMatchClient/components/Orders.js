@@ -56,7 +56,13 @@ export default class Orders extends Component {
     const {navigate} = this.props.navigation;
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={{fontSize: 30, fontWeight: 'bold'}}>Dịch vụ của bạn</Text>
+      <Header
+          title="Dịch vụ của bạn"
+          hideBack={true}
+          pressBackButton={() => {
+            this.props.navigation.navigate ('OrderReferee');
+          }}
+        />
         <FlatList
           width={'100%'}
           data={DATA}
@@ -159,6 +165,7 @@ const styles = StyleSheet.create ({
   },
   textLable: {
     fontSize: 17,
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
   },
   btnOrder: {
     width: 90,
@@ -180,25 +187,6 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
-  },
-  buttonSubmit: {
-    height: 50,
-    marginTop: 20,
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    fontSize: 17,
-    backgroundColor: '#00CCFF',
-    justifyContent: 'center',
-    borderRadius: 25,
-    marginVertical: 20,
-  },
-  textSubmit: {
-    lineHeight: 50,
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-    alignSelf: 'center',
-  },
+    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+  }
 });
