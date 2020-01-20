@@ -48,11 +48,15 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app does not require access to the microphone.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -71,6 +75,23 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Caveat-Bold.ttf</string>
+		<string>Caveat-Regular.ttf</string>
+		<string>DancingScript-VariableFont/wght.ttf</string>
+		<string>IndieFlower-Regular.ttf</string>
+		<string>JosefinSans-Bold.ttf</string>
+		<string>JosefinSans-BoldItalic.ttf</string>
+		<string>JosefinSans-Italic.ttf</string>
+		<string>JosefinSans-Light.ttf</string>
+		<string>JosefinSans-LightItalic.ttf</string>
+		<string>JosefinSans-Regular.ttf</string>
+		<string>JosefinSans-SemiBold.ttf</string>
+		<string>JosefinSans-SemiBoldItalic.ttf</string>
+		<string>JosefinSans-Thin.ttf</string>
+		<string>JosefinSans-ThinItalic.ttf</string>
+		<string>Lobster-Regular.ttf</string>
+		<string>Pacifico-Regular.ttf</string>
+		<string>ZhiMangXing-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

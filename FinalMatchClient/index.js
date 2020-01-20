@@ -6,6 +6,7 @@
  * rm -rf Podfile.lock
  * pod install
 yarn add @react-native-community/async-storage @react-native-community/geolocation axios react-native-date-picker react-native-fbsdk react-native-geolocation-service react-native-gesture-handler react-native-image-crop-picker react-native-linear-gradient react-native-modal react-native-modals react-native-reanimated react-native-vector-icons react-navigation react-navigation-stack react-navigation-tabs
+yarn add react-native-safe-area-context @react-native-community/masked-view
  * 
  */
 import {AppRegistry} from 'react-native';

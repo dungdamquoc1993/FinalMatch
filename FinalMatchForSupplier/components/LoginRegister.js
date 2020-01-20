@@ -21,7 +21,7 @@ import { LoginManager, LoginResult,
     AccessToken, GraphRequest,
     GraphRequestManager, } from "react-native-fbsdk";
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
-
+import {validateEmail, validatePasword} from '../Validations/Validation'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -120,8 +120,11 @@ class LoginRegister extends Component {
     }
     _loginOrRegister = async () => {
         try {
-
-            const { email, password, retypePassword, isLogin } = await this.state
+            const { email, password, retypePassword, isLogin } = await this.state            
+            if(!validateEmail(email) || !validatePasword(password)) {
+                alert("Email and password is invalid format")
+                return
+            }
             if(isLogin != true) {                            
                 if(retypePassword != password) {
                     alert('Password and retype password does not match')
