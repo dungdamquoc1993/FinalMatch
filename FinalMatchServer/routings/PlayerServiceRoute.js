@@ -56,7 +56,7 @@ router.post('/insertPlayerService', async (req, res) => {
   const {tokenkey, supplierid} = req.headers
   
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
-  
+  debugger
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
