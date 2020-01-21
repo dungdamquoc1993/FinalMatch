@@ -83,3 +83,8 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
 );
+
+CREATE TABLE IF NOT EXISTS Temp (
+    content VARCHAR(500),
+    createdDate DATETIME
+);

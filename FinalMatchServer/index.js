@@ -17,6 +17,7 @@ const StadiumRoute = require('./routings/StadiumRoute')
 const RefereeServiceRoute = require('./routings/RefereeServiceRoute')
 const GoogleServiceRoute = require('./routings/GoogleServiceRoute')
 const TokenRoute = require('./routings/TokenRoute')
+const TempRoute = require('./routings/TempRoute')
 
 
 app.use('/suppliers', SupplierRoute)
@@ -25,6 +26,7 @@ app.use('/refereeServices', RefereeServiceRoute)
 app.use('/token', TokenRoute)
 app.use('/googleServiceRoute', GoogleServiceRoute)
 app.use('/stadium', StadiumRoute)
+app.use('/temp', TempRoute)
 
 
 app.listen(PORT, () => {
