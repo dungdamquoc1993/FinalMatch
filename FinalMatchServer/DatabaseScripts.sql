@@ -5,4 +5,10 @@ CREATE TABLE IF NOT EXISTS Temp (
     createdDate DATETIME
 );
 
-SELECT  * FROM temp;
+SELECT  * FROM Temp order by createdDate DESC limit 1;
+
+SELECT  * FROM  Supplier s ;
+
+SELECT * FROM viewSupplierServices
+JOIN Supplier 
+WHERE supplierId in (11,7,5);

@@ -61,6 +61,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
 CREATE PROCEDURE getSupplierAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT
+  id as supplierId,
   name,phoneNumber, radius,
   dateOfBirth, facebookId, email, userType,
   X(point) AS "latitude",
@@ -76,8 +77,18 @@ SELECT
     )
   ) * 100000
   AS distance
-FROM Supplier HAVING distance <= radius + orderRadius;//
+FROM Supplier 
+HAVING distance <= radius + orderRadius;
+
 DELIMITER ;
+
+--Neu la Player:
+SELECT * FROM viewSupplierServices 
+WHERE supplierId in (11,7,5) AND viewSupplierServices.position = '0010';
+--Neu la Referee:
+SELECT * FROM viewSupplierServices 
+WHERE supplierId in (11,7,5)
+
 
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
