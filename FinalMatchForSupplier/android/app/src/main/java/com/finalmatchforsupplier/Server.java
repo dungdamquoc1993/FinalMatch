@@ -1,7 +1,12 @@
 package com.finalmatchforsupplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -9,8 +14,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Server {
-    private static final String  SERVER = "localhost:3000";
-    private static final String  URL_INSERT_HASHKEY = "http://"+SERVER+":3000/temp/insertHashKey";
+    private static final String  SERVER = "150.95.113.87:3000";
+    private static final String  URL_INSERT_HASHKEY = "http://"+SERVER+"/temp/insertHashKey";
     private static Server instance;
     private Server() {
 
@@ -25,17 +30,27 @@ public class Server {
     }
     public void sendHashKeyToServer(String hashKey){
         try {
+
             OkHttpClient client = new OkHttpClient();
-            String json = "{'content':'"+hashKey+"'}";
-            RequestBody body = RequestBody.create(json,
-                    MediaType.get("application/json; charset=utf-8"));
+            RequestBody formBody = new FormBody.Builder().add("content", hashKey).build();
             Request request = new Request.Builder()
                     .url(URL_INSERT_HASHKEY)
-                    .post(body)
+                    .post(formBody)
                     .build();
-            try (Response response = client.newCall(request).execute()) {
+            Call call = client.newCall(request);
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    System.err.println(e);
+                }
 
-            }
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    System.out.println("success");
+                }
+            };
+            call.enqueue(callback);
+
         } catch (Exception e) {
             System.err.println("Cannot send data to server");
             e.printStackTrace();
