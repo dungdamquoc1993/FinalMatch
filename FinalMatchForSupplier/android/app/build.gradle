@@ -131,8 +131,8 @@ android {
         applicationId "com.finalmatchforsupplier"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.07"
+        versionCode 10
+        versionName "1.08"
         multiDexEnabled true
     }
     splits {
