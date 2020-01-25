@@ -34,7 +34,7 @@ class PlayerService extends Component {
   constructor (props) {
     super (props);
     this.state = {
-      playerName: '',
+      playerName: 'người a',
       price: 30000,
       phoneNumber: '',
       isGK: false,

@@ -1,4 +1,12 @@
 CREATE database FinalMatch;
+ALTER DATABASE FinalMatch CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--ALTER TABLE PlayerService MODIFY playerName NVARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--ALTER TABLE PlayerService CHANGE playerName playerName VARCHAR(500) CHARACTER SET utf8mb4;
+
+--ALTER TABLE PlayerService CONVERT TO CHARACTER SET utf8;
+
 USE FinalMatch;
 CREATE TABLE IF NOT EXISTS Supplier (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -25,6 +33,7 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE    
 );
+UPDATE PlayerService SET price = 0 WHERE price is NULL;
 
 CREATE TABLE IF NOT EXISTS RefereeService (    
     id INTEGER AUTO_INCREMENT PRIMARY KEY,

@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS insertStadium;
 delimiter //
 CREATE PROCEDURE insertStadium( type INTEGER,
-                                stadiumName VARCHAR(300), 
+                                stadiumName VARCHAR(300) CHARACTER SET utf8mb4,
                                 latitude FLOAT, 
                                 longitude FLOAT,
                                 address VARCHAR(500), 
@@ -92,7 +92,10 @@ WHERE supplierId in (11,7,5)
 
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
-CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), email VARCHAR(300), name VARCHAR(250), avatar VARCHAR(500)) RETURNS VARCHAR(500)
+CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), 
+    email VARCHAR(300), 
+    name VARCHAR(250) CHARACTER SET utf8mb4, 
+    avatar VARCHAR(500)) RETURNS VARCHAR(500)
 BEGIN
     DECLARE numberOfSuppliers INT;
     DECLARE mySupplierId INT DEFAULT 0; 
@@ -147,7 +150,7 @@ delimiter ;
 DROP PROCEDURE IF EXISTS registerCustomer;
 delimiter //
 CREATE PROCEDURE registerCustomer(
-    name VARCHAR(300),
+    name VARCHAR(300) CHARACTER SET utf8mb4,
     email VARCHAR(250),
     password VARCHAR(400),
     phoneNumber VARCHAR(300),
@@ -192,7 +195,7 @@ delimiter //
 CREATE PROCEDURE loginFacebookCustomer(
     facebookId VARCHAR(300), 
     email VARCHAR(300), 
-    name VARCHAR(250), 
+    name VARCHAR(250) CHARACTER SET utf8mb4,
     avatar VARCHAR(500)) 
 BEGIN
     DECLARE numberOfCustomers INT DEFAULT 0;    
@@ -244,7 +247,7 @@ delimiter ;
 
 DROP PROCEDURE IF EXISTS insertPlayerService;
 delimiter //
-CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
+CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300) CHARACTER SET utf8mb4, 
                                     price FLOAT, 
                                     position VARCHAR(10), 
                                     supplierId INTEGER,
@@ -271,7 +274,7 @@ delimiter;
 
 DROP PROCEDURE IF EXISTS insertRefereeService;
 delimiter //
-CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),         
+CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300) CHARACTER SET utf8mb4,         
                                     price FLOAT,
                                     phoneNumber VARCHAR(300),
                                     supplierId INTEGER,
@@ -304,7 +307,7 @@ delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
                                 playerPrice FLOAT,
                                 refereePrice FLOAT,
-                                name VARCHAR(300),                                
+                                name VARCHAR(300) CHARACTER SET utf8mb4,
                                 avatar VARCHAR(500),
                                 dateOfBirth DATE,
                                 phoneNumber VARCHAR(300),
@@ -312,9 +315,9 @@ CREATE PROCEDURE updateSettings(supplierId INT,
                                 latitude FLOAT,
                                 longitude FLOAT,
                                 radius FLOAT,
-                                playerName VARCHAR(300),
+                                playerName VARCHAR(300) CHARACTER SET utf8mb4,
                                 position VARCHAR(10),
-                                refereeName VARCHAR(300)
+                                refereeName VARCHAR(300) CHARACTER SET utf8mb4
                                 ) 
 BEGIN    
     UPDATE Supplier SET Supplier.name = name, 
