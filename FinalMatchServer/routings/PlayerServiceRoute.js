@@ -54,9 +54,7 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 router.post('/insertPlayerService', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers
-  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
-  debugger
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
@@ -72,10 +70,11 @@ router.post('/insertPlayerService', async (req, res) => {
       latitude = '',
       longitude = '',
       address = '',
-      radius = 10} = req.body    
+      radius = 10} = req.body  
+  debugger
   //validate, check token ?  
   connection.query(POST_INSERT_PLAYER_SERVICE, 
-        [ playerName,
+        [ playerName.normalize(),
           price,
         position,
         supplierId,
@@ -84,7 +83,7 @@ router.post('/insertPlayerService', async (req, res) => {
         address,
         radius ]
     , (error, results) => {
-          
+          debugger
           if(error) {
               res.json({
                 result: "failed", 
@@ -92,6 +91,7 @@ router.post('/insertPlayerService', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {
+	      debugger	
               if(results != null && results.length > 0) {
                   const {playerName, position, supplierId } = results[0][0]
                   res.json({
