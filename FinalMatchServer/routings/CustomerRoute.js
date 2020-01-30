@@ -109,22 +109,10 @@ router.post('/updateCustomerInformation', async (req, res) => {
         })
         return
       } else {
-
-}
-      if (results != null && results.length > 0) {
-        debugg
-        const { email, name, phoneNumber, tokenKey, userType } = results[0]
         res.json({
           result: "ok",
-          data: { email, name, phoneNumber, tokenKey, userType },
-          message: `Update Customer successfully`,
-          time: Date.now()
-        })
-      } else {
-        res.json({
-          result: "failed",
           data: {},
-          message: `Cannot find Customer with id = ${customerId}`,
+          message: `Update Customer successfully`,
           time: Date.now()
         })
       }
