@@ -12,6 +12,7 @@ app.use(fileUpload({
     limits: { fileSize: MAXMUM_FILE_SIZE * 1024 * 1024 },  //Maximum = 50 MB  
 }))
 const SupplierRoute = require('./routings/SupplierRoute')
+const CustomerRoute = require('./routings/CustomerRoute')
 const PlayerServiceRoute = require('./routings/PlayerServiceRoute')
 const StadiumRoute = require('./routings/StadiumRoute')
 const RefereeServiceRoute = require('./routings/RefereeServiceRoute')
@@ -21,6 +22,7 @@ const TempRoute = require('./routings/TempRoute')
 
 
 app.use('/suppliers', SupplierRoute)
+app.use('/customers', CustomerRoute)
 app.use('/playerServices', PlayerServiceRoute)
 app.use('/refereeServices', RefereeServiceRoute)
 app.use('/token', TokenRoute)

@@ -152,16 +152,12 @@ delimiter //
 CREATE PROCEDURE registerCustomer(
     name VARCHAR(300) CHARACTER SET utf8mb4,
     email VARCHAR(250),
-    password VARCHAR(400),
-    phoneNumber VARCHAR(300),
-    facebookId VARCHAR(300),
-    userType VARCHAR(150),
-    isActive INTEGER    
+    password VARCHAR(400)
 )
 BEGIN
     DECLARE myToken VARCHAR(500) DEFAULT '';  
-    INSERT INTO Customer(name, email, password, phoneNumber, facebookId, userType, isActive)
-    VALUES(name, email, md5(password),phoneNumber, facebookId, userType, isActive);
+    INSERT INTO Customer(name, email, password, userType, isActive)
+    VALUES(name, email, md5(password), 'default', 1);
     SET myToken = createToken();
     UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
     SELECT * FROM Customer WHERE Customer.email = email AND Customer.tokenKey=myToken;
@@ -182,7 +178,7 @@ BEGIN
     IF(numberOfCustomers > 0) THEN    
         SET myToken = createToken();
         UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
-        SELECT name, email, tokenKey FROM Customer;    
+        SELECT * FROM Customer WHERE Customer.email = email;    
     ELSE
         signal sqlstate '45000' set message_text = "Please check email and password";        
     END IF;
@@ -209,7 +205,7 @@ BEGIN
         END;            
     END IF;
     UPDATE Customer SET tokenKey=@myToken WHERE Customer.facebookId = facebookId;        
-    SELECT customerId, facebookId,tokenKey FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
+    SELECT * FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
 END; //                                 
 delimiter;
 

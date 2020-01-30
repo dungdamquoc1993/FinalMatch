@@ -73,13 +73,12 @@ CREATE TABLE IF NOT EXISTS Conversations (
     createdDate DATETIME DEFAULT NOW(),
     seen BOOLEAN DEFAULT FALSE
 );
-
 CREATE TABLE IF NOT EXISTS Customer (
     customerId VARCHAR(400) PRIMARY KEY,
     avatar VARCHAR(500),
     name VARCHAR(300) NOT NULL ,
     password VARCHAR(400) NOT NULL ,
-    phoneNumber VARCHAR(300) UNIQUE,    
+    phoneNumber VARCHAR(300),    
     facebookId VARCHAR(300) DEFAULT '',        
     email VARCHAR(250) UNIQUE,    
     userType VARCHAR(150) DEFAULT 'default',        
