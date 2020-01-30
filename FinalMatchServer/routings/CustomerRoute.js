@@ -21,10 +21,10 @@ router.post('/register', async (req, res) => {
       })
     } else {
       if (results != null && results[0].length > 0) {
-	      const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
+	const {customerId,name,email, tokenKey, userType} =  results[0].length > 0 && results[0][0]
         res.json({
           result: "ok",
-          data: {customerId,name,email, tokenKey},
+          data: {customerId,name,email, tokenKey, userType},
           message: 'Register Customer successfully',
           time: Date.now()
         })
@@ -36,8 +36,7 @@ router.post('/register', async (req, res) => {
 //Link http://localhost:3000/customers/login
 router.post('/login', async (req, res) => {
   const {email, password} = req.body      
-  connection.query(POST_LOGIN_CUSTOMER, [email, password], (error, results) => {
-          
+  connection.query(POST_LOGIN_CUSTOMER, [email, password], (error, results) => {          
           if(error) {
               res.json({
                 result: "failed", 
@@ -45,12 +44,11 @@ router.post('/login', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {
-            debugger;//check results
               if(results != null && results.length > 0) {
-                  const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
+                  const {customerId,name,email, tokenKey, userType} =  results[0].length > 0 && results[0][0]
                   res.json({
                     result: "ok", 
-                    data: {customerId,name,email, tokenKey}, 
+                    data: {customerId,name,email, tokenKey, userType}, 
                     message: 'Login user successfully',
                     time: Date.now()})
               }                
@@ -69,12 +67,11 @@ router.post('/loginFacebook', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {
-            debugger;
               if(results != null && results.length > 0) {
-                  const {customerId,facebookId, name, tokenKey} =  results[0].length > 0 && results[0][0]
+                  const {customerId,facebookId, name, tokenKey, userType} =  results[0].length > 0 && results[0][0]
                   res.json({
                     result: "ok", 
-                    data: {customerId,facebookId, name, tokenKey}, 
+                    data: {customerId,facebookId, name, tokenKey, userType}, 
                     message: 'Login facebook customer successfully',
                     time: Date.now()})
               }                
@@ -99,11 +96,10 @@ router.get('/urlGetCustomerInformation', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
-        debugger
-        const { email, name, phoneNumber, tokenkey } = results[0]
+        const { email, name, phoneNumber, tokenKey, userType } = results[0]
         res.json({
           result: "ok",
-          data: { email, name, phoneNumber, tokenkey },
+          data: { email, name, phoneNumber, tokenKey, userType},
           message: `Get Customer successfully`,
           time: Date.now()
         })
