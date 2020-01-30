@@ -50,7 +50,7 @@ class LoginRegister extends Component {
                 },
             }, (error, avatarObject) => {
                 if (error) {
-                    alert('Error avatar ' + error.toString());
+                    alert('Error avatar ' + JSON.stringify(error));
                     reject(error)
                 } else {
                     const avatar = avatarObject.picture.data.url
@@ -89,7 +89,7 @@ class LoginRegister extends Component {
         try {            
             debugger   
             const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                                
-            debugger   
+               
             if (loginResult.isCancelled) {
                 console.log("Login cancelled");
             } else {
@@ -98,7 +98,7 @@ class LoginRegister extends Component {
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
                 const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
-
+                debugger
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     //dispatch = call action                                        
@@ -109,7 +109,7 @@ class LoginRegister extends Component {
             }
         } catch(error) {  
             debugger          
-            alert("Cannot login Facebook: " + error)
+            alert("Cannot login Facebook: " + JSON.stringify(error))
         }        
     }
     _login = async () => {
@@ -131,11 +131,9 @@ class LoginRegister extends Component {
                     return
                 }
             }                        
-            alert("Before requesting server")
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
-                alert('tokenKey = '+tokenKey)
                 await saveSupplierToStorage(tokenKey, supplierId, email)                
                 const stackNavigation = this.props.navigation
                 //dispatch = call action
@@ -145,7 +143,7 @@ class LoginRegister extends Component {
                 alert(message)
             }
         } catch(error) {
-            alert(error)
+            alert(`Error login or register user. Error = ${JSON.stringify(error)}`)
         }
         
     }

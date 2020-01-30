@@ -164,7 +164,7 @@ BEGIN
     VALUES(name, email, md5(password),phoneNumber, facebookId, userType, isActive);
     SET myToken = createToken();
     UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
-    SELECT name, email, tokenKey FROM Customer;
+    SELECT * FROM Customer WHERE Customer.email = email AND Customer.tokenKey=myToken;
 END; //                                 
 delimiter ;
 

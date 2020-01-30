@@ -148,7 +148,7 @@ export default class Settings extends Component {
   componentWillUnmount() {
   }
   componentDidCatch(error, errorInfo) {
-    // alert(`error = ${error}, errorInfo = ${errorInfo}`)
+
   }
   reloadDataFromServer = async () => {
     const { supplierId, email } = await getSupplierFromStorage()
@@ -182,7 +182,7 @@ export default class Settings extends Component {
         }
       })
     } catch (error) {
-      alert(`Cannot getSupplierServicesOrders. error = ${error}`)
+      alert(`Cannot getSupplierServicesOrders. error = ${JSON.stringify(error)}`)
     }
   }
   async componentDidMount() {
@@ -197,7 +197,7 @@ export default class Settings extends Component {
       const { data, message = '' } = await postUploadPhoto(photos, supplierId)
       this.setState({ avatar: typeof data == "object" ? data[0] : data })
     } catch (error) {
-      alert(`Cannot upload avatar: ${error}`)
+      alert(`Cannot upload avatar: ${JSON.stringify(error)}`)
     }
   }
   _displayAge(age) {
