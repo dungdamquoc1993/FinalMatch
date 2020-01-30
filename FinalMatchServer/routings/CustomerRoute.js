@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const {connection} = require('../database/database')
+const {checkTokenCustomer} = require('./helpers')
 
 const POST_REGISTER_CUSTOMER = "CALL registerCustomer(?, ?, ?)"
 const POST_LOGIN_CUSTOMER = "CALL loginCustomer(?, ?)"
