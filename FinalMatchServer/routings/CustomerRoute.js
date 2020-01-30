@@ -7,7 +7,7 @@ const POST_REGISTER_CUSTOMER = "CALL registerCustomer(?, ?, ?)"
 const POST_LOGIN_CUSTOMER = "CALL loginCustomer(?, ?)"
 const POST_LOGIN_FACEBOOK_CUSTOMER = "CALL loginFacebookCustomer(?, ?, ?, ?)"
 const GET_CUSTOMER_INFORMATION = "SELECT * FROM Customer WHERE customerId = ?"
-const POST_UPDATE_CUSTOMER_INFORMATION = "CALL updateCustomer(?, ?)"
+const POST_UPDATE_CUSTOMER_INFORMATION = "UPDATE Customer SET name = ?, phoneNumber = ? WHERE customerId = ?"
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
@@ -96,9 +96,8 @@ router.post('/updateCustomerInformation', async (req, res) => {
     return
   }
   const { name = '', phoneNumber = '' } = req.body
-  debugger
   connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
-    [customerid, name, phoneNumber]
+    [name, phoneNumber, customerid]
     , (error, results) => {
       debugger
       if (error) {
@@ -109,9 +108,11 @@ router.post('/updateCustomerInformation', async (req, res) => {
           time: Date.now()
         })
         return
-      }
+      } else {
+
+}
       if (results != null && results.length > 0) {
-        debugger
+        debugg
         const { email, name, phoneNumber, tokenKey, userType } = results[0]
         res.json({
           result: "ok",
