@@ -71,7 +71,6 @@ router.post('/insertPlayerService', async (req, res) => {
       longitude = '',
       address = '',
       radius = 10} = req.body  
-  debugger
   //validate, check token ?  
   connection.query(POST_INSERT_PLAYER_SERVICE, 
         [ playerName.normalize(),

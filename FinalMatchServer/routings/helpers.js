@@ -1,6 +1,7 @@
 const {connection} = require('../database/database')
 const POST_CHECK_TOKEN = "SELECT checkToken(?, ?) as checkTokenResult"
-//SELECT checkToken("'2agr'oog&a'y;bb'b'wp;b", 6)
+const POST_CHECK_TOKEN_CUSTOMER = "SELECT checkTokenCustomer(?, ?) as checkTokenCustomerResult"
+
 const checkToken = (tokenKey = '', supplierId = 0) => {    
     //convert callback => Promise = async/await
     return new Promise((resolve, reject) => {
@@ -13,6 +14,25 @@ const checkToken = (tokenKey = '', supplierId = 0) => {
             } else {                                    
                 const {checkTokenResult} = results[0];                                
                 if(checkTokenResult == 1) {                    
+                    resolve(true)
+                } else {                    
+                    resolve(false)
+                }                
+            }
+        }) 
+    })
+}
+const checkTokenCustomer = (tokenKey = '', customerId = '') => {    
+    return new Promise((resolve, reject) => {
+        if(tokenKey == '' || customerId == '') {            
+            resolve(false)
+        } 
+        connection.query(POST_CHECK_TOKEN_CUSTOMER, [tokenKey, customerId], (error, results) => {            
+            if (error) {                
+                resolve(false)
+            } else {                                    
+                const {checkTokenCustomerResult} = results[0];                                
+                if(checkTokenCustomerResult == 1) {                    
                     resolve(true)
                 } else {                    
                     resolve(false)
@@ -39,6 +59,7 @@ const removeNullProperties = (jsObject) => {
 }
 module.exports = {
     checkToken,
+    checkTokenCustomer,
     convertDateToDayMonthYear,
     removeNullProperties
 }

@@ -6,7 +6,7 @@ const POST_REGISTER_CUSTOMER = "CALL registerCustomer(?, ?, ?)"
 const POST_LOGIN_CUSTOMER = "CALL loginCustomer(?, ?)"
 const POST_LOGIN_FACEBOOK_CUSTOMER = "CALL loginFacebookCustomer(?, ?, ?, ?)"
 const GET_CUSTOMER_INFORMATION = "SELECT * FROM Customer WHERE customerId = ?"
-
+const POST_UPDATE_CUSTOMER_INFORMATION = "CALL updateCustomer(?, ?)"
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
@@ -79,7 +79,56 @@ router.post('/loginFacebook', async (req, res) => {
   })    
 })
 
-//Link http://localhost:3000/customers/urlGetCustomerInformation
+//Link http://localhost:3000/customers/updateCustomerInformation
+router.post('/updateCustomerInformation', async (req, res) => {
+  //validate, check token ?  
+  const { tokenkey, customerid } = req.headers
+  const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
+  debugger
+  if (checkTokenResult == false) {
+    res.json({
+      result: "false",
+      data: {},
+      message: 'TokenCustomer is invalid',
+      time: Date.now()
+    })
+    return
+  }
+  const { name = '', phoneNumber = '' } = req.body
+  debugger
+  connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
+    [customerid, name, phoneNumber]
+    , (error, results) => {
+      debugger
+      if (error) {
+        res.json({
+          result: "failed",
+          data: {},
+          message: error.sqlMessage,
+          time: Date.now()
+        })
+        return
+      }
+      if (results != null && results.length > 0) {
+        debugger
+        const { email, name, phoneNumber, tokenKey, userType } = results[0]
+        res.json({
+          result: "ok",
+          data: { email, name, phoneNumber, tokenKey, userType },
+          message: `Update Customer successfully`,
+          time: Date.now()
+        })
+      } else {
+        res.json({
+          result: "failed",
+          data: {},
+          message: `Cannot find Customer with id = ${customerId}`,
+          time: Date.now()
+        })
+      }
+    })
+})
+//Link http://localhost:3000/customers/urlPostUpdateCustomerInformation
 router.get('/urlGetCustomerInformation', async (req, res) => {
   const { customerId = '' } = req.query
   //validate, check token ?  
@@ -96,10 +145,10 @@ router.get('/urlGetCustomerInformation', async (req, res) => {
         return
       }
       if (results != null && results.length > 0) {
-        const { email, name, phoneNumber, tokenKey, userType } = results[0]
+        const {customerId, email, name, phoneNumber, tokenKey, userType } = results[0]
         res.json({
           result: "ok",
-          data: { email, name, phoneNumber, tokenKey, userType},
+          data: {customerId, email, name, phoneNumber, tokenKey, userType},
           message: `Get Customer successfully`,
           time: Date.now()
         })
