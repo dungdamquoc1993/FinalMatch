@@ -10,7 +10,7 @@ const GET_CUSTOMER_INFORMATION = "SELECT * FROM Customer WHERE customerId = ?"
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
-  const { name, email, password, facebookId, userType = "default" } = req.body
+  const { name, email, password, facebookId, userType = "default", avatar='', phoneNumber='' } = req.body
   connection.query(POST_REGISTER_CUSTOMER, [name, email, password], (error, results) => {
     if (error) {
       res.json({
@@ -20,11 +20,11 @@ router.post('/register', async (req, res) => {
         time: Date.now()
       })
     } else {
-      debugger;//nho check results[0][0]
-      if (results != null && results.length > 0) {
+      if (results != null && results[0].length > 0) {
+	const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
         res.json({
           result: "ok",
-          data: {},
+          data: {customerId,name,email, tokenKey},
           message: 'Register Customer successfully',
           time: Date.now()
         })
