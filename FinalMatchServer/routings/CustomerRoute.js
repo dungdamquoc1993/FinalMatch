@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       })
     } else {
       if (results != null && results[0].length > 0) {
-	const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
+	      const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
         res.json({
           result: "ok",
           data: {customerId,name,email, tokenKey},
@@ -47,9 +47,10 @@ router.post('/login', async (req, res) => {
           } else {
             debugger;//check results
               if(results != null && results.length > 0) {
+                  const {customerId,name,email, tokenKey} =  results[0].length > 0 && results[0][0]
                   res.json({
                     result: "ok", 
-                    data: {}, 
+                    data: {customerId,name,email, tokenKey}, 
                     message: 'Login user successfully',
                     time: Date.now()})
               }                
@@ -70,9 +71,10 @@ router.post('/loginFacebook', async (req, res) => {
           } else {
             debugger;
               if(results != null && results.length > 0) {
+                  const {customerId,facebookId, name, tokenKey} =  results[0].length > 0 && results[0][0]
                   res.json({
                     result: "ok", 
-                    data: {}, 
+                    data: {customerId,facebookId, name, tokenKey}, 
                     message: 'Login facebook customer successfully',
                     time: Date.now()})
               }                
