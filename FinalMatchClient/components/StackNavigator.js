@@ -2,6 +2,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Splash from './Splash'
 import LoginAndSignup from './LoginAndSignup';
+import TabNavigator from './TabNavigator';
 import OrderReferee from './OrderReferee';
 import OrderPlayer from './OrderPlayer';
 import Stadium from './Stadium';
@@ -10,12 +11,17 @@ import PlayersList from './PlayersList'
 export const StackNavigator = createStackNavigator ({
   Splash: { screen: Splash},
   LoginAndSignup: {screen: LoginAndSignup},
-  OrderReferee: {screen: OrderReferee},
-  OrderPlayer: {screen: OrderPlayer},
-  Stadium: {screen: Stadium},
+  TabNavigator: {screen: TabNavigator},
+  
+  // OrderReferee: {screen: OrderReferee},
+  // OrderPlayer: {screen: OrderPlayer},
+  // Stadium: {screen: Stadium},
   RefereeList: {screen: RefereeList},
   PlayersList: {screen: PlayersList},
-},);
+}, {
+  initialRouteName: 'Splash',
+  headerShown: false,
+});
 
 
 const MyStackNavigator = createAppContainer (StackNavigator);

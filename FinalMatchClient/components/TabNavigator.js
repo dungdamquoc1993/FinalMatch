@@ -15,4 +15,7 @@ const Tabnavigator = createBottomTabNavigator(
     }
 )
 const MyTabnavigator = createAppContainer(Tabnavigator)
+MyTabnavigator.navigationOptions = {
+    headerShown: false,
+}
 export default MyTabnavigator

@@ -80,8 +80,7 @@ export const loginFacebookCustomer = async (name, email, facebookId, avatar) => 
 }
 
 export const tokenCheckCustomer = async (tokenKey, customerId) => {
-    try {
-        debugger
+    try {        
         const response = await fetch(await urlTokenCheckCustomer(), {
             method: 'POST',
             headers: {
@@ -90,14 +89,12 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
                 tokenKey, customerId
             },
             body: JSON.stringify({}),
-        })
-        debugger
+        })        
         const responseJson = await response.json()
         const { result, data, message} = responseJson
         return { result, data, message}
     } catch (error) {
-        console.log(error)
-        debugger
+        console.log(error)        
         return { result: 'failed', data: {}, message: JSON.stringify(error) }
     }
 }

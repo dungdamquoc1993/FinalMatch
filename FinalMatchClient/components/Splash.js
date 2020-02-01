@@ -39,17 +39,15 @@ export default class Splash extends Component {
             })
         ]).start(async () => {
             //End of animations            
-            let {tokenKey, customerId} = await getCustomerFromStorage()                 
-            debugger
-            let {result} = await tokenCheckCustomer(tokenKey, customerId)           
-            debugger
+            let {tokenKey, customerId} = await getCustomerFromStorage()                             
+            let {result} = await tokenCheckCustomer(tokenKey, customerId)                       
             if(result.toLowerCase().trim() === "failed") {
                 await saveCustomerToStorage('', '', '')
                 tokenKey = ''
                 customerId = '' 
-            }            
-            debugger
+            }                        
             if(tokenKey.length > 0) {                
+                debugger
                 navigate("Service")
             } else {
                 navigate("LoginAndSignup")    
