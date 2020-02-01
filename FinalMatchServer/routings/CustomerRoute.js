@@ -11,7 +11,7 @@ const POST_UPDATE_CUSTOMER_INFORMATION = "UPDATE Customer SET name = ?, phoneNum
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
-  const { name, email, password, facebookId, userType = "default", avatar='', phoneNumber='' } = req.body
+  const { name, email, password} = req.body
   connection.query(POST_REGISTER_CUSTOMER, [name, email, password], (error, results) => {
     if (error) {
       res.json({
@@ -22,12 +22,12 @@ router.post('/register', async (req, res) => {
       })
     } else {
       if (results != null && results[0].length > 0) {
-	const {customerId,name,email, tokenKey, userType} =  results[0].length > 0 && results[0][0]
-        res.json({
-          result: "ok",
-          data: {customerId,name,email, tokenKey, userType},
-          message: 'Register Customer successfully',
-          time: Date.now()
+	       const {customerId,name,email, tokenKey, userType} =  results[0].length > 0 && results[0][0]
+          res.json({
+            result: "ok",
+            data: {customerId,name,email, tokenKey, userType},
+            message: 'Register Customer successfully',
+            time: Date.now()
         })
       }
     }
@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
 
 //Link http://localhost:3000/customers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
-  const {facebookId, email = '', name, avatar = ''} = req.body      
+  const {facebookId = '', email = '', name, avatar = ''} = req.body      
   connection.query(POST_LOGIN_FACEBOOK_CUSTOMER, [facebookId, email, name, avatar], (error, results) => {
           if(error) {
               res.json({

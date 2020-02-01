@@ -11,6 +11,10 @@
  * yarn add react-native-linear-gradient
  * npm install --save react-native-fbsdk 
  * yarn add react-native-modals
+ * yarn add react-native-localize
+ * react-native link react-native-localize
+ * yarn add i18n-js
+ * yarn add lodash.memoize
  * 
  */
 
