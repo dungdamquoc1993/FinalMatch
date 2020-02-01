@@ -23,8 +23,7 @@ router.post('/tokenCheck', async (req, res) => {
 })
 
 router.post('/tokenCheckCustomer', async (req, res) => {  
-  const {tokenkey = '', customerid = ''} = req.headers  
-  
+  const {tokenkey = '', customerid = ''} = req.headers    
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)    
   if(checkTokenResult == false) {
     res.json({

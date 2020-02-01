@@ -91,10 +91,13 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
             },
             body: JSON.stringify({}),
         })
+        debugger
         const responseJson = await response.json()
         const { result, data, message} = responseJson
         return { result, data, message}
     } catch (error) {
+        console.log(error)
+        debugger
         return { result: 'failed', data: {}, message: JSON.stringify(error) }
     }
 }
