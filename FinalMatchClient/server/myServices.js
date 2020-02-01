@@ -10,7 +10,7 @@ import axios from 'axios'
 const axiosObject = axios.create()
 
 export const registerCustomer = async (name, email, password) => {
-    try {
+    try {        
         const response = await fetch(await urlRegisterCustomer(), {
             method: 'POST',
             headers: {
@@ -18,9 +18,9 @@ export const registerCustomer = async (name, email, password) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ name, email, password }),
-        })
+        })        
         const responseJson = await response.json();
-        const { result, data, message } = responseJson
+        const { result, data, message } = responseJson        
         const { customerId, tokenKey } = data
         if (result.toUpperCase() === "OK") {
             return { customerId, tokenKey, message }

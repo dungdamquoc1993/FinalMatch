@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import LinearGradient from 'react-native-linear-gradient';
-export default class Service extends Component {
+import LinearGradient from 'react-native-linear-gradient'
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
+export default class Service extends MultiLanguageComponent {
   constructor (props) {
     super (props);
     this.state = {};
@@ -18,7 +20,7 @@ export default class Service extends Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}>Đặt một dịch vụ</Text>
+        <Text style={styles.textTitle}>{translate('Create a service')}</Text>
 
         <LinearGradient
           colors={['#CAF1C1', '#C2F3B7', '#33FF99']}

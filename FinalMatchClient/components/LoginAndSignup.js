@@ -12,12 +12,12 @@ import {
   SafeAreaView,
 } from 'react-native'
 import {validateEmail, validatePasword} from '../Validations/Validation'
-import {setI18nConfig, translate} from '../languages/languageConfigurations'
+import {translate} from '../languages/languageConfigurations'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {registerCustomer, loginCustomer} from '../server/myServices'
 import {saveCustomerToStorage} from '../helpers/Helpers'
-
-export default class LoginAndSignup extends Component {
+import MultiLanguageComponent from './MultiLanguageComponent'
+export default class LoginAndSignup extends MultiLanguageComponent {
   state = {
     isLogin: true,
     name: '',
@@ -25,42 +25,26 @@ export default class LoginAndSignup extends Component {
     userType: "default", 
     avatar: '', 
     phoneNumber: '',
-    email: '',
-    password: '',
-  }
-  constructor(props) {
-    super(props);
-    setI18nConfig() // set initial config
-  }
-
-  componentDidMount() {
-    RNLocalize.addEventListener("change", this.handleLocalizationChange);
-  }
-
-  componentWillUnmount() {
-    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
-  }
-
-  handleLocalizationChange = () => {
-    setI18nConfig();
-    this.forceUpdate();
-  };
-
+    email: 'hoang1@gmail.com',
+    password: '12345',
+    retypePassword: '123456'
+  }  
   _loginOrRegister = async () => {
     try {
-      const { name, email, password } = await this.state
+      const {navigate} = this.props.navigation  
+      const { name, email, password,retypePassword, isLogin} = await this.state      
       if (!validateEmail(email) || !validatePasword(password)) {
         alert(translate("Email and password is invalid format"))
         return
-      }
+      }      
       if (isLogin != true) {
-        if (retypePassword != password) {
+        if (retypePassword != password) {          
           alert(translate('Password and retype password does not match'))
           return
         }
-      }
+      }      
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
-      await registerCustomer(name, email, password)
+                                                                  await registerCustomer(name, email, password)      
       if (tokenKey.length > 0) {
         await saveCustomerToStorage(tokenKey, customerId, email)
         navigate('Service') //success
@@ -68,7 +52,7 @@ export default class LoginAndSignup extends Component {
         alert(message)
       }
     } catch (error) {
-      alert(translate("Error login or register Customer. Error = ")+JSON.stringify(error))
+      alert(translate("Error login or register Customer. Error = ")+error)
     }
   }
 
@@ -76,9 +60,8 @@ export default class LoginAndSignup extends Component {
     const { navigate } = this.props.navigation;
     const { email, password, isLogin } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>        
         <Image style={styles.logo} source={require('../images/cat.jpeg')} />
-
         <Icon.Button
           style={styles.facebookButton}
           name="facebook"
@@ -128,7 +111,7 @@ export default class LoginAndSignup extends Component {
           <TextInput
             style={styles.textInput}
             onChangeText={email => {
-              this.setState({ email });
+              this.setState({ email: email.trim() });
             }}
             value={email}
             keyboardType={'email-address'}
@@ -147,10 +130,10 @@ export default class LoginAndSignup extends Component {
           {isLogin === false &&
             <TextInput
               style={styles.textInput}
-              onChangeText={password => {
-                this.setState({ password });
+              onChangeText={retypePassword => {
+                this.setState({ retypePassword });
               }}
-              value={this.state.password}
+              value={this.state.retypePassword}
               keyboardType={'default'}
               secureTextEntry
               placeholder={'Retype password:'}
