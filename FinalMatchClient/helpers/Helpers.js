@@ -19,10 +19,8 @@ export const getCustomerFromStorage = async () => {
     }
     let customerId = await AsyncStorage.getItem('customerId')
     if(customerId == null) {
-        customerId = 0
-    } else {
-        customerId = parseInt(customerId)
-    }
+        customerId = ''
+    } 
     let email = await AsyncStorage.getItem('email')
     if(email == null) {
         email = ''

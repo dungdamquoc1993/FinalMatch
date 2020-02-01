@@ -24,7 +24,7 @@ import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors';
 
 class Stadium extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   state = {
     type: 0,

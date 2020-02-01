@@ -28,7 +28,7 @@ import {NavigationActions} from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors';
 class PlayerService extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   
   constructor (props) {

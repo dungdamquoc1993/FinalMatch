@@ -19,7 +19,7 @@ import {tokenCheck} from '../server/myServices'
 const {height, width} = Dimensions.get('window')
 class Splash extends Component {
     static navigationOptions = {
-        header: null,    
+        headerShown: false,
     }
     state = {
         logoOpacity: new Animated.Value(0),

@@ -4,6 +4,7 @@ import {
     urlLoginCustomer,
     urlRegisterCustomer,
     urlLoginFacebookCustomer,    
+    urlTokenCheckCustomer,
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -77,9 +78,10 @@ export const loginFacebookCustomer = async (name, email, facebookId, avatar) => 
         return { tokenKey: '', message: JSON.stringify(error) }
     }
 }
-/*
+
 export const tokenCheckCustomer = async (tokenKey, customerId) => {
     try {
+        debugger
         const response = await fetch(await urlTokenCheckCustomer(), {
             method: 'POST',
             headers: {
@@ -96,4 +98,4 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
         return { result: 'failed', data: {}, message: JSON.stringify(error) }
     }
 }
-*/
+

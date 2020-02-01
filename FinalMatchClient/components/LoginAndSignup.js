@@ -18,6 +18,9 @@ import {registerCustomer, loginCustomer} from '../server/myServices'
 import {saveCustomerToStorage} from '../helpers/Helpers'
 import MultiLanguageComponent from './MultiLanguageComponent'
 export default class LoginAndSignup extends MultiLanguageComponent {
+  static navigationOptions = {
+    headerShown: false,    
+  }
   state = {
     isLogin: true,
     name: '',
@@ -46,6 +49,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
                                                                   await registerCustomer(name, email, password)      
       if (tokenKey.length > 0) {
+        debugger
         await saveCustomerToStorage(tokenKey, customerId, email)
         navigate('Service') //success
       } else {

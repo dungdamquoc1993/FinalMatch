@@ -50,7 +50,7 @@ const DATA = [
 
 export default class Orders extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   render () {
     const {navigate} = this.props.navigation;

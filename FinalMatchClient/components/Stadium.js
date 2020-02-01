@@ -12,7 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
 export default class Stadium extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   state = {
     isFree: false,

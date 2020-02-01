@@ -26,7 +26,7 @@ import {validateEmail, validatePasword} from '../Validations/Validation'
 //Component = thẻ
 class LoginRegister extends Component {
     static navigationOptions = {
-        header: null,
+        headerShown: false,
     }
     state = {
         isLogin: true,        

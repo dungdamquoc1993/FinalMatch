@@ -33,7 +33,7 @@ const StackNavigator = createAppContainer(createStackNavigator({
   },
 }, {
   initialRouteName: 'Splash',
-  header: null
+  headerShown: false,
 }))
 export default () => <Provider store={store}>
     <StackNavigator />

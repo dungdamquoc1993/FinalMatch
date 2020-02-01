@@ -1,31 +1,28 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
-  Text,
   View,
-  Animated,
-  Image,
+  Animated,  
   Dimensions
 } from 'react-native'
 import {
-    COLOR_PINK, MAIN_COLOR, 
-    COLOR_FACEBOOK, COLOR_PINK_MEDIUM} 
+    MAIN_COLOR, 
+} 
 from '../colors/colors'
-import { connect } from 'react-redux'
-import {getStackNavigation} from '../redux/actions/actions'
-import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
-import {tokenCheck} from '../server/myServices'
+import {getCustomerFromStorage, saveCustomerToStorage} from '../helpers/Helpers'
+import {tokenCheckCustomer} from '../server/myServices'
 
 const {height, width} = Dimensions.get('window')
-class Splash extends Component {
+export default class Splash extends Component {
     static navigationOptions = {
-        header: null,    
+        headerShown: false,
     }
     state = {
         logoOpacity: new Animated.Value(0),
         titleMarginTop: new Animated.Value(height / 2)
     }
     async componentDidMount() {
+        const {navigate} = this.props.navigation
         //Add animations here        
         Animated.sequence([
             //animations by sequence
@@ -42,44 +39,35 @@ class Splash extends Component {
             })
         ]).start(async () => {
             //End of animations            
-            let {tokenKey, supplierId} = await getSupplierFromStorage()                 
-            let {result, data, message, time} = await tokenCheck(tokenKey, supplierId)           
-            if(result == "failed") {
-                await saveSupplierToStorage('', '', '')
+            let {tokenKey, customerId} = await getCustomerFromStorage()                 
+            debugger
+            let {result} = await tokenCheckCustomer(tokenKey, customerId)           
+            debugger
+            if(result.toLowerCase().trim() === "failed") {
+                await saveCustomerToStorage('', '', '')
                 tokenKey = ''
-                supplierId = '' 
-            }
-            
-            if(tokenKey.length > 0) {
-                this.props.navigation.navigate("MyTabNavigator")
-            } else {
-                this.props.navigation.navigate("LoginRegister")    
+                customerId = '' 
             }            
-            const stackNavigation = this.props.navigation
-            //dispatch = call action
-            this.props.dispatch(getStackNavigation(stackNavigation))
+            debugger
+            if(tokenKey.length > 0) {                
+                navigate("Service")
+            } else {
+                navigate("LoginAndSignup")    
+            }                                    
         })
     }
     render() {
         return <View style={styles.container}>
-            <Animated.Image source={require('../images/LOGO_Dung_2.png')} 
+            <Animated.Image source={require('../images/soccer.png')} 
                 style={{...styles.logo, opacity: this.state.logoOpacity}}>                
             </Animated.Image>
             <Animated.Text style={{...styles.title, 
                                 marginTop:this.state.titleMarginTop}}>
-                Never miss the FinalMatch
+                FinalMatch for Client
             </Animated.Text>
         </View>
     }
 }
-//Redux
-const mapStateToProps = state => ({
-    stackNavigation: state.stackNavigation,
-    tabNavigation: state.tabNavigation
-})
-export default connect(
-    mapStateToProps
-)(Splash)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
