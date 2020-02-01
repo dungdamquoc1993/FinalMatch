@@ -113,10 +113,9 @@ export default class LoginAndSignup extends Component {
               textAlign: 'center',
               color: 'white',
               fontSize: 20,
-              fontWeight: 'bold',
               fontFamily: Platform.OS === 'ios'
                 ? 'arial'
-                : 'JosefinSans-Italic',
+                : 'JosefinSans-Bold',
             }}
           >
             {isLogin === true ? 'Sign-in' : 'Sign-up'}
