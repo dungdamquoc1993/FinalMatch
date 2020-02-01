@@ -13,5 +13,5 @@ export const urlLoginFacebookCustomer = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/loginFacebook`
 }
 export const urlTokenCheckCustomer = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/token/checkTokenCustomer`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheckCustomer`
 }
