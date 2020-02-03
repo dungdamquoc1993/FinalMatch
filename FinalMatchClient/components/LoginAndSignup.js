@@ -12,10 +12,10 @@ import {
   SafeAreaView,
 } from 'react-native'
 import {validateEmail, validatePasword} from '../Validations/Validation'
-import {translate} from '../languages/languageConfigurations'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {registerCustomer, loginCustomer} from '../server/myServices'
 import {saveCustomerToStorage} from '../helpers/Helpers'
+import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 export default class LoginAndSignup extends MultiLanguageComponent {
   static navigationOptions = {

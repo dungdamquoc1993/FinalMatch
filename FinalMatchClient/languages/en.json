@@ -3,5 +3,11 @@
     "Password and retype password does not match": "Password and retype password does not match",
     "Error login or register Customer. Error = ": "Error login or register Customer. Error = ",
     "Error register Customer: ": "Error register Customer: ",
-    "Create a service": "Create a service"
+    "Create a service": "Create a service",
+    "Order a player": "Order a player",
+    "Enter name: ": "Enter name: ",
+    "Stadium's time : ": "Stadium's time : ",
+    "Stadium: ": "Stadium: ",
+    "Enter telephone number: ": "Enter telephone number: ",
+    "Send a request": "Send a request"
 }

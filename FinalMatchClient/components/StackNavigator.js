@@ -13,9 +13,9 @@ export const StackNavigator = createStackNavigator ({
   LoginAndSignup: {screen: LoginAndSignup},
   TabNavigator: {screen: TabNavigator},
   
-  // OrderReferee: {screen: OrderReferee},
-  // OrderPlayer: {screen: OrderPlayer},
-  // Stadium: {screen: Stadium},
+  OrderReferee: {screen: OrderReferee},
+  OrderPlayer: {screen: OrderPlayer},
+  Stadium: {screen: Stadium},
   RefereeList: {screen: RefereeList},
   PlayersList: {screen: PlayersList},
 }, {

@@ -47,7 +47,7 @@ export default class Splash extends Component {
                 customerId = '' 
             }                        
             if(tokenKey.length > 0) {                
-                debugger
+                
                 navigate("Service")
             } else {
                 navigate("LoginAndSignup")    

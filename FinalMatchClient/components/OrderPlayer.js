@@ -10,7 +10,15 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header'
-export default class OrderPlayer extends Component {
+import { NavigationEvents } from 'react-navigation'
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
+import {
+  getCustomerInformation,
+  updateCustomerInformation
+} from '../server/myServices'
+import {getCustomerFromStorage} from '../helpers/Helpers'
+export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   };
@@ -23,24 +31,84 @@ export default class OrderPlayer extends Component {
       isCB: false,
       isMF: false,
       isCF: false,
-    };
+      point: {
+        latitude : 0, 
+        longitude: 0
+      },
+      matchTiming: {
+        day: 0,
+        month: 0,
+        year: 0,
+        hour: 0,
+        minute: 0, 
+        gmt: 7
+      }
+    }
+  }
+  reloadDataFromServer = async () => {    
+    const { customerId, email } = await getCustomerFromStorage()    
+    try {
+      const { data, message } = await getCustomerInformation(customerId)
+      const { 
+          name, phoneNumber, tokenKey, userType
+      } = data      
+      this.setState({
+        name, phoneNumber
+      })
+    } catch (error) {
+      alert(`Cannot get customer's information. error = ${JSON.stringify(error)}`)
+    }
+  }
+  sendRequest = async () => {    
+    try {
+      const {name, phoneNumber} = this.state
+      const {navigate} = this.props.navigation
+      const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state
+      
+      //1.Update customer's information
+      const { message, error } = await updateCustomerInformation(name, phoneNumber)
+      
+      if (!error) {
+        //2.Tim player, ....truyen param sang PlayerLists
+        navigate('PlayersList', {isGK, isCB, isMF, isCF, point, matchTiming});
+      } else {
+        alert("Cannot update customer's information "+error)
+      }
+    } catch (error) {
+      alert("Cannot update customer's information: "+error)
+    }
   }
   render () {
-    const {navigate} = this.props.navigation;
-    const {isGK, isCB, isMF, isCF} = this.state;
+    const {navigate} = this.props.navigation
+    const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state
+    const {name, phoneNumber} = this.state
     return (
       <SafeAreaView style={styles.container}>
-      <Header title="Đặt cầu thủ" hideBack={true} pressBackButton={() => {
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.reloadDataFromServer()
+          }}
+        />
+      <Header title={translate("Order a player")} hideBack={true} pressBackButton={() => {
         this.props.navigation.navigate('Service')
         }}/>
         <ScrollView>
         <View style={styles.personalInformation}>
-          <TextInput style={styles.textInput} placeholder={'Nhập tên'} />
+          <TextInput style={styles.textInput} 
+            value={name}            
+            onChangeText={(name) => {
+              this.setState({name})
+            }}
+            placeholder={translate("Enter name: ")} />
         </View>
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Nhập số điện thoại'}
+            value={phoneNumber}
+            onChangeText={(phoneNumber) => {
+              this.setState({phoneNumber})
+            }}
+            placeholder={translate("Enter telephone number: ")}
           />
         </View>
         <View style={{height:40,width:'100%',alignItems:'center'}}>
@@ -104,22 +172,22 @@ export default class OrderPlayer extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Địa điểm thi đấu'}
+            placeholder={translate("Stadium: ")}
           />
         </View>
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Giờ thi đấu'}
+            placeholder={translate("Stadium's time : ")}
           />
         </View>
         
         <View style={styles.personalInformation}>
-        <TouchableOpacity style={styles.buttonSubmit} onPress={() => {
-              navigate ('PlayersList');
-            }}>
+        <TouchableOpacity style={styles.buttonSubmit} onPress={async () => {
+          await this.sendRequest()
+        }}>
           <Text style={styles.textSubmit}>
-            Gửi yêu cầu
+            {translate("Send a request")}
           </Text>
         </TouchableOpacity>
         </View>

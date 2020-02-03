@@ -15,3 +15,12 @@ export const urlLoginFacebookCustomer = () => {
 export const urlTokenCheckCustomer = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheckCustomer`
 }
+
+export const urlUpdateCustomerInformation = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/updateCustomerInformation`
+}
+
+export const urlGetCustomerInformation = (customerId) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/urlGetCustomerInformation?customerId=${customerId}`
+}
+
