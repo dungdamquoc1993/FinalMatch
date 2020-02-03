@@ -21,7 +21,6 @@ import {Platform} from 'react-native'
 
 export const registerSupplier = async (email, password) => {
     try {            
-        alert("urlRegisterSupplier()" + urlRegisterSupplier()) 
         const response = await fetch(await urlRegisterSupplier(), {
             method: 'POST',
             headers: {
@@ -31,7 +30,6 @@ export const registerSupplier = async (email, password) => {
             body: JSON.stringify({email, password}),// stringify de lam gi 
         })               
         const responseJson = await response.json();
-        alert(`responseJson = ${JSON.stringify(responseJson)}`)
         const {result, data, message, time} = responseJson
         const {tokenKeySupplierId = ''} = data
         
@@ -44,7 +42,7 @@ export const registerSupplier = async (email, password) => {
             return { tokenKey : '', message}
         }
     } catch (error) {        
-        alert(error)
+        alert(`Error register Supplier: ${JSON.stringify(error)}`)
         return { tokenKey, message: ''}
     }
 }
@@ -314,7 +312,7 @@ export const postUploadPhoto = async (photos, supplierId) => {
             return { data, message: 'Cannot upload image'}
         }                
     } catch (error) {        
-        alert("Upload failed!:" + error)
+        alert("Upload failed!:" + JSON.stringify(error))
     }
 }
 

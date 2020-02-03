@@ -1,4 +1,12 @@
 CREATE database FinalMatch;
+ALTER DATABASE FinalMatch CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--ALTER TABLE PlayerService MODIFY playerName NVARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--ALTER TABLE PlayerService CHANGE playerName playerName VARCHAR(500) CHARACTER SET utf8mb4;
+
+--ALTER TABLE PlayerService CONVERT TO CHARACTER SET utf8;
+
 USE FinalMatch;
 CREATE TABLE IF NOT EXISTS Supplier (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -25,6 +33,7 @@ CREATE TABLE IF NOT EXISTS PlayerService (
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE    
 );
+UPDATE PlayerService SET price = 0 WHERE price is NULL;
 
 CREATE TABLE IF NOT EXISTS RefereeService (    
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -64,22 +73,26 @@ CREATE TABLE IF NOT EXISTS Conversations (
     createdDate DATETIME DEFAULT NOW(),
     seen BOOLEAN DEFAULT FALSE
 );
-
 CREATE TABLE IF NOT EXISTS Customer (
     customerId VARCHAR(400) PRIMARY KEY,
-    avatar VARCHAR(500),
+    avatar VARCHAR(500) DEFAULT '',
     name VARCHAR(300) NOT NULL ,
     password VARCHAR(400) NOT NULL ,
-    phoneNumber VARCHAR(300) UNIQUE,    
+    phoneNumber VARCHAR(300) DEFAULT '',    
     facebookId VARCHAR(300) DEFAULT '',        
     email VARCHAR(250) UNIQUE,    
     userType VARCHAR(150) DEFAULT 'default',        
     isActive INTEGER DEFAULT 1,
-    tokenKey VARCHAR(500)    
+    tokenKey VARCHAR(500) DEFAULT ''    
 );
 
 CREATE TABLE IF NOT EXISTS PlayerService (    
     playerName VARCHAR(300) NOT NULL ,
     position VARCHAR(10) NOT NULL ,
     supplierId INTEGER UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Temp (
+    content VARCHAR(500),
+    createdDate DATETIME
 );

@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS insertStadium;
 delimiter //
 CREATE PROCEDURE insertStadium( type INTEGER,
-                                stadiumName VARCHAR(300), 
+                                stadiumName VARCHAR(300) CHARACTER SET utf8mb4,
                                 latitude FLOAT, 
                                 longitude FLOAT,
                                 address VARCHAR(500), 
@@ -44,6 +44,24 @@ BEGIN
 END; //                                 
 delimiter ;
 
+DROP FUNCTION IF EXISTS checkTokenCustomer;
+--Trigger - procedures
+delimiter //
+CREATE FUNCTION checkTokenCustomer(tokenKey VARCHAR(500), customerId VARCHAR(400)) RETURNS BOOLEAN
+BEGIN
+    DECLARE numberOfCustomers INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfCustomers FROM Customer WHERE Customer.tokenKey = tokenKey 
+                                                        AND Customer.customerId = customerId
+                                                        AND Customer.isActive = 1;    
+    IF numberOfCustomers > 0 THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END; //                           
+delimiter ;
+
+
 delimiter //
 DROP TRIGGER IF EXISTS tSupplier;
 CREATE TRIGGER tSupplier BEFORE INSERT ON Supplier
@@ -61,6 +79,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS getSupplierAroundOrder //
 CREATE PROCEDURE getSupplierAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT
+  id as supplierId,
   name,phoneNumber, radius,
   dateOfBirth, facebookId, email, userType,
   X(point) AS "latitude",
@@ -76,12 +95,25 @@ SELECT
     )
   ) * 100000
   AS distance
-FROM Supplier HAVING distance <= radius + orderRadius;//
+FROM Supplier 
+HAVING distance <= radius + orderRadius;
+
 DELIMITER ;
+
+--Neu la Player:
+SELECT * FROM viewSupplierServices 
+WHERE supplierId in (11,7,5) AND viewSupplierServices.position = '0010';
+--Neu la Referee:
+SELECT * FROM viewSupplierServices 
+WHERE supplierId in (11,7,5)
+
 
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
-CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), email VARCHAR(300), name VARCHAR(250), avatar VARCHAR(500)) RETURNS VARCHAR(500)
+CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), 
+    email VARCHAR(300), 
+    name VARCHAR(250) CHARACTER SET utf8mb4, 
+    avatar VARCHAR(500)) RETURNS VARCHAR(500)
 BEGIN
     DECLARE numberOfSuppliers INT;
     DECLARE mySupplierId INT DEFAULT 0; 
@@ -136,21 +168,17 @@ delimiter ;
 DROP PROCEDURE IF EXISTS registerCustomer;
 delimiter //
 CREATE PROCEDURE registerCustomer(
-    name VARCHAR(300),
+    name VARCHAR(300) CHARACTER SET utf8mb4,
     email VARCHAR(250),
-    password VARCHAR(400),
-    phoneNumber VARCHAR(300),
-    facebookId VARCHAR(300),
-    userType VARCHAR(150),
-    isActive INTEGER    
+    password VARCHAR(400)
 )
 BEGIN
     DECLARE myToken VARCHAR(500) DEFAULT '';  
-    INSERT INTO Customer(name, email, password, phoneNumber, facebookId, userType, isActive)
-    VALUES(name, email, md5(password),phoneNumber, facebookId, userType, isActive);
+    INSERT INTO Customer(name, email, password, userType, isActive)
+    VALUES(name, email, md5(password), 'default', 1);
     SET myToken = createToken();
     UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
-    SELECT name, email, tokenKey FROM Customer;
+    SELECT * FROM Customer WHERE Customer.email = email AND Customer.tokenKey=myToken;
 END; //                                 
 delimiter ;
 
@@ -168,7 +196,7 @@ BEGIN
     IF(numberOfCustomers > 0) THEN    
         SET myToken = createToken();
         UPDATE Customer SET tokenKey=myToken WHERE Customer.email = email;    
-        SELECT name, email, tokenKey FROM Customer;    
+        SELECT * FROM Customer WHERE Customer.email = email;    
     ELSE
         signal sqlstate '45000' set message_text = "Please check email and password";        
     END IF;
@@ -181,7 +209,7 @@ delimiter //
 CREATE PROCEDURE loginFacebookCustomer(
     facebookId VARCHAR(300), 
     email VARCHAR(300), 
-    name VARCHAR(250), 
+    name VARCHAR(250) CHARACTER SET utf8mb4,
     avatar VARCHAR(500)) 
 BEGIN
     DECLARE numberOfCustomers INT DEFAULT 0;    
@@ -194,8 +222,8 @@ BEGIN
             VALUES(facebookId, name, email, avatar, '11111', 'facebook');                        
         END;            
     END IF;
-    UPDATE Customer SET tokenKey=@myToken WHERE Customer.facebookId = facebookId;        
-    SELECT customerId, facebookId,tokenKey FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
+    UPDATE Customer SET tokenKey=@myToken, Customer.name = name WHERE Customer.facebookId = facebookId;        
+    SELECT * FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
 END; //                                 
 delimiter;
 
@@ -233,7 +261,7 @@ delimiter ;
 
 DROP PROCEDURE IF EXISTS insertPlayerService;
 delimiter //
-CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300), 
+CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300) CHARACTER SET utf8mb4, 
                                     price FLOAT, 
                                     position VARCHAR(10), 
                                     supplierId INTEGER,
@@ -260,7 +288,7 @@ delimiter;
 
 DROP PROCEDURE IF EXISTS insertRefereeService;
 delimiter //
-CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300),         
+CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300) CHARACTER SET utf8mb4,         
                                     price FLOAT,
                                     phoneNumber VARCHAR(300),
                                     supplierId INTEGER,
@@ -293,7 +321,7 @@ delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
                                 playerPrice FLOAT,
                                 refereePrice FLOAT,
-                                name VARCHAR(300),                                
+                                name VARCHAR(300) CHARACTER SET utf8mb4,
                                 avatar VARCHAR(500),
                                 dateOfBirth DATE,
                                 phoneNumber VARCHAR(300),
@@ -301,9 +329,9 @@ CREATE PROCEDURE updateSettings(supplierId INT,
                                 latitude FLOAT,
                                 longitude FLOAT,
                                 radius FLOAT,
-                                playerName VARCHAR(300),
+                                playerName VARCHAR(300) CHARACTER SET utf8mb4,
                                 position VARCHAR(10),
-                                refereeName VARCHAR(300)
+                                refereeName VARCHAR(300) CHARACTER SET utf8mb4
                                 ) 
 BEGIN    
     UPDATE Supplier SET Supplier.name = name, 

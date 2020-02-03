@@ -34,7 +34,7 @@ class PlayerService extends Component {
   constructor (props) {
     super (props);
     this.state = {
-      playerName: '',
+      playerName: 'người a',
       price: 30000,
       phoneNumber: '',
       isGK: false,
@@ -62,7 +62,7 @@ class PlayerService extends Component {
       
       this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
     } catch(error) {
-      alert("Cannot get Supplier information"+error)
+      alert("Cannot get Supplier information"+JSON.stringify(error))
       //Quay lai Tab
     }
   };
@@ -93,7 +93,7 @@ class PlayerService extends Component {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })      
     } catch(error) {
-      alert('Cannot get data from Server'+error)
+      alert('Cannot get data from Server'+JSON.stringify(error))
     } 
     
   }

@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
+import * as RNLocalize from "react-native-localize"
+
 import {
   View,
   StyleSheet,
@@ -8,26 +10,74 @@ import {
   TextInput,
   Dimensions,
   SafeAreaView,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+} from 'react-native'
+import {validateEmail, validatePasword} from '../Validations/Validation'
+import {setI18nConfig, translate} from '../languages/languageConfigurations'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import {registerCustomer, loginCustomer} from '../server/myServices'
+import {saveCustomerToStorage} from '../helpers/Helpers'
+
 export default class LoginAndSignup extends Component {
   state = {
     isLogin: true,
+    name: '',
+    facebookId: '', 
+    userType: "default", 
+    avatar: '', 
+    phoneNumber: '',
     email: '',
     password: '',
+  }
+  constructor(props) {
+    super(props);
+    setI18nConfig() // set initial config
+  }
+
+  componentDidMount() {
+    RNLocalize.addEventListener("change", this.handleLocalizationChange);
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange);
+  }
+
+  handleLocalizationChange = () => {
+    setI18nConfig();
+    this.forceUpdate();
   };
-  _login = async () => {
-    this.setState ({isLogin: true});
-  };
-  _register = async () => {
-    this.setState ({isLogin: false});
-  };
-  render () {
-    const {navigate} = this.props.navigation;
-    const {email, password, isLogin} = this.state;
+
+  _loginOrRegister = async () => {
+    try {
+      const { name, email, password } = await this.state
+      if (!validateEmail(email) || !validatePasword(password)) {
+        alert(translate("Email and password is invalid format"))
+        return
+      }
+      if (isLogin != true) {
+        if (retypePassword != password) {
+          alert(translate('Password and retype password does not match'))
+          return
+        }
+      }
+      const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
+      await registerCustomer(name, email, password)
+      if (tokenKey.length > 0) {
+        await saveCustomerToStorage(tokenKey, customerId, email)
+        navigate('Service') //success
+      } else {
+        alert(message)
+      }
+    } catch (error) {
+      alert(translate("Error login or register Customer. Error = ")+JSON.stringify(error))
+    }
+  }
+
+  render() {
+    const { navigate } = this.props.navigation;
+    const { email, password, isLogin } = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.logo} source={require ('../images/cat.jpeg')} />
+        <Image style={styles.logo} source={require('../images/cat.jpeg')} />
 
         <Icon.Button
           style={styles.facebookButton}
@@ -35,7 +85,7 @@ export default class LoginAndSignup extends Component {
           backgroundColor="#3b5998"
           borderRadius={30}
           onPress={() => {
-            navigate ('Service');
+            navigate('Service');
           }}
         >
           <Text
@@ -53,7 +103,9 @@ export default class LoginAndSignup extends Component {
         </Icon.Button>
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
-            <TouchableOpacity onPress={this._login}>
+            <TouchableOpacity onPress={() => {
+              this.setState({ isLogin: true });
+            }}>
 
               <Text style={styles.twoButton}>
                 Sign in
@@ -62,7 +114,9 @@ export default class LoginAndSignup extends Component {
             {isLogin === true && <View style={styles.line} />}
           </View>
           <View style={styles.viewLogin}>
-            <TouchableOpacity onPress={this._register}>
+            <TouchableOpacity onPress={() => {
+              this.setState({ isLogin: false });
+            }}>
               <Text style={styles.twoButton}>
                 Sign up
               </Text>
@@ -74,7 +128,7 @@ export default class LoginAndSignup extends Component {
           <TextInput
             style={styles.textInput}
             onChangeText={email => {
-              this.setState ({email});
+              this.setState({ email });
             }}
             value={email}
             keyboardType={'email-address'}
@@ -83,7 +137,7 @@ export default class LoginAndSignup extends Component {
           <TextInput
             style={styles.textInput}
             onChangeText={password => {
-              this.setState ({password});
+              this.setState({ password });
             }}
             value={password}
             keyboardType={'default'}
@@ -94,7 +148,7 @@ export default class LoginAndSignup extends Component {
             <TextInput
               style={styles.textInput}
               onChangeText={password => {
-                this.setState ({password});
+                this.setState({ password });
               }}
               value={this.state.password}
               keyboardType={'default'}
@@ -105,7 +159,7 @@ export default class LoginAndSignup extends Component {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-            navigate ('Service');
+            this._loginOrRegister()
           }}
         >
           <Text
@@ -125,9 +179,9 @@ export default class LoginAndSignup extends Component {
     );
   }
 }
-const screenWidth = Math.round (Dimensions.get ('window').width);
-const screenHeight = Math.round (Dimensions.get ('window').height);
-const styles = StyleSheet.create ({
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',

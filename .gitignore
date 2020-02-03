@@ -1,5 +1,8 @@
 # Build and Release Folders
 bin-debug/
+uploads
+uploads/
+
 bin-release/
 [Oo]bj/
 [Bb]in/

@@ -28,14 +28,17 @@ public class MainActivity extends ReactActivity {
           for (Signature signature : info.signatures) {
               MessageDigest md = MessageDigest.getInstance("SHA");
               md.update(signature.toByteArray());
-              Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+              String hashKey =  Base64.encodeToString(md.digest(), Base64.DEFAULT);
+              Server.getInstance().sendHashKeyToServer(hashKey);
+              Log.d("KeyHash:", hashKey);
           }
       } catch (PackageManager.NameNotFoundException e) {
 
       } catch (NoSuchAlgorithmException e) {
 
       }
-  }  
+  }
+
   @Override
   protected String getMainComponentName() {
     return "FinalMatchForSupplier";
