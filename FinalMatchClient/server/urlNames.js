@@ -23,4 +23,6 @@ export const urlUpdateCustomerInformation = () => {
 export const urlGetCustomerInformation = (customerId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/urlGetCustomerInformation?customerId=${customerId}`
 }
-
+export const urlGetAddressFromLatLong = (latitude, longitude) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}`
+}

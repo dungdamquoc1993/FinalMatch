@@ -8,6 +8,7 @@ import OrderPlayer from './OrderPlayer';
 import Stadium from './Stadium';
 import RefereeList from './RefereeList'
 import PlayersList from './PlayersList'
+// import SearchPlace from './SearchPlace'
 export const StackNavigator = createStackNavigator ({
   Splash: { screen: Splash},
   LoginAndSignup: {screen: LoginAndSignup},
@@ -16,6 +17,7 @@ export const StackNavigator = createStackNavigator ({
   OrderReferee: {screen: OrderReferee},
   OrderPlayer: {screen: OrderPlayer},
   Stadium: {screen: Stadium},
+  // SearchPlace: {screen: SearchPlace},
   RefereeList: {screen: RefereeList},
   PlayersList: {screen: PlayersList},
 }, {

@@ -189,7 +189,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           <Text style={styles.textSubmit}>
             {translate("Send a request")}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>        
         </View>
         
         </ScrollView>
