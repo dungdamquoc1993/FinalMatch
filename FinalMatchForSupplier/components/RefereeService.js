@@ -35,7 +35,7 @@ import DatePicker from 'react-native-date-picker'
 
 export class RefereeService extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   state = {
     age: 0,

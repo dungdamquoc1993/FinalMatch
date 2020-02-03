@@ -1,9 +1,9 @@
 import i18n from "i18n-js"
 import memoize from "lodash.memoize"
+import * as RNLocalize from "react-native-localize"
 import {
-    I18nManager,
+    I18nManager,    
 } from 'react-native'
-import memoize from "lodash.memoize"
 const translationGetters = {
     // lazy requires (metro bundler does not support symlinks)
     vi: () => require("./vi.json"),
@@ -21,9 +21,8 @@ export const setI18nConfig = () => {
     const fallback = { languageTag: "en", isRTL: false };
 
     const { languageTag, isRTL } =
-        RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
+        RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||        
         fallback;
-
     // clear translation cache
     translate.cache.clear();
     // update layout direction

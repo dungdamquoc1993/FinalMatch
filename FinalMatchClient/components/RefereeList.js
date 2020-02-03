@@ -54,7 +54,7 @@ const DATA = [
 
 export default class RefereeList extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   state = {
     order: false,

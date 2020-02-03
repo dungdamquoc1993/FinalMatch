@@ -6,8 +6,8 @@ export const saveCustomerToStorage = async (tokenKey, customerId, email) => {
     try {
         await AsyncStorage.setItem('tokenKey', tokenKey)
         await AsyncStorage.setItem('customerId', `${customerId}`)
-        await AsyncStorage.setItem('email', email)        
-    } catch (error) {
+        await AsyncStorage.setItem('email', email)                
+    } catch (error) {        
         alert ("Cannot save data to LocalStorage: "+error) //da ngon ngu
     }
 }
@@ -19,10 +19,8 @@ export const getCustomerFromStorage = async () => {
     }
     let customerId = await AsyncStorage.getItem('customerId')
     if(customerId == null) {
-        customerId = 0
-    } else {
-        customerId = parseInt(customerId)
-    }
+        customerId = ''
+    } 
     let email = await AsyncStorage.getItem('email')
     if(email == null) {
         email = ''

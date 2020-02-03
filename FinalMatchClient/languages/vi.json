@@ -2,5 +2,6 @@
     "Email and password is invalid format": "Email và mật khẩu chưa hợp lệ",
     "Password and retype password does not match": "Mật khẩu và mật khẩu nhập lại chưa khớp",
     "Error login or register Customer. Error = ": "Lỗi khi đăng nhập hoặc đăng ký khách hàng mới: ",
-    "Error register Customer: ": "Error register Customer: "
+    "Error register Customer: ": "Error register Customer: ",
+    "Create a service": "Mời bạn chọn dịch vụ"
 }

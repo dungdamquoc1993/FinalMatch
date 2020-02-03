@@ -17,4 +17,5 @@ BEGIN
     END IF;
 END; //                           
 delimiter ;
-
+SELECT * from Customer c ;
+DELETE  from Customer WHERE customerId ='36d5261e4c40e81e6b44358724bbddc7'

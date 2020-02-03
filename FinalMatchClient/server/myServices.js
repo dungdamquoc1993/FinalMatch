@@ -4,13 +4,14 @@ import {
     urlLoginCustomer,
     urlRegisterCustomer,
     urlLoginFacebookCustomer,    
+    urlTokenCheckCustomer,
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
 
 export const registerCustomer = async (name, email, password) => {
-    try {
+    try {        
         const response = await fetch(await urlRegisterCustomer(), {
             method: 'POST',
             headers: {
@@ -18,9 +19,9 @@ export const registerCustomer = async (name, email, password) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ name, email, password }),
-        })
+        })        
         const responseJson = await response.json();
-        const { result, data, message } = responseJson
+        const { result, data, message } = responseJson        
         const { customerId, tokenKey } = data
         if (result.toUpperCase() === "OK") {
             return { customerId, tokenKey, message }
@@ -77,9 +78,9 @@ export const loginFacebookCustomer = async (name, email, facebookId, avatar) => 
         return { tokenKey: '', message: JSON.stringify(error) }
     }
 }
-/*
+
 export const tokenCheckCustomer = async (tokenKey, customerId) => {
-    try {
+    try {        
         const response = await fetch(await urlTokenCheckCustomer(), {
             method: 'POST',
             headers: {
@@ -88,12 +89,13 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
                 tokenKey, customerId
             },
             body: JSON.stringify({}),
-        })
+        })        
         const responseJson = await response.json()
         const { result, data, message} = responseJson
         return { result, data, message}
     } catch (error) {
+        console.log(error)        
         return { result: 'failed', data: {}, message: JSON.stringify(error) }
     }
 }
-*/
+

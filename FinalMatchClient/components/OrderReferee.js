@@ -10,7 +10,7 @@ import {
 import Header from './Header'
 export default class OrderReferee extends Component {
   static navigationOptions = {
-    header: null,
+    headerShown: false,
   };
   render () {
     const {navigate} = this.props.navigation;

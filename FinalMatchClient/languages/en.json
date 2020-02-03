@@ -1,4 +1,7 @@
 {
     "Email and password is invalid format": "Email and password is invalid format",
-    "Password and retype password does not match": "Password and retype password does not match"
+    "Password and retype password does not match": "Password and retype password does not match",
+    "Error login or register Customer. Error = ": "Error login or register Customer. Error = ",
+    "Error register Customer: ": "Error register Customer: ",
+    "Create a service": "Create a service"
 }
