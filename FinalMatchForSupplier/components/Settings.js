@@ -481,7 +481,7 @@ export default class Settings extends Component {
                   this.setState({ isGK: !this.state.isGK });
                 }}
               >
-                <Text style={{fontFamily:'JosefinSans-Italic'}}>GK</Text>
+                <Text style={{fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>GK</Text>
                 <FontAwesome5
                   name={isGK == true ? 'check-square' : 'square'}
                   size={35}
