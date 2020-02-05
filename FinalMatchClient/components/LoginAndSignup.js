@@ -76,13 +76,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           }}
         >
           <Text
-            style={{
-              fontSize: 18,
-              color: 'white',
-              fontFamily: Platform.OS === 'ios'
-                ? 'arial'
-                : 'JosefinSans-Italic',
-            }}
+            style={styles.textLoginFaceBook}
           >
             Login with Facebook
           </Text>
@@ -150,14 +144,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           }}
         >
           <Text
-            style={{
-              textAlign: 'center',
-              color: 'white',
-              fontSize: 20,
-              fontFamily: Platform.OS === 'ios'
-                ? 'arial'
-                : 'JosefinSans-Bold',
-            }}
+            style={styles.textLogin}
           >
             {isLogin === true ? 'Sign-in' : 'Sign-up'}
           </Text>
@@ -250,4 +237,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 25,
   },
+  textLoginFaceBook:{
+    fontSize: 18,
+    color: 'white',
+    fontFamily: Platform.OS === 'ios'
+      ? 'arial'
+      : 'JosefinSans-Italic',
+  },
+  textLogin:{
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 20,
+    fontFamily: Platform.OS === 'ios'
+      ? 'arial'
+      : 'JosefinSans-Bold',
+  }
 });

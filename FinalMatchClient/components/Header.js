@@ -24,7 +24,7 @@ export default class Header extends Component {
           >
             <Image
               source={require ('../images/back.png')}
-              style={{width: 30, height: 30}}
+              style={styles.image}
             />
           </TouchableOpacity>}
         <TouchableOpacity
@@ -35,13 +35,13 @@ export default class Header extends Component {
         >
           <Image
             source={require ('../images/back.png')}
-            style={{width: 40, height: 40,marginLeft:15}}
+            style={styles.imagetow}
           />
         </TouchableOpacity>
         <Text style={styles.title}>
           {title}
         </Text>
-<View style={{width: '10%'}}/>
+        <View style={{width: '10%'}}/>
       </View>
     );
   }
@@ -62,4 +62,13 @@ const styles = StyleSheet.create ({
     width:'60%',
     fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
   },
+  image:{
+    width: 30, 
+    height: 30
+  },
+  imagetow:{
+    width: 40, 
+    height: 40,
+    marginLeft:15
+  }
 });

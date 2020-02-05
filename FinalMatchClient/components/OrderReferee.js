@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  Platform
 } from 'react-native';
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
