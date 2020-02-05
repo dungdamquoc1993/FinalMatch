@@ -1,10 +1,13 @@
 
 import { Platform } from 'react-native'
+import {getCustomerFromStorage} from '../helpers/Helpers'
 import {
     urlLoginCustomer,
     urlRegisterCustomer,
     urlLoginFacebookCustomer,    
     urlTokenCheckCustomer,
+    urlUpdateCustomerInformation, 
+    urlGetCustomerInformation
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -96,6 +99,57 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
     } catch (error) {
         console.log(error)        
         return { result: 'failed', data: {}, message: JSON.stringify(error) }
+    }
+}
+
+
+export const updateCustomerInformation = async (name, phoneNumber) => {
+    try {        
+        const {tokenKey, customerId} = await getCustomerFromStorage()            
+        const response = await fetch(await urlUpdateCustomerInformation(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId
+            },
+            body: JSON.stringify({ name, phoneNumber }),
+        })        
+        
+        const responseJson = await response.json();
+        
+        const { result,message } = responseJson                
+        
+        if(result.toLowerCase() === 'ok') {
+            return {message, error: null}
+        } else {
+            return {message, error: message}
+        }        
+    } catch (error) {        
+        
+        return {
+            message: "Error update Customer' information" + JSON.stringify(error),
+            error
+         }
+    }
+}
+export const getCustomerInformation = async (customerId) => {
+    try {               
+             
+        const response = await fetch(await urlGetCustomerInformation(customerId))               
+        const responseJson = await response.json();                
+        
+        const {result, data, message, time} = responseJson                                           
+        
+        if (result.toUpperCase() === "OK") {                             
+            return { data, message, error: null}
+        } else {    
+            return { data, message, error: message}
+        }
+        
+    } catch (error) {               
+        
+        return { data, message: error}
     }
 }
 

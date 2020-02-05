@@ -117,7 +117,7 @@ class PlayerService extends Component {
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
       );
     }
-  };
+  }
   render () {
     const {playerName,price, phoneNumber} = this.state;
     const {isGK, isCB, isMF, isCF} = this.state;

@@ -11,6 +11,7 @@
  * npx react-native link react-native-localize
  * yarn add i18n-js
  * yarn add lodash.memoize
+ * yarn add react-native-searchable-dropdown
  * 
  */
 import {AppRegistry} from 'react-native';
