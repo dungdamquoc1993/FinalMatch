@@ -100,6 +100,35 @@ HAVING distance <= radius + orderRadius;
 
 DELIMITER ;
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS getStadiumsAroundPoint; //
+--radius = centimeters
+CREATE PROCEDURE getStadiumsAroundPoint(latitude FLOAT, longitude FLOAT, radius FLOAT)
+SELECT
+  id as stadiumId,
+  type,
+  stadiumName,
+  X(point) AS "latitude",
+  Y(point) AS "longitude",
+  address,
+  phoneNumber,
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          POINT(latitude, longitude)
+        )
+      )
+    )
+  ) * 100000
+  AS distance
+FROM Stadium 
+HAVING distance <= radius;
+
+DELIMITER ;
+
+
 --Neu la Player:
 SELECT * FROM viewSupplierServices 
 WHERE supplierId in (11,7,5) AND viewSupplierServices.position = '0010';

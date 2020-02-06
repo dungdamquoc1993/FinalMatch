@@ -172,15 +172,15 @@ export default class OrderPlayer extends MultiLanguageComponent {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={translate("Stadium: ")}
+            placeholder={translate("Match's place: ")}
           />
         </View>
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={translate("Stadium's time : ")}
+            placeholder={translate("Match's timing : ")}
           />
-        </View>
+        </View>        
         
         <View style={styles.personalInformation}>
         <TouchableOpacity style={styles.buttonSubmit} onPress={async () => {

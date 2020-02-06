@@ -26,3 +26,7 @@ export const urlGetCustomerInformation = (customerId) => {
 export const urlGetAddressFromLatLong = (latitude, longitude) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}`
 }
+
+export const urlGetLatLongFromAddress = (address) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getLatLongFromAddress?address=${address}`
+}
