@@ -103,7 +103,14 @@ export default class Stadium extends Component {
             </TouchableOpacity>
             
           </View>
-          <Text>xx {address}</Text>
+          <Text    style={{
+            paddingHorizontal:50,
+                width: '70%',
+                fontSize: 17,
+                fontFamily: Platform.OS === 'ios'
+                  ? 'arial'
+                  : 'JosefinSans-Italic',
+              }}>ỵgkjhl;hgjkhl{address}</Text>
           <View style={styles.FeeAndFree}>
             <TouchableOpacity
               onPress={() => this.setState ({isFee: !this.state.isFee,isFree:false})}
