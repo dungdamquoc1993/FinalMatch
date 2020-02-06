@@ -225,6 +225,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               style={styles.textInput}
               placeholder={translate ("Stadium's time : ")}
             />
+<<<<<<< HEAD
           </View>
 
           <View style={styles.personalInformation}>
@@ -240,6 +241,46 @@ export default class OrderPlayer extends MultiLanguageComponent {
             </TouchableOpacity>
           </View>
 
+=======
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.eachPosition}
+            onPress={() => {
+              this.setState ({isCF: !this.state.isCF});
+            }}
+          >
+            <Text style={styles.textPosition}>CF</Text>
+            <FontAwesome5
+              name={isCF == true ? 'check-square' : 'square'}
+              size={35}
+              color={'black'}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.personalInformation}>
+          <TextInput
+            style={styles.textInput}
+            placeholder={translate("Match's place: ")}
+          />
+        </View>
+        <View style={styles.personalInformation}>
+          <TextInput
+            style={styles.textInput}
+            placeholder={translate("Match's timing : ")}
+          />
+        </View>        
+        
+        <View style={styles.personalInformation}>
+        <TouchableOpacity style={styles.buttonSubmit} onPress={async () => {
+          await this.sendRequest()
+        }}>
+          <Text style={styles.textSubmit}>
+            {translate("Send a request")}
+          </Text>
+        </TouchableOpacity>        
+        </View>
+        
+>>>>>>> 25f640fc4fab7f64b50f3d3a564fec819064f8cc
         </ScrollView>
       </SafeAreaView>
     );

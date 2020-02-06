@@ -19,3 +19,28 @@ END; //
 delimiter ;
 SELECT * from Customer WHERE customerId ='47c9165c5bfb03689260a8f230e45589';
 DELETE  from Customer WHERE customerId ='36d5261e4c40e81e6b44358724bbddc7'
+
+DROP PROCEDURE IF EXISTS getStadiumsAroundPoint;
+--radius = meters
+CREATE PROCEDURE getStadiumsAroundPoint(latitude FLOAT, longitude FLOAT, radius FLOAT)
+SELECT
+  id as stadiumId,
+  type,
+  stadiumName,
+  X(point) AS "latitude",
+  Y(point) AS "longitude",
+  address,
+  phoneNumber,
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          POINT(lat, lon)
+        )
+      )
+    )
+  ) * 100000
+  AS distance
+FROM Stadium 
+HAVING distance <= radius + radius;
