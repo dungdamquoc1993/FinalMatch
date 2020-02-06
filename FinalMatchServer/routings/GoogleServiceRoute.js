@@ -39,7 +39,7 @@ router.get('/getAddressFromLatLong', async (req, res) => {
     });    
 })
 router.get('/getLatLongFromAddress', async (req, res) => {    
-    const { latitude = '', longitude = '' } = req.query
+    const { address = '' } = req.query
     https.get(urlGetLatLongFromAddress(address), (resp) => {
         let data = '';
         // A chunk of data has been recieved.
@@ -49,7 +49,9 @@ router.get('/getLatLongFromAddress', async (req, res) => {
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-            
+            if(data.error_message && data.error_message.length > 0){
+		    
+}            
             res.json({
                 result: "ok",
                 data: JSON.parse(data),
