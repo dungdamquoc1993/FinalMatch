@@ -99,7 +99,8 @@ debugger
                     //       phoneNumber
                     //       distance} 
                     res.json({
-                      result: "ok", 
+                      result: "ok",
+                      count: results == null ? 0: results.length,
                       data: results[0],
                       message: 'Query Stadiums successfully',
                       time: Date.now()})

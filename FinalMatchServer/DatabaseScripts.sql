@@ -1,46 +1,18 @@
 USE FinalMatch;
 DROP TABLE Customer;
 
-DROP FUNCTION IF EXISTS checkTokenCustomer;
---Trigger - procedures
-delimiter //
-CREATE FUNCTION checkTokenCustomer(tokenKey VARCHAR(500), customerId VARCHAR(400)) RETURNS BOOLEAN
-BEGIN
-    DECLARE numberOfCustomers INT DEFAULT 0;
-    SELECT COUNT(*) INTO numberOfCustomers FROM Customer WHERE Customer.tokenKey = tokenKey 
-                                                        AND Customer.customerId = customerId
-                                                        AND Customer.isActive = 1;    
-    IF numberOfCustomers > 0 THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END; //                           
-delimiter ;
-SELECT * from Customer WHERE customerId ='47c9165c5bfb03689260a8f230e45589';
-DELETE  from Customer WHERE customerId ='36d5261e4c40e81e6b44358724bbddc7'
+DESCRIBE Stadium;
+SELECT * FROM Stadium s 
 
-DROP PROCEDURE IF EXISTS getStadiumsAroundPoint;
---radius = meters
-CREATE PROCEDURE getStadiumsAroundPoint(latitude FLOAT, longitude FLOAT, radius FLOAT)
-SELECT
-  id as stadiumId,
-  type,
-  stadiumName,
-  X(point) AS "latitude",
-  Y(point) AS "longitude",
-  address,
-  phoneNumber,
-  (
-    GLength(
-      LineStringFromWKB(
-        LineString(
-          point, 
-          POINT(lat, lon)
-        )
-      )
-    )
-  ) * 100000
-  AS distance
-FROM Stadium 
-HAVING distance <= radius + radius;
+DELETE FROM Stadium WHERE stadiumName LIKE 'Fake%';
+INSERT INTO Stadium(type, stadiumName, point, address, phoneNumber, supplierId )
+VALUES(1,"Fake1",POINT(20.992832, 105.805872), "Giay Thuong Dinh", "1122", 11),
+(0,"Fake2",POINT(20.993029, 105.807216), "Ngan hang A Chau", "2233", 11),
+(0,"Fake3",POINT(20.993095, 105.804943), "Nha Nghi Hai Van", "33333", 11),
+(1,"Fake4",POINT(20.994061, 105.801735), "Vit Co VAn Dinh", "4444", 11),
+(0,"Fake5",POINT(21.037734, 105.834215), "Lang bac", "5555", 11);
+--viwuasin
+CALL getStadiumsAroundPoint(20.998880, 105.795195, 8);
+
+
+
