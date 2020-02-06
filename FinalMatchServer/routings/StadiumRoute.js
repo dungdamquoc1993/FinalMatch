@@ -99,6 +99,7 @@ router.post('/getStadiumsAroundPoint', async (req, res) => {
                     //       distance} 
                     res.json({
                       result: "ok", 
+                      count: results == null ? 0: results.length,
                       data: results,
                       message: 'Query Stadiums successfully',
                       time: Date.now()})
