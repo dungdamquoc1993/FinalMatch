@@ -1,4 +1,6 @@
-import {urlGetAddressFromLatLong, urlGetLatLongFromAddress} from './urlNames'
+import {    
+    urlGetAddressFromLatLong, 
+    urlGetLatLongFromAddress} from './urlNames'
 import {
     PermissionsAndroid,
     ToastAndroid,
