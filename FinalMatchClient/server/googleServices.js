@@ -38,8 +38,7 @@ export const getLatLongFromAddress = async (address) => {
     try {                
         const response = await fetch(urlGetLatLongFromAddress(address))
         const resJson = await response.json();
-        const { result, data, message, time } = resJson    
-        debugger
+        const { result, data, message, time } = resJson            
         if (result.toUpperCase() === "OK") {            
             if (data.results.length > 0) {                
                 if(data.results[0].geometry){
@@ -47,16 +46,16 @@ export const getLatLongFromAddress = async (address) => {
                         const location = data.results[0].geometry
                         return { latitude: location.lat, longitude: location.lng }
                     }                    
-                    return { latitude: '0', longitude: '0' }
+                    return { latitude: 0, longitude: 0 }
                 }                 
-                return { latitude: '0', longitude: '0' }
+                return { latitude: 0, longitude: 0 }
             }
-            return { latitude: '0', longitude: '0' }
+            return { latitude: 0, longitude: 0 }
         } 
-        return { latitude: '0', longitude: '0' }                  
+        return { latitude: 0, longitude: 0 }                  
     } catch (error) {        
         console.error(`Cannot get Address From Lat Long. Error: ${error}`)
-        return { latitude: '0', longitude: '0' }
+        return { latitude: 0, longitude: 0 }
     }
 }
 export const checkLocationPermission = async () => {

@@ -7,7 +7,8 @@ import {
     urlLoginFacebookCustomer,    
     urlTokenCheckCustomer,
     urlUpdateCustomerInformation, 
-    urlGetCustomerInformation
+    urlGetCustomerInformation,
+    urlGetStadiumsAroundPoint
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -149,6 +150,21 @@ export const getCustomerInformation = async (customerId) => {
         
     } catch (error) {               
         
+        return { data, message: error}
+    }
+}
+export const getStadiumsAroundPoint = async (latitude, longitude) => {
+    try {               
+             
+        const response = await fetch(await urlGetStadiumsAroundPoint())               
+        const responseJson = await response.json();                        
+        const {result, count, data, message} = responseJson                                                           
+        if (result.toUpperCase() === "OK") {                             
+            return { data, message, error: null}
+        } else {    
+            return { data, message, error: message}
+        }        
+    } catch (error) {                       
         return { data, message: error}
     }
 }
