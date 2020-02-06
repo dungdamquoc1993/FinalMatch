@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const {checkToken} = require('./helpers')
+const {checkToken, checkTokenCustomer} = require('./helpers')
 const {connection} = require('../database/database')
 
 const POST_INSERT_STADIUM = "CALL insertStadium(?, ?, ?, ?, ?, ?, ?)"                                    
@@ -58,9 +58,10 @@ router.post('/insertStadium', async (req, res) => {
   })    
 })
 router.post('/getStadiumsAroundPoint', async (req, res) => {  
-  const {tokenkey, supplierid} = req.headers
+  const {tokenkey, customerid} = req.headers
   
-  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
+  const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)  
+debugger
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
@@ -99,7 +100,7 @@ router.post('/getStadiumsAroundPoint', async (req, res) => {
                     //       distance} 
                     res.json({
                       result: "ok", 
-                      data: results,
+                      data: results[0],
                       message: 'Query Stadiums successfully',
                       time: Date.now()})
                 }                
