@@ -140,7 +140,6 @@ class Item extends Component {
           <View style={styles.ViewNamedetailArbitration}>
             <Text style={styles.textLable}>Giá: </Text>
             <Text style={styles.textLable}>{price}</Text>
-            <Text >{id}</Text>
           </View>
         </View>
   

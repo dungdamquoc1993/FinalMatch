@@ -106,7 +106,7 @@ export default class Stadium extends Component {
           <Text>xx {address}</Text>
           <View style={styles.FeeAndFree}>
             <TouchableOpacity
-              onPress={() => this.setState ({isFee: !this.state.isFee})}
+              onPress={() => this.setState ({isFee: !this.state.isFee,isFree:false})}
             >
               <Text
                 style={{
@@ -126,7 +126,7 @@ export default class Stadium extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.setState ({isFree: !this.state.isFree})}
+              onPress={() => this.setState ({isFree: !this.state.isFree,isFee:false})}
             >
               <Text
                 style={{
