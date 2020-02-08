@@ -95,6 +95,7 @@ export default class OrderReferee extends MultiLanguageComponent {
           <TextInput
             style={styles.textInput}
             value={phoneNumber}
+            keyboardType={'phone-pad'}
             onChangeText={(phoneNumber) => {
               this.setState({phoneNumber})
             }}

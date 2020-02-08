@@ -114,6 +114,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           <View style={styles.personalInformation}>
             <TextInput
               style={styles.textInput}
+              keyboardType={'phone-pad'}
               value={phoneNumber}
               onChangeText={phoneNumber => {
                 this.setState ({phoneNumber});
