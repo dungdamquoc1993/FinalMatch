@@ -22,16 +22,36 @@ export default class Stadium extends Component {
     headerShown: false,
   };
   state = {
-    isFree: false,
-    isFee: false,
+    isFree: false,    
     currentLocation: {
       address: '',
       district: '',
       province: '',
       latitude: 0.0,
       longitude: 0.0,
+      radius: 10,    
     },
-  };
+    stadiums: []
+  }
+  getStadiumList = async () => {
+    try {
+      const {isFree} = this.state
+      const { latitude = 0, longitude = 0, radius} = this.state.currentLocation
+      const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, radius)
+      if(error) {
+        alert("Cannot set stadium list. Error: "+error.toString())
+      } else {
+        let newStadiums = data
+        newStadiums = newStadiums.filter(stadium => {
+          return stadium.type == isFree === true ? 0 : 1
+        })
+        this.setState({stadiums: newStadiums})
+      }
+    } catch (error) {
+      alert("Cannot set stadium list. Error: "+error.toString())
+    }
+  }
+
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission ();
     debugger;
@@ -47,10 +67,10 @@ export default class Stadium extends Component {
             district = '',
             province = '',
           } = await getAddressFromLatLong (latitude, longitude);
-          debugger;
           this.setState ({
             currentLocation: {address, district, province, latitude, longitude},
           });
+          await this.getStadiumList()          
         },
         error => {
           console.log (error.code, error.message);
@@ -171,76 +191,29 @@ export default class Stadium extends Component {
               />
             </TouchableOpacity>
           </View>
-          {isFree == true || isFee == true
-            ? <View style={styles.viewInformationStadium}>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Tên sân:</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi  :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT      :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-              </View>
-            : <View />}
-          {isFree == true || isFee == true
-            ? <View style={styles.viewInformationStadium}>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Tên sân:</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi  :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT      :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-              </View>
-            : <View />}
-          {isFree == true || isFee == true
-            ? <View style={styles.viewInformationStadium}>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Tên sân:</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi  :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT      :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-              </View>
-            : <View />}
-          {isFree == true || isFee == true
-            ? <View style={styles.viewInformationStadium}>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Tên sân:</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>Dia chi  :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-                <View style={styles.viewDetailStadium}>
-                  <Text style={styles.textDifine}>SĐT      :</Text>
-                  <Text style={styles.textInformation}>san bong hang day</Text>
-                </View>
-              </View>
-            : <View />}
+          <FlatList data = {stadiums}
+              renderItem={({item, index, separators}) => <StadiumItem />}
+          >
+          </FlatList> 
 
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
+const StadiumItem = ({props}) => {
+  const {stadiumId, stadiumName, address, phoneNumber, distance} = props
+  return <TouchableHighlight>
+    <View>
+      <Text>{stadiumName}</Text>
+      <Text>{address}</Text>
+      <Text>{phoneNumber}</Text>
+      <Text>{distance}</Text>
+    </View>
+  </TouchableHighlight>
+}
+
+
 const styles = StyleSheet.create ({
   container: {
     flex: 1,
