@@ -10,6 +10,7 @@ import {
   Platform,
   TextInput,
   FlatList,
+  TouchableOpacity,
 } from 'react-native'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Header from './Header'
@@ -39,8 +40,7 @@ export default class Stadium extends Component {
   getStadiumList = async () => {
     try {
       const {isFree} = this.state      
-      const { latitude = 0, longitude = 0, radius} = this.state.currentLocation
-      debugger
+      const { latitude = 0, longitude = 0, radius} = this.state.currentLocation      
       const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, radius)
       if(error) {
         alert("Cannot get stadium list. Error: "+error.toString())
@@ -53,8 +53,8 @@ export default class Stadium extends Component {
     }
   }
   filterStadiums = () => {
-    const {stadiums} = this.state   
-    this.setState({filterStadiums: stadiums.filter(stadium => {
+    const {stadiums, isFree} = this.state   
+    this.setState({filteredStadiums: stadiums.filter(stadium => {
       return stadium.type == (isFree === true) ? 0 : 1
     })})
   }
@@ -65,7 +65,7 @@ export default class Stadium extends Component {
       Geolocation.getCurrentPosition (
         async position => {
           const {latitude, longitude} = position.coords
-          debugger
+          
           const {
             address = '',
             district = '',
@@ -81,7 +81,7 @@ export default class Stadium extends Component {
               radius: this.state.currentLocation.radius
             },
           })
-          debugger
+          
           await this.getStadiumList()          
         },
         error => {
@@ -166,7 +166,7 @@ export default class Stadium extends Component {
             <TouchableOpacity
               onPress={() => {
                 this.setState ({isFree: false})
-                this.getStadiumList()
+                this.filterStadiums()
               }}
             >              
               <Text
@@ -189,7 +189,7 @@ export default class Stadium extends Component {
             <TouchableOpacity
               onPress={() => {
                 this.setState ({isFree: true})
-                this.getStadiumList()
+                this.filterStadiums()
               }}                
             >
               <Text
@@ -212,7 +212,7 @@ export default class Stadium extends Component {
           </View>
           <FlatList data = {filteredStadiums}
               keyExtractor = {(index) => `${index}`}
-              renderItem={({item, index, separators}) => <StadiumItem />}
+              renderItem={({item, index, separators}) => <StadiumItem {...item}/>}
           >
           </FlatList> 
 
@@ -221,7 +221,7 @@ export default class Stadium extends Component {
     )
   }
 }
-const StadiumItem = ({props}) => {
+const StadiumItem = (props) => {  
   const {stadiumId, stadiumName, address, phoneNumber, distance} = props
   return <TouchableHighlight>
     <View>
@@ -232,7 +232,6 @@ const StadiumItem = ({props}) => {
     </View>
   </TouchableHighlight>
 }
-
 
 const styles = StyleSheet.create ({
   container: {

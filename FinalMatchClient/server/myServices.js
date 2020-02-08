@@ -24,7 +24,7 @@ export const registerCustomer = async (name, email, password) => {
             },
             body: JSON.stringify({ name, email, password }),
         })        
-        const responseJson = await response.json();
+        const responseJson = await response.json()
         const { result, data, message } = responseJson        
         const { customerId, tokenKey } = data
         if (result.toUpperCase() === "OK") {
@@ -47,7 +47,7 @@ export const loginCustomer = async (email, password) => {
             },
             body: JSON.stringify({ email, password }),
         })
-        const responseJson = await response.json();
+        const responseJson = await response.json()
         const { result, data, message } = responseJson
         const { customerId, tokenKey } = data
 
@@ -70,7 +70,7 @@ export const loginFacebookCustomer = async (name, email, facebookId, avatar) => 
             },
             body: JSON.stringify({ name, email, facebookId, avatar }),
         })
-        const responseJson = await response.json();
+        const responseJson = await response.json()
         const { result, data, message } = responseJson
         const { customerId, tokenKey } = data
         if (result.toUpperCase() === "OK") {
@@ -117,7 +117,7 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
             body: JSON.stringify({ name, phoneNumber }),
         })        
         
-        const responseJson = await response.json();
+        const responseJson = await response.json()
         
         const { result,message } = responseJson                
         
@@ -138,7 +138,7 @@ export const getCustomerInformation = async (customerId) => {
     try {               
              
         const response = await fetch(await urlGetCustomerInformation(customerId))               
-        const responseJson = await response.json();                
+        const responseJson = await response.json()                
         
         const {result, data, message, time} = responseJson                                           
         
@@ -167,8 +167,8 @@ export const getStadiumsAroundPoint = async (latitude, longitude, radius) => {
             body: JSON.stringify({ latitude, longitude,radius }),
         })        
         
-        const responseJson = await response.json();
-        debugger
+        const responseJson = await response.json()
+        
         const {result, count, data, message} = responseJson 
                                                              
         if (result.toUpperCase() === "OK") {                             
