@@ -28,7 +28,7 @@ router.get('/getAddressFromLatLong', async (req, res) => {
             
             res.json({
                 result: "ok",
-                data,
+                data: JSON.parse(data),
                 message: "Get address successfully",
                 time: Date.now()
             })    

@@ -136,7 +136,8 @@ SELECT
   ) * 100
   AS distance
 FROM Stadium 
-HAVING distance <= radius;
+HAVING distance <= radius
+ORDER BY distance ASC;
 
 DELIMITER ;
 

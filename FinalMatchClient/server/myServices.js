@@ -153,19 +153,32 @@ export const getCustomerInformation = async (customerId) => {
         return { data, message: error}
     }
 }
-export const getStadiumsAroundPoint = async (latitude, longitude) => {
-    try {               
-             
-        const response = await fetch(await urlGetStadiumsAroundPoint())               
-        const responseJson = await response.json();                        
-        const {result, count, data, message} = responseJson                                                           
+export const getStadiumsAroundPoint = async (latitude, longitude, radius) => {
+    try {        
+           
+        const {tokenKey, customerId} = await getCustomerFromStorage()            
+        const response = await fetch(await urlGetStadiumsAroundPoint(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId
+            },
+            body: JSON.stringify({ latitude, longitude,radius }),
+        })        
+        
+        const responseJson = await response.json();
+        debugger
+        const {result, count, data, message} = responseJson 
+                                                             
         if (result.toUpperCase() === "OK") {                             
             return { data, message, error: null}
         } else {    
             return { data, message, error: message}
         }        
-    } catch (error) {                       
-        return { data, message: error}
+    } catch (error) {   
+                        
+        return { data, message: error, error}
     }
 }
 

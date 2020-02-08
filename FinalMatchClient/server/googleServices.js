@@ -9,13 +9,13 @@ import {
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    
-            
+             
         const response = await fetch(urlGetAddressFromLatLong(latitude, longitude))
         const resJson = await response.json();
         const { result, data, message, time } = resJson    
-        debugger
+         
         if (result.toUpperCase() === "OK") {
-            debugger
+             
             if (data.results.length > 0) {
                 let result2 = data.results[0]
                 const address = result2["address_components"][0]["long_name"]
@@ -27,9 +27,9 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
         } else {
             return { address: '', district: '', province:''}
         }           
-        debugger             
+                     
     } catch (error) {
-        debugger
+        
         console.error(`Cannot get Address From Lat Long. Error: ${error}`)
         return { address: '', district: '', province:''}
     }
@@ -37,8 +37,9 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
 export const getLatLongFromAddress = async (address) => {
     try {                
         const response = await fetch(urlGetLatLongFromAddress(address))
-        const resJson = await response.json();
-        const { result, data, message, time } = resJson            
+        const resJson = await response.json()
+        
+        const { result, data, message, time } = resJson                   
         if (result.toUpperCase() === "OK") {            
             if (data.results.length > 0) {                
                 if(data.results[0].geometry){
@@ -54,7 +55,7 @@ export const getLatLongFromAddress = async (address) => {
         } 
         return { latitude: 0, longitude: 0 }                  
     } catch (error) {        
-        console.error(`Cannot get Address From Lat Long. Error: ${error}`)
+        console.error(`Cannot get Lat Long From Address. Error: ${error}`)
         return { latitude: 0, longitude: 0 }
     }
 }
