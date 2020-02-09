@@ -38,12 +38,12 @@ export const getLatLongFromAddress = async (address) => {
     try {                
         const response = await fetch(urlGetLatLongFromAddress(address))
         const resJson = await response.json()
-        
+        debugger
         const { result, data, message, time } = resJson                   
         if (result.toUpperCase() === "OK") {            
             if (data.results.length > 0) {                
                 if(data.results[0].geometry){
-                    if(data.results[0].geometry.location) {
+                    if(data.results[0].geometry.location) {                                
                         const location = data.results[0].geometry
                         return { latitude: location.lat, longitude: location.lng }
                     }                    

@@ -28,7 +28,9 @@ export const getCustomerFromStorage = async () => {
     return {tokenKey, customerId, email}
 }
 
-
+export const isIOS = () => {
+    return Platform.OS === "ios"
+}
 
 
 

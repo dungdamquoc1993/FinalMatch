@@ -7,10 +7,12 @@ const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 const urlGetAddressFromLatLong = (latitude, longitude) => {    
     return `https://maps.googleapis.com/maps/api/geocode/json?address=${latitude},${longitude}&key=${GoogleAPIKey}`
 }
-/*
-const urlGetLatLongFromAddress = (address) => {    
-    return `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GoogleAPIKey}`
-}*/
+//https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Thanh Xuan&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+//https://maps.googleapis.com/maps/api/place/textsearch/json?query=xuan&&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
+
+const urlGetPlacesFromAddress = (address) => {        
+    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
+}
 const urlGetLatLongFromAddress = () => {    
     return `https://maps.googleapis.com/maps/api/geocode/json`
 }
@@ -75,6 +77,43 @@ router.get('/getLatLongFromAddress', async (req, res) => {
                     result: "ok",
                     data: JSON.parse(data.body),
                     message: "Get lat/long successfully",
+                    time: Date.now()
+                })    
+            }     
+    })    
+})
+router.get('/getPlacesFromAddress', async (req, res) => {    
+    const { address = '' } = req.query    
+    const option = {
+        uri: urlGetPlacesFromAddress,
+	    //qs: query string
+        qs: {
+            address, key: GoogleAPIKey
+        }
+    }
+    request(
+        option, (error, data, body) => {           		
+            if(error) {
+                res.json({
+                    result: "failed",
+                    data: {},
+                    message: `Cannot get Places from address: ${error}`,
+                    time: Date.now()
+                })
+                return
+            }
+            if(data.error_message && data.error_message.length > 0){
+                res.json({
+                    result: "failed",
+                    data: {},
+                    message: "Get Places failed: "+  data.error_message,
+                    time: Date.now()
+                })    
+            } else {
+                res.json({
+                    result: "ok",
+                    data: JSON.parse(data.body),
+                    message: "Get Places successfully",
                     time: Date.now()
                 })    
             }     
