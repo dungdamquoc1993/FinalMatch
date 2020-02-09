@@ -120,9 +120,7 @@ export default class Stadium extends Component {
                 paddingStart: '20%',
                 paddingEnd: '2%',
                 fontSize: 17,
-                fontFamily: Platform.OS === 'ios'
-                  ? 'arial'
-                  : 'JosefinSans-Italic',
+                
               }}
               onPress={async () => {
                 await this._pressLocation ()
@@ -274,13 +272,13 @@ const styles = StyleSheet.create ({
   },
   textDifine: {
     width: '50%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     fontSize: 17,
     paddingStart: '15%',
   },
   textInformation: {
     width: '50%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     fontSize: 17,
     paddingEnd: '5%',
   },
@@ -304,6 +302,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
 })

@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     paddingTop: 13,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   viewInput: {
     flexDirection: 'column',
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 18,
     paddingStart: 15,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   loginButton: {
     height: 50,
@@ -239,17 +239,11 @@ const styles = StyleSheet.create({
   },
   textLoginFaceBook:{
     fontSize: 18,
-    color: 'white',
-    fontFamily: Platform.OS === 'ios'
-      ? 'arial'
-      : 'JosefinSans-Italic',
+    color: 'white',    
   },
   textLogin:{
     textAlign: 'center',
     color: 'white',
-    fontSize: 20,
-    fontFamily: Platform.OS === 'ios'
-      ? 'arial'
-      : 'JosefinSans-Bold',
+    fontSize: 20,    
   }
 })

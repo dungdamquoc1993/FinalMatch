@@ -46,10 +46,7 @@ export default class SearchPlace extends MultiLanguageComponent {
               height: 50,
               fontSize: 17,
               lineHeight: 0,
-              paddingStart: 15,
-              fontFamily: Platform.OS === 'ios'
-                ? 'arial'
-                : 'JosefinSans-Italic',
+              paddingStart: 15,              
             }}
             value = {typedAddress}
             onChangeText = {(typedAddress) => {
@@ -98,10 +95,7 @@ class Item extends Component {
         <TouchableOpacity style={{ width: '85%', height: '100%' }}>
           <Text style={{
             fontSize: 17,
-            lineHeight: 60,
-            fontFamily: Platform.OS === 'ios'
-              ? 'arial'
-              : 'JosefinSans-Italic',
+            lineHeight: 60,            
           }}>{stadiumAddress}</Text>
         </TouchableOpacity>
       </View>

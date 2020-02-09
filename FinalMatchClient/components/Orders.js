@@ -165,7 +165,7 @@ const styles = StyleSheet.create ({
   },
   textLabel: {
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   btnOrder: {
     width: 90,
@@ -187,6 +187,6 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   }
 });

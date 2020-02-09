@@ -378,7 +378,7 @@ export default class Settings extends Component {
                 style={styles.buttonGetLocation}
               >
                 {(address.length > 0 || district.length > 0 || province.length > 0) &&
-                  <Text style={{ marginRight: 7, fontSize: 17,fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic' }}>{address} - {district} - {province}</Text>}
+                  <Text style={{ marginRight: 7, fontSize: 17, }}>{address} - {district} - {province}</Text>}
                 <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
               </TouchableOpacity>
 
@@ -473,7 +473,7 @@ export default class Settings extends Component {
               <Text style={styles.textRole}>Số trận</Text>
               <Text style={styles.textInputRole}> 0</Text>
             </View>
-            <Text style={{ marginBottom: 5, fontSize: 20 ,fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>Position</Text>
+            <Text style={{ marginBottom: 5, fontSize: 20 }}>Position</Text>
             <View style={styles.positions}>
               <TouchableOpacity
                 style={styles.eachPosition}
@@ -481,7 +481,7 @@ export default class Settings extends Component {
                   this.setState({ isGK: !this.state.isGK });
                 }}
               >
-                <Text style={{fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>GK</Text>
+                <Text style={{}}>GK</Text>
                 <FontAwesome5
                   name={isGK == true ? 'check-square' : 'square'}
                   size={35}
@@ -494,7 +494,7 @@ export default class Settings extends Component {
                   this.setState({ isCB: !this.state.isCB });
                 }}
               >
-                <Text style={{fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>CB</Text>
+                <Text>CB</Text>
                 <FontAwesome5
                   name={isCB == true ? 'check-square' : 'square'}
                   size={35}
@@ -507,7 +507,7 @@ export default class Settings extends Component {
                   this.setState({ isMF: !this.state.isMF });
                 }}
               >
-                <Text style={{fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>MF</Text>
+                <Text style={{}}>MF</Text>
                 <FontAwesome5
                   name={isMF == true ? 'check-square' : 'square'}
                   size={35}
@@ -520,7 +520,7 @@ export default class Settings extends Component {
                   this.setState({ isCF: !this.state.isCF });
                 }}
               >
-                <Text style={{fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'}}>CF</Text>
+                <Text style={{}}>CF</Text>
                 <FontAwesome5
                   name={isCF == true ? 'check-square' : 'square'}
                   size={35}
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
     lineHeight: 45,
     paddingStart: 30,
     fontSize: 20,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
 
   textInput: {
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: 'black',
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   radius: {
     flexDirection: 'row',
@@ -655,7 +655,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width:'60%',
     paddingStart:10,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   radiusInput: {
     height: 45,
@@ -666,14 +666,14 @@ const styles = StyleSheet.create({
     color: 'black',
     width: '30%',
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   age: {
     width: '30%',
     height: 60,
     lineHeight: 60,
     textAlign:'center',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   textInputRole: {
     width: '50%',
@@ -685,7 +685,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     color: 'black',
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   textRole: {
     width: '50%',
@@ -693,14 +693,14 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     paddingStart: 30,
     fontSize: 20,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   positions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 60,
     width: '100%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic'
+    
   },
   eachPosition: {
     flexDirection: 'column',

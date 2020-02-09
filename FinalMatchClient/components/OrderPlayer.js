@@ -127,10 +127,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               style={{
                 height: 40,
                 lineHeight: 40,
-                fontSize: 20,
-                fontFamily: Platform.OS === 'ios'
-                  ? 'arial'
-                  : 'JosefinSans-Italic',
+                fontSize: 20,                
               }}
             >
               Cầu thủ của bạn:
@@ -206,10 +203,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             >
               <Text
                 style={{
-                  fontSize: 17,
-                  fontFamily: Platform.OS === 'ios'
-                    ? 'arial'
-                    : 'JosefinSans-Italic',
+                  fontSize: 17,                  
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
@@ -269,7 +263,7 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   positions: {
     flexDirection: 'row',
@@ -290,7 +284,7 @@ const styles = StyleSheet.create ({
     height: 40,
     lineHeight: 40,
     paddingStart: 40,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   buttonSubmit: {
     height: 50,
@@ -309,10 +303,10 @@ const styles = StyleSheet.create ({
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
+    
   },
   textPosition: {
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     fontSize: 17,
   },
 });
