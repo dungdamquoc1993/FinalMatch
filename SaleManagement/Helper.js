@@ -6,7 +6,7 @@ function getSheetFromFile(fileURL, sheetName) {
     return sheet;
 }
 function getSheetDataFromFile(fileURL, sheetName) {
-    var sheet = getSheetDataFromFile(fileURL, sheetName);
+    var sheet = getSheetFromFile(fileURL, sheetName);
     var data = sheet.getDataRange().getValues();
     return data
 }
