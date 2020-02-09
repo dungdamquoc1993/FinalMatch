@@ -6,3 +6,6 @@ export const validatePasword = (password) => {
     return password.length > 1
 }
 
+export const validateLocation = (latitude, longitude) => {    
+    return Math.abs(latitude) > 0 || Math.abs(longitude) > 0
+}
