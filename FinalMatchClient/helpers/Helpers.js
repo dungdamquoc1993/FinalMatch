@@ -28,7 +28,9 @@ export const getCustomerFromStorage = async () => {
     return {tokenKey, customerId, email}
 }
 
-
+export const getFontJosefinSans = () => {
+    return Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic';            
+}
 
 
 
