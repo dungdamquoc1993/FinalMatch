@@ -17,43 +17,44 @@ import {getStadiumsAroundPoint} from '../server/myServices'
 
 export default class SearchPlace extends MultiLanguageComponent {
   state = {
-    typedAddress: 'Haha',    
+    typedAddress: '',    
     radius: 8,//8km
     stadiums: []
   }
-  searchPlace = async () => {
+  getStadiumList = async () => {
     try {
       const {typedAddress} = this.state
       const { latitude = 0, longitude = 0} = await getLatLongFromAddress(typedAddress)
-      console.log(`${latitude} - ${longitude}`)
+      const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, radius)
+      if(error) {
+        alert("Cannot set stadium list. Error: "+error.toString())
+      } else {
+        this.setState({stadiums: data})
+      }
     } catch (error) {
-      alert("Cannot get . Error: "+error.toString())
+      alert("Cannot set stadium list. Error: "+error.toString())
     }
-    
   }
-  
   render() {
     const { typedAddress, radius, stadiums } = this.state
     return (
-      <View style={styles.container}>        
+      <View style={styles.container}>
         <View style={styles.personalInformation}>
           <TextInput
-            value = {"hahaha"}
             style={{
               width: '85%',
-              height: 50,              
-              fontSize: 17,              
-              lineHeight: Platform.OS === 'ios' ? 0 : undefined,
+              height: 50,
+              fontSize: 17,
+              lineHeight: 0,
               paddingStart: 15,
               fontFamily: Platform.OS === 'ios'
                 ? 'arial'
                 : 'JosefinSans-Italic',
             }}
-            
-            // onChangeText = {(typedAddress) => {
-            //   debugger
-            //   this.setState({typedAddress})
-            // }}
+            value = {typedAddress}
+            onChangeText = {(typedAddress) => {
+              this.setState({typedAddress})
+            }}
             placeholder="Địa điểm thi đấu"
           />
           <TouchableOpacity
@@ -65,7 +66,7 @@ export default class SearchPlace extends MultiLanguageComponent {
               paddingEnd: 20,
             }}
             onPress={() => {
-              this.searchPlace()
+              
             }}
           >
             <Image
@@ -118,11 +119,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     width: '90%',
-    borderColor: '#a9a9a9', 
+    borderColor: '#a9a9a9',
     borderWidth: 1,
     height: 50,
     backgroundColor: '#f5f5f5',
-    borderRadius: 25,    
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     marginVertical: 50,
   },
   ViewAllInformation: {
