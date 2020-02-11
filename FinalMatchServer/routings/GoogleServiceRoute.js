@@ -10,9 +10,6 @@ const urlGetAddressFromLatLong = (latitude, longitude) => {
 //https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Thanh Xuan&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 //https://maps.googleapis.com/maps/api/place/textsearch/json?query=xuan&&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
-const urlGetPlacesFromAddress = (address) => {        
-    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
-}
 const urlGetLatLongFromAddress = () => {    
     return `https://maps.googleapis.com/maps/api/geocode/json`
 }
@@ -82,6 +79,7 @@ router.get('/getLatLongFromAddress', async (req, res) => {
             }     
     })    
 })
+/*
 router.get('/getPlacesFromAddress', async (req, res) => {    
     const { address = '' } = req.query    
     const option = {
@@ -132,5 +130,5 @@ router.get('/getPlacesFromAddress', async (req, res) => {
             }     
     })    
 })
-
+*/
 module.exports = router

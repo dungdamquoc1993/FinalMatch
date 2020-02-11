@@ -38,7 +38,7 @@ export const registerCustomer = async (name, email, password) => {
     }
 }
 export const loginCustomer = async (email, password) => {
-    try {
+    try {        
         const response = await fetch(await urlLoginCustomer(), {
             method: 'POST',
             headers: {
@@ -46,7 +46,7 @@ export const loginCustomer = async (email, password) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password }),
-        })
+        })        
         const responseJson = await response.json()
         const { result, data, message } = responseJson
         const { customerId, tokenKey } = data

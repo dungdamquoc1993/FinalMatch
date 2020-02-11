@@ -30,6 +30,10 @@ export const urlGetAddressFromLatLong = (latitude, longitude) => {
 export const urlGetLatLongFromAddress = (address) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getLatLongFromAddress?address=${address}`
 }
+
 export const urlGetStadiumsAroundPoint = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/getStadiumsAroundPoint`
+}
+export const urlGetPlacesFromAddress = (address) => {        
+    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
 }

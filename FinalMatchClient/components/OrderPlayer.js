@@ -17,6 +17,7 @@ import {
   getCustomerInformation,
   updateCustomerInformation,
 } from '../server/myServices';
+import {getPlacesFromAddress} from '../server/googleServices'
 import {getCustomerFromStorage} from '../helpers/Helpers';
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
@@ -44,6 +45,10 @@ export default class OrderPlayer extends MultiLanguageComponent {
         gmt: 7,
       },
     };
+  }
+  async componentDidMount() {
+    //test function
+    await getPlacesFromAddress('Thanh');
   }
   reloadDataFromServer = async () => {
     const {customerId, email} = await getCustomerFromStorage ();
