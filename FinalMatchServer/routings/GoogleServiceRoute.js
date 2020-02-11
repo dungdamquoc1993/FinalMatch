@@ -72,7 +72,7 @@ router.get('/getLatLongFromAddress', async (req, res) => {
                     message: "Get lat/long failed: "+  data.error_message,
                     time: Date.now()
                 })    
-            } else {
+            } else {                
                 res.json({
                     result: "ok",
                     data: JSON.parse(data.body),
@@ -109,10 +109,23 @@ router.get('/getPlacesFromAddress', async (req, res) => {
                     message: "Get Places failed: "+  data.error_message,
                     time: Date.now()
                 })    
-            } else {
+            } else {                
+                let { results } = JSON.parse(data.body)
+                let places = results.map(place => {
+                    let formattedAddress = place["formatted_address"];
+                    let latitude = 0.0
+                    let longitude = 0.0
+                    if (place.geometry && place.geometry.location) {
+                        latitude = place.geometry.lat
+                        longitude = place.geometry.lng
+                    }
+                    let name = place["name"] ? place["name"] : ""
+                    let placeId = place["place_id"]
+                    return { formattedAddress, latitude, longitude, name, placeId }
+                })
                 res.json({
                     result: "ok",
-                    data: JSON.parse(data.body),
+                    data: places,                    
                     message: "Get Places successfully",
                     time: Date.now()
                 })    
