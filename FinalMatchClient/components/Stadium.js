@@ -11,9 +11,15 @@ import {
   Platform,
   TextInput,
   FlatList
+<<<<<<< HEAD
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
+=======
+} from 'react-native'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Header from './Header'  
+>>>>>>> 1a66e8accb057221bdc91e6f7cbe37a98e09d26e
 import {
   getAddressFromLatLong,
   checkLocationPermission,

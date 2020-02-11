@@ -34,6 +34,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
   }  
   _loginOrRegister = async () => {
     try {
+      
       const {navigate} = this.props.navigation  
       const { name, email, password,retypePassword, isLogin} = await this.state      
       if (!validateEmail(email) || !validatePasword(password)) {
@@ -45,11 +46,10 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           alert(translate('Password and retype password does not match'))
           return
         }
-      }      
+      }            
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
                                                                   await registerCustomer(name, email, password)      
-      if (tokenKey.length > 0) {
-        
+      if (tokenKey.length > 0) {        
         await saveCustomerToStorage(tokenKey, customerId, email)
         navigate('Service') //success
       } else {

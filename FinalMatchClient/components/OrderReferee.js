@@ -24,6 +24,7 @@ export default class OrderReferee extends MultiLanguageComponent {
   }
   state = {
     name: '',
+    place: '',
     phoneNumber: '',    
     point: {
       latitude : 0, 
@@ -72,7 +73,7 @@ export default class OrderReferee extends MultiLanguageComponent {
   }
   render () {
     const {navigate} = this.props.navigation;
-    const {name, phoneNumber, point, matchTiming} = this.state    
+    const {name, phoneNumber, point, matchTiming, place} = this.state    
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -104,11 +105,29 @@ export default class OrderReferee extends MultiLanguageComponent {
         </View>
         <View style={{borderBottomWidth:1,backgroundColor:'#a9a9a9',width:'80%',marginVertical:25}} />
         <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInputPosition}
-            placeholder={'Địa điểm thi đấu'}
-          />
-        </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigate ('SearchPlace', {updatePlace: (place) => {                  
+                  this.setState({place})
+                }});
+              }}              
+              style={styles.textInput}
+            >
+              <Text
+                style={{
+                  fontSize: 17,                  
+                  height: 40,
+                  lineHeight: 50,
+                  paddingStart: 5,
+                  color: place.trim() === ''? '#a9a9a9' : 'black',
+                }}                
+              >
+                {place.trim() === ''? "Địa điểm thi đấu" : place}
+              </Text>
+            </TouchableOpacity>
+
+          </View>
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInputPosition}

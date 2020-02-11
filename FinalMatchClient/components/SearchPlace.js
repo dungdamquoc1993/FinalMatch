@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -7,33 +7,34 @@ import {
   Platform,
   Image,
   TouchableOpacity,
-  FlatList
-} from 'react-native';
-import Header from './Header';
-import {translate} from '../languages/languageConfigurations';
-import MultiLanguageComponent from './MultiLanguageComponent';
-import {getLatLongFromAddress} from '../server/googleServices'
-import {getStadiumsAroundPoint} from '../server/myServices'
+  FlatList,
+  Keyboard
+} from 'react-native'
+import Header from './Header'
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
+import {getLatLongFromAddress, getPlacesFromAddress} from '../server/googleServices'
 import {isIOS} from '../helpers/Helpers'
 
 export default class SearchPlace extends MultiLanguageComponent {
   state = {
     typedAddress: '',    
     radius: 8,//8km
-    stadiums: []
+    places: []
   }
   searchPlace = async () => {
     try {
       const {typedAddress} = this.state
-      const { latitude = 0, longitude = 0} = await getLatLongFromAddress(typedAddress)
-      console.log(`${latitude} - ${longitude}, ${typedAddress}`)
+      const places = await getPlacesFromAddress(typedAddress)     
+      this.setState({places})      
+      Keyboard.dismiss()
     } catch (error) {
-      alert("Cannot get . Error: "+error.toString())
-    }
-    
+      alert("Cannot get places. Error: "+error.toString())
+    }    
   }
   render() {
-    const { typedAddress, radius, stadiums } = this.state
+    const { typedAddress, places } = this.state    
+    const {updatePlace} = this.props.navigation.state.params    
     return (
       <View style={styles.container}>
         <View style={styles.personalInformation}>
@@ -49,6 +50,7 @@ export default class SearchPlace extends MultiLanguageComponent {
             onChangeText = {(typedAddress) => {
               this.setState({typedAddress})
             }}
+            onEndEditing = {this.searchPlace}
             placeholder="Địa điểm thi đấu"
           />
           <TouchableOpacity
@@ -74,9 +76,12 @@ export default class SearchPlace extends MultiLanguageComponent {
         </View>
         <FlatList
             width={'100%'}
-            data={stadiums}
+            data={places}
             renderItem={({ item }) => (
-              <Item {...item} />
+              <Item {...item} 
+                updatePlace = {updatePlace}
+                navigation = {this.props.navigation}
+                />
             )}
             keyExtractor={item => item.id}
           />
@@ -85,15 +90,22 @@ export default class SearchPlace extends MultiLanguageComponent {
   }
 }
 class Item extends Component {
-  render() {
-    const { stadiumAddress } = this.props
+  render() {    
+    const { formattedAddress, latitude, longitude, name, placeId } = this.props
+    const {updatePlace, navigation} = this.props    
     return (
       <View style={styles.ViewAllInformation}>
-        <TouchableOpacity style={{ width: '85%', height: '100%' }}>
+        <TouchableOpacity 
+          style={{ width: '85%', height: '100%' }}
+          onPress = {() => {
+            updatePlace(formattedAddress)
+            navigation.goBack()
+          }}
+          >
           <Text style={{
             fontSize: 17,
-            lineHeight: 60,            
-          }}>{stadiumAddress}</Text>
+            paddingVertical: 5            
+          }}>{formattedAddress}</Text>
         </TouchableOpacity>
       </View>
     )
@@ -120,7 +132,6 @@ const styles = StyleSheet.create({
   },
   ViewAllInformation: {
     flexDirection: 'row',
-    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,

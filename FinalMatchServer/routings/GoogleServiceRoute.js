@@ -10,9 +10,6 @@ const urlGetAddressFromLatLong = (latitude, longitude) => {
 //https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Thanh Xuan&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 //https://maps.googleapis.com/maps/api/place/textsearch/json?query=xuan&&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
-const urlGetPlacesFromAddress = (address) => {        
-    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
-}
 const urlGetLatLongFromAddress = () => {    
     return `https://maps.googleapis.com/maps/api/geocode/json`
 }
@@ -72,7 +69,7 @@ router.get('/getLatLongFromAddress', async (req, res) => {
                     message: "Get lat/long failed: "+  data.error_message,
                     time: Date.now()
                 })    
-            } else {
+            } else {                
                 res.json({
                     result: "ok",
                     data: JSON.parse(data.body),
@@ -82,6 +79,7 @@ router.get('/getLatLongFromAddress', async (req, res) => {
             }     
     })    
 })
+/*
 router.get('/getPlacesFromAddress', async (req, res) => {    
     const { address = '' } = req.query    
     const option = {
@@ -109,15 +107,28 @@ router.get('/getPlacesFromAddress', async (req, res) => {
                     message: "Get Places failed: "+  data.error_message,
                     time: Date.now()
                 })    
-            } else {
+            } else {                
+                let { results } = JSON.parse(data.body)
+                let places = results.map(place => {
+                    let formattedAddress = place["formatted_address"];
+                    let latitude = 0.0
+                    let longitude = 0.0
+                    if (place.geometry && place.geometry.location) {
+                        latitude = place.geometry.lat
+                        longitude = place.geometry.lng
+                    }
+                    let name = place["name"] ? place["name"] : ""
+                    let placeId = place["place_id"]
+                    return { formattedAddress, latitude, longitude, name, placeId }
+                })
                 res.json({
                     result: "ok",
-                    data: JSON.parse(data.body),
+                    data: places,                    
                     message: "Get Places successfully",
                     time: Date.now()
                 })    
             }     
     })    
 })
-
+*/
 module.exports = router
