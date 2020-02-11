@@ -17,7 +17,6 @@ import {
   getCustomerInformation,
   updateCustomerInformation,
 } from '../server/myServices';
-import {getPlacesFromAddress} from '../server/googleServices'
 import {getCustomerFromStorage} from '../helpers/Helpers';
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
@@ -36,6 +35,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         latitude: 0,
         longitude: 0,
       },
+      place: '',
       matchTiming: {
         day: 0,
         month: 0,
@@ -47,8 +47,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
     };
   }
   async componentDidMount() {
-    //test function
-    await getPlacesFromAddress('Thanh');
+    //test function    
   }
   reloadDataFromServer = async () => {
     const {customerId, email} = await getCustomerFromStorage ();
@@ -89,7 +88,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
   };
   render () {
     const {navigate} = this.props.navigation;
-    const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state;
+    const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state;
     const {name, phoneNumber} = this.state;
     return (
       <SafeAreaView style={styles.container}>
@@ -201,7 +200,10 @@ export default class OrderPlayer extends MultiLanguageComponent {
 
             <TouchableOpacity
               onPress={() => {
-                navigate ('SearchPlace');
+                navigate ('SearchPlace', {updatePlace: (place) => {
+                  debugger
+                  this.setState({place})
+                }});
               }}
               placeholder={translate ('Stadium: ')}
               style={styles.textInput}
@@ -212,10 +214,10 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: '#a9a9a9',
-                }}
+                  color: place.trim() === ''? '#a9a9a9' : 'black',
+                }}                
               >
-                Địa điểm thi đấu
+                {place.trim() === ''? "Địa điểm thi đấu" : place}
               </Text>
             </TouchableOpacity>
 

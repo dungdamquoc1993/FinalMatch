@@ -34,7 +34,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
   }  
   _loginOrRegister = async () => {
     try {
-      debugger
+      
       const {navigate} = this.props.navigation  
       const { name, email, password,retypePassword, isLogin} = await this.state      
       if (!validateEmail(email) || !validatePasword(password)) {
