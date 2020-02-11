@@ -8,7 +8,8 @@ import {
   Image,
   ScrollView,
   Platform,
-  TextInput
+  TextInput,
+  FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
