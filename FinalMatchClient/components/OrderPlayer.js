@@ -201,7 +201,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               onPress={() => {
                 navigate ('SearchPlace', {updatePlace: (place) => {
-                  debugger
+                  
                   this.setState({place})
                 }});
               }}
