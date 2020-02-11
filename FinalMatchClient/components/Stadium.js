@@ -1,27 +1,37 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
+  TouchableHighlight,
   SafeAreaView,
   Image,
   ScrollView,
   Platform,
   TextInput,
+<<<<<<< HEAD
   FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
+=======
+  FlatList,  
+} from 'react-native'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Header from './Header'
+>>>>>>> bfcf422776c149ad21c3a6e31557ffcd0a962ee2
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
-import Geolocation from 'react-native-geolocation-service';
+} from '../server/googleServices'
+import {getStadiumsAroundPoint} from '../server/myServices'
+import Geolocation from 'react-native-geolocation-service'
+import {validateLocation} from '../Validations/Validation'
 export default class Stadium extends Component {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   state = {
     isFree: false,    
     currentLocation: {
@@ -30,71 +40,79 @@ export default class Stadium extends Component {
       province: '',
       latitude: 0.0,
       longitude: 0.0,
-      radius: 10,    
-    },
-    stadiums: []
+      radius: '10', //de number se rat nhieu bug khi go textinput   
+    },    
+    stadiums: [],//free + unfree
+    filteredStadiums: []
   }
   getStadiumList = async () => {
-    try {
-      const {isFree} = this.state
-      const { latitude = 0, longitude = 0, radius} = this.state.currentLocation
-      const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, radius)
+    try {      
+      const { latitude = 0, longitude = 0, radius} = this.state.currentLocation      
+      const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, parseFloat(radius))
       if(error) {
-        alert("Cannot set stadium list. Error: "+error.toString())
+        alert("Cannot get stadium list. Error: "+error.toString())
       } else {
-        let newStadiums = data
-        newStadiums = newStadiums.filter(stadium => {
-          return stadium.type == isFree === true ? 0 : 1
-        })
-        this.setState({stadiums: newStadiums})
+        this.setState({stadiums: data})
+        this.filterStadiums()
       }
     } catch (error) {
-      alert("Cannot set stadium list. Error: "+error.toString())
+      alert("Cannot get stadium list. Error: "+error.toString())
     }
   }
+  filterStadiums = () => {
+    const {stadiums, isFree} = this.state       
+    this.setState({filteredStadiums: stadiums.filter(stadium => {
+      return stadium.type == (isFree === true) ? 0 : 1
+    })})
+  }  
 
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission ();
-    debugger;
+    const hasLocationPermission = await checkLocationPermission ()    
     if (hasLocationPermission) {
-      debugger;
+      
       Geolocation.getCurrentPosition (
         async position => {
-          debugger;
-          const {latitude, longitude} = position.coords;
-          debugger;
+          const {latitude, longitude} = position.coords
+          
           const {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong (latitude, longitude);
+          } = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
-            currentLocation: {address, district, province, latitude, longitude},
-          });
+            currentLocation: {
+              address, 
+              district, 
+              province, 
+              latitude, 
+              longitude,
+              radius: this.state.currentLocation.radius
+            },
+          })
+          
           await this.getStadiumList()          
         },
         error => {
-          console.log (error.code, error.message);
+          console.log (error.code, error.message)
         },
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
-      );
+      )
     }
-  };
-  _checkStateIsFree = async () => {};
+  }
   render () {
-    const {isFee, isFree} = this.state;
-    const {currentLocation} = this.state;
-    const {address, district, province, latitude, longitude} = currentLocation;
+    const {isFree, filteredStadiums} = this.state    
+    const {currentLocation} = this.state
+    const {address, district, province, latitude, longitude, radius} = currentLocation
     return (
       <SafeAreaView style={styles.container}>
         <Header
           title="Đặt Trọng Tài"
           hideBack={true}
           pressBackButton={() => {
-            this.props.navigation.navigate ('Service');
+            this.props.navigation.navigate ('Service')
           }}
         />
-        <ScrollView width={'100%'}>
+        <View width={'100%'}>
           <View
             style={{
               height: 70,
@@ -109,16 +127,16 @@ export default class Stadium extends Component {
                 paddingStart: '20%',
                 paddingEnd: '2%',
                 fontSize: 17,
-                fontFamily: Platform.OS === 'ios'
-                  ? 'arial'
-                  : 'JosefinSans-Italic',
+                
               }}
-            >
+              onPress={async () => {
+                await this._pressLocation ()
+              }}>
               Lấy vị trí của bạn{' '}
             </Text>
             <TouchableOpacity
               onPress={async () => {
-                await this._pressLocation ();
+                await this._pressLocation ()
               }}
               style={{width: '30%', paddingEnd: '20%'}}
             >
@@ -133,10 +151,8 @@ export default class Stadium extends Component {
             style={{
               paddingHorizontal: 50,
               width: '70%',
-              fontSize: 17,
-              fontFamily: Platform.OS === 'ios'
-                ? 'arial'
-                : 'JosefinSans-Italic',
+              fontSize: 20,
+              fontFamily: 'arial'
             }}
           >
             {address}
@@ -144,15 +160,28 @@ export default class Stadium extends Component {
           <View style={styles.personalInformation}>
             <TextInput
               style={styles.textInput}
+              value={radius}
+              onChangeText = {(radius) => {                
+                this.setState({currentLocation: {...currentLocation, radius}})
+              }}
+              onEndEditing = {async () => {
+                if(validateLocation(latitude, longitude) == false){
+                  await this._pressLocation()                 
+                }
+                await this.getStadiumList()
+                await this.filterStadiums()
+              }}
               keyboardType={'numeric'}
               placeholder={'Enter radius: '}
             />
           </View>
           <View style={styles.FeeAndFree}>
             <TouchableOpacity
-              onPress={() =>
-                this.setState ({isFee: !this.state.isFee, isFree: false})}
-            >
+              onPress={async () => {                         
+                await this.setState ({isFree: false})
+                await this.filterStadiums()
+              }}
+            >              
               <Text
                 style={{
                   fontSize: 17,
@@ -164,15 +193,17 @@ export default class Stadium extends Component {
               >
                 Fee
               </Text>
-              <FontAwesome5
-                name={isFee == true ? 'check-square' : 'square'}
+              <FontAwesome5                
+                name={isFree == true ? 'square' : 'check-square'}
                 size={40}
                 color={'black'}
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                this.setState ({isFree: !this.state.isFree, isFee: false})}
+              onPress={async () => {                                
+                await this.setState ({isFree: true})
+                await this.filterStadiums()
+              }}                
             >
               <Text
                 style={{
@@ -185,24 +216,25 @@ export default class Stadium extends Component {
               >
                 Free
               </Text>
-              <FontAwesome5
+              <FontAwesome5                
                 name={isFree == true ? 'check-square' : 'square'}
                 size={40}
                 color={'black'}
               />
             </TouchableOpacity>
           </View>
-          <FlatList data = {stadiums}
-              renderItem={({item, index, separators}) => <StadiumItem />}
+          <FlatList data = {filteredStadiums}
+              keyExtractor={(item, index) => `${item.stadiumId}`}
+              renderItem={({item, index, separators}) => <StadiumItem {...item}/>}
           >
           </FlatList> 
 
-        </ScrollView>
+        </View>
       </SafeAreaView>
-    );
+    )
   }
 }
-const StadiumItem = ({props}) => {
+const StadiumItem = (props) => {  
   const {stadiumId, stadiumName, address, phoneNumber, distance} = props
   return <TouchableHighlight>
     <View>
@@ -213,7 +245,6 @@ const StadiumItem = ({props}) => {
     </View>
   </TouchableHighlight>
 }
-
 
 const styles = StyleSheet.create ({
   container: {
@@ -246,13 +277,13 @@ const styles = StyleSheet.create ({
   },
   textDifine: {
     width: '50%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     fontSize: 17,
     paddingStart: '15%',
   },
   textInformation: {
     width: '50%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     fontSize: 17,
     paddingEnd: '5%',
   },
@@ -276,6 +307,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
-});
+})

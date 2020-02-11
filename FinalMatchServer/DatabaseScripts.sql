@@ -14,5 +14,31 @@ VALUES(1,"Fake1",POINT(20.992832, 105.805872), "Giay Thuong Dinh", "1122", 11),
 --viwuasin
 CALL getStadiumsAroundPoint(20.998880, 105.795195, 8);
 
+DROP PROCEDURE IF EXISTS getStadiumsAroundPoint; //
+--radius = km
+CREATE PROCEDURE getStadiumsAroundPoint(latitude FLOAT, longitude FLOAT, radius FLOAT)
+SELECT
+  id as stadiumId,
+  type,
+  stadiumName,
+  X(point) AS "latitude",
+  Y(point) AS "longitude",
+  address,
+  phoneNumber,
+  (
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          POINT(latitude, longitude)
+        )
+      )
+    )
+  ) * 100
+  AS distance
+FROM Stadium 
+HAVING distance <= radius;
+
+
 
 

@@ -52,26 +52,17 @@
 		A1962344E1EB4DA1837C6C79 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		A28685F5EEDC45319898BC36 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		AD90A63C23D58A9A00BBF83B /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = ../android/app/src/main/assets/fonts/Fontisto.ttf; sourceTree = "<group>"; };
-		AD90A63D23D58A9A00BBF83B /* JosefinSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBoldItalic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		AD90A63E23D58A9A00BBF83B /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = ../android/app/src/main/assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		AD90A63F23D58A9B00BBF83B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = ../android/app/src/main/assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
-		AD90A64023D58A9B00BBF83B /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Regular.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
 		AD90A64123D58A9B00BBF83B /* Pacifico-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pacifico-Regular.ttf"; path = "../android/app/src/main/assets/fonts/Pacifico-Regular.ttf"; sourceTree = "<group>"; };
-		AD90A64223D58A9B00BBF83B /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Light.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-Light.ttf"; sourceTree = "<group>"; };
 		AD90A64323D58A9B00BBF83B /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = ../android/app/src/main/assets/fonts/Foundation.ttf; sourceTree = "<group>"; };
 		AD90A64423D58A9B00BBF83B /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Brands.ttf; path = ../android/app/src/main/assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		AD90A64523D58A9B00BBF83B /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = ../android/app/src/main/assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
-		AD90A64623D58A9B00BBF83B /* JosefinSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Italic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-Italic.ttf"; sourceTree = "<group>"; };
 		AD90A64723D58A9B00BBF83B /* IndieFlower-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IndieFlower-Regular.ttf"; path = "../android/app/src/main/assets/fonts/IndieFlower-Regular.ttf"; sourceTree = "<group>"; };
-		AD90A64823D58A9B00BBF83B /* JosefinSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-LightItalic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		AD90A64923D58A9B00BBF83B /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Thin.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
 		AD90A64A23D58A9B00BBF83B /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = ../android/app/src/main/assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
 		AD90A64B23D58A9B00BBF83B /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = ../android/app/src/main/assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
 		AD90A64C23D58A9B00BBF83B /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = ../android/app/src/main/assets/fonts/Feather.ttf; sourceTree = "<group>"; };
-		AD90A64D23D58A9C00BBF83B /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBold.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
-		AD90A64E23D58A9C00BBF83B /* JosefinSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-ThinItalic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		AD90A64F23D58A9C00BBF83B /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = ../android/app/src/main/assets/fonts/Zocial.ttf; sourceTree = "<group>"; };
-		AD90A65023D58A9C00BBF83B /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Bold.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
 		AD90A65123D58A9C00BBF83B /* Lobster-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lobster-Regular.ttf"; path = "../android/app/src/main/assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; };
 		AD90A65223D58A9C00BBF83B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Regular.ttf; path = ../android/app/src/main/assets/fonts/FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
 		AD90A65323D58A9C00BBF83B /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = ../android/app/src/main/assets/fonts/EvilIcons.ttf; sourceTree = "<group>"; };
@@ -79,7 +70,6 @@
 		AD90A65523D58A9C00BBF83B /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = ../android/app/src/main/assets/fonts/FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
 		AD90A65623D58A9C00BBF83B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../android/app/src/main/assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		AD90A65723D58A9C00BBF83B /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = ../android/app/src/main/assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
-		AD90A65823D58A9C00BBF83B /* JosefinSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-BoldItalic.ttf"; path = "../android/app/src/main/assets/fonts/JosefinSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		AD90A65923D5906200BBF83B /* JosefinSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-LightItalic.ttf"; path = "../assets/JosefinSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBoldItalic.ttf"; path = "../assets/JosefinSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Bold.ttf"; path = "../assets/JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -227,16 +217,6 @@
 				AD90A64323D58A9B00BBF83B /* Foundation.ttf */,
 				AD90A64723D58A9B00BBF83B /* IndieFlower-Regular.ttf */,
 				AD90A65423D58A9C00BBF83B /* Ionicons.ttf */,
-				AD90A65023D58A9C00BBF83B /* JosefinSans-Bold.ttf */,
-				AD90A65823D58A9C00BBF83B /* JosefinSans-BoldItalic.ttf */,
-				AD90A64623D58A9B00BBF83B /* JosefinSans-Italic.ttf */,
-				AD90A64223D58A9B00BBF83B /* JosefinSans-Light.ttf */,
-				AD90A64823D58A9B00BBF83B /* JosefinSans-LightItalic.ttf */,
-				AD90A64023D58A9B00BBF83B /* JosefinSans-Regular.ttf */,
-				AD90A64D23D58A9C00BBF83B /* JosefinSans-SemiBold.ttf */,
-				AD90A63D23D58A9A00BBF83B /* JosefinSans-SemiBoldItalic.ttf */,
-				AD90A64923D58A9B00BBF83B /* JosefinSans-Thin.ttf */,
-				AD90A64E23D58A9C00BBF83B /* JosefinSans-ThinItalic.ttf */,
 				AD90A65123D58A9C00BBF83B /* Lobster-Regular.ttf */,
 				AD90A64523D58A9B00BBF83B /* MaterialCommunityIcons.ttf */,
 				AD90A63E23D58A9A00BBF83B /* MaterialIcons.ttf */,

@@ -153,12 +153,12 @@ const styles = StyleSheet.create ({
   },
   textTitle: {
     fontSize: 20,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
+    
     textAlign: 'center',
   },
   textButton: {
     fontSize: 20,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
     textAlign: 'center',
   },
 });

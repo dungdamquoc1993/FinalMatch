@@ -14,6 +14,7 @@ import {translate} from '../languages/languageConfigurations';
 import MultiLanguageComponent from './MultiLanguageComponent';
 import {getLatLongFromAddress} from '../server/googleServices'
 import {getStadiumsAroundPoint} from '../server/myServices'
+import {isIOS} from '../helpers/Helpers'
 
 export default class SearchPlace extends MultiLanguageComponent {
   state = {
@@ -21,19 +22,15 @@ export default class SearchPlace extends MultiLanguageComponent {
     radius: 8,//8km
     stadiums: []
   }
-  getStadiumList = async () => {
+  searchPlace = async () => {
     try {
       const {typedAddress} = this.state
       const { latitude = 0, longitude = 0} = await getLatLongFromAddress(typedAddress)
-      const { data, message, error } = await getStadiumsAroundPoint(latitude, longitude, radius)
-      if(error) {
-        alert("Cannot set stadium list. Error: "+error.toString())
-      } else {
-        this.setState({stadiums: data})
-      }
+      console.log(`${latitude} - ${longitude}, ${typedAddress}`)
     } catch (error) {
-      alert("Cannot set stadium list. Error: "+error.toString())
+      alert("Cannot get . Error: "+error.toString())
     }
+    
   }
   render() {
     const { typedAddress, radius, stadiums } = this.state
@@ -45,11 +42,8 @@ export default class SearchPlace extends MultiLanguageComponent {
               width: '85%',
               height: 50,
               fontSize: 17,
-              lineHeight: 0,
-              paddingStart: 15,
-              fontFamily: Platform.OS === 'ios'
-                ? 'arial'
-                : 'JosefinSans-Italic',
+              lineHeight: isIOS == true ? 0 : null,
+              paddingStart: 15,              
             }}
             value = {typedAddress}
             onChangeText = {(typedAddress) => {
@@ -66,7 +60,7 @@ export default class SearchPlace extends MultiLanguageComponent {
               paddingEnd: 20,
             }}
             onPress={() => {
-              
+              this.searchPlace()
             }}
           >
             <Image
@@ -98,10 +92,7 @@ class Item extends Component {
         <TouchableOpacity style={{ width: '85%', height: '100%' }}>
           <Text style={{
             fontSize: 17,
-            lineHeight: 60,
-            fontFamily: Platform.OS === 'ios'
-              ? 'arial'
-              : 'JosefinSans-Italic',
+            lineHeight: 60,            
           }}>{stadiumAddress}</Text>
         </TouchableOpacity>
       </View>

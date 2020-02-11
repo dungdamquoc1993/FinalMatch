@@ -1,0 +1,2 @@
+var fileStockURL = "https://docs.google.com/spreadsheets/d/1btPTB-yRSscvs00mYQnnFcyeeTJbjgPOovZd0kz0Dj0/edit#gid=1519051753";
+var fileSaleNotesURL = "https://docs.google.com/spreadsheets/d/1iY3AyYppDe6GHJeWww56ILhq8G9iHdDJbmpTs4LJuUY/edit#gid=981403088";

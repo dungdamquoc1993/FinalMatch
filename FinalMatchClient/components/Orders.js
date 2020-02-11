@@ -101,24 +101,24 @@ render () {
     <View style={styles.ViewAllInformation}>
       <View style={styles.ViewDetail}>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Tên: </Text>
-          <Text style={styles.textLable}>{name}</Text>
+          <Text style={styles.textLabel}>Tên: </Text>
+          <Text style={styles.textLabel}>{name}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>SĐT: </Text>
-          <Text style={styles.textLable}>{phone}</Text>
+          <Text style={styles.textLabel}>SĐT: </Text>
+          <Text style={styles.textLabel}>{phone}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Điạ chỉ: </Text>
-          <Text style={styles.textLable}>{adress}</Text>
+          <Text style={styles.textLabel}>Điạ chỉ: </Text>
+          <Text style={styles.textLabel}>{adress}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Giá: </Text>
-          <Text style={styles.textLable}>{price}</Text>
+          <Text style={styles.textLabel}>Giá: </Text>
+          <Text style={styles.textLabel}>{price}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Giờ thi đấu: </Text>
-          <Text style={styles.textLable}>{orderDate}</Text>
+          <Text style={styles.textLabel}>Giờ thi đấu: </Text>
+          <Text style={styles.textLabel}>{orderDate}</Text>
         </View>
       </View>
 
@@ -163,9 +163,9 @@ const styles = StyleSheet.create ({
     justifyContent: 'space-between',
     marginVertical: '4%',
   },
-  textLable: {
+  textLabel: {
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   btnOrder: {
     width: 90,
@@ -187,6 +187,6 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   }
 });

@@ -49,7 +49,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
                                                                   await registerCustomer(name, email, password)      
       if (tokenKey.length > 0) {
-        debugger
+        
         await saveCustomerToStorage(tokenKey, customerId, email)
         navigate('Service') //success
       } else {
@@ -61,8 +61,8 @@ export default class LoginAndSignup extends MultiLanguageComponent {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    const { email, password, isLogin } = this.state;
+    const { navigate } = this.props.navigation
+    const { email, password, isLogin } = this.state
     return (
       <SafeAreaView style={styles.container}>        
         <Image style={styles.logo} source={require('../images/cat.jpeg')} />
@@ -72,7 +72,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           backgroundColor="#3b5998"
           borderRadius={30}
           onPress={() => {
-            navigate('Service');
+            navigate('Service')
           }}
         >
           <Text
@@ -85,7 +85,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
             <TouchableOpacity onPress={() => {
-              this.setState({ isLogin: true });
+              this.setState({ isLogin: true })
             }}>
 
               <Text style={styles.twoButton}>
@@ -96,7 +96,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           </View>
           <View style={styles.viewLogin}>
             <TouchableOpacity onPress={() => {
-              this.setState({ isLogin: false });
+              this.setState({ isLogin: false })
             }}>
               <Text style={styles.twoButton}>
                 Sign up
@@ -109,7 +109,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           <TextInput
             style={styles.textInput}
             onChangeText={email => {
-              this.setState({ email: email.trim() });
+              this.setState({ email: email.trim() })
             }}
             value={email}
             keyboardType={'email-address'}
@@ -118,7 +118,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           <TextInput
             style={styles.textInput}
             onChangeText={password => {
-              this.setState({ password });
+              this.setState({ password })
             }}
             value={password}
             keyboardType={'default'}
@@ -129,7 +129,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
             <TextInput
               style={styles.textInput}
               onChangeText={retypePassword => {
-                this.setState({ retypePassword });
+                this.setState({ retypePassword })
               }}
               value={this.state.retypePassword}
               keyboardType={'default'}
@@ -150,11 +150,11 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
-    );
+    )
   }
 }
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
+const screenWidth = Math.round(Dimensions.get('window').width)
+const screenHeight = Math.round(Dimensions.get('window').height)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     paddingTop: 13,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   viewInput: {
     flexDirection: 'column',
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 18,
     paddingStart: 15,
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Italic',
+    
   },
   loginButton: {
     height: 50,
@@ -239,17 +239,11 @@ const styles = StyleSheet.create({
   },
   textLoginFaceBook:{
     fontSize: 18,
-    color: 'white',
-    fontFamily: Platform.OS === 'ios'
-      ? 'arial'
-      : 'JosefinSans-Italic',
+    color: 'white',    
   },
   textLogin:{
     textAlign: 'center',
     color: 'white',
-    fontSize: 20,
-    fontFamily: Platform.OS === 'ios'
-      ? 'arial'
-      : 'JosefinSans-Bold',
+    fontSize: 20,    
   }
-});
+})

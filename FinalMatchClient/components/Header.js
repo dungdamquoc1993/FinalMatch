@@ -60,7 +60,7 @@ const styles = StyleSheet.create ({
     lineHeight: 60,
     fontSize: 20,
     width:'60%',
-    fontFamily: Platform.OS === 'ios' ? 'arial' : 'JosefinSans-Bold',
+    
   },
   image:{
     width: 30, 
