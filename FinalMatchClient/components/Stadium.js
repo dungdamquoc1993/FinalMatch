@@ -10,17 +10,10 @@ import {
   ScrollView,
   Platform,
   TextInput,
-<<<<<<< HEAD
   FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
-=======
-  FlatList,  
-} from 'react-native'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Header from './Header'
->>>>>>> bfcf422776c149ad21c3a6e31557ffcd0a962ee2
 import {
   getAddressFromLatLong,
   checkLocationPermission,
