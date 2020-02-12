@@ -2,14 +2,15 @@ function filterSaleNotes(data) {
   var filteredData = {};
   var rowIndex = 0;
   while (rowIndex < data.length) {
-      if (data[rowIndex][1].length == 0) {
+      var tenSanPham = data[rowIndex][3].trim().toLowerCase();
+      if (tenSanPham.trim().length == 0) {
           rowIndex++;
           continue;
       }
-      var tenSanPham = data[rowIndex][3];
+      var tenPhukien = data[rowIndex][4];
       var sizeDong = data[rowIndex][6];
       var trangThaiDonHang = data[rowIndex][10];
-      if ((trangThaiDonHang == 'đã chuyển hàng' || trangThaiDonHang == 'khách đến mua thanh toán trực tiếp')) {
+      if ((trangThaiDonHang == 'đã chuyển hàng' || trangThaiDonHang == 'khách đến mua thanh toán trực tiếp')) {          
           var key = tenSanPham + ":" + String(sizeDong)
           filteredData[key] = filteredData[key] == null ? 1 : filteredData[key] + 1;
       }

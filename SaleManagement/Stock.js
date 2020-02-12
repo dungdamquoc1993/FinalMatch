@@ -12,7 +12,7 @@ function updateDataInFileStock(dataOfSaleNotes, sheet, myDay) {
   while (rowIndex < dataOfFileStock.length) {
     var day = -1;
     for (var columnIndex = 0; columnIndex < dataOfFileStock[rowIndex].length; columnIndex++) {
-      var tenSanPham = dataOfFileStock[rowIndex][0];
+      var tenSanPham = dataOfFileStock[rowIndex][0].trim().toLowerCase();
       var size = typeof dataOfFileStock[1][columnIndex] == 'string' ? 0 : dataOfFileStock[1][columnIndex];
       if (typeof dataOfFileStock[0][columnIndex] == 'object') {
         day = dataOfFileStock[0][columnIndex].getDate();

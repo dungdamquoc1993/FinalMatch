@@ -1,2 +1,2 @@
-var fileStockURL = "https://docs.google.com/spreadsheets/d/1btPTB-yRSscvs00mYQnnFcyeeTJbjgPOovZd0kz0Dj0/edit#gid=1519051753";
-var fileSaleNotesURL = "https://docs.google.com/spreadsheets/d/1iY3AyYppDe6GHJeWww56ILhq8G9iHdDJbmpTs4LJuUY/edit#gid=981403088";
+var fileStockURL = "https://docs.google.com/spreadsheets/d/1GUST7o2p2WiOXpXxylD8LJTGdpfh7-Lf9q3nBs6QtjM/edit#gid=1603009545";
+var fileSaleNotesURL = "https://docs.google.com/spreadsheets/d/1NaAxU7n_KKN6GRHgoZMUelraBKoxxs3p0eIp_9AhvgE/edit#gid=981403088";
