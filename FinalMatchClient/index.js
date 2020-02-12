@@ -12,6 +12,8 @@
  * yarn add i18n-js
  * yarn add lodash.memoize
  * yarn add react-native-searchable-dropdown
+ * yarn add react-native-date-picker
+ * import DatePicker from 'react-native-date-picker'
  * 
  */
 import {AppRegistry} from 'react-native';

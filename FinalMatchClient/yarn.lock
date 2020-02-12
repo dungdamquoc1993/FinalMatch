@@ -937,6 +937,13 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
+"@react-native-community/datetimepicker@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-2.2.1.tgz#350883f1d5940d44c3adef838e9941804210ba38"
+  integrity sha512-aw/3sUQ/4iiKz43412E+AnJ8vXhu2rBnEBGEoJEZYf04sLpPLRYCoVsVBGcfWxVGNS5jyCjp5cOiYu52GSMMhA==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/eslint-config@^0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-config/-/eslint-config-0.0.5.tgz#584f6493258202a57efc22e7be66966e43832795"
@@ -5361,10 +5368,10 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-date-picker@^2.7.3:
-  version "2.7.3"
-  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.7.3.tgz#36618b907a8cbcf7c52a535031b385e79cf0fe66"
-  integrity sha512-tqdYSbAZEiDk3l4T8LM7UUCsZcmlerYD6bXfaLRJ/naedwvCLgkMQyLAuYyfg5dR7bfE81K+bNoMtOf9mMTOJw==
+react-native-date-picker@^2.7.6:
+  version "2.7.6"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.7.6.tgz#e1439c42b76499f1d07bef971656237e965f5a47"
+  integrity sha512-c6Rhul/JL/U8O0G/XdSZtoxLvsocZOhpNB4bekJLIAp/+H5lmpXXIGlRKuniDHkiEH63jeFzSH22qLp9VYjOcw==
   dependencies:
     moment "^2.22.1"
 

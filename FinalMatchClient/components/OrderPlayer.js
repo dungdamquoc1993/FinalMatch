@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Modal,
+  Alert
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
@@ -18,6 +20,7 @@ import {
   updateCustomerInformation,
 } from '../server/myServices';
 import {getCustomerFromStorage} from '../helpers/Helpers';
+import FinalMatchDatePicker from './FinalMatchDatePicker'
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -44,6 +47,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         minute: 0,
         gmt: 7,
       },
+      modalVisible: false,
     };
   }
   async componentDidMount() {
@@ -89,7 +93,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
   render () {
     const {navigate} = this.props.navigation;
     const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state;
-    const {name, phoneNumber} = this.state;
+    const {name, phoneNumber, modalVisible} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -223,12 +227,25 @@ export default class OrderPlayer extends MultiLanguageComponent {
 
           </View>
           <View style={styles.personalInformation}>
-            <TextInput
+            <TouchableOpacity
               style={styles.textInput}
-              placeholder={translate ("Stadium's time : ")}
-            />
-          </View>
-
+              onPress={() => {
+                this.setState({modalVisible: true});
+              }}>
+                <Text
+                style={{
+                  fontSize: 17,                  
+                  height: 40,
+                  lineHeight: 50,
+                  paddingStart: 5,
+                  color: place.trim() === ''? '#a9a9a9' : 'black',
+                }}                
+              >
+                {/* {place.trim() === ''? "Địa điểm thi đấu" : place} */}
+                Stadium's time : 
+              </Text>              
+            </TouchableOpacity>
+          </View>              
           <View style={styles.personalInformation}>
             <TouchableOpacity
               style={styles.buttonSubmit}
@@ -243,6 +260,17 @@ export default class OrderPlayer extends MultiLanguageComponent {
           </View>
 
         </ScrollView>
+        <Modal animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            alert('Modal has been closed.');
+          }}>
+          <FinalMatchDatePicker dismissModal={() =>{
+            
+            this.setState({modalVisible: false})
+          }}/>          
+        </Modal>
       </SafeAreaView>
     );
   }
