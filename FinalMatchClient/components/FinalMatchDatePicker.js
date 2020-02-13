@@ -22,19 +22,54 @@ export default class FinalMatchDatePicker extends MultiLanguageComponent {
         // alert(i18n.locale)
         const {date, mode, isShow} = this.state
         const {updateDateTime, dismissModal} = this.props //GMT+0
-        return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>     
+        return (<View style={styles.container}>     
                <TouchableOpacity 
                 onPress = {dismissModal}
-                style={{position: 'absolute', top:0, bottom: 0, left: 0, right: 0, opacity: 0.5, backgroundColor:'black'}} />     
-            {isShow && (                
-                <View style={{ backgroundColor: 'white', paddingVertical: 20 }}>
+                style={styles.containerButton} />     
+                {isShow && (                
+                <View style={styles.subView}>
                     <DatePicker      
                         locale={i18n.locale}              
                         date={this.state.date}
                         onDateChange={date => this.setState({ date })}
-                /></View>
-                                
+                        />
+                    <View >
+                        <TouchableOpacity onPress={()=>{                            
+                            updateDateTime(date)
+                        }}
+                        style={styles.btnOK}>
+                            <Text style={{fontSize: 15, color: 'white', alignItems: 'center'}}>OK</Text>
+                        </TouchableOpacity>
+                    </View>  
+                </View>                                
             )}
         </View>)        
     }
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        borderRadius: 25,
+    },
+    subView: { 
+        backgroundColor: 'white',
+         paddingVertical: 0, 
+         flexDirection: 'column', 
+         borderRadius: 10 
+    },
+    containerButton: {
+        position: 'absolute', 
+        top:0, bottom: 0, left: 0, right: 0, 
+        opacity: 0.5, 
+        backgroundColor:'black'
+    },
+    btnOK:{
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: 50,
+        borderRadius: 10,                                        
+        backgroundColor: '#00CCFF'
+    }
+})

@@ -96,7 +96,12 @@ class Stadium extends Component {
       );
     }
   };
-
+  changeFeeOrFree = (type) => {
+    // let updatedState = {...this.state};
+    // updatedState.currentLocation.address = '';
+    // updatedState.type = type;
+    this.setState (type);
+  }
   render () {
     const {type, stadiumName, phoneNumber} = this.state;
     const {
@@ -176,10 +181,12 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({type: 0});
+              this.changeFeeOrFree(0)
             }}
           >
-            <Text style={styles.txtFree}>Miễn phí</Text>
+            <Text onPress={() => {
+              this.changeFeeOrFree(0)              
+            }} style={styles.txtFree}>Miễn phí</Text>
             <FontAwesome5
               name={type == 0 ? 'check-square' : 'square'}
               size={35}
@@ -189,13 +196,12 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              let updatedState = {...this.state};
-              updatedState.currentLocation.address = '';
-              updatedState.type = 1;
-              this.setState (updatedState);
+              this.changeFeeOrFree(1)              
             }}
           >
-            <Text style={styles.txtFree}>Thu phí</Text>
+            <Text style={styles.txtFree} onPress={() => {
+              this.changeFeeOrFree(1)              
+            }}>Thu phí</Text>
             <FontAwesome5
               name={type == 1 ? 'check-square' : 'square'}
               size={35}
@@ -310,4 +316,10 @@ const styles = StyleSheet.create ({
     marginBottom: 10,
     fontSize: 17,
   },
+  eachPosition: {
+    backgroundColor: 'red',
+    padding: 10,
+    width: 100,
+    height:100
+  }
 });

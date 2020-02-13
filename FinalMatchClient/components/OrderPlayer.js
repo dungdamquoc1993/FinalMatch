@@ -20,7 +20,12 @@ import {
   updateCustomerInformation,
 } from '../server/myServices';
 import {getCustomerFromStorage} from '../helpers/Helpers';
+<<<<<<< HEAD
 import FinalMatchDatePicker from './FinalMatchDatePicker';
+=======
+import FinalMatchDatePicker from './FinalMatchDatePicker'
+import {convertDateTimeToString} from '../helpers/Helpers'
+>>>>>>> 7b827f4141a75545ef39fa6ce2c8b916c845c1a0
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -39,6 +44,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         longitude: 0,
       },
       place: '',
+      dateTimeString: '',
       matchTiming: {
         day: 0,
         month: 0,
@@ -93,7 +99,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
   render () {
     const {navigate} = this.props.navigation;
     const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state;
-    const {name, phoneNumber, modalVisible} = this.state;
+    const {name, phoneNumber, modalVisible, dateTimeString} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -256,12 +262,20 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
+<<<<<<< HEAD
                   color: place.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >
                 {/* {place.trim() === ''? "Địa điểm thi đấu" : place} */}
                 Stadium's time :{' '}
               </Text>
+=======
+                  color: dateTimeString.trim() === ''? '#a9a9a9' : 'black',
+                }}                
+              >                
+                {dateTimeString === '' ? "Stadium's time : " : dateTimeString}                
+              </Text>              
+>>>>>>> 7b827f4141a75545ef39fa6ce2c8b916c845c1a0
             </TouchableOpacity>
           </View>
           <View style={styles.personalInformation}>
@@ -283,6 +297,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
+<<<<<<< HEAD
             alert ('Modal has been closed.');
           }}
         >
@@ -291,6 +306,21 @@ export default class OrderPlayer extends MultiLanguageComponent {
               this.setState ({modalVisible: false});
             }}
           />
+=======
+            alert('Modal has been closed.');
+          }}>
+          <FinalMatchDatePicker dismissModal={() =>{            
+            this.setState({modalVisible: false})
+          }}
+          updateDateTime = {(date) => {
+            this.setState({
+              dateTimeString: convertDateTimeToString(date),
+              modalVisible: false
+            })
+
+          }}
+          />          
+>>>>>>> 7b827f4141a75545ef39fa6ce2c8b916c845c1a0
         </Modal>
       </SafeAreaView>
     );
