@@ -11,6 +11,8 @@ import {
   Platform,
   TextInput,
   FlatList,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
@@ -109,6 +111,10 @@ export default class Stadium extends Component {
       radius,
     } = currentLocation;
     return (
+      <TouchableWithoutFeedback onPress={() => {        
+        Keyboard.dismiss()
+        this._pressLocation()
+      }} accessible={false}>
       <SafeAreaView style={styles.container}>
         <Header
           title="Đặt Trọng Tài"
@@ -227,17 +233,17 @@ export default class Stadium extends Component {
                 color={'black'}
               />
             </TouchableOpacity>
-          </View>
-          <FlatList
+          </View>          
+        </View>
+        <FlatList
             data={filteredStadiums}
             keyExtractor={(item, index) => `${item.stadiumId}`}
             renderItem={({item, index, separators}) => (
               <StadiumItem {...item} />
             )}
-          />
-
-        </View>
+        />
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -246,24 +252,21 @@ const StadiumItem = props => {
   return (
     <TouchableHighlight>
       <View
-        style={{
-          // width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
+        style={{          
+          justifyContent: 'center',          
           borderColor: '#a9a9a9',
           backgroundColor: '#f5f5f5',
           borderRadius: 15,
           borderWidth: 1,
-          marginHorizontal:50,
-          marginVertical:10
+          marginHorizontal:10,
+          marginVertical:10,
+          paddingHorizontal: 10
         }}
       >
-        <View>
-          <Text style={{fontSize:17}}>Tên sân bóng: {stadiumName}</Text>
+        <Text style={{fontSize:17, paddingTop: 10}}>Tên sân bóng: {stadiumName}</Text>
           <Text style={{fontSize:17}}>Địa chỉ sân bóng: {address}</Text>
           <Text style={{fontSize:17}}>Số điện thoại: {phoneNumber}</Text>
-          <Text style={{fontSize:17}}>{distance}</Text>
-        </View>
+          <Text style={{fontSize:17, paddingBottom: 10}}>{distance}</Text>
 
       </View>
     </TouchableHighlight>
@@ -272,7 +275,7 @@ const StadiumItem = props => {
 
 const styles = StyleSheet.create ({
   container: {
-    flex: 1,
+    flex: 1,    
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
