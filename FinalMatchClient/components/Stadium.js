@@ -263,12 +263,7 @@ const StadiumItem = props => {
           paddingHorizontal: 10
         }}
       >
-<<<<<<< HEAD
-        <View style={{padding:5}}>
-          <Text style={{fontSize:17}}>Tên sân bóng: {stadiumName}</Text>
-=======
         <Text style={{fontSize:17, paddingTop: 10}}>Tên sân bóng: {stadiumName}</Text>
->>>>>>> 7b827f4141a75545ef39fa6ce2c8b916c845c1a0
           <Text style={{fontSize:17}}>Địa chỉ sân bóng: {address}</Text>
           <Text style={{fontSize:17}}>Số điện thoại: {phoneNumber}</Text>
           <Text style={{fontSize:17, paddingBottom: 10}}>{distance}</Text>
