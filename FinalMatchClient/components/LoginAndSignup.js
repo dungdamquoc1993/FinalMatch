@@ -10,6 +10,8 @@ import {
   TextInput,
   Dimensions,
   SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native'
 import {validateEmail, validatePasword} from '../Validations/Validation'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -64,6 +66,9 @@ export default class LoginAndSignup extends MultiLanguageComponent {
     const { navigate } = this.props.navigation
     const { email, password, isLogin } = this.state
     return (
+      <TouchableWithoutFeedback onPress={() => {        
+        Keyboard.dismiss()        
+      }} accessible={false}>
       <SafeAreaView style={styles.container}>        
         <Image style={styles.logo} source={require('../images/cat.jpeg')} />
         <Icon.Button
@@ -150,6 +155,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     )
   }
 }
