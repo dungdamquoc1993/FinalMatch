@@ -21,6 +21,7 @@ import {
 } from '../server/myServices';
 import {getCustomerFromStorage} from '../helpers/Helpers';
 import FinalMatchDatePicker from './FinalMatchDatePicker'
+import {convertDateTimeToString} from '../helpers/Helpers'
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -39,6 +40,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         longitude: 0,
       },
       place: '',
+      dateTimeString: '',
       matchTiming: {
         day: 0,
         month: 0,
@@ -93,7 +95,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
   render () {
     const {navigate} = this.props.navigation;
     const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state;
-    const {name, phoneNumber, modalVisible} = this.state;
+    const {name, phoneNumber, modalVisible, dateTimeString} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -238,11 +240,10 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: place.trim() === ''? '#a9a9a9' : 'black',
+                  color: dateTimeString.trim() === ''? '#a9a9a9' : 'black',
                 }}                
-              >
-                {/* {place.trim() === ''? "Địa điểm thi đấu" : place} */}
-                Stadium's time : 
+              >                
+                {dateTimeString === '' ? "Stadium's time : " : dateTimeString}                
               </Text>              
             </TouchableOpacity>
           </View>              
@@ -266,10 +267,17 @@ export default class OrderPlayer extends MultiLanguageComponent {
           onRequestClose={() => {
             alert('Modal has been closed.');
           }}>
-          <FinalMatchDatePicker dismissModal={() =>{
-            
+          <FinalMatchDatePicker dismissModal={() =>{            
             this.setState({modalVisible: false})
-          }}/>          
+          }}
+          updateDateTime = {(date) => {
+            this.setState({
+              dateTimeString: convertDateTimeToString(date),
+              modalVisible: false
+            })
+
+          }}
+          />          
         </Modal>
       </SafeAreaView>
     );

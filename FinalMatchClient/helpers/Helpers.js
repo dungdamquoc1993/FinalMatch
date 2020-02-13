@@ -32,7 +32,10 @@ export const isIOS = () => {
     return Platform.OS === "ios"
 }
 
-
+export const convertDateTimeToString = (date) => {
+    //VD: 2/13/2020, 2:34:23 PM
+    return date.toLocaleString()
+}
 
 
 
