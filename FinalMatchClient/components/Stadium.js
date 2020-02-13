@@ -98,7 +98,16 @@ export default class Stadium extends Component {
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
       );
     }
-  };
+  }
+  componentDidMount() {    
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._pressLocation,
+    )
+  }
+  componentWillUnmount() {    
+    this.keyboardDidHideListener.remove();
+  }
   render () {
     const {isFree, filteredStadiums} = this.state;
     const {currentLocation} = this.state;
@@ -112,8 +121,7 @@ export default class Stadium extends Component {
     } = currentLocation;
     return (
       <TouchableWithoutFeedback onPress={() => {        
-        Keyboard.dismiss()
-        this._pressLocation()
+        Keyboard.dismiss()        
       }} accessible={false}>
       <SafeAreaView style={styles.container}>
         <Header
