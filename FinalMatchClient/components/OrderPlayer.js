@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   Modal,
-  Alert
+  Alert,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
@@ -20,7 +20,7 @@ import {
   updateCustomerInformation,
 } from '../server/myServices';
 import {getCustomerFromStorage} from '../helpers/Helpers';
-import FinalMatchDatePicker from './FinalMatchDatePicker'
+import FinalMatchDatePicker from './FinalMatchDatePicker';
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -50,8 +50,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
       modalVisible: false,
     };
   }
-  async componentDidMount() {
-    //test function    
+  async componentDidMount () {
+    //test function
   }
   reloadDataFromServer = async () => {
     const {customerId, email} = await getCustomerFromStorage ();
@@ -135,7 +135,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               style={{
                 height: 40,
                 lineHeight: 40,
-                fontSize: 20,                
+                fontSize: 20,
               }}
             >
               Cầu thủ của bạn:
@@ -145,10 +145,12 @@ export default class OrderPlayer extends MultiLanguageComponent {
           <View style={styles.positions}>
             <TouchableOpacity
               style={styles.eachPosition}
-              onPress={() => {                
+              onPress={() => {
                 this.setState ({
-                  isGK: !this.state.isGK, 
-                  isCB: false, isMF: false, isCF: false,
+                  isGK: !this.state.isGK,
+                  isCB: false,
+                  isMF: false,
+                  isCF: false,
                 });
               }}
             >
@@ -162,8 +164,12 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.eachPosition}
               onPress={() => {
-                this.setState ({isCB: !this.state.isCB,isGK: false, isMF: false, isCF: false,});
-                
+                this.setState ({
+                  isCB: !this.state.isCB,
+                  isGK: false,
+                  isMF: false,
+                  isCF: false,
+                });
               }}
             >
               <Text style={styles.textPosition}>CB</Text>
@@ -176,7 +182,12 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.eachPosition}
               onPress={() => {
-                this.setState ({isMF: !this.state.isMF,isGK: false, isCB: false, isCF: false,});
+                this.setState ({
+                  isMF: !this.state.isMF,
+                  isGK: false,
+                  isCB: false,
+                  isCF: false,
+                });
               }}
             >
               <Text style={styles.textPosition}>MF</Text>
@@ -189,7 +200,12 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.eachPosition}
               onPress={() => {
-                this.setState ({isCF: !this.state.isCF,isGK: false, isMF: false, isCB: false,});
+                this.setState ({
+                  isCF: !this.state.isCF,
+                  isGK: false,
+                  isMF: false,
+                  isCB: false,
+                });
               }}
             >
               <Text style={styles.textPosition}>CF</Text>
@@ -204,24 +220,25 @@ export default class OrderPlayer extends MultiLanguageComponent {
 
             <TouchableOpacity
               onPress={() => {
-                navigate ('SearchPlace', {updatePlace: (place) => {
-                  
-                  this.setState({place})
-                }});
+                navigate ('SearchPlace', {
+                  updatePlace: place => {
+                    this.setState ({place});
+                  },
+                });
               }}
               placeholder={translate ('Stadium: ')}
               style={styles.textInput}
             >
               <Text
                 style={{
-                  fontSize: 17,                  
+                  fontSize: 17,
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: place.trim() === ''? '#a9a9a9' : 'black',
-                }}                
+                  color: place.trim () === '' ? '#a9a9a9' : 'black',
+                }}
               >
-                {place.trim() === ''? "Địa điểm thi đấu" : place}
+                {place.trim () === '' ? 'Địa điểm thi đấu' : place}
               </Text>
             </TouchableOpacity>
 
@@ -230,22 +247,23 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.textInput}
               onPress={() => {
-                this.setState({modalVisible: true});
-              }}>
-                <Text
+                this.setState ({modalVisible: true});
+              }}
+            >
+              <Text
                 style={{
-                  fontSize: 17,                  
+                  fontSize: 17,
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: place.trim() === ''? '#a9a9a9' : 'black',
-                }}                
+                  color: place.trim () === '' ? '#a9a9a9' : 'black',
+                }}
               >
                 {/* {place.trim() === ''? "Địa điểm thi đấu" : place} */}
-                Stadium's time : 
-              </Text>              
+                Stadium's time :{' '}
+              </Text>
             </TouchableOpacity>
-          </View>              
+          </View>
           <View style={styles.personalInformation}>
             <TouchableOpacity
               style={styles.buttonSubmit}
@@ -260,16 +278,19 @@ export default class OrderPlayer extends MultiLanguageComponent {
           </View>
 
         </ScrollView>
-        <Modal animationType="fade"
+        <Modal
+          animationType="fade"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
-          }}>
-          <FinalMatchDatePicker dismissModal={() =>{
-            
-            this.setState({modalVisible: false})
-          }}/>          
+            alert ('Modal has been closed.');
+          }}
+        >
+          <FinalMatchDatePicker
+            dismissModal={() => {
+              this.setState ({modalVisible: false});
+            }}
+          />
         </Modal>
       </SafeAreaView>
     );
@@ -298,7 +319,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    
   },
   positions: {
     flexDirection: 'row',
@@ -319,7 +339,6 @@ const styles = StyleSheet.create ({
     height: 40,
     lineHeight: 40,
     paddingStart: 40,
-    
   },
   buttonSubmit: {
     height: 50,
@@ -338,10 +357,8 @@ const styles = StyleSheet.create ({
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',
-    
   },
   textPosition: {
-    
     fontSize: 17,
   },
 });

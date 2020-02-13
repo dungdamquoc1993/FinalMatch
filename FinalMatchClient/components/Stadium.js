@@ -258,7 +258,7 @@ const StadiumItem = props => {
           marginVertical:10
         }}
       >
-        <View>
+        <View style={{padding:5}}>
           <Text style={{fontSize:17}}>Tên sân bóng: {stadiumName}</Text>
           <Text style={{fontSize:17}}>Địa chỉ sân bóng: {address}</Text>
           <Text style={{fontSize:17}}>Số điện thoại: {phoneNumber}</Text>
