@@ -81,7 +81,7 @@ export default class OrderReferee extends MultiLanguageComponent {
             this.reloadDataFromServer()
           }}
         />
-      <Header title="Đặt Trọng Tài" hideBack={true} pressBackButton={() => {
+      <Header title={translate('Order Referee')} hideBack={true} pressBackButton={() => {
         this.props.navigation.navigate('Service')
         }}/>
         <View style={styles.personalInformation}>
