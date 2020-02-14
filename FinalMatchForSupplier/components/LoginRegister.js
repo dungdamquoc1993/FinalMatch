@@ -3,7 +3,10 @@ import {View, StyleSheet, Image,
     TouchableOpacity,
     Text,
     Dimensions,
+    Keyboard,
     KeyboardAvoidingView, 
+    TouchableWithoutFeedback,   
+    SafeAreaView, 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
@@ -30,7 +33,7 @@ class LoginRegister extends Component {
     }
     state = {
         isLogin: true,        
-        email: '', 
+        email: '', //hoang123456@gmail.com / 123456
         facebookId: '',
         avatar: '',
         name: '',
@@ -150,7 +153,10 @@ class LoginRegister extends Component {
     render() {
         const {email, password, isLogin} = this.state
         
-        return <KeyboardAvoidingView style={styles.container} 
+        return <TouchableWithoutFeedback onPress={() => {        
+                Keyboard.dismiss()        
+            }} accessible={false}> 
+          <SafeAreaView style={styles.container} 
             enabled>                
             <Image style={styles.logo} source={require('../images/LOGO_Dung_2.png')} />
             
@@ -183,8 +189,7 @@ class LoginRegister extends Component {
                     {isLogin === false && <View style={styles.line}></View>}
                 </View>
             </View>    
-            <KeyboardAvoidingView style={styles.viewInput}>
-                <TextInput style={styles.textInput} 
+            <TextInput style={styles.textInput} 
                     onChangeText = {(email) => {
                         this.setState({email})
                     }}
@@ -208,7 +213,6 @@ class LoginRegister extends Component {
                     keyboardType={"default"}
                     secureTextEntry
                     placeholder={"Retype password:"} />}
-            </KeyboardAvoidingView>
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
@@ -216,7 +220,8 @@ class LoginRegister extends Component {
                     {isLogin === true ? "Login to your account" : "Register new user"}
                 </Text>
             </TouchableOpacity>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
+        </TouchableWithoutFeedback>
     }
 }
 //Redux

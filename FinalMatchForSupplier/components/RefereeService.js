@@ -46,7 +46,7 @@ export class RefereeService extends Component {
     phoneNumber: '',
     dateOfBirth: new Date(),
     stringDateOfBirth: '',    
-    showIOSDatePicker: false,
+    modalVisible: false,
     currentLocation: {
       address: '',
       district: '',
@@ -126,29 +126,7 @@ export class RefereeService extends Component {
     }
 
   }
-  _onPressDateTextInput = async () => {
-    try {    
-      if (isIOS()) {
-        this.setState({ showIOSDatePicker: true });
-        return;
-      }
-      const { action, year, month, day } = await DatePickerAndroid.open({
-        date: new Date(),
-        mode: 'spinner',
-      });
-      let selectedDate = new Date(year, month, day);
-      let today = new Date();
-      if (action === DatePickerAndroid.dateSetAction) {
-        this.setState({
-          dateOfBirth: selectedDate,
-          stringDateOfBirth: convertDayMonthYearToString(day, month, year),
-          age: daysBetween2Dates(today, selectedDate),
-        });
-      }
-    } catch ({ code, message }) {
-      console.warn('Cannot open date picker', message);
-    }
-  }
+  
   render() {
     const {
       refereeName,
@@ -158,7 +136,8 @@ export class RefereeService extends Component {
       phoneNumber,
       stringDateOfBirth,
       showIOSDatePicker,
-      radius
+      radius,
+      modalVisible
     } = this.state
     const {
       address = '',
@@ -206,80 +185,31 @@ export class RefereeService extends Component {
             }}
           />          
         </View>
-        <View style={styles.dateTime}>
-          <TouchableOpacity
-            style={[
-              styles.textInput,
-              { width: '70%' },
-              isIOS() && { paddingTop: 10 },
-            ]}
-            onPress={() => {
-              this._onPressDateTextInput();
-            }}
-          >
-            <TextInput
-              keyboardType={'default'}
-              placeholder={'Ngày sinh: dd/mm/yyyy'}
-              editable={false}
-              value={stringDateOfBirth}
+          <View style={styles.dateTime}>
+            <TouchableOpacity
+              style={[
+                styles.textInput, { width: '70%' }]}
               onPress={() => {
-                this._onPressDateTextInput();
-              }}
-            // value={"djsijhd"}
-            />
-          </TouchableOpacity>
-          <Text style={styles.age}>
-            {this._displayAge(age)}
-          </Text>
-        </View>
-        {isIOS() &&
-          showIOSDatePicker &&
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                height: 30,
+                this.setState({ modalVisible: true })
               }}
             >
-              <TouchableOpacity
-                style= {{backgroundColor: MAIN_COLOR,
-                padding: 10,
-                borderRadius: 10,
-                height: 40, 
-                paddingHorizontal: 20,
-                alignItems: 'center',
-              }}
-                onPress={() => {
-                  this.setState({ showIOSDatePicker: false });
+              <Text
+                style={{
+                  fontSize: 17,
+                  height: 40,
+                  lineHeight: 50,
+                  paddingStart: 5,
+                  color: place.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                <Text>Save</Text>
-              </TouchableOpacity>
-            </View>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                alert('Modal has been closed.');
-              }}
-            >
-              <FinalMatchDatePicker
-                dismissModal={() => {
-                  this.setState({ modalVisible: false });
-                }}
-                updateDateTime={(date) => {
-                  this.setState({ dateTimeString: convertDateTimeToString(date) })
-                  this.setState({
-                    dateOfBirth: date,
-                    stringDateOfBirth: convertDateToString(dateOfBirth),
-                    age: daysBetween2Dates(new Date(), date),
-                  })
-                }}
+                {dateTimeString === '' ? "Ngày sinh: dd/mm/yyyy" : dateTimeString}
+              </Text>
               />
-            </Modal>            
-          </View>}
+          </TouchableOpacity>
+            <Text style={styles.age}>
+              {this._displayAge(age)}
+            </Text>
+          </View>        
         <TouchableOpacity onPress={() => {
           this._pressLocation()
         }}
@@ -313,7 +243,28 @@ export class RefereeService extends Component {
         }}>
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
-       
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              alert('Modal has been closed.');
+            }}
+          >
+            <FinalMatchDatePicker
+              dismissModal={() => {
+                this.setState({ modalVisible: false });
+              }}
+              updateDateTime={(date) => {
+                this.setState({ dateTimeString: convertDateTimeToString(date) })
+                this.setState({
+                  dateOfBirth: date,
+                  stringDateOfBirth: convertDateToString(dateOfBirth),
+                  age: daysBetween2Dates(new Date(), date),
+                })
+              }}
+            />
+          </Modal> 
       </SafeAreaView>
       </TouchableWithoutFeedback>
       
