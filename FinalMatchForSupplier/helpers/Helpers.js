@@ -23,7 +23,7 @@ export function convertDayMonthYearToStringYYYYMMDD(day, month, year) {
     return `${year}-${strMonth}-${strDay}`
 }
 
-export function convertDateToString(date) {
+export function convertDateTimeToString(date) {
     // const day = date.getDate()
     // const month = date.getMonth()
     // const year = date.getFullYear()

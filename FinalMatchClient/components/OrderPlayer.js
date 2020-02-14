@@ -258,7 +258,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: place.trim () === '' ? '#a9a9a9' : 'black',
+                  color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >                
                 {dateTimeString === '' ? "Stadium's time ": dateTimeString}                

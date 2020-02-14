@@ -10,6 +10,7 @@ import {
   DatePickerAndroid,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
   Image
 } from 'react-native';
 import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert } from '../helpers/Helpers'
@@ -20,20 +21,18 @@ import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors';
-import {} from './FinalMatchDatePicker'
+import FinalMatchDatePicker from './FinalMatchDatePicker'
 
 import {
-  daysBetween2Dates,
-  convertDayMonthYearToString,
-  convertDateToStringYYYYMMDD, 
-  isIOS,
+  daysBetween2Dates,  
+  convertDateToStringYYYYMMDD,   
   convertDateToString,
+  convertDateTimeToString,
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices';
-import DatePicker from 'react-native-date-picker'
 
 export class RefereeService extends Component {
   static navigationOptions = {
@@ -44,7 +43,7 @@ export class RefereeService extends Component {
     price: 100000,
     refereeName: '',
     phoneNumber: '',
-    dateOfBirth: new Date(),
+    dateOfBirth: new Date(),    
     stringDateOfBirth: '',    
     modalVisible: false,
     currentLocation: {
@@ -132,12 +131,11 @@ export class RefereeService extends Component {
       refereeName,
       price,
       age,
-      dateOfBirth,
-      phoneNumber,
       stringDateOfBirth,
-      showIOSDatePicker,
+      dateOfBirth,
+      phoneNumber,      
       radius,
-      modalVisible
+      modalVisible,      
     } = this.state
     const {
       address = '',
@@ -187,8 +185,7 @@ export class RefereeService extends Component {
         </View>
           <View style={styles.dateTime}>
             <TouchableOpacity
-              style={[
-                styles.textInput, { width: '70%' }]}
+              style={[styles.textInput, { width: '70%' }]}
               onPress={() => {
                 this.setState({ modalVisible: true })
               }}
@@ -199,12 +196,11 @@ export class RefereeService extends Component {
                   height: 40,
                   lineHeight: 50,
                   paddingStart: 5,
-                  color: place.trim() === '' ? '#a9a9a9' : 'black',
+                  color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                {dateTimeString === '' ? "Ngày sinh: dd/mm/yyyy" : dateTimeString}
-              </Text>
-              />
+                {stringDateOfBirth === '' ? "Ngày sinh: dd/mm/yyyy" : stringDateOfBirth}
+              </Text>              
           </TouchableOpacity>
             <Text style={styles.age}>
               {this._displayAge(age)}
@@ -255,12 +251,12 @@ export class RefereeService extends Component {
               dismissModal={() => {
                 this.setState({ modalVisible: false });
               }}
-              updateDateTime={(date) => {
-                this.setState({ dateTimeString: convertDateTimeToString(date) })
+              updateDateTime={(date) => {                
                 this.setState({
                   dateOfBirth: date,
-                  stringDateOfBirth: convertDateToString(dateOfBirth),
+                  stringDateOfBirth: convertDateTimeToString(date),
                   age: daysBetween2Dates(new Date(), date),
+                  modalVisible: false
                 })
               }}
             />

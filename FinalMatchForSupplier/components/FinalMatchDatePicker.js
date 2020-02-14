@@ -15,7 +15,8 @@ import DatePicker from 'react-native-date-picker'
 export default class FinalMatchDatePicker extends MultiLanguageComponent {
     state = {
         date: new Date(),
-        mode: isIOS ? "datetime" : "date",
+        //mode: isIOS ? "datetime" : "date",
+        mode: "date",
         isShow: true
     }
     render() {
@@ -29,6 +30,11 @@ export default class FinalMatchDatePicker extends MultiLanguageComponent {
                 {isShow && (                
                 <View style={styles.subView}>
                     <DatePicker                            
+                        maximumDate={() => {
+                            const date = new Date()
+                            date.setDate( date.getDate() - 13*360)
+                            return date
+                        }}
                         locale={i18n.locale}              
                         date={this.state.date}
                         onDateChange={date => this.setState({ date })}

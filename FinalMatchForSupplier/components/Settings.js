@@ -36,7 +36,6 @@ import {
   updateSettings,
 } from '../server/myServices'
 import { urlGetAvatar } from '../server/urlNames'
-import DatePicker from 'react-native-date-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 import ImagePicker from 'react-native-image-crop-picker';
