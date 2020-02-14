@@ -363,7 +363,8 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 40,
     paddingStart: 5
-  }, textInputRadius: {
+  }, 
+  textInputRadius: {
     width: '35%',
     height: 50,
     borderRadius: 8,
@@ -373,13 +374,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: 'black',
     fontSize: 20
-  },  textLabelRadius: {
+  }, 
+  textLabelRadius: {
     width: '50%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
     fontSize:20
-  },  textKM:{
+  },  
+  textKM:{
     width: '15%',
     height: 40,
     lineHeight: 40,
