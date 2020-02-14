@@ -36,6 +36,17 @@ export function convertDateToStringYYYYMMDD(date) {
     const year = date.getFullYear()
     return convertDayMonthYearToStringYYYYMMDD(day, month, year)
 }
+
+export function convertDateToStringDDMMYYYY(date) {    
+    let strDate = date.toLocaleString()
+    let month = strDate.split('/')[0].toString()
+    let day = strDate.split('/')[1].toString()
+    let year = strDate.split('/')[2].split(',')[0]
+    day = day.length < 2 ? `0${day}` : day
+    month = month.length < 2 ? `0${month}` : month
+    return `${day}/${month}/${year}`
+}
+
 export const isIOS = () => {
     return Platform.OS === "ios"
 }

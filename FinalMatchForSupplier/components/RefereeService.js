@@ -28,6 +28,7 @@ import {
   convertDateToStringYYYYMMDD,   
   convertDateToString,
   convertDateTimeToString,
+  convertDateToStringDDMMYYYY
 } from '../helpers/Helpers';
 import {
   getAddressFromLatLong,
@@ -251,11 +252,10 @@ export class RefereeService extends Component {
               dismissModal={() => {
                 this.setState({ modalVisible: false });
               }}
-              updateDateTime={(date) => {  
-                debugger              
+              updateDateTime={(date) => {                   
                 this.setState({
-                  dateOfBirth: date,
-                  stringDateOfBirth: convertDateTimeToString(date),
+                  dateOfBirth: date,                  
+                  stringDateOfBirth: convertDateToStringDDMMYYYY(date),
                   age: daysBetween2Dates(new Date(), date),
                   modalVisible: false
                 })
@@ -362,6 +362,7 @@ const styles = StyleSheet.create({
     width: '20%',
     height: 40,
     lineHeight: 40,
+    paddingStart: 5
   }, textInputRadius: {
     width: '35%',
     height: 50,
