@@ -12,7 +12,7 @@ import {
   TextInput,
   FlatList,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
@@ -23,7 +23,9 @@ import {
 import {getStadiumsAroundPoint} from '../server/myServices';
 import Geolocation from 'react-native-geolocation-service';
 import {validateLocation} from '../Validations/Validation';
-export default class Stadium extends Component {
+import {translate} from '../languages/languageConfigurations';
+import MultiLanguageComponent from './MultiLanguageComponent';
+export default class Stadium extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   };
@@ -98,15 +100,15 @@ export default class Stadium extends Component {
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
       );
     }
-  }
-  componentDidMount() {    
-    this.keyboardDidHideListener = Keyboard.addListener(
+  };
+  componentDidMount () {
+    this.keyboardDidHideListener = Keyboard.addListener (
       'keyboardDidHide',
-      this._pressLocation,
-    )
+      this._pressLocation
+    );
   }
-  componentWillUnmount() {    
-    this.keyboardDidHideListener.remove();
+  componentWillUnmount () {
+    this.keyboardDidHideListener.remove ();
   }
   render () {
     const {isFree, filteredStadiums} = this.state;
@@ -120,137 +122,158 @@ export default class Stadium extends Component {
       radius,
     } = currentLocation;
     return (
-      <TouchableWithoutFeedback onPress={() => {        
-        Keyboard.dismiss()        
-      }} accessible={false}>
-      <SafeAreaView style={styles.container}>
-        <Header
-          title="Đặt Trọng Tài"
-          hideBack={true}
-          pressBackButton={() => {
-            this.props.navigation.navigate ('Service');
-          }}
-        />
-        <View width={'100%'}>
-          <View
-            style={{
-              height: 70,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss ();
+        }}
+        accessible={false}
+      >
+        <SafeAreaView style={styles.container}>
+          <Header
+            title={translate ('Search Stadium')}
+            hideBack={true}
+            pressBackButton={() => {
+              this.props.navigation.navigate ('Service');
             }}
-          >
+          />
+          <View width={'100%'}>
+            <View
+              style={{
+                height: 80,
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                width: '100%',
+              }}
+            >
+
+              <View style={{flexDirection: 'column', width: '40%'}}>
+                <TouchableOpacity
+                  onPress={async () => {
+                    await this._pressLocation ();
+                  }}
+                  style={{width: '30%', paddingStart: '22%', marginBottom: 5}}
+                >
+                  <Image
+                    source={require ('../images/map.png')}
+                    style={{height: 50, width: 50}}
+                  />
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    width: '70%',
+                    paddingStart: '20%',
+                    paddingEnd: '2%',
+                    fontSize: 17,
+                    marginTop: 5,
+                  }}
+                  onPress={async () => {
+                    await this._pressLocation ();
+                  }}
+                >
+                  Lấy vị trí{' '}
+                </Text>
+
+              </View>
+
+              <TextInput
+                style={styles.textInput}
+                value={radius}
+                onChangeText={radius => {
+                  this.setState ({
+                    currentLocation: {...currentLocation, radius},
+                  });
+                }}
+                onEndEditing={async () => {
+                  if (validateLocation (latitude, longitude) == false) {
+                    await this._pressLocation ();
+                  }
+                  await this.getStadiumList ();
+                  await this.filterStadiums ();
+                }}
+                keyboardType={'numeric'}
+                placeholder="Phạm vi"
+              />
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: '90%',
+                  lineHeight: 50,
+                  fontSize: 17,
+                }}
+              >
+                KM
+              </Text>
+
+            </View>
             <Text
               style={{
-                width: '70%',
-                paddingStart: '20%',
-                paddingEnd: '2%',
-                fontSize: 17,
-              }}
-              onPress={async () => {
-                await this._pressLocation ();
+                paddingHorizontal: '25%',
+                width: '100%',
+                fontSize: 20,
+                fontFamily: 'arial',
+                marginTop:20
               }}
             >
-              Lấy vị trí của bạn{' '}
+              {address}
             </Text>
-            <TouchableOpacity
-              onPress={async () => {
-                await this._pressLocation ();
-              }}
-              style={{width: '30%', paddingEnd: '20%'}}
-            >
-              <Image
-                source={require ('../images/map.png')}
-                style={{height: 50, width: 50}}
-              />
-            </TouchableOpacity>
 
-          </View>
-          <Text
-            style={{
-              paddingHorizontal: 50,
-              width: '100%',
-              fontSize: 20,
-              fontFamily: 'arial',
-            }}
-          >
-            {address}
-          </Text>
-          <View style={styles.personalInformation}>
-            <TextInput
-              style={styles.textInput}
-              value={radius}
-              onChangeText={radius => {
-                this.setState ({currentLocation: {...currentLocation, radius}});
-              }}
-              onEndEditing={async () => {
-                if (validateLocation (latitude, longitude) == false) {
-                  await this._pressLocation ();
-                }
-                await this.getStadiumList ();
-                await this.filterStadiums ();
-              }}
-              keyboardType={'numeric'}
-              placeholder="Enter radius:"
-            />
-          </View>
-          <View style={styles.FeeAndFree}>
-            <TouchableOpacity
-              onPress={async () => {
-                await this.setState ({isFree: false});
-                await this.filterStadiums ();
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 17,
-                  marginBottom: 10,
-                  fontFamily: Platform.OS === 'ios'
-                    ? 'arial'
-                    : 'JosefinSans-Italic',
+            <View style={styles.FeeAndFree}>
+              <TouchableOpacity
+                onPress={async () => {
+                  await this.setState ({isFree: false});
+                  await this.filterStadiums ();
                 }}
               >
-                Fee
-              </Text>
-              <FontAwesome5
-                name={isFree == true ? 'square' : 'check-square'}
-                size={40}
-                color={'black'}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={async () => {
-                await this.setState ({isFree: true});
-                await this.filterStadiums ();
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 17,
-                  marginBottom: 10,
-                  fontFamily: Platform.OS === 'ios'
-                    ? 'arial'
-                    : 'JosefinSans-Italic',
+                <Text
+                  style={{
+                    fontSize: 17,
+                    marginBottom: 10,
+                    fontFamily: Platform.OS === 'ios'
+                      ? 'arial'
+                      : 'JosefinSans-Italic',
+                  }}
+                >
+                  Fee
+                </Text>
+                <FontAwesome5
+                  name={isFree == true ? 'square' : 'check-square'}
+                  size={40}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={async () => {
+                  await this.setState ({isFree: true});
+                  await this.filterStadiums ();
                 }}
               >
-                Free
-              </Text>
-              <FontAwesome5
-                name={isFree == true ? 'check-square' : 'square'}
-                size={40}
-                color={'black'}
-              />
-            </TouchableOpacity>
-          </View>          
-        </View>
-        <FlatList
+                <Text
+                  style={{
+                    fontSize: 17,
+                    marginBottom: 10,
+                    fontFamily: Platform.OS === 'ios'
+                      ? 'arial'
+                      : 'JosefinSans-Italic',
+                  }}
+                >
+                  Free
+                </Text>
+                <FontAwesome5
+                  name={isFree == true ? 'check-square' : 'square'}
+                  size={40}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <FlatList
             data={filteredStadiums}
             keyExtractor={(item, index) => `${item.stadiumId}`}
             renderItem={({item, index, separators}) => (
               <StadiumItem {...item} />
             )}
-        />
-      </SafeAreaView>
+          />
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     );
   }
@@ -260,22 +283,23 @@ const StadiumItem = props => {
   return (
     <TouchableHighlight>
       <View
-        style={{          
-          justifyContent: 'center',          
+        style={{
+          justifyContent: 'center',
           borderColor: '#a9a9a9',
           backgroundColor: '#f5f5f5',
           borderRadius: 15,
           borderWidth: 1,
-          marginHorizontal:10,
-          marginVertical:10,
-          paddingHorizontal: 10
+          marginHorizontal: 10,
+          marginVertical: 10,
+          paddingHorizontal: 10,
         }}
       >
-        <Text style={{fontSize:17, paddingTop: 10}}>Tên sân bóng: {stadiumName}</Text>
-          <Text style={{fontSize:17}}>Địa chỉ sân bóng: {address}</Text>
-          <Text style={{fontSize:17}}>Số điện thoại: {phoneNumber}</Text>
-          <Text style={{fontSize:17, paddingBottom: 10}}>{distance}</Text>
-
+        <Text style={{fontSize: 17, paddingTop: 10}}>
+          Tên sân bóng: {stadiumName}
+        </Text>
+        <Text style={{fontSize: 17}}>Địa chỉ sân bóng: {address}</Text>
+        <Text style={{fontSize: 17}}>Số điện thoại: {phoneNumber}</Text>
+        <Text style={{fontSize: 17, paddingBottom: 10}}>{distance}</Text>
       </View>
     </TouchableHighlight>
   );
@@ -283,17 +307,18 @@ const StadiumItem = props => {
 
 const styles = StyleSheet.create ({
   container: {
-    flex: 1,    
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    width: '100%'
   },
   FeeAndFree: {
     flexDirection: 'row',
     height: 60,
     width: '100%',
     justifyContent: 'space-around',
-    marginVertical: 25,
+    marginVertical: 20,
   },
   viewInformationStadium: {
     height: 150,
@@ -327,14 +352,12 @@ const styles = StyleSheet.create ({
     marginVertical: 10,
   },
   personalInformation: {
-    height: 75,
-    width: '100%',
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   textInput: {
-    width: '90%',
+    width: '60%',
     height: 50,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
@@ -342,5 +365,6 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
+    marginEnd: 10,
   },
 });
