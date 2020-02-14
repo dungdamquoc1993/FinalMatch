@@ -104,62 +104,59 @@ export default class RefereeList extends Component {
 }
 class Item extends Component {
   state = {
-    order: false   
-    } 
-render () {
-  const {
-    name,
-    age,
-    price,
-    matched,
-    iamgeAvatar,
-    imagechecked,
-    orderPlayer,
-    id,
-  } = this.props
-  const {order} = this.state
-  return (
-    <View style={styles.ViewAllInformation}>
-      <View style={styles.ViewDetail}>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Tên: </Text>
-          <Text style={styles.textLable}>{name}</Text>
+    order: false,
+  };
+  render () {
+    const {
+      name,
+      age,
+      price,
+      matched,
+      iamgeAvatar,
+      imagechecked,
+      orderPlayer,
+      id,
+    } = this.props;
+    const {order} = this.state;
+    return (
+      <View style={styles.ViewAllInformation}>
+        <View style={styles.ViewDetail}>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Tên: </Text>
+            <Text style={styles.textLable}>{name}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Tuổi: </Text>
+            <Text style={styles.textLable}>{age}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Số trận đã đấu: </Text>
+            <Text style={styles.textLable}>{matched}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLable}>Giá: </Text>
+            <Text style={styles.textLable}>{price}</Text>
+            <Text>{id}</Text>
+          </View>
         </View>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Tuổi: </Text>
-          <Text style={styles.textLable}>{age}</Text>
-        </View>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Số trận đã đấu: </Text>
-          <Text style={styles.textLable}>{matched}</Text>
-        </View>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLable}>Giá: </Text>
-          <Text style={styles.textLable}>{price}</Text>
-          <Text >{id}</Text>
+
+        <View style={styles.viewButton}>
+          <Image source={iamgeAvatar} style={styles.images} />
+
+          <TouchableOpacity
+            style={styles.btnOrder}
+            onPress={() => this.setState ({order: !this.state.order})}
+          >
+
+            {order == false
+              ? <Text style={styles.textOrder}>{orderPlayer}</Text>
+              : <Image source={imagechecked} style={{height: 50, width: 90}} />}
+
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={styles.viewButton}>
-        <Image source={iamgeAvatar} style={styles.images} />
-
-        <TouchableOpacity
-          style={styles.btnOrder}
-          onPress={() => this.setState ({order: !this.state.order})}
-        >
-
-          {order == false
-            ? <Text style={styles.textOrder}>{orderPlayer}</Text>
-            : <Image
-                source={imagechecked}
-                style={{height: 50, width: 90}}
-              />}
-
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+    );
+  }
 }
 const styles = StyleSheet.create ({
   container: {
@@ -191,14 +188,13 @@ const styles = StyleSheet.create ({
   },
   textLable: {
     fontSize: 17,
-    
   },
   btnOrder: {
     width: 90,
     height: 50,
     borderRadius: 2,
     backgroundColor: '#dcdcdc',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   viewButton: {
     flexDirection: 'column',
@@ -213,7 +209,6 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
-    
   },
   buttonSubmit: {
     height: 50,
@@ -231,7 +226,6 @@ const styles = StyleSheet.create ({
   textSubmit: {
     lineHeight: 50,
     fontSize: 20,
-    
     color: 'white',
     alignSelf: 'center',
   },
