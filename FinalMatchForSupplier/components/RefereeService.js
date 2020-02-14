@@ -20,6 +20,8 @@ import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors';
+import {} from './FinalMatchDatePicker'
+
 import {
   daysBetween2Dates,
   convertDayMonthYearToString,
@@ -125,8 +127,7 @@ export class RefereeService extends Component {
 
   }
   _onPressDateTextInput = async () => {
-    try {
-      ;
+    try {    
       if (isIOS()) {
         this.setState({ showIOSDatePicker: true });
         return;
@@ -256,18 +257,28 @@ export class RefereeService extends Component {
                 <Text>Save</Text>
               </TouchableOpacity>
             </View>
-            <DatePicker
-              mode={'date'}
-              date={dateOfBirth}
-              onDateChange={dateOfBirth => {
-                const today = new Date();
-                this.setState({
-                  dateOfBirth,
-                  stringDateOfBirth: convertDateToString(dateOfBirth),
-                  age: daysBetween2Dates(today, dateOfBirth),
-                });
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                alert('Modal has been closed.');
               }}
-            />
+            >
+              <FinalMatchDatePicker
+                dismissModal={() => {
+                  this.setState({ modalVisible: false });
+                }}
+                updateDateTime={(date) => {
+                  this.setState({ dateTimeString: convertDateTimeToString(date) })
+                  this.setState({
+                    dateOfBirth: date,
+                    stringDateOfBirth: convertDateToString(dateOfBirth),
+                    age: daysBetween2Dates(new Date(), date),
+                  })
+                }}
+              />
+            </Modal>            
           </View>}
         <TouchableOpacity onPress={() => {
           this._pressLocation()

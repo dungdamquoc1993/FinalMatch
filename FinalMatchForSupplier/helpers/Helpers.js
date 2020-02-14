@@ -24,10 +24,11 @@ export function convertDayMonthYearToStringYYYYMMDD(day, month, year) {
 }
 
 export function convertDateToString(date) {
-    const day = date.getDate()
-    const month = date.getMonth()
-    const year = date.getFullYear()
-    return convertDayMonthYearToString(day, month, year)
+    // const day = date.getDate()
+    // const month = date.getMonth()
+    // const year = date.getFullYear()
+    // return convertDayMonthYearToString(day, month, year)
+    return date.toLocaleString()    
 }
 export function convertDateToStringYYYYMMDD(date) {
     const day = date.getDate()

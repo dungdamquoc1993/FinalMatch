@@ -28,8 +28,7 @@ export default class FinalMatchDatePicker extends MultiLanguageComponent {
                 style={styles.containerButton} />     
                 {isShow && (                
                 <View style={styles.subView}>
-                    <DatePicker    
-                        minimumDate={new Date()}  
+                    <DatePicker                            
                         locale={i18n.locale}              
                         date={this.state.date}
                         onDateChange={date => this.setState({ date })}

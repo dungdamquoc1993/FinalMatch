@@ -9,6 +9,7 @@ import {
   ScrollView,
   Modal,
   Alert,
+  Keyboard,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from './Header';
@@ -19,7 +20,7 @@ import {
   getCustomerInformation,
   updateCustomerInformation,
 } from '../server/myServices';
-import {getCustomerFromStorage} from '../helpers/Helpers';
+import {getCustomerFromStorage, convertDateTimeToString} from '../helpers/Helpers';
 import FinalMatchDatePicker from './FinalMatchDatePicker';
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
@@ -259,9 +260,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   paddingStart: 5,
                   color: place.trim () === '' ? '#a9a9a9' : 'black',
                 }}
-              >
-                {/* {place.trim() === ''? "Địa điểm thi đấu" : place} */}
-                Stadium's time :{' '}
+              >                
+                {dateTimeString === '' ? "Stadium's time ": dateTimeString}                
               </Text>
             </TouchableOpacity>
           </View>
@@ -284,12 +284,18 @@ export default class OrderPlayer extends MultiLanguageComponent {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            alert ('Modal has been closed.');
+            
           }}
         >
           <FinalMatchDatePicker
             dismissModal={() => {
-              this.setState ({modalVisible: false});
+              this.setState ({modalVisible: false});              
+            }}
+            updateDateTime={(date)=>{              
+              this.setState({
+                modalVisible: false,
+                dateTimeString: convertDateTimeToString(date)
+              })
             }}
           />
         </Modal>
