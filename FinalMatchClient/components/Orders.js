@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import Header from './Header';
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 const DATA = [
   {
     id: '011',
@@ -48,7 +49,7 @@ const DATA = [
   },
 ];
 
-export default class Orders extends Component {
+export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   };
@@ -56,13 +57,8 @@ export default class Orders extends Component {
     const {navigate} = this.props.navigation;
     return (
       <SafeAreaView style={styles.container}>
-      <Header
-          title="Dịch vụ của bạn"
-          hideBack={true}
-          pressBackButton={() => {
-            this.props.navigation.navigate ('OrderReferee');
-          }}
-        />
+
+      <Text style={styles.textTitle}>{translate('Create a service')}</Text>
         <FlatList
           width={'100%'}
           data={DATA}
@@ -137,10 +133,10 @@ render () {
 }
 const styles = StyleSheet.create ({
   container: {
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
+    flex: 1,
   },
   ViewAllInformation: {
     flexDirection: 'row',
@@ -187,6 +183,9 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     alignSelf: 'center',
     fontSize: 17,
-    
-  }
+  },
+  textTitle: {
+    fontSize: 20,
+    textAlign: 'center',
+  },
 });

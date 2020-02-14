@@ -154,7 +154,7 @@ export default class Stadium extends MultiLanguageComponent {
                   style={{width: '30%', paddingStart: '22%', marginBottom: 5}}
                 >
                   <Image
-                    source={require ('../images/map.png')}
+                    source={require ('../images/pin.png')}
                     style={{height: 50, width: 50}}
                   />
                 </TouchableOpacity>

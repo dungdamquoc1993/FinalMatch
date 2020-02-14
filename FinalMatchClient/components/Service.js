@@ -43,7 +43,7 @@ export default class Service extends MultiLanguageComponent {
               }}
             >
               <Text style={styles.textButton}>
-                Đăng ký một cầu thủ
+              {translate('Order Player')}
               </Text>
               <Image
                 style={{height: 30, width: 30}}
@@ -99,7 +99,7 @@ export default class Service extends MultiLanguageComponent {
               }}
             >
               <Text style={styles.textButton}>
-                Đăng ký trọng tài
+              {translate('Order Referee')}
               </Text>
               <Image
                 style={{height: 30, width: 30}}
@@ -131,7 +131,7 @@ export default class Service extends MultiLanguageComponent {
               }}
             >
               <Text style={styles.textButton}>
-                Đăng ký sân bóng
+              {translate('Search Stadium')}
               </Text>
               <Image
                 style={{height: 30, width: 30}}
