@@ -34,6 +34,7 @@ const StackNavigator = createAppContainer(createStackNavigator({
 }, {
   initialRouteName: 'Splash',
   headerShown: false,
+  gesturesEnabled: false,
 }))
 export default () => <Provider store={store}>
     <StackNavigator />

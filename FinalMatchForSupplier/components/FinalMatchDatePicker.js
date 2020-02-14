@@ -11,10 +11,11 @@ import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import { TextInput } from 'react-native-gesture-handler'
 import DatePicker from 'react-native-date-picker'
+import moment from 'moment'
 
 export default class FinalMatchDatePicker extends MultiLanguageComponent {
     state = {
-        date: new Date(),
+        date: moment().subtract('years', 13),
         //mode: isIOS ? "datetime" : "date",
         mode: "date",
         isShow: true
@@ -30,13 +31,9 @@ export default class FinalMatchDatePicker extends MultiLanguageComponent {
                 {isShow && (                
                 <View style={styles.subView}>
                     <DatePicker                            
-                        maximumDate={() => {
-                            const date = new Date()
-                            date.setDate( date.getDate() - 13*360)
-                            return date
-                        }}
+                        maximumDate={moment().subtract('years', 13)}
                         locale={i18n.locale}              
-                        date={this.state.date}
+                        date={date}
                         onDateChange={date => this.setState({ date })}
                         />
                     <View >
