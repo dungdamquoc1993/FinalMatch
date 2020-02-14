@@ -251,7 +251,8 @@ export class RefereeService extends Component {
               dismissModal={() => {
                 this.setState({ modalVisible: false });
               }}
-              updateDateTime={(date) => {                
+              updateDateTime={(date) => {  
+                debugger              
                 this.setState({
                   dateOfBirth: date,
                   stringDateOfBirth: convertDateTimeToString(date),

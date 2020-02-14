@@ -15,7 +15,7 @@ import moment from 'moment'
 
 export default class FinalMatchDatePicker extends MultiLanguageComponent {
     state = {
-        date: moment().subtract('years', 13),
+        date: moment().subtract('years', 13).toDate(),
         //mode: isIOS ? "datetime" : "date",
         mode: "date",
         isShow: true
@@ -31,9 +31,10 @@ export default class FinalMatchDatePicker extends MultiLanguageComponent {
                 {isShow && (                
                 <View style={styles.subView}>
                     <DatePicker                            
-                        maximumDate={moment().subtract('years', 13)}
+                        maximumDate={moment().subtract('years', 13).toDate()}
                         locale={i18n.locale}              
                         date={date}
+                        mode={mode}
                         onDateChange={date => this.setState({ date })}
                         />
                     <View >
