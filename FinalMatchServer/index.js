@@ -28,7 +28,7 @@ app.use('/refereeServices', RefereeServiceRoute)
 app.use('/token', TokenRoute)
 app.use('/googleServiceRoute', GoogleServiceRoute)
 app.use('/stadium', StadiumRoute)
-app.use('/order', OrderRoute)
+app.use('/orders', OrderRoute)
 app.use('/temp', TempRoute)
 
 
