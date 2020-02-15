@@ -25,6 +25,10 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
+  
+//  if ([[rootViewController navigationController] respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//      [rootViewController navigationController].interactivePopGestureRecognizer.enabled = NO;
+//  }
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;

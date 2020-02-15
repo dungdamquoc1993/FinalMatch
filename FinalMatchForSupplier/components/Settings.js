@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Text,
   View,
@@ -12,9 +12,10 @@ import {
   Dimensions,
   CameraRoll,
   Alert,
-  Platform
-} from 'react-native';
-import Header from './Header';
+  Platform,
+  Modal
+} from 'react-native'
+import Header from './Header'
 import {
   daysBetween2Dates,
   getSupplierFromStorage,
@@ -24,12 +25,13 @@ import {
   setPosition,
   getPosition,
   alert,
-  convertDateToStringYYYYMMDD
-} from '../helpers/Helpers';
+  convertDateToStringYYYYMMDD,
+  convertDateToStringDDMMYYYY
+} from '../helpers/Helpers'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
+} from '../server/googleServices'
 import {
   getSupplierServicesOrders,
   postUploadPhoto,
@@ -38,9 +40,10 @@ import {
 import { urlGetAvatar } from '../server/urlNames'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
-import ImagePicker from 'react-native-image-crop-picker';
-import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors';
+import ImagePicker from 'react-native-image-crop-picker'
+import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors'
 import { NavigationEvents } from 'react-navigation'
+import FinalMatchDatePicker from './FinalMatchDatePicker'
 
 /**
  * yarn add react-native-date-picker
@@ -79,8 +82,7 @@ export default class Settings extends Component {
     avatar: '',
     age: '',
     dateOfBirth: new Date(),
-    stringDateOfBirth: '',
-    showIOSDatePicker: false,
+    stringDateOfBirth: '',    
     isGK: false,
     isCB: false,
     isMF: false,
@@ -92,7 +94,8 @@ export default class Settings extends Component {
       longitude: 0.0,
     },
     radius: 0.0,
-  };
+    modalVisible: false,
+  }
   _saveSettings = async () => {
     const { supplierId } = this.state
     const {
@@ -173,7 +176,7 @@ export default class Settings extends Component {
         isGK, isCB, isMF, isCF,
         avatar, position, phoneNumber, radius, playerName, refereeName, supplierId,
         playerId, refereeId,
-        stringDateOfBirth: convertDayMonthYearToString(day, month, year),
+        stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),
         selectedDate,
         dateOfBirth: selectedDate,
         currentLocation: {
@@ -202,61 +205,39 @@ export default class Settings extends Component {
   }
   _displayAge(age) {
     if (age > 0) {
-      return age > 1 ? `${age} ages` : `${age} age`;
+      return age > 1 ? `${age} ages` : `${age} age`
     } else {
-      return '';
+      return ''
     }
   }
-  _onPressDateTextInput = async () => {
-    try {
-      if (isIOS()) {
-        this.setState({ showIOSDatePicker: true });
-        return;
-      }
-      const { action, year, month, day } = await DatePickerAndroid.open({
-        date: new Date(),
-        mode: 'spinner',
-      });
-      let selectedDate = new Date(year, month, day);
-      let today = new Date();
-      if (action === DatePickerAndroid.dateSetAction) {
-        this.setState({
-          dateOfBirth: selectedDate,
-          stringDateOfBirth: convertDayMonthYearToString(day, month, year),
-          age: daysBetween2Dates(today, selectedDate),
-        });
-      }
-    } catch ({ code, message }) {
-      console.warn('Cannot open date picker', message);
-    }
-  };
+  
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission();
+    const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         async position => {
-          const { latitude, longitude } = position.coords;
+          const { latitude, longitude } = position.coords
           const {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong(latitude, longitude);
+          } = await getAddressFromLatLong(latitude, longitude)
 
           this.setState({
             currentLocation: { address, district, province, latitude, longitude },
-          });
+          })
         },
         error => {
-          console.log(error.code, error.message);
+          console.log(error.code, error.message)
         },
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
-      );
+      )
     }
-  };
+  }
   _navigateToServiceRegister = () => {
-    let params = {};
-    this.props.navigation.navigate('ServiceRegister', params);
-  };
+    let params = {}
+    this.props.navigation.navigate('ServiceRegister', params)
+  }
   render() {
     const {
       name,
@@ -273,14 +254,14 @@ export default class Settings extends Component {
       playerName,
       refereeName,
       stringDateOfBirth,
-      showIOSDatePicker,
-    } = this.state;
+      modalVisible
+    } = this.state
 
     const {
       address = '',
       district = '',
       province = '',
-    } = this.state.currentLocation;
+    } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
         <Header title={'Quản Lý Tài Khoản'} pressBackButton={async () => {
@@ -298,7 +279,7 @@ export default class Settings extends Component {
         <View style={styles.avatar}>
           <TouchableOpacity
             onPress={() => {
-              this._chooseAvatar();
+              this._chooseAvatar()
             }}
           >
             <Image
@@ -322,7 +303,7 @@ export default class Settings extends Component {
               placeholder={'Please enter name'}
               value={name}
               onChangeText={name => {
-                this.setState({ name });
+                this.setState({ name })
               }}
             />
           </View>
@@ -331,23 +312,22 @@ export default class Settings extends Component {
               Tuổi
             </Text>
             <TouchableOpacity
-              style={[
-                styles.textInput,
-                { width: '40%', zIndex: 100 },
-                isIOS() && { paddingTop: 10 },
-              ]}
+              style={[styles.textInput, { width: '70%' }]}
               onPress={() => {
-                this._onPressDateTextInput();
+                this.setState({ modalVisible: true })
               }}
             >
               <Text
-                keyboardType={'default'}
-                onPress={() => {
-                  this._onPressDateTextInput();
+                style={{
+                  fontSize: 17,
+                  height: 40,
+                  lineHeight: 50,
+                  paddingStart: 5,
+                  color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
-                style={{textAlign:'center',lineHeight:35}}
-              // value={"djsijhd"}
-              >{stringDateOfBirth.length > 0 ? stringDateOfBirth : 'dd/mm/yyyy'}</Text>
+              >
+                {stringDateOfBirth === '' ? "Ngày sinh: dd/mm/yyyy" : stringDateOfBirth}
+              </Text>
             </TouchableOpacity>
             <Text style={styles.age}>
               {this._displayAge(age)}
@@ -363,7 +343,7 @@ export default class Settings extends Component {
               keyboardType={'phone-pad'}
               value={phoneNumber}
               onChangeText={phoneNumber => {
-                this.setState({ phoneNumber });
+                this.setState({ phoneNumber })
               }}
             />
           </View>
@@ -372,7 +352,7 @@ export default class Settings extends Component {
             <View style={{ height: 50,width:'80%' }}>
               <TouchableOpacity
                 onPress={() => {
-                  this._pressLocation();
+                  this._pressLocation()
                 }}
                 style={styles.buttonGetLocation}
               >
@@ -392,7 +372,7 @@ export default class Settings extends Component {
                 keyboardType={'numeric'}
                 value={`${radius}`}
                 onChangeText={radius => {
-                  this.setState({ radius });
+                  this.setState({ radius })
                 }}
               />
               <Text style={{ fontSize: 17, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
@@ -400,54 +380,7 @@ export default class Settings extends Component {
               </Text>
             </View>
            
-          </View>
-          {isIOS() &&
-            showIOSDatePicker &&
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  height: 20,
-                }}
-              >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: MAIN_COLOR,
-                    padding: 10,
-                    margin: 10,
-                    borderRadius: 5,
-                    height: 40,
-                    paddingHorizontal: 20,
-                    alignItems: 'center'
-                  }}
-                  onPress={() => {
-                    this.setState({ showIOSDatePicker: false });
-                  }}
-                >
-                  <Text style={{ fontSize: 15}}>Save</Text>
-                </TouchableOpacity>
-              </View>
-              <DatePicker
-                mode={'date'}
-                date={this.state.dateOfBirth}
-                style={{
-                  justifyContent: "center",
-                  alignSelf: "center"
-                }}
-                onDateChange={dateOfBirth => {
-                  const today = new Date();
-                  this.setState({
-                    dateOfBirth,
-                    stringDateOfBirth: convertDateToString(dateOfBirth),
-                    age: daysBetween2Dates(today, dateOfBirth),
-                  });
-                }}
-              />
-
-            </View>
-          }
-
+          </View>         
           {/* get location  */}
           {/* ban kinh */}
           {playerId > 0 && <View
@@ -477,7 +410,7 @@ export default class Settings extends Component {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isGK: !this.state.isGK });
+                  this.setState({ isGK: !this.state.isGK })
                 }}
               >
                 <Text style={{}}>GK</Text>
@@ -490,7 +423,7 @@ export default class Settings extends Component {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isCB: !this.state.isCB });
+                  this.setState({ isCB: !this.state.isCB })
                 }}
               >
                 <Text>CB</Text>
@@ -503,7 +436,7 @@ export default class Settings extends Component {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isMF: !this.state.isMF });
+                  this.setState({ isMF: !this.state.isMF })
                 }}
               >
                 <Text style={{}}>MF</Text>
@@ -516,7 +449,7 @@ export default class Settings extends Component {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isCF: !this.state.isCF });
+                  this.setState({ isCF: !this.state.isCF })
                 }}
               >
                 <Text style={{}}>CF</Text>
@@ -567,8 +500,30 @@ export default class Settings extends Component {
 
           </View>}
         </ScrollView>
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              alert('Modal has been closed.')
+            }}
+          >
+            <FinalMatchDatePicker
+              dismissModal={() => {
+                this.setState({ modalVisible: false })
+              }}
+              updateDateTime={(date) => {                   
+                this.setState({
+                  dateOfBirth: date,                  
+                  stringDateOfBirth: convertDateToStringDDMMYYYY(date),
+                  age: daysBetween2Dates(new Date(), date),
+                  modalVisible: false
+                })
+              }}
+            />
+          </Modal> 
       </SafeAreaView>
-    );
+    )
   }
 }
 
@@ -671,8 +626,7 @@ const styles = StyleSheet.create({
     width: '30%',
     height: 60,
     lineHeight: 60,
-    textAlign:'center',
-    
+    textAlign:'left',    
   },
   textInputRole: {
     width: '50%',
@@ -715,4 +669,4 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
-});
+})

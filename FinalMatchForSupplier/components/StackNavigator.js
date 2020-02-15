@@ -15,21 +15,39 @@ import {KeyboardAvoidingView} from 'react-native'
 const StackNavigator = createAppContainer(createStackNavigator({
   Splash: {
     screen: Splash,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },
   LoginRegister: {
     screen: LoginRegister,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },  
   MyTabNavigator: {
     screen: MyTabNavigator,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },
   RefereeService: {
     screen: RefereeService,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },
   PlayerService: {
     screen: PlayerService,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },
   Stadium: {
     screen: Stadium,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   },
 }, {
   initialRouteName: 'Splash',
@@ -39,6 +57,8 @@ const StackNavigator = createAppContainer(createStackNavigator({
     gesturesEnabled: false
   }
 }))
+
+
 export default () => <Provider store={store}>
     <StackNavigator />
    

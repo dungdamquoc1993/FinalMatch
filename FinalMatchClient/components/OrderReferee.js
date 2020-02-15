@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
-  Platform
+  Platform,
+  Modal
 } from 'react-native';
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
@@ -16,7 +17,8 @@ import {
   getCustomerInformation,
   updateCustomerInformation
 } from '../server/myServices'
-import {getCustomerFromStorage} from '../helpers/Helpers'
+import {getCustomerFromStorage, convertDateTimeToString} from '../helpers/Helpers';
+import FinalMatchDatePicker from './FinalMatchDatePicker';
 
 export default class OrderReferee extends MultiLanguageComponent {
   static navigationOptions = {
@@ -25,6 +27,7 @@ export default class OrderReferee extends MultiLanguageComponent {
   state = {
     name: '',
     place: '',
+    dateTimeString: '',
     phoneNumber: '',    
     point: {
       latitude : 0, 
@@ -37,13 +40,14 @@ export default class OrderReferee extends MultiLanguageComponent {
       hour: 0,
       minute: 0, 
       gmt: 7
-    }
+    },
+    modalVisible: false,
   }
   sendRequest = async () => {    
     try {
       const {name, phoneNumber} = this.state
       const {navigate} = this.props.navigation
-      const {point, matchTiming} = this.state
+      const {point, matchTiming, dateTimeString, month} = this.state
       
       //1.Update customer's information
       const { message, error } = await updateCustomerInformation(name, phoneNumber)      
@@ -73,7 +77,7 @@ export default class OrderReferee extends MultiLanguageComponent {
   }
   render () {
     const {navigate} = this.props.navigation;
-    const {name, phoneNumber, point, matchTiming, place} = this.state    
+    const {name, phoneNumber, point, matchTiming, place, modalVisible, dateTimeString} = this.state    
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -128,12 +132,26 @@ export default class OrderReferee extends MultiLanguageComponent {
             </TouchableOpacity>
 
           </View>
-        <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInputPosition}
-            placeholder={'Thời gian thi đấu'}
-          />
-        </View>
+          <View style={styles.personalInformation}>
+            <TouchableOpacity
+              style={styles.textInput}
+              onPress={() => {
+                this.setState ({modalVisible: true});
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 17,
+                  height: 40,
+                  lineHeight: 50,
+                  paddingStart: 5,
+                  color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
+                }}
+              >                
+                {dateTimeString === '' ? "Stadium's time ": dateTimeString}                
+              </Text>
+            </TouchableOpacity>
+          </View>
         <TouchableOpacity style={styles.buttonSubmit} onPress={async () => {
           await this.sendRequest()
         }}>
@@ -141,6 +159,26 @@ export default class OrderReferee extends MultiLanguageComponent {
             {translate("Send a request")}
           </Text>
         </TouchableOpacity>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            
+          }}
+        >
+          <FinalMatchDatePicker
+            dismissModal={() => {
+              this.setState ({modalVisible: false});              
+            }}
+            updateDateTime={(date)=>{              
+              this.setState({
+                modalVisible: false,
+                dateTimeString: convertDateTimeToString(date)
+              })
+            }}
+          />
+        </Modal>
       </SafeAreaView>
     );
   }
