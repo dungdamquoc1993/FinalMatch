@@ -9,8 +9,8 @@ import {
   FlatList,
 } from 'react-native'
 import {
-  getPlayerAroundOrder, 
-  getRefereeAroundOrder,
+  getPlayersAroundOrder, 
+  getRefereesAroundOrder,
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 import Header from './Header'

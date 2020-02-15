@@ -101,8 +101,8 @@ ORDER BY distance ASC;
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS getPlayerAroundOrder //
-CREATE PROCEDURE getPlayerAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(1))
+DROP PROCEDURE IF EXISTS getPlayersAroundOrder //
+CREATE PROCEDURE getPlayersAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(1))
 SELECT  *,
 (
     GLength(
@@ -123,8 +123,8 @@ ORDER BY distance ASC;
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS getRefereeAroundOrder //
-CREATE PROCEDURE getRefereeAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
+DROP PROCEDURE IF EXISTS getRefereesAroundOrder //
+CREATE PROCEDURE getRefereesAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT  *,
 (
     GLength(

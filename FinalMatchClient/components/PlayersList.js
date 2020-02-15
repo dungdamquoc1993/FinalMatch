@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -8,67 +8,26 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-} from 'react-native';
+} from 'react-native'
 import {
-  getPlayerAroundOrder, 
-  getRefereeAroundOrder,
+  getPlayersAroundOrder, 
+  getRefereesAroundOrder,
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 
-import Header from './Header';
+import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
-const DATA = [
-  {
-    id: '011',
-    name: 'Vũ Trung Kiên',
-    position: 'GK',
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/soccer.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '015',
-    name: 'acb',
-    position: 'GK',
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/soccer.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '012',
-    name: 'Vũ Trung Kiên',
-    position: 'GK',
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/soccer.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '013',
-    name: 'Vũ Trung Kiên',
-    position: 'GK',
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/soccer.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-];
+
 export default class PlayersList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   constructor (props) {
-    super (props);
+    super (props)
     this.state = {    
       keyId: '',
-    };
+    }
   }
   _getPlayersList = async () => {
     const {
@@ -78,9 +37,14 @@ export default class PlayersList extends MultiLanguageComponent {
       longitude,
       matchTiming
     } = this.props.navigation.state.params    
+    try {
+      await getPlayersAroundOrder(radius, latitude, longitude, position)
+    } catch (error) {
+      
+    }
   }
   render () {
-    const {navigate} = this.props.navigation;      
+    const {navigate} = this.props.navigation      
     return (
       <SafeAreaView style={styles.container}>        
         <NavigationEvents
@@ -92,7 +56,7 @@ export default class PlayersList extends MultiLanguageComponent {
           title={translate('Player around you')}
           hideBack={true}
           pressBackButton={() => {
-            this.props.navigation.navigate ('OrderPlayer');
+            this.props.navigation.navigate ('OrderPlayer')
           }}
         />
         <FlatList
@@ -100,11 +64,11 @@ export default class PlayersList extends MultiLanguageComponent {
           data={DATA}
           renderItem={({item}) => (
             <Item
-              name={item.name}
+              playerName={item.playerName}
               position={item.position}
-              matched={item.matched}
-              price={item.price}
-              iamgeAvatar={item.iamgeAvatar}
+              address={item.address}
+              playerPrice={item.playerPrice}
+              avatar={item.avatar}
               orderPlayer={item.orderPlayer}
               imagechecked={item.imagechecked}
             />
@@ -114,7 +78,7 @@ export default class PlayersList extends MultiLanguageComponent {
         <TouchableOpacity
           style={styles.buttonSubmit}
           onPress={() => {
-            navigate ('Service');
+            navigate ('Service')
           }}
         >
           <Text style={styles.textSubmit}>
@@ -123,7 +87,7 @@ export default class PlayersList extends MultiLanguageComponent {
         </TouchableOpacity>
 
       </SafeAreaView>
-    );
+    )
   }
 }
 class Item extends Component {
@@ -132,39 +96,52 @@ class Item extends Component {
       } 
   render () {
     const {
-      name,
+      avatar,
+      password,
+      phoneNumber,
+      dateOfBirth,
+      facebookId,
+      email,
+      userType,
+      point,
+      latitude,
+      longitude,
+      address,
+      radius,
+      isActive,
+      tokenKey,
+      playerServiceSupplierId,
+      playerId,
+      playerPrice,
+      playerName,
       position,
-      price,
-      matched,
-      iamgeAvatar,
-      imagechecked,
-      orderPlayer,
-      id,
+      distance,
+      positionAt,
     } = this.props
     const {order} = this.state
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Name : ')}</Text>
-            <Text style={styles.textLable}>{name}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate('Name : ')}</Text>
+            <Text style={styles.textLabel}>{playerName}</Text>
           </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Position : ')}</Text>
-            <Text style={styles.textLable}>{position}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate('Position : ')}</Text>
+            <Text style={styles.textLabel}>{position}</Text>
           </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Completed Matches : ')}</Text>
-            <Text style={styles.textLable}>{matched}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate('Completed Matches : ')}</Text>
+            <Text style={styles.textLabel}>{address}</Text>
           </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('price : ')}</Text>
-            <Text style={styles.textLable}>{price}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate('playerPrice : ')}</Text>
+            <Text style={styles.textLabel}>{playerPrice}</Text>
           </View>
         </View>
   
-        <View style={styles.viewButton}>
-          <Image source={iamgeAvatar} style={styles.images} />
+        {/* <View style={styles.viewButton}>
+          <Image source={avatar} style={styles.images} />
   
           <TouchableOpacity
             style={styles.btnOrder}
@@ -179,9 +156,9 @@ class Item extends Component {
                 />}
   
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
-    );
+    )
   }
 }
 
@@ -209,12 +186,12 @@ const styles = StyleSheet.create ({
     width: '60%',
     paddingEnd: '10%',
   },
-  ViewNamedetailArbitration: {
+  viewInformation: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: '4%',
   },
-  textLable: {
+  textLabel: {
     fontSize: 17,
     
   },
@@ -259,4 +236,4 @@ const styles = StyleSheet.create ({
     color: 'white',
     alignSelf: 'center',    
   },
-});
+})

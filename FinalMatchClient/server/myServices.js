@@ -9,8 +9,8 @@ import {
     urlUpdateCustomerInformation, 
     urlGetCustomerInformation,
     urlGetStadiumsAroundPoint,
-    urlGetPlayerAroundOrder, 
-    urlGetRefereeAroundOrder
+    urlgetPlayersAroundOrder, 
+    urlgetRefereesAroundOrder
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -184,10 +184,10 @@ export const getStadiumsAroundPoint = async (latitude, longitude, radius) => {
     }
 }
 
-export const getRefereeAroundOrder = async (radius, latitude, longitude) => {
+export const getRefereesAroundOrder = async (radius, latitude, longitude) => {
     try {        
         const {tokenKey, customerId} = await getCustomerFromStorage()            
-        const response = await fetch(await urlGetRefereeAroundOrder(), {
+        const response = await fetch(await urlgetRefereesAroundOrder(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -202,22 +202,20 @@ export const getRefereeAroundOrder = async (radius, latitude, longitude) => {
         const { result,message } = responseJson                
         
         if(result.toLowerCase() === 'ok') {
-            return {message, error: null}
+            return result.data
         } else {
-            return {message, error: message}
+            return []
         }        
     } catch (error) {                
-        return {
-            message: "Error getting referee around order" + JSON.stringify(error),
-            error
-         }
+        return []
     }
 }
 
-export const getPlayerAroundOrder = async (radius, latitude, longitude, position) => {
+
+export const getPlayersAroundOrder = async (radius, latitude, longitude, position) => {
     try {        
         const {tokenKey, customerId} = await getCustomerFromStorage()            
-        const response = await fetch(await urlGetRefereeAroundOrder(), {
+        const response = await fetch(await urlgetRefereesAroundOrder(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -232,15 +230,12 @@ export const getPlayerAroundOrder = async (radius, latitude, longitude, position
         const { result,message } = responseJson                
         
         if(result.toLowerCase() === 'ok') {
-            return {message, error: null}
+            return result.data
         } else {
-            return {message, error: message}
+            return []
         }        
     } catch (error) {                
-        return {
-            message: "Error getting Player around Order" + JSON.stringify(error),
-            error
-         }
+        return []
     }
 }
 

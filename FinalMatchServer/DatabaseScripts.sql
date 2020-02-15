@@ -1,7 +1,7 @@
 USE FinalMatch;
 
-DROP PROCEDURE IF EXISTS getRefereeAroundOrder //
-CREATE PROCEDURE getRefereeAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
+DROP PROCEDURE IF EXISTS getRefereesAroundOrder //
+CREATE PROCEDURE getRefereesAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT  *,
 (
     GLength(

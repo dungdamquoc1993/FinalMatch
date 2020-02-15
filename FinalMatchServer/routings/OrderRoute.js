@@ -3,11 +3,11 @@ var router = express.Router()
 const {checkTokenCustomer} = require('./helpers')
 const {connection} = require('../database/database')
 
-const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereeAroundOrder(?, ?, ?)"
-const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayerAroundOrder(?, ?, ?, ?)"
+const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
+const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 
-//Link http://150.95.113.87:3000/orders/getRefereeAroundOrder
-router.post('/getRefereeAroundOrder', async (req, res) => {  
+//Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
+router.post('/getRefereesAroundOrder', async (req, res) => {  
     const { tokenkey, customerid } = req.headers
     const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
     if(checkTokenResult == false) {
@@ -46,7 +46,7 @@ router.post('/getRefereeAroundOrder', async (req, res) => {
             }
     })    
   })
-  router.post('/getPlayerAroundOrder', async (req, res) => {  
+  router.post('/getPlayersAroundOrder', async (req, res) => {  
     const { tokenkey, customerid } = req.headers
     const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
     if(checkTokenResult == false) {
