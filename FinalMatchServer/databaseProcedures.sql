@@ -117,12 +117,12 @@ SELECT  *,
 FROM viewSupplierPlayerService
 HAVING distance <= radius + orderRadius 
 AND position = position 
-AND supplierId IS NOT NULL
+AND playerServiceSupplierId IS NOT NULL
 ORDER BY distance ASC;
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS getPlayerAroundOrder //
+DROP PROCEDURE IF EXISTS getRefereeAroundOrder //
 CREATE PROCEDURE getRefereeAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT  *,
 (
@@ -137,7 +137,7 @@ SELECT  *,
   ) * 100 AS distance
 FROM viewSupplierRefereeService
 HAVING distance <= radius + orderRadius 
-AND supplierId IS NOT NULL
+AND refereeServiceSupplierId IS NOT NULL
 ORDER BY distance ASC;
 DELIMITER ;
 

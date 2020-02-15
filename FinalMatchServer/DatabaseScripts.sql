@@ -1,8 +1,7 @@
 USE FinalMatch;
 
-DELIMITER //
-DROP PROCEDURE IF EXISTS getPlayerAroundOrder //
-CREATE PROCEDURE getPlayerAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(10))
+DROP PROCEDURE IF EXISTS getRefereeAroundOrder //
+CREATE PROCEDURE getRefereeAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT  *,
 (
     GLength(
@@ -14,15 +13,8 @@ SELECT  *,
       )
     )
   ) * 100 AS distance
-FROM viewSupplierPlayerService
+FROM viewSupplierRefereeService
 HAVING distance <= radius + orderRadius 
-AND position = position 
 AND supplierId IS NOT NULL
 ORDER BY distance ASC;
-DELIMITER ;
-
-
-SELECT * FROM Supplier s HAVING email = 'hoang@gmail.com';
-
-
 
