@@ -34,7 +34,7 @@ export default class SearchPlace extends MultiLanguageComponent {
   }
   render() {
     const { typedAddress, places } = this.state    
-    const {updatePlace} = this.props.navigation.state.params    
+    const {updatePlace} = this.props.navigation.state.params        
     return (
       <View style={styles.container}>
         <View style={styles.personalInformation}>

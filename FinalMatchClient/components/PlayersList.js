@@ -9,6 +9,12 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
+import {
+  getPlayerAroundOrder, 
+  getRefereeAroundOrder,
+} from '../server/myServices'
+import {NavigationEvents} from 'react-navigation'
+
 import Header from './Header';
 const DATA = [
   {
@@ -62,12 +68,24 @@ export default class PlayersList extends Component {
       keyId: '',
     };
   }
+  _getPlayersList = async () => {
+    const {
+      radius,
+      position, //1, 2, 3, 4
+      latitude, 
+      longitude,
+      matchTiming
+    } = this.props.navigation.state.params    
+  }
   render () {
-    const {navigate} = this.props.navigation;
-    
-  
+    const {navigate} = this.props.navigation;      
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>        
+        <NavigationEvents
+          onWillFocus={payload => {
+            this._getPlayersList()
+          }}
+        />
         <Header
           title="Câù thủ gần bạn"
           hideBack={true}

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -10,24 +10,29 @@ import {
   Modal,
   Alert,
   Keyboard,
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Header from './Header';
-import {NavigationEvents} from 'react-navigation';
-import {translate} from '../languages/languageConfigurations';
-import MultiLanguageComponent from './MultiLanguageComponent';
+} from 'react-native'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Header from './Header'
+import {NavigationEvents} from 'react-navigation'
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 import {
   getCustomerInformation,
   updateCustomerInformation,
-} from '../server/myServices';
-import {getCustomerFromStorage, convertDateTimeToString} from '../helpers/Helpers';
-import FinalMatchDatePicker from './FinalMatchDatePicker';
+} from '../server/myServices'
+import {
+  getCustomerFromStorage, 
+  convertDateTimeToString,
+  convertStringPositionToNumber,
+  getPosition
+} from '../helpers/Helpers'
+import FinalMatchDatePicker from './FinalMatchDatePicker'
 export default class OrderPlayer extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   constructor (props) {
-    super (props);
+    super (props)
     this.state = {
       name: '',
       phoneNumber: '',
@@ -41,73 +46,78 @@ export default class OrderPlayer extends MultiLanguageComponent {
       },
       place: '',
       dateTimeString: '',
-      matchTiming: {
-        day: 0,
-        month: 0,
-        year: 0,
-        hour: 0,
-        minute: 0,
-        gmt: 7,
-      },
+      matchTiming: null,
       modalVisible: false,
-    };
+    }
   }
+  
   async componentDidMount () {
     //test function
   }
   reloadDataFromServer = async () => {
-    const {customerId, email} = await getCustomerFromStorage ();
+    const {customerId, email} = await getCustomerFromStorage ()
     try {
-      const {data, message} = await getCustomerInformation (customerId);
-      const {name, phoneNumber, tokenKey, userType} = data;
+      const {data, message} = await getCustomerInformation (customerId)
+      const {name, phoneNumber, tokenKey, userType} = data
       this.setState ({
         name,
         phoneNumber,
-      });
+      })
     } catch (error) {
       alert (
         `Cannot get customer's information. error = ${JSON.stringify (error)}`
-      );
+      )
     }
-  };
+  }
   sendRequest = async () => {
     try {
-      const {name, phoneNumber} = this.state;
-      const {navigate} = this.props.navigation;
-      const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state;
-
+      const {name, phoneNumber} = this.state
+      const {navigate} = this.props.navigation
+      const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state
+      const {latitude, longitude} = point
       //1.Update customer's information
       const {message, error} = await updateCustomerInformation (
         name,
         phoneNumber
-      );
+      )
 
       if (!error) {
         //2.Tim player, ....truyen param sang PlayerLists
-        navigate ('PlayersList', {isGK, isCB, isMF, isCF, point, matchTiming});
+        //validate truoc khi gui ?
+        
+        //chua validate
+        //lenh validate ?
+        
+        navigate ('PlayersList', {
+          radius: 10,
+          position: convertStringPositionToNumber(getPosition({isGK, isCB, isMF, isCF})),//1, 2, 3, 4
+          latitude, 
+          longitude,
+          matchTiming
+        })
       } else {
-        alert ("Cannot update customer's information " + error);
+        alert ("Cannot update customer's information " + error)
       }
     } catch (error) {
-      alert ("Cannot update customer's information: " + error);
+      alert ("Cannot update customer's information: " + error)
     }
-  };
+  }
   render () {
-    const {navigate} = this.props.navigation;
-    const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state;
-    const {name, phoneNumber, modalVisible, dateTimeString} = this.state;
+    const {navigate} = this.props.navigation
+    const {isGK, isCB, isMF, isCF, point, matchTiming, place} = this.state
+    const {name, phoneNumber, modalVisible, dateTimeString} = this.state
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
           onWillFocus={payload => {
-            this.reloadDataFromServer ();
+            this.reloadDataFromServer ()
           }}
         />
         <Header
           title={translate ('Order a player')}
           hideBack={true}
           pressBackButton={() => {
-            this.props.navigation.navigate ('Service');
+            this.props.navigation.navigate ('Service')
           }}
         />
         <ScrollView>
@@ -116,7 +126,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               style={styles.textInput}
               value={name}
               onChangeText={name => {
-                this.setState ({name});
+                this.setState ({name})
               }}
               placeholder={translate ('Enter name: ')}
             />
@@ -127,7 +137,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               keyboardType={'phone-pad'}
               value={phoneNumber}
               onChangeText={phoneNumber => {
-                this.setState ({phoneNumber});
+                this.setState ({phoneNumber})
               }}
               placeholder={translate ('Enter telephone number: ')}
             />
@@ -153,7 +163,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   isCB: false,
                   isMF: false,
                   isCF: false,
-                });
+                })
               }}
             >
               <Text style={styles.textPosition}>GK</Text>
@@ -171,7 +181,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   isGK: false,
                   isMF: false,
                   isCF: false,
-                });
+                })
               }}
             >
               <Text style={styles.textPosition}>CB</Text>
@@ -189,7 +199,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   isGK: false,
                   isCB: false,
                   isCF: false,
-                });
+                })
               }}
             >
               <Text style={styles.textPosition}>MF</Text>
@@ -207,7 +217,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   isGK: false,
                   isMF: false,
                   isCB: false,
-                });
+                })
               }}
             >
               <Text style={styles.textPosition}>CF</Text>
@@ -224,9 +234,9 @@ export default class OrderPlayer extends MultiLanguageComponent {
               onPress={() => {
                 navigate ('SearchPlace', {
                   updatePlace: place => {
-                    this.setState ({place});
+                    this.setState ({place})
                   },
-                });
+                })
               }}
               placeholder={translate ('Stadium: ')}
               style={styles.textInput}
@@ -249,7 +259,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.textInput}
               onPress={() => {
-                this.setState ({modalVisible: true});
+                this.setState ({modalVisible: true})
               }}
             >
               <Text
@@ -269,7 +279,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.buttonSubmit}
               onPress={async () => {
-                await this.sendRequest ();
+                await this.sendRequest ()
               }}
             >
               <Text style={styles.textSubmit}>
@@ -289,10 +299,11 @@ export default class OrderPlayer extends MultiLanguageComponent {
         >
           <FinalMatchDatePicker
             dismissModal={() => {
-              this.setState ({modalVisible: false});              
+              this.setState ({modalVisible: false})              
             }}
             updateDateTime={(date)=>{              
               this.setState({
+                matchTiming: date,
                 modalVisible: false,
                 dateTimeString: convertDateTimeToString(date)
               })
@@ -300,7 +311,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           />
         </Modal>
       </SafeAreaView>
-    );
+    )
   }
 }
 const styles = StyleSheet.create ({
@@ -368,4 +379,4 @@ const styles = StyleSheet.create ({
   textPosition: {
     fontSize: 17,
   },
-});
+})

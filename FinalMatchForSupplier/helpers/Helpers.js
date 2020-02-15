@@ -87,7 +87,7 @@ export const getSupplierFromStorage = async () => {
     }    
     return {tokenKey, supplierId, email}
 }
-
+//input {{isGK: false, isCB:true, isMF:false, isCF:false} } => "0100"
 export const getPosition = (positionObject) => {
     const {isGK = false, isCB = false, isMF = false, isCF = false} = positionObject
     return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`

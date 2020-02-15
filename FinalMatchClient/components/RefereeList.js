@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -7,8 +7,13 @@ import {
   Image,
   SafeAreaView,
   FlatList,
-} from 'react-native';
-import Header from './Header';
+} from 'react-native'
+import {
+  getPlayerAroundOrder, 
+  getRefereeAroundOrder,
+} from '../server/myServices'
+
+import Header from './Header'
 const DATA = [
   {
     id: '011',
@@ -50,25 +55,25 @@ const DATA = [
     imagechecked: require ('../images/Order.png'),
     orderPlayer: 'Đặt',
   },
-];
+]
 
 export default class RefereeList extends Component {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   state = {
     order: false,
-  };
+  }
   render () {
-    const {navigate} = this.props.navigation;
-    const {order} = this.state;
+    const {navigate} = this.props.navigation
+    const {order} = this.state
     return (
       <SafeAreaView style={styles.container}>
         <Header
           title="Trọng tài gần bạn"
           hideBack={true}
           pressBackButton={() => {
-            this.props.navigation.navigate ('OrderReferee');
+            this.props.navigation.navigate ('OrderReferee')
           }}
         />
         <FlatList
@@ -90,7 +95,7 @@ export default class RefereeList extends Component {
         <TouchableOpacity
           style={styles.buttonSubmit}
           onPress={() => {
-            navigate ('Service');
+            navigate ('Service')
           }}
         >
           <Text style={styles.textSubmit}>
@@ -99,13 +104,13 @@ export default class RefereeList extends Component {
         </TouchableOpacity>
 
       </SafeAreaView>
-    );
+    )
   }
 }
 class Item extends Component {
   state = {
     order: false,
-  };
+  }
   render () {
     const {
       name,
@@ -116,8 +121,8 @@ class Item extends Component {
       imagechecked,
       orderPlayer,
       id,
-    } = this.props;
-    const {order} = this.state;
+    } = this.props
+    const {order} = this.state
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -155,7 +160,7 @@ class Item extends Component {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 }
 const styles = StyleSheet.create ({
@@ -229,4 +234,4 @@ const styles = StyleSheet.create ({
     color: 'white',
     alignSelf: 'center',
   },
-});
+})
