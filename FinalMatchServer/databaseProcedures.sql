@@ -93,13 +93,58 @@ SELECT
         )
       )
     )
-  ) * 100000
+  ) * 100
   AS distance
 FROM Supplier 
-HAVING distance <= (radius + orderRadius)*100000;
-
+HAVING distance <= radius + orderRadius
+ORDER BY distance ASC;
 DELIMITER ;
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS getPlayerAroundOrder //
+CREATE PROCEDURE getPlayerAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(1))
+SELECT  *,
+(
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          POINT(lat, lon)
+        )
+      )
+    )
+  ) * 100 AS distance,
+CAST(SUBSTRING(viewSupplierPlayerService.position,position,1) AS UNSIGNED) as positionAt
+FROM viewSupplierPlayerService
+HAVING distance <= radius + orderRadius 
+AND positionAt = 1 
+AND playerServiceSupplierId IS NOT NULL
+ORDER BY distance ASC;
+DELIMITER ;
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS getRefereeAroundOrder //
+CREATE PROCEDURE getRefereeAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
+SELECT  *,
+(
+    GLength(
+      LineStringFromWKB(
+        LineString(
+          point, 
+          POINT(lat, lon)
+        )
+      )
+    )
+  ) * 100 AS distance
+FROM viewSupplierRefereeService
+HAVING distance <= radius + orderRadius 
+AND refereeServiceSupplierId IS NOT NULL
+ORDER BY distance ASC;
+DELIMITER ;
+
+
+
+viewSupplierPlayerService
 
 --Fake Stadiums
 DELETE FROM Stadium WHERE stadiumName LIKE 'Fake%';

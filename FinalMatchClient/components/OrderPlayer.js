@@ -140,7 +140,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                 fontSize: 20,
               }}
             >
-              Cầu thủ của bạn:
+              {translate ('Player position')}
             </Text>
           </View>
 

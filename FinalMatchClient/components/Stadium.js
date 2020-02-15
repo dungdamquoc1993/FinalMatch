@@ -160,8 +160,7 @@ export default class Stadium extends MultiLanguageComponent {
                 </TouchableOpacity>
                 <Text
                   style={{
-                    width: '70%',
-                    paddingStart: '20%',
+                    paddingStart: '12%',
                     paddingEnd: '2%',
                     fontSize: 17,
                     marginTop: 5,
@@ -170,7 +169,7 @@ export default class Stadium extends MultiLanguageComponent {
                     await this._pressLocation ();
                   }}
                 >
-                  Lấy vị trí{' '}
+                  {translate ('Get location : ')}{' '}
                 </Text>
 
               </View>
@@ -191,7 +190,7 @@ export default class Stadium extends MultiLanguageComponent {
                   await this.filterStadiums ();
                 }}
                 keyboardType={'numeric'}
-                placeholder="Phạm vi"
+                placeholder={translate ('Range around you : ')}
               />
               <Text
                 style={{
@@ -297,8 +296,8 @@ const StadiumItem = props => {
         <Text style={{fontSize: 17, paddingTop: 10}}>
           Tên sân bóng: {stadiumName}
         </Text>
-        <Text style={{fontSize: 17}}>Địa chỉ sân bóng: {address}</Text>
-        <Text style={{fontSize: 17}}>Số điện thoại: {phoneNumber}</Text>
+        <Text style={{fontSize: 17}}>{translate ('Stadium address : ')}{address}</Text>
+        <Text style={{fontSize: 17}}>{translate ('Phone number : ')}{phoneNumber}</Text>
         <Text style={{fontSize: 17, paddingBottom: 10}}>{distance}</Text>
       </View>
     </TouchableHighlight>

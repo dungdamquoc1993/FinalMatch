@@ -9,6 +9,8 @@ import {
   FlatList,
 } from 'react-native';
 import Header from './Header';
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 const DATA = [
   {
     id: '011',
@@ -52,7 +54,7 @@ const DATA = [
   },
 ];
 
-export default class RefereeList extends Component {
+export default class RefereeList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   };
@@ -65,7 +67,7 @@ export default class RefereeList extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <Header
-          title="Trọng tài gần bạn"
+          title={translate('Referee around you')}
           hideBack={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderReferee');
@@ -122,19 +124,19 @@ class Item extends Component {
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Tên: </Text>
+            <Text style={styles.textLable}>{translate('Name : ')}</Text>
             <Text style={styles.textLable}>{name}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Tuổi: </Text>
+            <Text style={styles.textLable}>{translate('Age : ')}</Text>
             <Text style={styles.textLable}>{age}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Số trận đã đấu: </Text>
+            <Text style={styles.textLable}>{translate('Completed Matches : ')}</Text>
             <Text style={styles.textLable}>{matched}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Giá: </Text>
+            <Text style={styles.textLable}>{translate('price : ')}</Text>
             <Text style={styles.textLable}>{price}</Text>
             <Text>{id}</Text>
           </View>

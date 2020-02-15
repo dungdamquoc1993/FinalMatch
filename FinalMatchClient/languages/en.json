@@ -14,5 +14,22 @@
     "Match's timing : ": "Match's timing : ",
     "Search Stadium":"Search Stadium",
     "Order Player":"Order Player",
-    "Order Referee":"Order Referee"
+    "Order Referee":"Order Referee",
+    "Player position":"Player position",
+    "Competition address":"Competition address : ",
+    "Range around you : ":"Range around you : ",
+    "Get location : ":"Get location",
+    "Stadium address : ":"Stadium address : ",
+    "Phone number : ":"Phone number : ",
+    "Name : ":   "Name : ",
+    "Phone : ":  "Phone : ",
+    "Address : ":"Address : ",
+    "price : ":  "Price : ",
+    "orderDate : ":  "Order Date : ",
+    "Position : ":  "Position : ",
+    "Completed Matches : ":  "Completed Matches : ",
+    "Player around you":"Player around you",
+    "Age : ":  "Age : ",
+    "Referee around you":"Referee around you"
+    
 }
