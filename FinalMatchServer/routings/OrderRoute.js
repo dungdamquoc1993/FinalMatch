@@ -38,7 +38,8 @@ router.post('/getRefereeAroundOrder', async (req, res) => {
                 if(results != null && results.length > 0) {                    
                     res.json({
                       result: "ok", 
-                      data: results[0],
+                      count: results[0].length,
+                      data: results[0],                      
                       message: 'Cannot get referee around Order',
                       time: Date.now()})
                 }                
@@ -60,11 +61,11 @@ router.post('/getRefereeAroundOrder', async (req, res) => {
         radius = 10,
         latitude = '',
         longitude = '',           
-	position= '',
+	    position= '0', //gia tri: '1', '2', '3', '4'
         } = req.body  
     //validate, check token ?  
     connection.query(POST_GET_PLAYER_AROUND_ORDER, 
-          [ radius, latitude, longitude, position]
+          [ radius, latitude, longitude, `${position}`]
       , (error, results) => {
             debugger
             if(error) {
@@ -77,6 +78,7 @@ router.post('/getRefereeAroundOrder', async (req, res) => {
                 if(results != null && results.length > 0) {                    
                     res.json({
                       result: "ok", 
+                      count: results[0].length,
                       data: results[0], 
                       message: 'Cannot get player around Order',
                       time: Date.now()})

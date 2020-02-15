@@ -102,7 +102,7 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS getPlayerAroundOrder //
-CREATE PROCEDURE getPlayerAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(10))
+CREATE PROCEDURE getPlayerAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(1))
 SELECT  *,
 (
     GLength(
@@ -113,10 +113,11 @@ SELECT  *,
         )
       )
     )
-  ) * 100 AS distance
+  ) * 100 AS distance,
+CAST(SUBSTRING(viewSupplierPlayerService.position,position,1) AS UNSIGNED) as positionAt
 FROM viewSupplierPlayerService
 HAVING distance <= radius + orderRadius 
-AND position = position 
+AND positionAt = 1 
 AND playerServiceSupplierId IS NOT NULL
 ORDER BY distance ASC;
 DELIMITER ;
