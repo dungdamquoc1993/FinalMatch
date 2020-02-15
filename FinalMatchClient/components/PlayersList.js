@@ -16,6 +16,8 @@ import {
 import {NavigationEvents} from 'react-navigation'
 
 import Header from './Header';
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 const DATA = [
   {
     id: '011',
@@ -58,7 +60,7 @@ const DATA = [
     orderPlayer: 'Đặt',
   },
 ];
-export default class PlayersList extends Component {
+export default class PlayersList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   };
@@ -87,7 +89,7 @@ export default class PlayersList extends Component {
           }}
         />
         <Header
-          title="Câù thủ gần bạn"
+          title={translate('Player around you')}
           hideBack={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderPlayer');
@@ -144,19 +146,19 @@ class Item extends Component {
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Tên: </Text>
+            <Text style={styles.textLable}>{translate('Name : ')}</Text>
             <Text style={styles.textLable}>{name}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Vị trí: </Text>
+            <Text style={styles.textLable}>{translate('Position : ')}</Text>
             <Text style={styles.textLable}>{position}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Số trận đã đấu: </Text>
+            <Text style={styles.textLable}>{translate('Completed Matches : ')}</Text>
             <Text style={styles.textLable}>{matched}</Text>
           </View>
           <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>Giá: </Text>
+            <Text style={styles.textLable}>{translate('price : ')}</Text>
             <Text style={styles.textLable}>{price}</Text>
           </View>
         </View>

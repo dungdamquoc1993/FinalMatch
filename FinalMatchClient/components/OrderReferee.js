@@ -94,7 +94,7 @@ export default class OrderReferee extends MultiLanguageComponent {
           onChangeText={(name) => {
             this.setState({name})
           }}
-          placeholder={'Nhập tên'} />
+          placeholder={translate("Enter name: ")} />
         </View>
         <View style={styles.personalInformation}>
           <TextInput

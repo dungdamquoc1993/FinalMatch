@@ -97,23 +97,23 @@ render () {
     <View style={styles.ViewAllInformation}>
       <View style={styles.ViewDetail}>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>Tên: </Text>
+          <Text style={styles.textLabel}>{translate('Name : ')}</Text>
           <Text style={styles.textLabel}>{name}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>SĐT: </Text>
+          <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
           <Text style={styles.textLabel}>{phone}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>Điạ chỉ: </Text>
+          <Text style={styles.textLabel}>{translate('Address : ')}</Text>
           <Text style={styles.textLabel}>{adress}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>Giá: </Text>
+          <Text style={styles.textLabel}>{translate('price : ')}</Text>
           <Text style={styles.textLabel}>{price}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>Giờ thi đấu: </Text>
+          <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
           <Text style={styles.textLabel}>{orderDate}</Text>
         </View>
       </View>
