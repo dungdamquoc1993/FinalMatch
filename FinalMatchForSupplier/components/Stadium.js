@@ -100,7 +100,7 @@ class Stadium extends Component {
     // let updatedState = {...this.state};
     // updatedState.currentLocation.address = '';
     // updatedState.type = type;
-    this.setState (type);
+    this.setState (!type);
   }
   render () {
     const {type, stadiumName, phoneNumber} = this.state;
