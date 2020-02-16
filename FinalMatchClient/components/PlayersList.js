@@ -63,7 +63,7 @@ export default class PlayersList extends MultiLanguageComponent {
           width={'100%'}
           data={players}
           renderItem={({item}) => (
-            <Item {...item}/>
+            <Item {...item} navigate = {navigate}/>
           )}
           keyExtractor={item => item.supplierId}
         />
@@ -106,47 +106,36 @@ class Item extends Component {
       position,
       distance,
       positionAt,
-    } = this.props        
-    console.log(JSON.stringify(this.props))
+      navigate
+    } = this.props            
     return (
-      <View style={styles.ViewAllInformation}>
-        <View style={styles.ViewDetail}>
-          <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-            <Text style={styles.textLabel}>{playerName || name}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigate("Chat", {...this.props})
+        }}
+      >
+        <View style={styles.ViewAllInformation}>
+          <View style={styles.ViewDetail}>
+            <View style={styles.viewInformation}>
+              <Text style={styles.textLabel}>{translate('Name : ')}</Text>
+              <Text style={styles.textLabel}>{playerName || name}</Text>
+            </View>
+            <View style={styles.viewInformation}>
+              <Text style={styles.textLabel}>{translate('Position : ')}</Text>
+              <Text style={styles.textLabel}>{position}</Text>
+            </View>
+            <View style={styles.viewInformation}>
+              <Text style={styles.textLabel}>{translate("Address : ")}</Text>
+              <Text style={styles.textLabel}>{address}</Text>
+            </View>
+            <View style={styles.viewInformation}>
+              <Text style={styles.textLabel}>{translate("Player's price: ")}</Text>
+              <Text style={styles.textLabel}>{playerPrice}</Text>
+            </View>
           </View>
-          <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate('Position : ')}</Text>
-            <Text style={styles.textLabel}>{position}</Text>
-          </View>
-          <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate("Address : ")}</Text>
-            <Text style={styles.textLabel}>{address}</Text>
-          </View>
-          <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate("Player's price: ")}</Text>
-            <Text style={styles.textLabel}>{playerPrice}</Text>
-          </View>
+
         </View>
-  
-        {/* <View style={styles.viewButton}>
-          <Image source={avatar} style={styles.images} />
-  
-          <TouchableOpacity
-            style={styles.btnOrder}
-            onPress={() => this.setState ({order: !this.state.order})}
-          >
-  
-            {order == false
-              ? <Text style={styles.textOrder}>{orderPlayer}</Text>
-              : <Image
-                  source={imagechecked}
-                  style={{height: 50, width: 90, borderRadius: 25}}
-                />}
-  
-          </TouchableOpacity>
-        </View> */}
-      </View>
+      </TouchableOpacity>
     )
   }
 }
