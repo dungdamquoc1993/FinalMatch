@@ -83,7 +83,7 @@ export default class SearchPlace extends MultiLanguageComponent {
                 navigation = {this.props.navigation}
                 />
             )}
-            keyExtractor={item => item.id}
+            keyExtractor = {item => item.placeId}            
           />
       </View>
     )

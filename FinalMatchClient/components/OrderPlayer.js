@@ -81,12 +81,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         phoneNumber
       )
 
-      if (!error) {
-        //2.Tim player, ....truyen param sang PlayerLists
-        //validate truoc khi gui ?
-        
-        //chua validate
-        //lenh validate ?
+      if (!error) {        
         if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
           alert("You must enter order's name or phone number")
           return
@@ -98,7 +93,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         if(latitude == 0 || longitude == 0){
           alert("You must enter place")          
           return
-      }
+        }
         if(!matchTiming){
             alert("You must enter matching time")            
             return

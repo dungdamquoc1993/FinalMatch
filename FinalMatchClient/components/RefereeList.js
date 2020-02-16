@@ -9,66 +9,33 @@ import {
   FlatList,
 } from 'react-native'
 import {
-  getPlayersAroundOrder, 
-  getRefereesAroundOrder,
+  getRefereesAroundOrder,   
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
-const DATA = [
-  {
-    id: '011',
-    name: 'Vũ Trung Kiên',
-    age: 10,
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '015',
-    name: 'acb',
-    age: 10,
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '012',
-    name: 'Vũ Trung Kiên',
-    age: 10,
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-  {
-    id: '013',
-    name: 'Vũ Trung Kiên',
-    age: 10,
-    matched: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    imagechecked: require ('../images/Order.png'),
-    orderPlayer: 'Đặt',
-  },
-]
-
 export default class RefereeList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
   state = {
-    order: false,
+    referees: []
+  }
+  _getRefereesList = async () => {
+    const {
+      radius,      
+      latitude, 
+      longitude,
+      matchTiming
+    } = this.props.navigation.state.params            
+    let referees = await getRefereesAroundOrder(radius, latitude, longitude)
+    debugger
+    this.setState({referees})
   }
   render () {
-    const {navigate} = this.props.navigation
-    const {order} = this.state
+    const {navigate} = this.props.navigation   
+    const {referees} = this.state
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -77,7 +44,7 @@ export default class RefereeList extends MultiLanguageComponent {
           }}
         />        
         <Header
-          title={translate('Referee around you')}
+          title={translate('Referees around you')}
           hideBack={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderReferee')
@@ -85,17 +52,9 @@ export default class RefereeList extends MultiLanguageComponent {
         />
         <FlatList
           width={'100%'}
-          data={DATA}
+          data={referees}
           renderItem={({item}) => (
-            <Item
-              name={item.name}
-              age={item.age}
-              matched={item.matched}
-              price={item.price}
-              iamgeAvatar={item.iamgeAvatar}
-              orderPlayer={item.orderPlayer}
-              imagechecked={item.imagechecked}
-            />
+            <Item {...item}/>
           )}
           keyExtractor={item => item.id}
         />
@@ -114,62 +73,71 @@ export default class RefereeList extends MultiLanguageComponent {
     )
   }
 }
-class Item extends Component {
-  state = {
-    order: false,
-  }
+class Item extends Component {    
   render () {
     const {
-      name,
-      age,
-      price,
-      matched,
-      iamgeAvatar,
-      imagechecked,
-      orderPlayer,
-      id,
-    } = this.props
-    const {order} = this.state
+      avatar,
+      password,
+      phoneNumber,
+      dateOfBirth,
+      facebookId,
+      email,
+      userType,
+      point,
+      latitude,
+      longitude,
+      address,
+      radius,
+      isActive,
+      tokenKey,
+      refereeServiceSupplierId,
+      refereeId,
+      refereePrice,
+      refereeName,
+      position,
+      distance,
+      positionAt,
+    } = this.props        
+    console.log(JSON.stringify(this.props))
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Name : ')}</Text>
-            <Text style={styles.textLable}>{name}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate('Name : ')}</Text>
+            <Text style={styles.textLabel}>{refereeName || name}</Text>
+          </View>          
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate("Address : ")}</Text>
+            <Text style={styles.textLabel}>{address}</Text>
           </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Age : ')}</Text>
-            <Text style={styles.textLable}>{age}</Text>
-          </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('Completed Matches : ')}</Text>
-            <Text style={styles.textLable}>{matched}</Text>
-          </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLable}>{translate('price : ')}</Text>
-            <Text style={styles.textLable}>{price}</Text>
-            <Text>{id}</Text>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate("Referee's price: ")}</Text>
+            <Text style={styles.textLabel}>{refereePrice}</Text>
           </View>
         </View>
-
-        <View style={styles.viewButton}>
-          <Image source={iamgeAvatar} style={styles.images} />
-
+  
+        {/* <View style={styles.viewButton}>
+          <Image source={avatar} style={styles.images} />
+  
           <TouchableOpacity
             style={styles.btnOrder}
             onPress={() => this.setState ({order: !this.state.order})}
           >
-
+  
             {order == false
-              ? <Text style={styles.textOrder}>{orderPlayer}</Text>
-              : <Image source={imagechecked} style={{height: 50, width: 90}} />}
-
+              ? <Text style={styles.textOrder}>{orderReferee}</Text>
+              : <Image
+                  source={imagechecked}
+                  style={{height: 50, width: 90, borderRadius: 25}}
+                />}
+  
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     )
   }
 }
+
 const styles = StyleSheet.create ({
   container: {
     flex: 1,
@@ -193,20 +161,22 @@ const styles = StyleSheet.create ({
     width: '60%',
     paddingEnd: '10%',
   },
-  ViewNamedetailArbitration: {
+  viewInformation: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: '4%',
   },
-  textLable: {
+  textLabel: {
     fontSize: 17,
+    
   },
   btnOrder: {
     width: 90,
     height: 50,
-    borderRadius: 2,
-    backgroundColor: '#dcdcdc',
     justifyContent: 'center',
+    borderRadius: 25,
+    backgroundColor: '#dcdcdc',
+    alignItems: 'center',
   },
   viewButton: {
     flexDirection: 'column',
@@ -219,8 +189,8 @@ const styles = StyleSheet.create ({
   },
   textOrder: {
     lineHeight: 50,
-    alignSelf: 'center',
-    fontSize: 17,
+    
+    fontSize: 17
   },
   buttonSubmit: {
     height: 50,
@@ -239,6 +209,6 @@ const styles = StyleSheet.create ({
     lineHeight: 50,
     fontSize: 20,
     color: 'white',
-    alignSelf: 'center',
+    alignSelf: 'center',    
   },
 })

@@ -197,12 +197,10 @@ export const getRefereesAroundOrder = async (radius, latitude, longitude) => {
             body: JSON.stringify({ radius, latitude, longitude }),
         })        
         
-        const responseJson = await response.json()
-        
-        const { result,message } = responseJson                
-        
+        const responseJson = await response.json()        
+        const { result,message, data } = responseJson                    
         if(result.toLowerCase() === 'ok') {
-            return result.data
+            return data
         } else {
             return []
         }        

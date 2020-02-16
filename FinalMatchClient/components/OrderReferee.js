@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Platform,
   Modal
-} from 'react-native';
+} from 'react-native'
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
 import {translate} from '../languages/languageConfigurations'
@@ -17,8 +17,8 @@ import {
   getCustomerInformation,
   updateCustomerInformation
 } from '../server/myServices'
-import {getCustomerFromStorage, convertDateTimeToString} from '../helpers/Helpers';
-import FinalMatchDatePicker from './FinalMatchDatePicker';
+import {getCustomerFromStorage, convertDateTimeToString} from '../helpers/Helpers'
+import FinalMatchDatePicker from './FinalMatchDatePicker'
 
 export default class OrderReferee extends MultiLanguageComponent {
   static navigationOptions = {
@@ -33,27 +33,37 @@ export default class OrderReferee extends MultiLanguageComponent {
       latitude : 0, 
       longitude: 0
     },
-    matchTiming: {
-      day: 0,
-      month: 0,
-      year: 0,
-      hour: 0,
-      minute: 0, 
-      gmt: 7
-    },
+    matchTiming: null,
     modalVisible: false,
   }
   sendRequest = async () => {    
     try {
       const {name, phoneNumber} = this.state
       const {navigate} = this.props.navigation
-      const {point, matchTiming, dateTimeString, month} = this.state
+      const {point, matchTiming, dateTimeString} = this.state
+      const {latitude, longitude} = point
       
       //1.Update customer's information
       const { message, error } = await updateCustomerInformation(name, phoneNumber)      
-      if (!error) {
-        //2.Tim player, ....truyen param sang PlayerLists
-        navigate('RefereeList', {point, matchTiming});
+      if (!error) {        
+        if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
+          alert("You must enter order's name or phone number")
+          return
+        }        
+        if(latitude == 0 || longitude == 0){
+          alert("You must enter place")          
+          return
+        }
+        if(!matchTiming){
+            alert("You must enter matching time")            
+            return
+        }        
+        navigate ('RefereeList', {
+          radius: 10,          
+          latitude, 
+          longitude,
+          matchTiming
+        })        
       } else {
         alert("Cannot update customer's information "+error)
       }
@@ -76,7 +86,7 @@ export default class OrderReferee extends MultiLanguageComponent {
     }
   }
   render () {
-    const {navigate} = this.props.navigation;
+    const {navigate} = this.props.navigation
     const {name, phoneNumber, point, matchTiming, place, modalVisible, dateTimeString} = this.state    
     return (
       <SafeAreaView style={styles.container}>
@@ -109,12 +119,13 @@ export default class OrderReferee extends MultiLanguageComponent {
         </View>
         <View style={{borderBottomWidth:1,backgroundColor:'#a9a9a9',width:'80%',marginVertical:25}} />
         <View style={styles.personalInformation}>
-
             <TouchableOpacity
-              onPress={() => {
-                navigate ('SearchPlace', {updatePlace: (place) => {                  
-                  this.setState({place})
-                }});
+              onPress={() => {                
+                navigate ('SearchPlace', {
+                  updatePlace: (place, latitude, longitude) => {
+                    this.setState ({place, point: {latitude, longitude}})
+                  },
+                })
               }}              
               style={styles.textInput}
             >
@@ -136,7 +147,7 @@ export default class OrderReferee extends MultiLanguageComponent {
             <TouchableOpacity
               style={styles.textInput}
               onPress={() => {
-                this.setState ({modalVisible: true});
+                this.setState ({modalVisible: true})
               }}
             >
               <Text
@@ -148,7 +159,7 @@ export default class OrderReferee extends MultiLanguageComponent {
                   color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >                
-                {dateTimeString === '' ? "Stadium's time ": dateTimeString}                
+                {dateTimeString === '' ? "Match's timing": dateTimeString}                
               </Text>
             </TouchableOpacity>
           </View>
@@ -166,13 +177,14 @@ export default class OrderReferee extends MultiLanguageComponent {
           onRequestClose={() => {
             
           }}
-        >
+        >          
           <FinalMatchDatePicker
             dismissModal={() => {
-              this.setState ({modalVisible: false});              
+              this.setState ({modalVisible: false})              
             }}
             updateDateTime={(date)=>{              
               this.setState({
+                matchTiming: date,
                 modalVisible: false,
                 dateTimeString: convertDateTimeToString(date)
               })
@@ -180,7 +192,7 @@ export default class OrderReferee extends MultiLanguageComponent {
           />
         </Modal>
       </SafeAreaView>
-    );
+    )
   }
 }
 const styles = StyleSheet.create ({
@@ -238,4 +250,4 @@ const styles = StyleSheet.create ({
     color: 'white',
     alignSelf: 'center',
   },
-});
+})
