@@ -14,7 +14,6 @@ import {
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 import Header from './Header'
-import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 const DATA = [

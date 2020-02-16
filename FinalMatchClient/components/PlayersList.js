@@ -23,11 +23,8 @@ export default class PlayersList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
-  constructor (props) {
-    super (props)
-    this.state = {    
-      keyId: '',
-    }
+  state = {    
+    players:[]
   }
   _getPlayersList = async () => {
     const {
@@ -36,19 +33,22 @@ export default class PlayersList extends MultiLanguageComponent {
       latitude, 
       longitude,
       matchTiming
-    } = this.props.navigation.state.params    
-    try {
-      await getPlayersAroundOrder(radius, latitude, longitude, position)
-    } catch (error) {
-      
-    }
+    } = this.props.navigation.state.params        
+    console.log({radius,
+      position, //1, 2, 3, 4
+      latitude, 
+      longitude,
+      matchTiming})
+    let players = await getPlayersAroundOrder(radius, latitude, longitude, position)
+    this.setState({players})
   }
   render () {
+    const {players} = this.state
     const {navigate} = this.props.navigation      
     return (
       <SafeAreaView style={styles.container}>        
         <NavigationEvents
-          onWillFocus={payload => {
+          onWillFocus={(payload) => {
             this._getPlayersList()
           }}
         />
@@ -61,19 +61,11 @@ export default class PlayersList extends MultiLanguageComponent {
         />
         <FlatList
           width={'100%'}
-          data={DATA}
+          data={players}
           renderItem={({item}) => (
-            <Item
-              playerName={item.playerName}
-              position={item.position}
-              address={item.address}
-              playerPrice={item.playerPrice}
-              avatar={item.avatar}
-              orderPlayer={item.orderPlayer}
-              imagechecked={item.imagechecked}
-            />
+            <Item {...item}/>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.supplierId}
         />
         <TouchableOpacity
           style={styles.buttonSubmit}
@@ -90,10 +82,7 @@ export default class PlayersList extends MultiLanguageComponent {
     )
   }
 }
-class Item extends Component {
-    state = {
-      order: false   
-      } 
+class Item extends Component {    
   render () {
     const {
       avatar,
@@ -117,25 +106,25 @@ class Item extends Component {
       position,
       distance,
       positionAt,
-    } = this.props
-    const {order} = this.state
+    } = this.props        
+    console.log(JSON.stringify(this.props))
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-            <Text style={styles.textLabel}>{playerName}</Text>
+            <Text style={styles.textLabel}>{playerName || name}</Text>
           </View>
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate('Position : ')}</Text>
             <Text style={styles.textLabel}>{position}</Text>
           </View>
           <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate('Completed Matches : ')}</Text>
+            <Text style={styles.textLabel}>{translate("Address : ")}</Text>
             <Text style={styles.textLabel}>{address}</Text>
           </View>
           <View style={styles.viewInformation}>
-            <Text style={styles.textLabel}>{translate('playerPrice : ')}</Text>
+            <Text style={styles.textLabel}>{translate("Player's price: ")}</Text>
             <Text style={styles.textLabel}>{playerPrice}</Text>
           </View>
         </View>

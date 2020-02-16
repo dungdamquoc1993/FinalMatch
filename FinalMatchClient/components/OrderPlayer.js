@@ -87,7 +87,23 @@ export default class OrderPlayer extends MultiLanguageComponent {
         
         //chua validate
         //lenh validate ?
-        
+        if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
+          alert("You must enter order's name or phone number")
+          return
+        }
+        if(!isGK && !isCB && !isMF && !isCF) {
+            alert("You must enter player's position")
+            return
+        }
+        if(latitude == 0 || longitude == 0){
+          alert("You must enter place")          
+          return
+      }
+        if(!matchTiming){
+            alert("You must enter matching time")            
+            return
+        }
+        console.log({latitude, longitude})
         navigate ('PlayersList', {
           radius: 10,
           position: convertStringPositionToNumber(getPosition({isGK, isCB, isMF, isCF})),//1, 2, 3, 4
@@ -233,8 +249,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               onPress={() => {
                 navigate ('SearchPlace', {
-                  updatePlace: place => {
-                    this.setState ({place})
+                  updatePlace: (place, latitude, longitude) => {
+                    this.setState ({place, point: {latitude, longitude}})
                   },
                 })
               }}
@@ -271,7 +287,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >                
-                {dateTimeString === '' ? "Stadium's time ": dateTimeString}                
+                {dateTimeString === '' ? "Match's timing": dateTimeString}                
               </Text>
             </TouchableOpacity>
           </View>

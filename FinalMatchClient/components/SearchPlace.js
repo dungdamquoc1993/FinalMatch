@@ -25,7 +25,7 @@ export default class SearchPlace extends MultiLanguageComponent {
   searchPlace = async () => {
     try {
       const {typedAddress} = this.state
-      const places = await getPlacesFromAddress(typedAddress)     
+      const places = await getPlacesFromAddress(typedAddress)           
       this.setState({places})      
       Keyboard.dismiss()
     } catch (error) {
@@ -91,14 +91,15 @@ export default class SearchPlace extends MultiLanguageComponent {
 }
 class Item extends Component {
   render() {    
-    const { formattedAddress, latitude, longitude, name, placeId } = this.props
+    const { formattedAddress, latitude, longitude, name, placeId } = this.props    
     const {updatePlace, navigation} = this.props    
     return (
       <View style={styles.ViewAllInformation}>
         <TouchableOpacity 
           style={{ width: '85%', height: '100%' }}
           onPress = {() => {
-            updatePlace(formattedAddress)
+            console.log("haha"+JSON.stringify({latitude, longitude}))
+            updatePlace(formattedAddress, latitude, longitude)
             navigation.goBack()
           }}
           >

@@ -100,8 +100,8 @@ HAVING distance <= radius + orderRadius
 ORDER BY distance ASC;
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getPlayersAroundOrder
 DELIMITER //
-DROP PROCEDURE IF EXISTS getPlayersAroundOrder //
 CREATE PROCEDURE getPlayersAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT, position VARCHAR(1))
 SELECT  *,
 (
@@ -122,8 +122,9 @@ AND playerServiceSupplierId IS NOT NULL
 ORDER BY distance ASC;
 DELIMITER ;
 
-DELIMITER //
+
 DROP PROCEDURE IF EXISTS getRefereesAroundOrder //
+DELIMITER //
 CREATE PROCEDURE getRefereesAroundOrder(orderRadius FLOAT, lat FLOAT, lon FLOAT)
 SELECT  *,
 (

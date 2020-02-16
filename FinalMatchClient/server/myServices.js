@@ -214,8 +214,8 @@ export const getRefereesAroundOrder = async (radius, latitude, longitude) => {
 
 export const getPlayersAroundOrder = async (radius, latitude, longitude, position) => {
     try {        
-        const {tokenKey, customerId} = await getCustomerFromStorage()            
-        const response = await fetch(await urlgetRefereesAroundOrder(), {
+        const {tokenKey, customerId} = await getCustomerFromStorage()              
+        const response = await fetch(await urlgetPlayersAroundOrder(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -223,18 +223,15 @@ export const getPlayersAroundOrder = async (radius, latitude, longitude, positio
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ radius, latitude, longitude, position}),
-        })        
-        
-        const responseJson = await response.json()
-        
-        const { result,message } = responseJson                
-        
-        if(result.toLowerCase() === 'ok') {
-            return result.data
-        } else {
+        })                
+        const responseJson = await response.json()        
+        const { result,message, data } = responseJson                        
+        if(result.toLowerCase() === 'ok') {            
+            return data
+        } else {                
             return []
         }        
-    } catch (error) {                
+    } catch (error) {                        
         return []
     }
 }

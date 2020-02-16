@@ -40,7 +40,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                       result: "ok", 
                       count: results[0].length,
                       data: results[0],                      
-                      message: 'Cannot get referee around Order',
+                      message: 'Get referees around Order successfully',
                       time: Date.now()})
                 }                
             }
@@ -66,8 +66,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     //validate, check token ?  
     connection.query(POST_GET_PLAYER_AROUND_ORDER, 
           [ radius, latitude, longitude, `${position}`]
-      , (error, results) => {
-            debugger
+      , (error, results) => {            
             if(error) {
                 res.json({
                   result: "failed", 
@@ -80,7 +79,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                       result: "ok", 
                       count: results[0].length,
                       data: results[0], 
-                      message: 'Cannot get player around Order',
+                      message: 'Get player around Order successfully',
                       time: Date.now()})
                 }                
             }
