@@ -162,13 +162,14 @@ class LoginRegister extends Component {
             
             <Icon.Button
                 style={styles.facebookButton}
-                name="facebook"
-                backgroundColor="#3b5998"
+          name="facebook"
+          backgroundColor="#3b5998"
+          borderRadius={30}
                 onPress={async () => {
                     await this._loginWithFacebook()
                 }}
             >
-                <Text style={styles.txtLoginFaceBook}>Login with Facebook</Text>
+                <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
              </Icon.Button>
             <View style={styles.viewLoginRegister}>
                 <View style={styles.viewLogin}>
@@ -216,7 +217,7 @@ class LoginRegister extends Component {
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
-                <Text style={styles.txtLoginRegister}>
+                <Text style={styles.textLogin}>
                     {isLogin === true ? "Login to your account" : "Register new user"}
                 </Text>
             </TouchableOpacity>
@@ -236,90 +237,95 @@ export default connect(
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
-    container: {        
-        flex: 1,                
-        paddingTop: isIOS() ? 80 : 0,
+    container: {
+        flex: 1,
         flexDirection: 'column',
-        justifyContent:'flex-start',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-    },
-    logo: {
+        marginTop: '10%',
+      },
+      logo: {
         margin: 20,
         width: 100,
-        backgroundColor: 'red',
         height: 100,
         borderRadius: 50,
-    },
-    facebookButton: {
-        height: 60,
-        width: 0.8*screenWidth,
-        backgroundColor: '#3b5998',        
+      },
+      facebookButton: {
+        height: 50,
+        width: 0.9 * screenWidth,
+        backgroundColor: '#3b5998',
         color: 'white',
         textAlign: 'center',
         lineHeight: 40,
         paddingHorizontal: 15,
         borderRadius: 6,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    viewLoginRegister: {
+        alignItems: 'center',
+      },
+      viewLoginRegister: {
         height: 50,
         alignSelf: 'stretch',
         marginHorizontal: 30,
-        flexDirection: 'row',  
-    },
-    viewLogin: {
+        flexDirection: 'row',
+      },
+      viewLogin: {
         height: 50,
         width: '50%',
-        flexDirection: 'column'
-    },
-    line: {
+        flexDirection: 'column',
+      },
+      line: {
         height: 2,
         width: '100%',
-        backgroundColor: 'black'
-    },
-    twoButton: {
-        height: '100%', 
+        backgroundColor: 'black',
+      },
+      twoButton: {
+        height: '100%',
         fontSize: 25,
-        textAlign: 'center', 
-        paddingTop:13
-    },
-    viewInput: {
+        textAlign: 'center',
+        paddingTop: 13,
+        
+      },
+      viewInput: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         width: '100%',
-    },
-    textInput: { 
-        height: 50, 
+      },
+      textInput: {
+        height: 50,
         marginTop: 20,
         width: '90%',
-        borderColor: 'gray',      
-        borderWidth: 1, 
+        borderColor: '#d3d3d3',
+        borderWidth: 1,
         alignSelf: 'center',
-        borderRadius: 6, 
+        borderRadius: 6,
         paddingHorizontal: 10,
-        fontSize:17
-    },
-    loginButton: { 
-        height: 70, 
+        backgroundColor: '#ffffff',
+        borderRadius: 25,
+        fontSize: 18,
+        paddingStart: 15,
+        
+      },
+      loginButton: {
+        height: 50,
         marginTop: 20,
-        width: '60%',        
+        width: '90%',
         alignSelf: 'center',
-        borderRadius: 15, 
+        borderRadius: 6,
         paddingHorizontal: 10,
-        backgroundColor: MAIN_COLOR,
+        fontSize: 18,
+        backgroundColor: '#00CCFF',
         justifyContent: 'center',
-        borderColor: COLOR_BUTTON,
-        borderWidth:4
-    },
-    txtLoginRegister:{
+        borderRadius: 25,
+      },
+      textLoginFaceBook:{
+        fontSize: 18,
+        color: 'white',    
+      },
+      textLogin:{
         textAlign: 'center',
-        color: 'black',
-        fontSize:19
-    },txtLoginFaceBook:{
-        fontSize:20,
-        color:'white'
-    }
-})
-
+        color: 'white',
+        fontSize: 20,    
+      }
+    })
+    
