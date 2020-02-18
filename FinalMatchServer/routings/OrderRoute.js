@@ -5,6 +5,8 @@ const {connection} = require('../database/database')
 
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
+const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
+
 
 //Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
 router.post('/getRefereesAroundOrder', async (req, res) => {  
@@ -85,6 +87,60 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
             }
     })    
   })
+  //http://150.95.113.87:3000/orders/createNewOrder
+  router.post('/createNewOrder', async (req, res) => {  
+    const { tokenkey, customerid } = req.headers
+    const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
+    if(checkTokenResult == false) {
+      res.json({
+        result: "false", 
+        data: {}, 
+        message: 'Token is invalid',
+        time: Date.now()})
+        return
+    }
+    const {
+      customerId,
+      supplierId,
+      latitude,
+      longitude,
+      typeRole,      
+    } = req.body  
+    let dateTimeStart = req.body.dateTimeStart ////VD: Tue, 18 Feb 2020 09:48:32 GMT, lay tu toUTCString(), Phai validate
+    dateTimeStart = new Date(dateTimeStart)
+    dateTimeStart.setMilliseconds(0);
+    dateTimeStart.setSeconds(0)    
+    debugger
+    connection.query(POST_CREATE_NEW_ORDER, 
+          [ customerId,
+            supplierId,
+            latitude,
+            longitude,
+            typeRole,
+            dateTimeStart]
+      , (error, results) => {            
+            debugger
+            if(error) {
+                res.json({
+                  result: "failed", 
+                  data: {}, 
+                  message: error.sqlMessage,
+                  time: Date.now()})
+            } else {            
+                debugger
+                if(results != null && results.length > 0) {                    
+                    res.json({
+                      result: "ok", 
+                      count: results[0].length,
+                      data: results[0], 
+                      message: 'Insert new Order successfully',
+                      time: Date.now()})
+                }                
+            }
+    })    
+  })
+
+  
 
 module.exports = router
   
