@@ -69,15 +69,15 @@ export const getPlacesFromAddress = async (address) => {
             let places = responseJSON.results.map(place => {
                 let formattedAddress = place["formatted_address"];
                 let latitude = 0.0
-                let longitude = 0.0
+                let longitude = 0.0                
                 if (place.geometry && place.geometry.location) {
-                    latitude = place.geometry.lat
-                    longitude = place.geometry.lng
+                    latitude = place.geometry.location.lat
+                    longitude = place.geometry.location.lng
                 }
                 let name = place["name"] ? place["name"] : ""
                 let placeId = place["place_id"]
                 return { formattedAddress, latitude, longitude, name, placeId }
-            })       
+            })                
             return places    
         } else {
             return []

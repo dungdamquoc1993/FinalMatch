@@ -30,6 +30,7 @@
     "Completed Matches : ":  "Completed Matches : ",
     "Player around you":"Player around you",
     "Age : ":  "Age : ",
-    "Referee around you":"Referee around you"
-    
+    "Referees around you":"Referees around you",
+    "Referee's price: ": "Referee's price: ",
+    "Player's price: ": "Player's price: "
 }

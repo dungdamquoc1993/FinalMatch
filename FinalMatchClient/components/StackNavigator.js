@@ -9,6 +9,7 @@ import Stadium from './Stadium';
 import RefereeList from './RefereeList'
 import PlayersList from './PlayersList'
 import SearchPlace from './SearchPlace'
+import Chat from './Chat'
 export const StackNavigator = createStackNavigator ({
   Splash: { screen: Splash},
   LoginAndSignup: {screen: LoginAndSignup},
@@ -19,6 +20,7 @@ export const StackNavigator = createStackNavigator ({
   SearchPlace: {screen: SearchPlace},
   RefereeList: {screen: RefereeList},
   PlayersList: {screen: PlayersList},
+  Chat: {screen: Chat},
 }, {
   initialRouteName: 'Splash',
   headerShown: false,

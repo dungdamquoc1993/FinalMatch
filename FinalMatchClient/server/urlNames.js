@@ -37,3 +37,12 @@ export const urlGetStadiumsAroundPoint = () => {
 export const urlGetPlacesFromAddress = (address) => {        
     return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
 }
+
+export const urlgetRefereesAroundOrder = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getRefereesAroundOrder`
+}
+
+export const urlgetPlayersAroundOrder = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getPlayersAroundOrder`
+}
+

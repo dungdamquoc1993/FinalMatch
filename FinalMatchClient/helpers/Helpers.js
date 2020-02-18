@@ -36,6 +36,21 @@ export const convertDateTimeToString = (date) => {
     //VD: 2/13/2020, 2:34:23 PM
     return date.toLocaleString()
 }
+//input {{isGK: false, isCB:true, isMF:false, isCF:false} } => "0100"
+export const getPosition = (positionObject) => {
+    const {isGK = false, isCB = false, isMF = false, isCF = false} = positionObject
+    return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
+}
+//input: "0100" => 2, input: "0001" => 4, "1000" => 1, "0010" => 3
+export const convertStringPositionToNumber = (stringPosition) => {
+    for(let i = 0; i < stringPosition.length; i++) {
+        if(stringPosition[i] == '1') {
+            return i + 1;
+        }
+    }
+    return 0
+}
+
 
 
 

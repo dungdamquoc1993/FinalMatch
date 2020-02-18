@@ -8,7 +8,9 @@ import {
     urlTokenCheckCustomer,
     urlUpdateCustomerInformation, 
     urlGetCustomerInformation,
-    urlGetStadiumsAroundPoint
+    urlGetStadiumsAroundPoint,
+    urlgetPlayersAroundOrder, 
+    urlgetRefereesAroundOrder
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -181,4 +183,55 @@ export const getStadiumsAroundPoint = async (latitude, longitude, radius) => {
         return { data, message: error, error}
     }
 }
+
+export const getRefereesAroundOrder = async (radius, latitude, longitude) => {
+    try {        
+        const {tokenKey, customerId} = await getCustomerFromStorage()            
+        const response = await fetch(await urlgetRefereesAroundOrder(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId
+            },
+            body: JSON.stringify({ radius, latitude, longitude }),
+        })        
+        
+        const responseJson = await response.json()        
+        const { result,message, data } = responseJson                    
+        if(result.toLowerCase() === 'ok') {
+            return data
+        } else {
+            return []
+        }        
+    } catch (error) {                
+        return []
+    }
+}
+
+
+export const getPlayersAroundOrder = async (radius, latitude, longitude, position) => {
+    try {        
+        const {tokenKey, customerId} = await getCustomerFromStorage()              
+        const response = await fetch(await urlgetPlayersAroundOrder(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId
+            },
+            body: JSON.stringify({ radius, latitude, longitude, position}),
+        })                
+        const responseJson = await response.json()        
+        const { result,message, data } = responseJson                        
+        if(result.toLowerCase() === 'ok') {            
+            return data
+        } else {                
+            return []
+        }        
+    } catch (error) {                        
+        return []
+    }
+}
+
 
