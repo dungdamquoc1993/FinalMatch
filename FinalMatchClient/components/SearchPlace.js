@@ -51,7 +51,7 @@ export default class SearchPlace extends MultiLanguageComponent {
               this.setState({typedAddress})
             }}
             onEndEditing = {this.searchPlace}
-            placeholder="Địa điểm thi đấu"
+            placeholder={translate('Competition address')}
           />
           <TouchableOpacity
             style={{

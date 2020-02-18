@@ -312,7 +312,7 @@ export default class Settings extends Component {
               Tuổi
             </Text>
             <TouchableOpacity
-              style={[styles.textInput, { width: '70%' }]}
+              style={[styles.textInput, { width: '40%' }]}
               onPress={() => {
                 this.setState({ modalVisible: true })
               }}
@@ -321,12 +321,13 @@ export default class Settings extends Component {
                 style={{
                   fontSize: 17,
                   height: 40,
-                  lineHeight: 50,
+                  lineHeight: 40,
                   paddingStart: 5,
+                  textAlign:'center',
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                {stringDateOfBirth === '' ? "Ngày sinh: dd/mm/yyyy" : stringDateOfBirth}
+                {stringDateOfBirth === '' ? "dd/mm/yyyy" : stringDateOfBirth}
               </Text>
             </TouchableOpacity>
             <Text style={styles.age}>
@@ -403,7 +404,11 @@ export default class Settings extends Component {
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Số trận</Text>
-              <Text style={styles.textInputRole}> 0</Text>
+              <TextInput style={styles.textInputRole}
+              placeholder={'0'}
+              placeholderTextColor = "black"
+              editable={false}
+             />
             </View>
             <Text style={{ marginBottom: 5, fontSize: 20 }}>Position</Text>
             <View style={styles.positions}>
@@ -486,10 +491,10 @@ export default class Settings extends Component {
                   this.setState({ refereeName })
                 }} />
             </View>
-            <View style={styles.personalInformation}>
+            {/* <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Số trận</Text>
-              <Text style={styles.textInputRole}>0</Text>
-            </View>
+              <Text style={styles.textNumberMatch}>0</Text>
+            </View> */}
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Giá </Text>
               <TextInput style={styles.textInputRole}
@@ -578,10 +583,11 @@ const styles = StyleSheet.create({
   textInput: {
     width: '70%',
     height: 45,
-    borderRadius: 10,
-    borderColor: '#d3d3d3',
-    marginEnd: 30,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
+    marginEnd: 30,
     paddingHorizontal: 10,
     color: 'black',
     fontSize: 17,
@@ -613,8 +619,9 @@ const styles = StyleSheet.create({
   },
   radiusInput: {
     height: 45,
-    borderRadius: 10,
-    borderColor: '#d3d3d3',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
     textAlign: 'center',
     color: 'black',
@@ -631,14 +638,13 @@ const styles = StyleSheet.create({
   textInputRole: {
     width: '50%',
     height: 45,
-    borderRadius: 10,
-    borderColor: '#d3d3d3',
-    marginEnd: 30,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 20,
-    color: 'black',
+    marginEnd: 30,
     fontSize: 17,
-    
+    textAlign: 'center'
   },
   textRole: {
     width: '50%',

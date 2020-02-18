@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
-  Image
+  Image,
 } from 'react-native';
 import Header from './Header';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -96,12 +96,12 @@ class Stadium extends Component {
       );
     }
   };
-  changeFeeOrFree = (type) => {
+  changeFeeOrFree = type => {
     // let updatedState = {...this.state};
     // updatedState.currentLocation.address = '';
     // updatedState.type = type;
     this.setState (!type);
-  }
+  };
   render () {
     const {type, stadiumName, phoneNumber} = this.state;
     const {
@@ -113,10 +113,13 @@ class Stadium extends Component {
     } = this.state.currentLocation;
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'STADIUM'} pressBackButton={async () => {
-          //validate ok
-          return true
-        }}/>
+        <Header
+          title={'STADIUM'}
+          pressBackButton={async () => {
+            //validate ok
+            return true;
+          }}
+        />
         <View style={{marginTop: 20}} />
         <View style={styles.personalInformation}>
           <TextInput
@@ -181,12 +184,17 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.changeFeeOrFree(0)
+              this.changeFeeOrFree (0);
             }}
           >
-            <Text onPress={() => {
-              this.changeFeeOrFree(0)              
-            }} style={styles.txtFree}>Miễn phí</Text>
+            <Text
+              onPress={() => {
+                this.changeFeeOrFree (0);
+              }}
+              style={styles.txtFree}
+            >
+              Miễn phí
+            </Text>
             <FontAwesome5
               name={type == 0 ? 'check-square' : 'square'}
               size={35}
@@ -196,12 +204,17 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.changeFeeOrFree(1)              
+              this.changeFeeOrFree (1);
             }}
           >
-            <Text style={styles.txtFree} onPress={() => {
-              this.changeFeeOrFree(1)              
-            }}>Thu phí</Text>
+            <Text
+              style={styles.txtFree}
+              onPress={() => {
+                this.changeFeeOrFree (1);
+              }}
+            >
+              Thu phí
+            </Text>
             <FontAwesome5
               name={type == 1 ? 'check-square' : 'square'}
               size={35}
@@ -243,7 +256,7 @@ const styles = StyleSheet.create ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical:5
+    marginVertical: 5,
   },
   textLabel: {
     width: '20%',
@@ -253,14 +266,15 @@ const styles = StyleSheet.create ({
     fontSize: 20,
   },
   textInput: {
-    width: '85%',
+    width: '90%',
     height: 50,
-    borderRadius: 5,
-    borderColor: 'black',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontSize: 20,
+    paddingStart: 15,
+    fontSize: 17,
+    lineHeight: 50,
   },
   positions: {
     flexDirection: 'row',
@@ -269,22 +283,25 @@ const styles = StyleSheet.create ({
     width: '100%',
   },
   btnSubmit: {
-    height: 60,
-    width: 200,
-    backgroundColor: MAIN_COLOR,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 30,
-    borderWidth: 4,
-    borderColor: COLOR_BUTTON,
+    height: 50,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    borderRadius: 25,
+    marginVertical: 70,
   },
   txtSubmit: {
-    lineHeight: 60,
-    fontWeight: 'bold',
+    lineHeight: 50,
     fontSize: 20,
     color: 'white',
+    alignSelf: 'center',
   },
   txtAddresses: {
+    width: '100%',
     flexDirection: 'row',
     height: 60,
     justifyContent: 'center',
@@ -300,26 +317,26 @@ const styles = StyleSheet.create ({
   txtShowAddresses: {
     width: '60%',
     height: 50,
-    borderRadius: 5,
-    borderColor: 'black',
-    marginEnd: 20,
+    paddingHorizontal: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
     fontSize: 17,
     lineHeight: 45,
+    marginStart: '15%',
   },
   buttonGetLocation: {
-    width: '20%',
+    width: '40%',
+    marginStart: '5%',
   },
   txtFree: {
     marginBottom: 10,
     fontSize: 17,
   },
   eachPosition: {
-    backgroundColor: 'red',
     padding: 10,
     width: 100,
-    height:100
-  }
+    height: 100,
+  },
 });

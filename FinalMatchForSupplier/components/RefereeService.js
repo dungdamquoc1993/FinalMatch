@@ -159,7 +159,7 @@ export class RefereeService extends Component {
             onChangeText={(refereeName) => {
               this.setState({refereeName})
             }}
-            placeholder={'Tên trọng tài của Bạn (còi danh) :)'}
+            placeholder={'Tên trọng tài của Bạn (còi danh)'}
           />
         </View>
         <View style={styles.personalInformation}>
@@ -195,8 +195,7 @@ export class RefereeService extends Component {
                 style={{
                   fontSize: 17,
                   height: 40,
-                  lineHeight: 50,
-                  paddingStart: 5,
+                  lineHeight: 40,
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
@@ -218,10 +217,6 @@ export class RefereeService extends Component {
         {(address.length > 0 || district.length > 0 || province.length > 0)
           && <Text style={{ fontSize:16}}>{address} - {district} - {province}</Text>}
           <View style={styles.radiusInput}>
-          <Text style={styles.textLabelRadius}>
-            Bán kính phục vụ:
-          </Text>
-            
               <TextInput
               style={styles.textInputRadius}
               placeholder={'Enter radius'}
@@ -298,36 +293,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textLabel: {
-    width: '40%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 30,
-    fontSize:20
-  },
   textInput: {
     width: '90%',
     height: 50,
-    borderRadius: 5,
-    borderColor: 'black',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontSize: 20
+    paddingStart: 15,
+    fontSize: 17,
+    lineHeight:50
   },
   btnSubmit: {
-    height: 60,
-    width: 200,
-    backgroundColor: MAIN_COLOR,
-    borderRadius: 7,
-    alignItems: 'center',
+    height: 50,
     marginTop: 20,
-  },
-  txtSubmit: {
-    lineHeight: 60,
-    fontWeight: 'bold',
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    borderRadius: 25,
+  }, txtSubmit: {
+    lineHeight: 50,
     fontSize: 20,
-    color: 'white'
+    color: 'white',
+    alignSelf: 'center',
   },
   radiusInput: {
     flexDirection: 'row',
@@ -337,12 +329,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical:10
   },
-  textLabelRadius: {
-    width: '40%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 20,
-  },
+
   buttonGetLocation: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -365,15 +352,15 @@ const styles = StyleSheet.create({
     paddingStart: 5
   }, 
   textInputRadius: {
-    width: '35%',
+    width: '60%',
     height: 50,
-    borderRadius: 8,
-    borderColor: 'black',
-    marginEnd:5,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontSize: 20
+    paddingStart: 15,
+    fontSize: 17,
+    lineHeight: 50,
   }, 
   textLabelRadius: {
     width: '50%',
@@ -383,9 +370,10 @@ const styles = StyleSheet.create({
     fontSize:20
   },  
   textKM:{
-    width: '15%',
-    height: 40,
-    lineHeight: 40,
-    fontSize:20
+    width: '20%',
+    height: 50,
+    lineHeight: 50,
+    fontSize:17,
+    textAlign:'center'
   }
 });

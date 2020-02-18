@@ -97,8 +97,8 @@ class Item extends Component {
       position,
       distance,
       positionAt,
-    } = this.props        
-    console.log(JSON.stringify(this.props))
+      order
+    } = this.props 
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -116,7 +116,7 @@ class Item extends Component {
           </View>
         </View>
   
-        {/* <View style={styles.viewButton}>
+        <View style={styles.viewButton}>
           <Image source={avatar} style={styles.images} />
   
           <TouchableOpacity
@@ -127,12 +127,12 @@ class Item extends Component {
             {order == false
               ? <Text style={styles.textOrder}>{orderReferee}</Text>
               : <Image
-                  source={imagechecked}
+                  source={'../images/Order.png'}
                   style={{height: 50, width: 90, borderRadius: 25}}
                 />}
   
           </TouchableOpacity>
-        </View> */}
+        </View>
       </View>
     )
   }

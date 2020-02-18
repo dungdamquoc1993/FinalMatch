@@ -231,10 +231,6 @@ class PlayerService extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.radiusInput}>
-          <Text style={styles.textLabelRadius}>
-            Bán kính phục vụ:
-          </Text>
-            
               <TextInput
               style={styles.textInputRadius}
               placeholder={'Enter radius'}
@@ -294,12 +290,12 @@ const styles = StyleSheet.create ({
   textInput: {
     width: '90%',
     height: 50,
-    borderRadius: 8,
-    borderColor: 'black',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontSize: 20
+    paddingStart: 15,
+    fontSize: 17,
   },
   positions: {
     marginVertical:25,
@@ -320,15 +316,6 @@ const styles = StyleSheet.create ({
     height: 60,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom:20
-  },
-  textLabelRadius: {
-    width: '50%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 30,
-    fontSize:20
   },
   buttonGetLocation: {
     justifyContent: 'center',
@@ -346,33 +333,38 @@ const styles = StyleSheet.create ({
     fontWeight: 'bold',
   },
   textInputRadius: {
-    width: '35%',
+    width: '60%',
     height: 50,
-    borderRadius: 8,
-    borderColor: 'black',
-    marginEnd:5,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 25,
+    borderColor: '#a9a9a9',
     borderWidth: 1,
-    paddingHorizontal: 10,
-    color: 'black',
-    fontSize: 20
+    paddingStart: 15,
+    fontSize: 17,
+    lineHeight: 50,
   },
   textKM:{
-    width: '15%',
-    height: 40,
-    lineHeight: 40,
-    fontSize:20
+    width: '20%',
+    height: 50,
+    lineHeight: 50,
+    fontSize:17,
+    textAlign:'center'
   },
   btnSubmit: {
-    height: 60,
-    width: 200,
-    backgroundColor: MAIN_COLOR,
-    borderRadius: 7,
-    alignItems: 'center',
+    height: 50,
     marginTop: 20,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    borderRadius: 25,
   }, txtSubmit: {
-    lineHeight: 60,
-    fontWeight: 'bold',
+    lineHeight: 50,
     fontSize: 20,
-    color: 'white'
+    color: 'white',
+    alignSelf: 'center',
   }
 });
