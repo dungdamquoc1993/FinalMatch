@@ -122,6 +122,33 @@ AND playerServiceSupplierId IS NOT NULL
 ORDER BY distance ASC;
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS createNewOrder;
+--dateimeStart trong Nodejs phai chuyen het giay va miligiay ve 0, chu y GMT
+DELIMITER //
+CREATE PROCEDURE createNewOrder(
+    customerId VARCHAR(400),
+    supplierId INTEGER,
+    latitude FLOAT,
+    longitude FLOAT,
+    typeRole VARCHAR(100),
+    dateTimeStart DATETIME    
+)
+BEGIN
+DECLARE numberOfOrders INT DEFAULT 0;
+SELECT count(*) INTO numberOfOrders FROM Orders  
+WHERE Orders.point = POINT(latitude,longitude) 
+        AND Orders.dateTimeStart = dateTimeStart
+        AND Orders.typeRole = typeRole;        
+IF numberOfOrders = 0 THEN    
+    INSERT INTO Orders(customerId, supplierId, point, typeRole, dateimeStart)
+    VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateimeStart);
+END IF;
+SELECT * FROM Orders WHERE Orders.point = POINT(latitude,longitude) 
+        AND Orders.dateTimeStart = dateTimeStart
+        AND Orders.typeRole = typeRole;        
+END;
+DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS getRefereesAroundOrder //
 DELIMITER //

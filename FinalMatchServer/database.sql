@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS Orders (
     dateTimeStart DATETIME,    
     dateTimeEnd DATETIME
 );
+--status: pending, accepted, cancelled, completed, missed(1 cllient request nhieu supplier, 1 supplier dong y, )
+--Khi nao cho dat: pending, cancelled, missed
 ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
 
 CREATE TABLE IF NOT EXISTS Conversations (
