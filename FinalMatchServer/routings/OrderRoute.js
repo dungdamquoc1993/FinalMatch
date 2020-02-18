@@ -6,7 +6,7 @@ const {connection} = require('../database/database')
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
-
+const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
 
 //Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
 router.post('/getRefereesAroundOrder', async (req, res) => {  
@@ -110,7 +110,14 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     dateTimeStart = new Date(dateTimeStart)
     dateTimeStart.setMilliseconds(0);
     dateTimeStart.setSeconds(0)    
-    debugger
+    if(!dateTimeStart) {
+      res.json({
+        result: "failed", 
+        data: {}, 
+        message: "Invalid date format. Format must be like this: Tue, 18 Feb 2020 09:48:32 GMT",
+        time: Date.now()})      
+      return
+    }
     connection.query(POST_CREATE_NEW_ORDER, 
           [ customerId,
             supplierId,
@@ -140,7 +147,54 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     })    
   })
 
-  
+  // http://150.95.113.87:3000/orders/updateOrderStatus
+  router.post('/updateOrderStatus', async (req, res) => {  
+    const { tokenkey, customerid } = req.headers
+    const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
+    if(checkTokenResult == false) {
+      res.json({
+        result: "false", 
+        data: {}, 
+        message: 'Token is invalid',
+        time: Date.now()})
+        return
+    }
+    const {status, orderId} = req.body  
+    //validate, check token ?  
+    if(["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())){
+      res.json({
+        result: "failed", 
+        data: {}, 
+        message: "Status must be: pending, accepted, cancelled, completed, missed",
+        time: Date.now()})        
+      return
+    }        
+    connection.query(POST_UPDATE_ORDER_STATUS, 
+          [ status, orderId]
+      , (error, results) => {
+            debugger
+            if(error) {
+                res.json({
+                  result: "failed", 
+                  data: {}, 
+                  message: error.sqlMessage,
+                  time: Date.now()})
+            } else {            
+                if(results != null && results.length > 0) {                    
+                    res.json({
+                      result: "ok", 
+                      count: results[0].length,
+                      data: results[0],                      
+                      message: 'Update order status successfully',
+                      time: Date.now()})
+                }                
+            }
+    })    
+  })
 
+  CREATE PROCEDURE updateOrderStatus(
+    status VARCHAR(100),
+    orderId INTEGER,    
+)
 module.exports = router
   

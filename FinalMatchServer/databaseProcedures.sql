@@ -123,7 +123,7 @@ ORDER BY distance ASC;
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS createNewOrder;
---dateimeStart trong Nodejs phai chuyen het giay va miligiay ve 0, chu y GMT
+--dateTimeStart trong Nodejs phai chuyen het giay va miligiay ve 0, chu y GMT
 DELIMITER //
 CREATE PROCEDURE createNewOrder(
     customerId VARCHAR(400),
@@ -140,14 +140,28 @@ WHERE Orders.point = POINT(latitude,longitude)
         AND Orders.dateTimeStart = dateTimeStart
         AND Orders.typeRole = typeRole;        
 IF numberOfOrders = 0 THEN    
-    INSERT INTO Orders(customerId, supplierId, point, typeRole, dateimeStart)
-    VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateimeStart);
+    INSERT INTO Orders(customerId, supplierId, point, typeRole, dateTimeStart, dateTimeEnd)
+    VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateTimeStart, DATE_ADD(dateTimeStart, INTERVAL 2 HOUR));
 END IF;
 SELECT * FROM Orders WHERE Orders.point = POINT(latitude,longitude) 
         AND Orders.dateTimeStart = dateTimeStart
         AND Orders.typeRole = typeRole;        
 END;
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS updateOrderStatus;
+--pending, accepted, cancelled, completed, missed
+DELIMITER //
+CREATE PROCEDURE updateOrderStatus(
+    status VARCHAR(100),
+    orderId INTEGER,    
+)
+BEGIN
+UPDATE Orders SET Orders.status = status WHERE id = orderId;
+SELECT * FROM Orders WHERE id = orderId;
+END;
+DELIMITER ;
+
 
 
 DROP PROCEDURE IF EXISTS getRefereesAroundOrder //
