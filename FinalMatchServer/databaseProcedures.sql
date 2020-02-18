@@ -154,7 +154,7 @@ DROP PROCEDURE IF EXISTS updateOrderStatus;
 DELIMITER //
 CREATE PROCEDURE updateOrderStatus(
     status VARCHAR(100),
-    orderId INTEGER,    
+    orderId INTEGER    
 )
 BEGIN
 UPDATE Orders SET Orders.status = status WHERE id = orderId;
