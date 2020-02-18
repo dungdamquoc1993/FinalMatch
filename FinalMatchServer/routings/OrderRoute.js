@@ -160,8 +160,9 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
         return
     }
     const {status, orderId} = req.body  
+	debugger
     //validate, check token ?  
-    if(["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())){
+    if(!["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())){
       res.json({
         result: "failed", 
         data: {}, 
@@ -180,6 +181,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                   message: error.sqlMessage,
                   time: Date.now()})
             } else {            
+			
                 if(results != null && results.length > 0) {                    
                     res.json({
                       result: "ok", 
@@ -192,9 +194,5 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     })    
   })
 
-  CREATE PROCEDURE updateOrderStatus(
-    status VARCHAR(100),
-    orderId INTEGER,    
-)
 module.exports = router
   
