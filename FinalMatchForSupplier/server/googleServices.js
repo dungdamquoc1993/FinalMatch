@@ -4,6 +4,26 @@ import {
     ToastAndroid,
     Platform
 } from 'react-native'
+// const firebase = require("firebase/app")
+import Firebase from 'firebase'
+// require("firebase/auth");
+// require("firebase/firestore");
+// require("firebase/database")
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAxPcy5GgWepVoQs2o2fh78vQEAEoSHJPI",
+    authDomain: "finalmatch-9f4fe.firebaseapp.com",
+    databaseURL: "https://finalmatch-9f4fe.firebaseio.com",
+    projectId: "finalmatch-9f4fe",
+    storageBucket: "finalmatch-9f4fe.appspot.com",
+    messagingSenderId: "863364553369",
+    appId: "1:863364553369:web:bee4768735e64cc97c7608"
+}
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig); 
+// export firebase
+let app = Firebase.initializeApp(firebaseConfig);
+export const db = app.database();
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    

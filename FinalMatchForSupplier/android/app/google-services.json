@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "863364553369",
+    "firebase_url": "https://finalmatch-9f4fe.firebaseio.com",
+    "project_id": "finalmatch-9f4fe",
+    "storage_bucket": "finalmatch-9f4fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863364553369:android:6fb05d920dc7fedd7c7608",
+        "android_client_info": {
+          "package_name": "com.finalmatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFjyvg8B0CNSwl5kEFoIvmHfi_twU2JFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863364553369-l76ap8m2ssctmqrdg6eqk766ncihjohf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.FinalMatchForSupplier"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863364553369:android:e72c59cfa7e0bed47c7608",
+        "android_client_info": {
+          "package_name": "com.finalmatchforsupplier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFjyvg8B0CNSwl5kEFoIvmHfi_twU2JFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863364553369-l76ap8m2ssctmqrdg6eqk766ncihjohf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.FinalMatchForSupplier"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863364553369:android:867983283ef05f0e7c7608",
+        "android_client_info": {
+          "package_name": "com.training"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFjyvg8B0CNSwl5kEFoIvmHfi_twU2JFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863364553369-eb04gasta2bd7qm2k95uupvplakh8ash.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863364553369-l76ap8m2ssctmqrdg6eqk766ncihjohf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.FinalMatchForSupplier"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

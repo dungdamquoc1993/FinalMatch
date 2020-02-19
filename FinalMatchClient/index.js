@@ -14,6 +14,7 @@
  * yarn add react-native-searchable-dropdown
  * yarn add react-native-date-picker
  * import DatePicker from 'react-native-date-picker'
+ * yarn add firebase
  * 
  */
 import {AppRegistry} from 'react-native';
