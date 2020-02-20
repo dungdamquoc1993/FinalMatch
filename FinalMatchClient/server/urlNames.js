@@ -46,3 +46,10 @@ export const urlgetPlayersAroundOrder = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getPlayersAroundOrder`
 }
 
+export const urlGetAvatar = (fileName) => {    
+    if(fileName.toLowerCase().includes("https://")) {
+        return fileName
+    }    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/getImage?fileName=${fileName}`
+}
+
