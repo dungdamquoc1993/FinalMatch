@@ -15,6 +15,7 @@ import {NavigationEvents} from 'react-navigation'
 import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
+import { urlGetAvatar } from '../server/urlNames'
 export default class RefereeList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -97,7 +98,8 @@ class Item extends Component {
       position,
       distance,
       positionAt,
-      order
+      order,
+      ages
     } = this.props 
     return (
       <View style={styles.ViewAllInformation}>
@@ -108,7 +110,7 @@ class Item extends Component {
           </View>          
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Address : ")}</Text>
-            <Text style={styles.textLabel}>{address}</Text>
+            <Text style={styles.textLabel}>{ages}</Text>
           </View>
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Referee's price: ")}</Text>
@@ -117,7 +119,14 @@ class Item extends Component {
         </View>
   
         <View style={styles.viewButton}>
-          <Image source={avatar} style={styles.images} />
+        <Image
+              source={
+                avatar.length > 0
+                  ? { uri: urlGetAvatar(avatar) }
+                  : require('../images/avatar.png')
+              }
+              style={styles.images}
+            />
   
           <TouchableOpacity
             style={styles.btnOrder}

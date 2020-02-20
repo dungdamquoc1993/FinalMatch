@@ -8,20 +8,20 @@ import {
     ToastAndroid,
     Platform
 } from 'react-native'
-import "firebase/firestore"
-import * as firebase from "firebase/app"
-const firebaseConfig = {
-    apiKey: "AIzaSyAxPcy5GgWepVoQs2o2fh78vQEAEoSHJPI",
-    authDomain: "finalmatch-9f4fe.firebaseapp.com",
-    databaseURL: "https://finalmatch-9f4fe.firebaseio.com",
-    projectId: "finalmatch-9f4fe",
-    storageBucket: "finalmatch-9f4fe.appspot.com",
-    messagingSenderId: "863364553369",
-    appId: "1:863364553369:web:bee4768735e64cc97c7608"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-export const firebase
+// import "firebase/firestore"
+// import * as firebase from "firebase/app"
+// const firebaseConfig = {
+//     apiKey: "AIzaSyAxPcy5GgWepVoQs2o2fh78vQEAEoSHJPI",
+//     authDomain: "finalmatch-9f4fe.firebaseapp.com",
+//     databaseURL: "https://finalmatch-9f4fe.firebaseio.com",
+//     projectId: "finalmatch-9f4fe",
+//     storageBucket: "finalmatch-9f4fe.appspot.com",
+//     messagingSenderId: "863364553369",
+//     appId: "1:863364553369:web:bee4768735e64cc97c7608"
+//   };
+//   // Initialize Firebase
+//   firebase.initializeApp(firebaseConfig);
+// export const firebase
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    

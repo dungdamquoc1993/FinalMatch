@@ -50,6 +50,6 @@ export const urlGetAvatar = (fileName) => {
     if(fileName.toLowerCase().includes("https://")) {
         return fileName
     }    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/getImage?fileName=${fileName}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
 }
 
