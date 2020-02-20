@@ -13,6 +13,8 @@ import Header from './Header';
 import Modal from "react-native-modal";
 const screenWidth = Math.round (Dimensions.get ('window').width);
 const screenHeight = Math.round (Dimensions.get ('window').height);
+import {firebaseDatabase} from '../server/googleServices'
+
 export default class Order extends Component {
   constructor (props) {
     super (props);
@@ -21,6 +23,32 @@ export default class Order extends Component {
       showMail: false,
     };
   }
+  
+  _readDataFromFirebase = () => {
+
+
+    /*
+    debugger
+    var newPostKey = firebaseDatabase.ref().child('orders').push().key;
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    updates['/orders/' + newPostKey] = {
+      username: "Hoang",
+      age: 30
+    }
+
+    firebaseDatabase.ref().update(updates)
+    */
+
+   firebaseDatabase.ref('/orders').on('value', function (snapshot) {      
+      alert("Co du lieu firebase roi")
+    })
+
+  }
+  componentWillMount() {
+    this._readDataFromFirebase()  
+  }
+  
   _pressMail = () => {
     this.setState ({showMail: true});
   };

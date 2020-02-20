@@ -36,6 +36,10 @@ target 'FinalMatchForSupplier' do
   use_native_modules!
 
   pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Database'
 
 end
 

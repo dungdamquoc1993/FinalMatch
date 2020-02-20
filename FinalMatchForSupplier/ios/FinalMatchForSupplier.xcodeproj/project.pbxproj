@@ -22,6 +22,7 @@
 		AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */; };
 		AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */; };
 		AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */; };
+		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBold.ttf"; path = "../assets/JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Thin.ttf"; path = "../assets/JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
 		AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-ThinItalic.ttf"; path = "../assets/JosefinSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FinalMatchForSupplier/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AEBA27E12EE94C89A5DE4145 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		B7AA961D88B6717BBC78D056 /* Pods-FinalMatchForSupplierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplierTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplierTests/Pods-FinalMatchForSupplierTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF89F7712A70E1C892539FC6 /* Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplier-tvOSTests/Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* FinalMatchForSupplier */ = {
 			isa = PBXGroup;
 			children = (
+				ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -278,7 +281,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = CH6RC35PCB;
+						DevelopmentTeam = K58H99UQSN;
 					};
 				};
 			};
@@ -306,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */,
 				AD90A66323D592E100BBF83B /* JosefinSans-Bold.ttf in Resources */,
 				AD90A66423D592E100BBF83B /* JosefinSans-BoldItalic.ttf in Resources */,
 				AD90A66523D592E100BBF83B /* JosefinSans-Italic.ttf in Resources */,
@@ -386,6 +390,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -408,6 +413,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -467,7 +473,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = CH6RC35PCB;
+				DEVELOPMENT_TEAM = K58H99UQSN;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -487,7 +493,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CH6RC35PCB;
+				DEVELOPMENT_TEAM = K58H99UQSN;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
