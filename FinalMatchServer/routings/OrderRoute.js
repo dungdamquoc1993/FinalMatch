@@ -31,11 +31,11 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {            
-              if(results != null && results.length > 0) {                    
+              if(results != null) {                    
                   res.json({
                     result: "ok", 
-                    count: results[0].length,
-                    data: results[0],                      
+                    count: results.length,
+                    data: results,                      
                     message: 'Get orders by supplierId successfully',
                     time: Date.now()})
               }                
