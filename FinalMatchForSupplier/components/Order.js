@@ -13,7 +13,9 @@ import Header from './Header';
 import Modal from "react-native-modal";
 const screenWidth = Math.round (Dimensions.get ('window').width);
 const screenHeight = Math.round (Dimensions.get ('window').height);
+import {getSupplierFromStorage} from '../helpers/Helpers'
 import {firebaseDatabase} from '../server/googleServices'
+import {getOrdersBySupplierId} from '../server/myServices'
 
 export default class Order extends Component {
   constructor (props) {
@@ -21,12 +23,32 @@ export default class Order extends Component {
     this.state = {
       fadeIn: new Animated.Value (0),
       showMail: false,
+      supplierId: getSupplierFromStorage().supplierId, 
+      orders:[]
     };
   }
-  
+  _checkSupplierIdInFirebase = (snapshotValue) => {
+    //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true    
+    for (const key in snapshotValue) {
+      debugger
+      const [customerId, supplierId] = key.split(":")
+      debugger
+      if(supplierId == this.state.supplierId) {
+          firebaseDatabase.ref('/orders').remove(key)
+          return true
+      }
+    }
+    return false
+  }
   _readDataFromFirebase = () => {
-    firebaseDatabase.ref('/orders').on('value', function (snapshot) {      
-      alert("Co du lieu firebase roi")
+    firebaseDatabase.ref('/orders').on('value', async (snapshot) => {      
+        let snapshotValue = snapshot.val()    
+        if(this._checkSupplierIdInFirebase(snapshotValue) == true) {
+          debugger
+          //Goi api load orders
+          let orders = await getOrdersBySupplierId()
+          this.setState({orders})
+        }                 
     })
     /*
     debugger
@@ -39,9 +61,8 @@ export default class Order extends Component {
     }
 
     firebaseDatabase.ref().update(updates)
-    */
-  
-  }
+    */  
+    }
   componentWillMount() {
     this._readDataFromFirebase()  
   }
@@ -85,9 +106,7 @@ export default class Order extends Component {
             onBackdropPress={() => {
               this.setState ({showMail: false});
             }}
-           
-            
-           
+                                  
           >
               <ImageBackground
                 source={require ('../images/msgOrder.png')}

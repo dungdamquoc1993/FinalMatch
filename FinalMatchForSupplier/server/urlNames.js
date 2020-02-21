@@ -57,3 +57,6 @@ export const urlInsertStadium = () => {
 export const urlLoginFacebook = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginFacebook`
 }
+export const urlGetOrdersBySupplierId = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersBySupplierId`
+}
