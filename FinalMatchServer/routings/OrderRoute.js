@@ -164,7 +164,6 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
         return
     }
     const {status, orderId} = req.body  
-	debugger
     //validate, check token ?  
     if(!["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())){
       res.json({
@@ -177,7 +176,6 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     connection.query(POST_UPDATE_ORDER_STATUS, 
           [ status, orderId]
       , (error, results) => {
-            debugger
             if(error) {
                 res.json({
                   result: "failed", 
@@ -187,7 +185,8 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
             } else {            
 			
                 if(results != null && results.length > 0) {       
-                  const {supplierId}
+                  const {supplierId, customerId} = results[0][0]
+debugger
                   let updates = {};
                     updates[`/orders/${customerId}:${supplierId}`] = {
                       action: "updateOrderStatus"

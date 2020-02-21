@@ -1,6 +1,6 @@
 const mysql = require('mysql')
 const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
-import Firebase from 'firebase'
+var Firebase = require('firebase')
 //mysql
 const connection = mysql.createConnection({
     host: HOSTNAME,
