@@ -1,12 +1,47 @@
 var express = require('express')
 var router = express.Router()
-const {checkTokenCustomer} = require('./helpers')
+const {checkTokenCustomer, checkToken} = require('./helpers')
 const {connection, firebaseDatabase} = require('../database/database')
 
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
 const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
+const POST_GET_ORDERS_BY_SUPPLIER_ID = "SELECT * FROM Orders WHERE supplierId = ? ORDER BY createdDate DESC" 
+
+//Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
+router.post('/getOrdersBySupplierId', async (req, res) => {  
+  const { tokenkey, supplierid } = req.headers
+  const checkTokenResult = await checkToken(tokenkey, supplierid)
+  if(checkTokenResult == false) {
+    res.json({
+      result: "false", 
+      data: {}, 
+      message: 'Token is invalid',
+      time: Date.now()})
+      return
+  }
+  connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID, 
+        [supplierid], (error, results) => {
+          debugger
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {            
+              if(results != null && results.length > 0) {                    
+                  res.json({
+                    result: "ok", 
+                    count: results[0].length,
+                    data: results[0],                      
+                    message: 'Get orders by supplierId successfully',
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
 
 //Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
 router.post('/getRefereesAroundOrder', async (req, res) => {  
