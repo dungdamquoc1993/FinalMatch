@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const {checkTokenCustomer} = require('./helpers')
-const {connection} = require('../database/database')
+const {connection, firebaseDatabase} = require('../database/database')
 
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
@@ -133,9 +133,13 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                   data: {}, 
                   message: error.sqlMessage,
                   time: Date.now()})
-            } else {            
-                debugger
-                if(results != null && results.length > 0) {                    
+            } else {                            
+                if(results != null && results.length > 0) {                                      
+                    let updates = {};
+                    updates[`/orders/${customerId}:${supplierId}`] = {
+                      action: "createNewOrder"
+                    }    
+                    firebaseDatabase.ref().update(updates)
                     res.json({
                       result: "ok", 
                       count: results[0].length,
@@ -182,7 +186,13 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                   time: Date.now()})
             } else {            
 			
-                if(results != null && results.length > 0) {                    
+                if(results != null && results.length > 0) {       
+                  const {supplierId}
+                  let updates = {};
+                    updates[`/orders/${customerId}:${supplierId}`] = {
+                      action: "updateOrderStatus"
+                    }    
+                    firebaseDatabase.ref().update(updates)             
                     res.json({
                       result: "ok", 
                       count: results[0].length,
@@ -194,5 +204,6 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     })    
   })
 
+  
 module.exports = router
   

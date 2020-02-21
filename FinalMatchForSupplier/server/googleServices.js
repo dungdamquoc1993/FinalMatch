@@ -22,8 +22,8 @@ const firebaseConfig = {
 // Initialize Firebase
 // firebase.initializeApp(firebaseConfig); 
 // export firebase
-let app = Firebase.initializeApp(firebaseConfig);
-export const db = app.database();
+const firebaseApp = Firebase.initializeApp(firebaseConfig);
+export const firebaseDatabase = firebaseApp.database();
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    

@@ -25,8 +25,9 @@ export default class Order extends Component {
   }
   
   _readDataFromFirebase = () => {
-
-
+    firebaseDatabase.ref('/orders').on('value', function (snapshot) {      
+      alert("Co du lieu firebase roi")
+    })
     /*
     debugger
     var newPostKey = firebaseDatabase.ref().child('orders').push().key;
@@ -39,11 +40,7 @@ export default class Order extends Component {
 
     firebaseDatabase.ref().update(updates)
     */
-
-   firebaseDatabase.ref('/orders').on('value', function (snapshot) {      
-      alert("Co du lieu firebase roi")
-    })
-
+  
   }
   componentWillMount() {
     this._readDataFromFirebase()  
