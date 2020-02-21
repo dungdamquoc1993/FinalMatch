@@ -185,58 +185,59 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
             }
     })    
   })
-
-  // http://150.95.113.87:3000/orders/updateOrderStatus
-  router.post('/updateOrderStatus', async (req, res) => {  
-    const { tokenkey, customerid } = req.headers
-    const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
-    if(checkTokenResult == false) {
-      res.json({
-        result: "false", 
-        data: {}, 
-        message: 'Token is invalid',
-        time: Date.now()})
-        return
-    }
-    const {status, orderId} = req.body  
-    //validate, check token ?  
-    if(!["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())){
-      res.json({
-        result: "failed", 
-        data: {}, 
-        message: "Status must be: pending, accepted, cancelled, completed, missed",
-        time: Date.now()})        
-      return
-    }        
-    connection.query(POST_UPDATE_ORDER_STATUS, 
-          [ status, orderId]
-      , (error, results) => {
-            if(error) {
-                res.json({
-                  result: "failed", 
-                  data: {}, 
-                  message: error.sqlMessage,
-                  time: Date.now()})
-            } else {            
-			
-                if(results != null && results.length > 0) {       
-                  const {supplierId, customerId} = results[0][0]
-debugger
-                  let updates = {};
-                    updates[`/orders/${customerId}:${supplierId}`] = {
-                      action: "updateOrderStatus"
-                    }    
-                    firebaseDatabase.ref().update(updates)             
-                    res.json({
-                      result: "ok", 
-                      count: results[0].length,
-                      data: results[0],                      
-                      message: 'Update order status successfully',
-                      time: Date.now()})
-                }                
-            }
-    })    
-  })
+// http://150.95.113.87:3000/orders/updateOrderStatus
+router.post('/updateOrderStatus', async (req, res) => {
+  const { tokenkey, supplierid } = req.headers
+  const checkTokenResult = await checkToken(tokenkey, supplierid)
+  if (checkTokenResult == false) {
+    res.json({
+      result: "false",
+      data: {},
+      message: 'Token is invalid',
+      time: Date.now()
+    })
+    return
+  }
+  const { status, orderId } = req.body
+  //validate, check token ?  
+  if (!["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())) {
+    res.json({
+      result: "failed",
+      data: {},
+      message: "Status must be: pending, accepted, cancelled, completed, missed",
+      time: Date.now()
+    })
+    return
+  }
+  connection.query(POST_UPDATE_ORDER_STATUS,
+    [status, orderId]
+    , (error, results) => {
+      if (error) {
+        res.json({
+          result: "failed",
+          data: {},
+          message: error.sqlMessage,
+          time: Date.now()
+        })
+      } else {
+        if (results != null && results.length > 0) {
+          const { supplierId, customerId } = results[0][0]
+          let updates = {};
+          updates[`/orders/${customerId}:${supplierId}`] = {
+            action: "updateOrderStatus"
+          }
+          firebaseDatabase.ref().update(updates)
+          res.json({
+            result: "ok",
+            count: results[0].length,
+            data: results[0],
+            message: 'Update order status successfully',
+            time: Date.now()
+          })
+        }
+      }
+    })
+})
 
   
 module.exports = router

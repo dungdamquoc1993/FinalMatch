@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import {
   Text,
   View,
@@ -6,26 +6,22 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Animated,
-  ImageBackground,
+  FlatList,
   Dimensions,
-} from 'react-native';
-import Header from './Header';
-import Modal from "react-native-modal";
-const screenWidth = Math.round (Dimensions.get ('window').width);
-const screenHeight = Math.round (Dimensions.get ('window').height);
-import {getSupplierFromStorage} from '../helpers/Helpers'
-import {firebaseDatabase} from '../server/googleServices'
-import {getOrdersBySupplierId} from '../server/myServices'
+} from 'react-native'
+import Header from './Header'
+import Modal from "react-native-modal"
+import { getSupplierFromStorage } from '../helpers/Helpers'
+import { firebaseDatabase } from '../server/googleServices'
+import { getOrdersBySupplierId } from '../server/myServices'
 
 export default class Order extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props)
     this.state = {
-      fadeIn: new Animated.Value (0),
-      showMail: false,
-      supplierId: getSupplierFromStorage().supplierId, 
-      orders:[]
-    };
+      supplierId: getSupplierFromStorage().supplierId,
+      orders: []
+    }
   }
   _checkSupplierIdInFirebase = (snapshotValue) => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true    
@@ -33,115 +29,93 @@ export default class Order extends Component {
       debugger
       const [customerId, supplierId] = key.split(":")
       debugger
-      if(supplierId == this.state.supplierId) {
-          firebaseDatabase.ref('/orders').remove(key)
-          return true
+      if (supplierId == this.state.supplierId) {
+        firebaseDatabase.ref('/orders').remove(key)
+        return true
       }
     }
     return false
   }
   _readDataFromFirebase = () => {
-    firebaseDatabase.ref('/orders').on('value', async (snapshot) => {      
-        let snapshotValue = snapshot.val()    
-        if(this._checkSupplierIdInFirebase(snapshotValue) == true) {
-          debugger
-          //Goi api load orders
-          let orders = await getOrdersBySupplierId()
-          this.setState({orders})
-        }                 
+    firebaseDatabase.ref('/orders').on('value', async (snapshot) => {
+      let snapshotValue = snapshot.val()
+      if (this._checkSupplierIdInFirebase(snapshotValue) == true) {
+        debugger
+        //Goi api load orders
+        let orders = await getOrdersBySupplierId()
+        this.setState({ orders })
+      }
     })
-    /*
-    debugger
-    var newPostKey = firebaseDatabase.ref().child('orders').push().key;
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates['/orders/' + newPostKey] = {
-      username: "Hoang",
-      age: 30
-    }
-
-    firebaseDatabase.ref().update(updates)
-    */  
-    }
-  componentWillMount() {
-    this._readDataFromFirebase()  
   }
   
-  _pressMail = () => {
-    this.setState ({showMail: true});
-  };
-  componentDidMount () {
-    const {fadeIn} = this.state;
-    setInterval (() => {
-      Animated.timing (fadeIn, {
-        toValue: 1,
-        duration: 300,
-      }).start (() => {
-        fadeIn.setValue (1);
-        Animated.timing (fadeIn, {
-          toValue: 0,
-          duration: 2000,
-        }).start (() => {
-          fadeIn.setValue (0);
-        })        
-      });
-    }, 2300);
+  componentDidMount() {
+    this._readDataFromFirebase() 
   }
-  render () {
-    const {showMail, fadeIn} = this.state;
+  render() {
+    const {orders} = this.state
     return (
       <SafeAreaView style={styles.container}>
-        <ImageBackground
-          source={require ('../images/backgroundOrderScreen.jpeg')}
-          style={{width:'100%', height:'100%',justifyContent:'center',alignItems:'center'}}
-        >
-          <OpacityView
-            fadeIn={this.state.fadeIn}
-            pressMail={() => {
-              this._pressMail ();
-            }}
-          />
-          <Modal
-            visible={showMail}
-            onBackdropPress={() => {
-              this.setState ({showMail: false});
-            }}
-                                  
-          >
-              <ImageBackground
-                source={require ('../images/msgOrder.png')}
-                style={{width: '100%', height:'80%',alignItems: 'center'}}
-              >
-              <Text style={{marginTop: 120,marginHorizontal:50,fontSize: 32}}>ĐƠN HÀNG đầu tiên của bạn sẽ đến trong vòng 1 tháng</Text>
-              </ImageBackground>
-              
-          </Modal>
-          <View/>
-
-        </ImageBackground>
-
+        <FlatList
+        data={orders}
+        renderItem={({item}) => <Item {...item} />}
+        keyExtractor={item => item.id}
+      />
       </SafeAreaView>
-    );
+    )
   }
 }
-const OpacityView = props => {
-  return (
-    <TouchableOpacity
-      style={{width: 200, height: 200, borderRadius: 50}}
-      onPress={props.pressMail}
-    >
-      <Animated.Image
-        source={require ('../images/icon_box.jpeg')}
-        style={{width: 200, height: 200, opacity: props.fadeIn}}
-      />
-    </TouchableOpacity>
-  );
-};
-const styles = StyleSheet.create ({
+
+class Item extends Component {  
+  render() {
+    const {
+      typeRole, 
+      customerId, 
+      supplierId, 
+      point, 
+      status, 
+      createdDate, 
+      dateTimeStart, 
+      dateTimeEnd
+    } = this.props    
+    let latitude = point.x
+    let longitude = point.y
+    return <View>
+      <Text>customerId:{customerId}</Text>
+      <Text>supplierId:{supplierId}</Text>
+      <Text>latitude:{latitude}</Text>
+      <Text>longitude:{longitude}</Text>
+      <Text>status:{longitude}</Text>
+      <TouchableOpacity>
+        <Text style={{backgroundColor:'green', height: 50}}>Accept</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Text style={{backgroundColor:'red', height: 50}}>Reject</Text>
+      </TouchableOpacity>
+    </View>
+  }
+}
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
   },
-});
+})
+
+/*
+{
+  "id": 1,
+  "typeRole": "referee",
+  "customerId": "47c9165c5bfb03689260a8f230e45589",
+  "supplierId": 31,
+  "point": {
+      "x": 20.99283218383789,
+      "y": 105.80587005615234
+  },
+  "status": "missed",
+  "createdDate": "2020-02-18T10:17:54.000Z",
+  "dateTimeStart": "2020-02-18T09:48:00.000Z",
+  "dateTimeEnd": "2020-02-18T11:48:00.000Z"
+}
+*/
