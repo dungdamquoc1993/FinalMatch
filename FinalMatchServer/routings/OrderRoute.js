@@ -1,6 +1,10 @@
 var express = require('express')
 var router = express.Router()
-const {checkTokenCustomer, checkToken} = require('./helpers')
+const {
+  checkTokenCustomer, 
+  checkToken,
+  checkCompletedMatch
+} = require('./helpers')
 const {connection, firebaseDatabase} = require('../database/database')
 
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
@@ -8,6 +12,7 @@ const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
 const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
 const POST_GET_ORDERS_BY_SUPPLIER_ID = "SELECT * FROM Orders WHERE supplierId = ? ORDER BY createdDate DESC" 
+const POST_GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM Orders WHERE customerId = ? ORDER BY createdDate DESC" 
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {  
@@ -15,12 +20,13 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
   const checkTokenResult = await checkToken(tokenkey, supplierid)
   if(checkTokenResult == false) {
     res.json({
-      result: "false", 
+      result: "failed", 
       data: {}, 
       message: 'Token is invalid',
       time: Date.now()})
       return
   }
+  await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID, 
         [supplierid], (error, results) => {
           debugger
@@ -42,6 +48,41 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
           }
   })    
 })
+//Link http://150.95.113.87:3000/orders/getOrdersByCustomerId
+router.post('/getOrdersByCustomerId', async (req, res) => {  
+  const { tokenkey, customerid } = req.headers
+  const checkTokenCustomer = await checkToken(tokenkey, customerid)
+  if(checkTokenCustomer == false) {
+    res.json({
+      result: "failed", 
+      data: {}, 
+      message: 'Token is invalid',
+      time: Date.now()})
+      return
+  }
+  await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
+  connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID, 
+        [supplierid], (error, results) => {
+          debugger
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {            
+              if(results != null) {                    
+                  res.json({
+                    result: "ok", 
+                    count: results.length,
+                    data: results,                      
+                    message: 'Get orders by customerid successfully',
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
+
 
 //Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
 router.post('/getRefereesAroundOrder', async (req, res) => {  
@@ -187,9 +228,11 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
   })
 // http://150.95.113.87:3000/orders/updateOrderStatus
 router.post('/updateOrderStatus', async (req, res) => {
-  const { tokenkey, supplierid } = req.headers
-  const checkTokenResult = await checkToken(tokenkey, supplierid)
-  if (checkTokenResult == false) {
+  //Cả customer và supplier đều thay đổi đc order
+  const { tokenkey, supplierid, customerid } = req.headers
+  const checkTokenSupplier = await checkToken(tokenkey, supplierid)
+  const checkTokenCustomer = await checkTokenCustomer(tokenkey, customerid)
+  if (checkTokenCustomer == false && checkTokenSupplier == false) {
     res.json({
       result: "false",
       data: {},

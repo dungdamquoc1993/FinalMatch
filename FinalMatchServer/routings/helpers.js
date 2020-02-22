@@ -1,7 +1,7 @@
 const {connection} = require('../database/database')
 const POST_CHECK_TOKEN = "SELECT checkToken(?, ?) as checkTokenResult"
 const POST_CHECK_TOKEN_CUSTOMER = "SELECT checkTokenCustomer(?, ?) as checkTokenCustomerResult"
-
+const SQL_CHECK_COMPLETED_MATCH = "UPDATE Orders SET status = 'completed' WHERE dateTimeEnd < NOW()"
 const checkToken = (tokenKey = '', supplierId = 0) => {    
     //convert callback => Promise = async/await
     return new Promise((resolve, reject) => {
@@ -57,6 +57,19 @@ const removeNullProperties = (jsObject) => {
     } 
     return clonedObject
 }
+const checkCompletedMatch = () => {
+    return new Promise((resolve, reject) => {        
+        connection.query(SQL_CHECK_COMPLETED_MATCH, [], (error, results) => {            
+            debugger
+            if (error) {                
+                resolve(false)
+            } else {                                    
+                resolve(true)  
+            }
+        }) 
+    })    
+}
+
 module.exports = {
     checkToken,
     checkTokenCustomer,

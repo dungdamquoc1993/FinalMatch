@@ -254,6 +254,7 @@ export const createNewOrder = async (
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 tokenkey: tokenKey, customerid: customerId
+                //Cả customer và supplier đều thay đổi đc order
             },
             body: JSON.stringify({
                 supplierId,
