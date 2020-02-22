@@ -230,7 +230,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           res.json({
             result: "ok",
             count: results[0].length,
-            data: results[0],
+            data: results[0][0],
             message: 'Update order status successfully',
             time: Date.now()
           })

@@ -12,7 +12,8 @@ import {urlLoginSupplier,
     urlUpdateSettings, 
     urlInsertStadium,
     urlLoginFacebook,
-    urlGetOrdersBySupplierId
+    urlGetOrdersBySupplierId,
+    urlUpdateOrderStatus
 } from './urlNames'
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
 import axios from 'axios'
@@ -423,6 +424,33 @@ export const getOrdersBySupplierId = async () => {
         }
     } catch (error) {
         alert("Cannot get orders from supplierId")
+        return []
+    }
+}
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const { tokenKey, supplierId} = await getSupplierFromStorage()
+        const response = await fetch(urlUpdateOrderStatus, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                orderId, status
+            }),
+        })
+        const responseJson = await response.json();
+        const {result, data} = responseJson
+        if (result.toUpperCase() === "OK") {
+            //Logger ??  
+            return data
+        } else {
+            return []
+        }
+    } catch (error) {
+        alert("Cannot update order's status to"+status)
         return []
     }
 }

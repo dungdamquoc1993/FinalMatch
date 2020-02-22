@@ -60,3 +60,6 @@ export const urlLoginFacebook = () => {
 export const urlGetOrdersBySupplierId = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersBySupplierId`
 }
+export const urlUpdateOrderStatus = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/updateOrderStatus`
+}
