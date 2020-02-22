@@ -74,5 +74,6 @@ module.exports = {
     checkToken,
     checkTokenCustomer,
     convertDateToDayMonthYear,
-    removeNullProperties
+    removeNullProperties,
+    checkCompletedMatch,
 }

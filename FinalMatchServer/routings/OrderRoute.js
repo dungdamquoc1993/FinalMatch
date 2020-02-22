@@ -51,8 +51,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
 //Link http://150.95.113.87:3000/orders/getOrdersByCustomerId
 router.post('/getOrdersByCustomerId', async (req, res) => {  
   const { tokenkey, customerid } = req.headers
-  const checkTokenCustomer = await checkToken(tokenkey, customerid)
-  if(checkTokenCustomer == false) {
+  if(await checkTokenCustomer(tokenkey, customerid) == false) {
     res.json({
       result: "failed", 
       data: {}, 
@@ -62,7 +61,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
   }
   await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID, 
-        [supplierid], (error, results) => {
+        [customerid], (error, results) => {
           debugger
           if(error) {
               res.json({
@@ -230,9 +229,8 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
   const { tokenkey, supplierid, customerid } = req.headers
-  const checkTokenSupplier = await checkToken(tokenkey, supplierid)
-  const checkTokenCustomer = await checkTokenCustomer(tokenkey, customerid)
-  if (checkTokenCustomer == false && checkTokenSupplier == false) {
+  if (await checkToken(tokenKey, supplierid) == false && 
+	await checkTokenCustomer(tokenKey, customerid)== false) {
     res.json({
       result: "false",
       data: {},
