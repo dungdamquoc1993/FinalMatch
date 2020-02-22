@@ -36,7 +36,7 @@ export default class Order extends Component {
     }
     return false
   }
-  _readDataFromFirebase = () => {
+  _readDataFromFirebase = () => {    
     firebaseDatabase.ref('/orders').on('value', async (snapshot) => {
       let snapshotValue = snapshot.val()
       if (this._checkSupplierIdInFirebase(snapshotValue) == true) {
@@ -49,9 +49,10 @@ export default class Order extends Component {
   }
   
   async componentDidMount() {
-    let supplierId = await getSupplierFromStorage().supplierId
+    const {tokenKey, supplierId, email} = await getSupplierFromStorage()
+    debugger
     this.setState({supplierId})
-    await this._readDataFromFirebase() 
+    this._readDataFromFirebase() 
   }
   render() {
     const {orders} = this.state
