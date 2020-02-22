@@ -103,6 +103,23 @@ export const setPosition = (position = '0000') => {
 export const generateFakeString = () => {
     return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`;
 }
+// pending, accepted, cancelled, completed, missed
+export const getColorFromStatus = (status) => {
+    switch(status) {
+        case 'pending':
+            return 'yellow';
+        case 'accepted':
+            return 'green';
+        case 'cancelled':
+            return 'red';
+        case 'completed':
+            return 'blue';
+        case 'missed':
+            return 'red';
+        default:
+            return 'black';
+    }
+}
 
 
 

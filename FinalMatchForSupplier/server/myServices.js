@@ -447,10 +447,10 @@ export const updateOrderStatus = async (orderId, status) => {
             //Logger ??  
             return data
         } else {
-            return []
+            return {}
         }
     } catch (error) {
         alert("Cannot update order's status to"+status)
-        return []
+        return {}
     }
 }

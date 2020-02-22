@@ -11,9 +11,9 @@ import {
 } from 'react-native'
 import Header from './Header'
 import Modal from "react-native-modal"
-import { getSupplierFromStorage } from '../helpers/Helpers'
+import { getSupplierFromStorage, getColorFromStatus } from '../helpers/Helpers'
 import { firebaseDatabase } from '../server/googleServices'
-import { getOrdersBySupplierId } from '../server/myServices'
+import { getOrdersBySupplierId, updateOrderStatus } from '../server/myServices'
 
 export default class Order extends Component {
   constructor(props) {
@@ -66,8 +66,12 @@ export default class Order extends Component {
 }
 
 class Item extends Component {  
+  state = {
+    status: ''
+  }
   render() {
     const {
+      id, //order's id
       typeRole, 
       customerId, 
       supplierId, 
@@ -84,16 +88,25 @@ class Item extends Component {
       <Text>supplierId:{supplierId}</Text>
       <Text>latitude:{latitude}</Text>
       <Text>longitude:{longitude}</Text>
-      <Text>status:{longitude}</Text>
-      <TouchableOpacity>
+      <Text style={{
+        backgroundColor: getColorFromStatus(this.state.status.length > 0 ? this.state.status : status)}
+      }>status:{status}</Text>
+      <TouchableOpacity onPress = {async () => {
+        let updatedOrder = await updateOrderStatus(id, "accepted")
+        this.setState({status: updatedOrder.status})
+      }}>
         <Text style={{backgroundColor:'green', height: 50}}>Accept</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+        let updatedOrder = await updateOrderStatus(id, "cancelled")        
+        this.setState({status: updatedOrder.status})
+      }}>
         <Text style={{backgroundColor:'red', height: 50}}>Reject</Text>
       </TouchableOpacity>
     </View>
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
