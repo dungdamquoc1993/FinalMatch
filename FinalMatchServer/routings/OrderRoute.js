@@ -178,7 +178,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
                     res.json({
                       result: "ok", 
                       count: results[0].length,
-                      data: results[0], 
+                      data: results[0][0], 
                       message: 'Insert new Order successfully',
                       time: Date.now()})
                 }                

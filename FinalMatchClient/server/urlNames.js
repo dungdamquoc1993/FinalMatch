@@ -53,3 +53,8 @@ export const urlGetAvatar = (fileName) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
 }
 
+export const urlCreateNewOrder = () => {        
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/createNewOrder`
+}
+
+

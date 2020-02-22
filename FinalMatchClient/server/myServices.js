@@ -10,7 +10,8 @@ import {
     urlGetCustomerInformation,
     urlGetStadiumsAroundPoint,
     urlgetPlayersAroundOrder, 
-    urlgetRefereesAroundOrder
+    urlgetRefereesAroundOrder,
+    urlCreateNewOrder
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -233,5 +234,47 @@ export const getPlayersAroundOrder = async (radius, latitude, longitude, positio
         return []
     }
 }
+
+export const createNewOrder = async (
+    supplierId, 
+    latitude,
+    longitude,
+    customerId,
+    typeRole,
+    dateTimeStart, //phải là kiểu Date    
+    ) => {
+    //if order exists, do nothing
+    dateTimeStart.setMilliseconds(0);
+    dateTimeStart.setSeconds(0)            
+    try {        
+        const {tokenKey, customerId} = await getCustomerFromStorage()              
+        const response = await fetch(await urlCreateNewOrder, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId
+            },
+            body: JSON.stringify({
+                supplierId,
+                latitude,
+                longitude, 
+                customerId,
+                typeRole,
+                dateTimeStart: dateTimeStart.toUTCString()//phải chuyển sang STRING dạng: Tue, 18 Feb 2020 09:48:32 GMT
+            }),
+        })                
+        const responseJson = await response.json()        
+        const { result,message, data } = responseJson                        
+        if(result.toLowerCase() === 'ok') {            
+            return data
+        } else {                
+            return {}
+        }        
+    } catch (error) {                        
+        return {}
+    }
+}
+
 
 
