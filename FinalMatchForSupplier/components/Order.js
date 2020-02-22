@@ -18,17 +18,17 @@ import { getOrdersBySupplierId, updateOrderStatus } from '../server/myServices'
 export default class Order extends Component {
   constructor(props) {
     super(props)
+    
     this.state = {
-      supplierId: getSupplierFromStorage().supplierId,
+      supplierId: '',
       orders: []
     }
   }
   _checkSupplierIdInFirebase = (snapshotValue) => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true    
-    for (const key in snapshotValue) {
-      debugger
-      const [customerId, supplierId] = key.split(":")
-      debugger
+    for (const key in snapshotValue) {      
+      const [customerId, supplierId] = key.split(":")      
+      // console.log("xx"+getSupplierFromStorage().supplierId)
       if (supplierId == this.state.supplierId) {
         firebaseDatabase.ref('/orders').remove(key)
         return true
@@ -48,8 +48,10 @@ export default class Order extends Component {
     })
   }
   
-  componentDidMount() {
-    this._readDataFromFirebase() 
+  async componentDidMount() {
+    let supplierId = await getSupplierFromStorage().supplierId
+    this.setState({supplierId})
+    await this._readDataFromFirebase() 
   }
   render() {
     const {orders} = this.state
@@ -97,7 +99,7 @@ class Item extends Component {
       }}>
         <Text style={{backgroundColor:'green', height: 50}}>Accept</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity onPress={async () => {
         let updatedOrder = await updateOrderStatus(id, "cancelled")        
         this.setState({status: updatedOrder.status})
       }}>
