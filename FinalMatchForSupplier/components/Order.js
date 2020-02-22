@@ -56,10 +56,55 @@ export default class Order extends Component {
   }
   render() {
     const {orders} = this.state
+    // fake
+    let fakeOrders = 
+    [{
+      "id": 1,
+      "typeRole": "referee",
+      "customerId": "47c9165c5bfb03689260a8f230e45589",
+      "supplierId": 80,
+      "point": {
+          "x": 20.99283218383789,
+          "y": 105.80587005615234
+      },
+      "status": "missed",
+      "createdDate": "2020-02-18T10:17:54.000Z",
+      "dateTimeStart": "2020-02-18T09:48:00.000Z",
+      "dateTimeEnd": "2020-02-18T11:48:00.000Z"
+  }, 
+  {
+    "id": 1,
+    "typeRole": "referee",
+    "customerId": "47c9165c5bfb03689260a8f230e45589",
+    "supplierId": 80,
+    "point": {
+        "x": 20.99283218383789,
+        "y": 105.80587005615234
+    },
+    "status": "missed",
+    "createdDate": "2020-02-18T10:17:54.000Z",
+    "dateTimeStart": "2020-02-18T09:48:00.000Z",
+    "dateTimeEnd": "2020-02-18T11:48:00.000Z"
+}, {
+  "id": 1,
+  "typeRole": "referee",
+  "customerId": "47c9165c5bfb03689260a8f230e45589",
+  "supplierId": 80,
+  "point": {
+      "x": 20.99283218383789,
+      "y": 105.80587005615234
+  },
+  "status": "missed",
+  "createdDate": "2020-02-18T10:17:54.000Z",
+  "dateTimeStart": "2020-02-18T09:48:00.000Z",
+  "dateTimeEnd": "2020-02-18T11:48:00.000Z"
+}]
+
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-        data={orders}
+        data={fakeOrders}
+        // data={orders}        
         renderItem={({item}) => <Item {...item} />}
         keyExtractor={item => item.id}
       />
