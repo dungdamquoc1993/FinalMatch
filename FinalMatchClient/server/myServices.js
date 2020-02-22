@@ -245,10 +245,13 @@ export const createNewOrder = async (
     ) => {
     //if order exists, do nothing
     dateTimeStart.setMilliseconds(0);
-    dateTimeStart.setSeconds(0)            
+    dateTimeStart.setSeconds(0)        
+    debugger    
     try {        
-        const {tokenKey, customerId} = await getCustomerFromStorage()              
-        const response = await fetch(await urlCreateNewOrder, {
+        const {tokenKey} = await getCustomerFromStorage()              
+        let xx= await urlCreateNewOrder()
+        debugger
+        const response = await fetch(await urlCreateNewOrder(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -264,15 +267,19 @@ export const createNewOrder = async (
                 typeRole,
                 dateTimeStart: dateTimeStart.toUTCString()//phải chuyển sang STRING dạng: Tue, 18 Feb 2020 09:48:32 GMT
             }),
-        })                
+        })    
+        debugger            
         const responseJson = await response.json()        
+        debugger
         const { result,message, data } = responseJson                        
+        debugger
         if(result.toLowerCase() === 'ok') {            
             return data
         } else {                
             return {}
         }        
-    } catch (error) {                        
+    } catch (error) {         
+        console.log(error)               
         return {}
     }
 }

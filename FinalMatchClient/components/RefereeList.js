@@ -10,33 +10,37 @@ import {
 } from 'react-native'
 import {
   getRefereesAroundOrder,   
+  createNewOrder
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import { urlGetAvatar } from '../server/urlNames'
+import { getCustomerFromStorage} from '../helpers/Helpers'
+
 export default class RefereeList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
   state = {
-    referees: []
+    referees: [], 
+    matchTiming: new Date()
   }
   _getRefereesList = async () => {
     const {
       radius,      
       latitude, 
       longitude,
-      matchTiming
-    } = this.props.navigation.state.params            
+      matchTiming //phải là kiểu Date
+    } = this.props.navigation.state.params                
     let referees = await getRefereesAroundOrder(radius, latitude, longitude)
-    debugger
-    this.setState({referees})
+    
+    this.setState({referees, matchTiming})
   }
   render () {
     const {navigate} = this.props.navigation   
-    const {referees} = this.state
+    const {referees, matchTiming} = this.state
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -55,9 +59,9 @@ export default class RefereeList extends MultiLanguageComponent {
           width={'100%'}
           data={referees}
           renderItem={({item}) => (
-            <Item {...item}/>
+            <Item {...item} matchTiming={matchTiming}/>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.supplierId}
         />
         <TouchableOpacity
           style={styles.buttonSubmit}
@@ -75,10 +79,12 @@ export default class RefereeList extends MultiLanguageComponent {
   }
 }
 class Item extends Component {    
+  state = {
+    order: false
+  }
   render () {
     const {
-      avatar,
-      password,
+      avatar,      
       phoneNumber,
       dateOfBirth,
       facebookId,
@@ -97,10 +103,11 @@ class Item extends Component {
       refereeName,
       position,
       distance,
-      positionAt,
-      order,
+      positionAt,      
+      matchTiming,
       ages
     } = this.props 
+    const {order} = this.state    
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -130,11 +137,25 @@ class Item extends Component {
   
           <TouchableOpacity
             style={styles.btnOrder}
-            onPress={() => this.setState ({order: !this.state.order})}
+            onPress={async () => {
+              if(order == true) {
+                return
+              }
+              const {customerId} = await getCustomerFromStorage()                            
+              await createNewOrder(
+                  refereeServiceSupplierId, 
+                  latitude,
+                  longitude,
+                  customerId, 
+                  'referee',             
+                  matchTiming //phải là kiểu Date, matchTiming chính là dateTimeStart     
+              )
+              this.setState ({order: true})
+            }}
           >
-  
+            {/* Tu chuyen order sang true/false*/}
             {order == false
-              ? <Text style={styles.textOrder}>{orderReferee}</Text>
+              ? <Text style={styles.textOrder}>{"Order"}</Text>
               : <Image
                   source={'../images/Order.png'}
                   style={{height: 50, width: 90, borderRadius: 25}}

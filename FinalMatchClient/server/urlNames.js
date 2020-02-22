@@ -54,7 +54,7 @@ export const urlGetAvatar = (fileName) => {
 }
 
 export const urlCreateNewOrder = () => {        
-    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/createNewOrder`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/createNewOrder`    
 }
 
 
