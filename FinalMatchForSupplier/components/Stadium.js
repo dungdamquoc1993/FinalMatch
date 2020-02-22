@@ -19,7 +19,7 @@ import {
   checkLocationPermission,
 } from '../server/googleServices';
 import {insertStadium} from '../server/myServices';
-import {getSupplierFromStorage, alertWithOKButton} from '../helpers/Helpers';
+import {getSupplierFromStorage, alertWithOKButton,isIOS} from '../helpers/Helpers';
 import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors';
 
 class Stadium extends Component {
@@ -251,8 +251,7 @@ const styles = StyleSheet.create ({
     flex: 1,
   },
   personalInformation: {
-    flexDirection: 'row',
-    height: 60,
+    height: 50,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -268,13 +267,13 @@ const styles = StyleSheet.create ({
   textInput: {
     width: '90%',
     height: 50,
+    lineHeight:isIOS?25:50,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
     borderColor: '#a9a9a9',
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    lineHeight: 50,
   },
   positions: {
     flexDirection: 'row',

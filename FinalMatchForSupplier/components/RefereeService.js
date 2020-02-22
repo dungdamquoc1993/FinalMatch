@@ -13,7 +13,7 @@ import {
   Modal,
   Image
 } from 'react-native';
-import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert } from '../helpers/Helpers'
+import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert ,isIOS} from '../helpers/Helpers'
 import { insertRefereeService, getSupplierById } from '../server/myServices'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    lineHeight:50
+    lineHeight:isIOS?25:50,
   },
   btnSubmit: {
     height: 50,
@@ -323,11 +323,12 @@ const styles = StyleSheet.create({
   },
   radiusInput: {
     flexDirection: 'row',
-    height: 60,
+    height: 50,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical:10
+    marginVertical:10,
+    
   },
 
   buttonGetLocation: {
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    lineHeight: 50,
+    lineHeight:isIOS?25:50,
   }, 
   textLabelRadius: {
     width: '50%',
