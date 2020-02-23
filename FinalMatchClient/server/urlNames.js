@@ -57,4 +57,6 @@ export const urlCreateNewOrder = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/createNewOrder`    
 }
 
-
+export const urlGetOrdersByCustomerId = () => {        
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersByCustomerId`    
+}

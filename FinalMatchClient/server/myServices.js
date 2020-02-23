@@ -11,7 +11,9 @@ import {
     urlGetStadiumsAroundPoint,
     urlgetPlayersAroundOrder, 
     urlgetRefereesAroundOrder,
-    urlCreateNewOrder
+    urlCreateNewOrder,
+    urlGetOrdersByCustomerId,
+    
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -246,11 +248,8 @@ export const createNewOrder = async (
     //if order exists, do nothing
     dateTimeStart.setMilliseconds(0);
     dateTimeStart.setSeconds(0)        
-    debugger    
     try {        
         const {tokenKey} = await getCustomerFromStorage()              
-        let xx= await urlCreateNewOrder()
-        debugger
         const response = await fetch(await urlCreateNewOrder(), {
             method: 'POST',
             headers: {
@@ -281,6 +280,36 @@ export const createNewOrder = async (
     } catch (error) {         
         console.log(error)               
         return {}
+    }
+}
+
+export const getOrdersByCustomerId = async () => {    
+    try {        
+        const {tokenKey, customerId} = await getCustomerFromStorage()              
+        const response = await fetch(await urlGetOrdersByCustomerId(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenkey: tokenKey, customerid: customerId                
+            },
+            body: JSON.stringify({
+                customerId,
+            }),
+        })    
+        debugger            
+        const responseJson = await response.json()        
+        debugger
+        const { result,message, data } = responseJson                        
+        debugger
+        if(result.toLowerCase() === 'ok') {            
+            return data
+        } else {                
+            return []
+        }        
+    } catch (error) {         
+        console.log(error)               
+        return [] 
     }
 }
 

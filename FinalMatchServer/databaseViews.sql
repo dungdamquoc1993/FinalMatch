@@ -126,3 +126,35 @@ FROM Conversations
 INNER JOIN Orders
 ON Conversations.orderId=Orders.id
 ORDER BY Conversations.createdDate DESC;
+
+CREATE VIEW viewOrdersSupplierCustomer AS
+SELECT 
+Orders.id as orderId,
+Orders.typeRole as typeRole,
+X(Orders.point) as orderLatitude,
+Y(Orders.point) as orderLongitude,
+Orders.status as orderStatus,
+Orders.createdDate as createdDate,
+Orders.dateTimeStart as dateTimeStart, 
+Orders.dateTimeEnd as dateTimeEnd,
+
+Supplier.id as supplierId,
+Supplier.name as supplierName,
+Supplier.phoneNumber as supplierPhoneNumber,
+Supplier.dateOfBirth as supplierDateOfBirth,
+Supplier.email as supplierEmail,
+X(Supplier.point) as supplierLatitude,
+Y(Supplier.point) as supplierLongitude,
+Supplier.address as supplierAddress,
+Supplier.radius as supplierRadius,
+Supplier.avatar as supplierAvatar,
+
+Customer.customerId as customerId,
+Customer.avatar as customerAvatar,
+Customer.name as customerName,
+Customer.phoneNumber as customerPhoneNumber,
+Customer.email as customerEmail
+
+FROM Orders
+INNER JOIN Supplier ON Orders.supplierId = Supplier.id 
+INNER JOIN Customer ON Orders.customerId = Customer.customerId

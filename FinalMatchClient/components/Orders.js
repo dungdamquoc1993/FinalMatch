@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -7,10 +7,12 @@ import {
   Image,
   SafeAreaView,
   FlatList,
-} from 'react-native';
+} from 'react-native'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
-const DATA = [
+import {getOrdersByCustomerId} from '../server/myServices'
+
+const fakeOrders = [
   {
     id: '011',
     name: 'Vũ Trung Kiên',
@@ -47,21 +49,29 @@ const DATA = [
     iamgeAvatar: require ('../images/avatar.png'),
     Chat: 'Chat',
   },
-];
+]
 
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
+  state = {
+    orders: {
+
+    }
+  }
+  async componentDidMount() {
+    getOrdersByCustomerId()
+  }
   render () {
-    const {navigate} = this.props.navigation;
+    const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
 
       <Text style={styles.textTitle}>{translate('Create a service')}</Text>
         <FlatList
           width={'100%'}
-          data={DATA}
+          data={fakeOrders}
           renderItem={({item}) => (
             <Item
               name={item.name}
@@ -76,7 +86,7 @@ export default class Orders extends MultiLanguageComponent {
           keyExtractor={item => item.id}
         />
       </SafeAreaView>
-    );
+    )
   }
 }
 class Item extends Component {
@@ -128,7 +138,7 @@ render () {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )
 }
 }
 const styles = StyleSheet.create ({
@@ -188,4 +198,4 @@ const styles = StyleSheet.create ({
     fontSize: 20,
     textAlign: 'center',
   },
-});
+})
