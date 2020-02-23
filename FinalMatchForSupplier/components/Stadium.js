@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {NavigationActions} from 'react-navigation';
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {NavigationActions} from 'react-navigation'
 import {
   Text,
   View,
@@ -10,24 +10,24 @@ import {
   SafeAreaView,
   Dimensions,
   Image,
-} from 'react-native';
-import Header from './Header';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Geolocation from 'react-native-geolocation-service';
+} from 'react-native'
+import Header from './Header'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Geolocation from 'react-native-geolocation-service'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
-import {insertStadium} from '../server/myServices';
-import {getSupplierFromStorage, alertWithOKButton,isIOS} from '../helpers/Helpers';
-import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors';
+} from '../server/googleServices'
+import {insertStadium} from '../server/myServices'
+import {getSupplierFromStorage, alertWithOKButton,isIOS} from '../helpers/Helpers'
+import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors'
 
 class Stadium extends Component {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   state = {
-    type: 0,
+    isFree: true,
     stadiumName: '',
     phoneNumber: '',
     supplierId: 0,
@@ -38,86 +38,80 @@ class Stadium extends Component {
       latitude: 0,
       longitude: 0,
     },
-  };
+  }
   async componentDidMount () {
-    const {supplierId} = await getSupplierFromStorage ();
-    this.setState ({supplierId});
+    const {supplierId} = await getSupplierFromStorage ()
+    this.setState ({supplierId})
   }
   _isOnpressSubmit = async () => {
     //test
-    const {supplierId, type, stadiumName, phoneNumber} = this.state;
+    const {supplierId, isFree, stadiumName, phoneNumber} = this.state
     const {
       address,
       latitude,
       longitude,
       district,
       province,
-    } = this.state.currentLocation;
+    } = this.state.currentLocation
     try {
       const {message} = await insertStadium (
-        type,
+        isFree == true ? 0 : 1,
         stadiumName,
         latitude,
         longitude,
         address,
         phoneNumber,
         supplierId
-      );
+      )
       if (message.length > 0) {
-        alertWithOKButton (`Cannot insert Stadium. Error = ${message}`, null);
+        alertWithOKButton (`Cannot insert Stadium. Error = ${message}`, null)
       } else {
         alertWithOKButton ('Insert stadium successfully', () => {
-          this.props.stackNavigation.dispatch (NavigationActions.back ());
-        });
+          this.props.stackNavigation.dispatch (NavigationActions.back ())
+        })
       }
     } catch (error) {
-      alert ('Cannot get data from Server' + error);
+      alert ('Cannot get data from Server' + error)
     }
-  };
+  }
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission ();
+    const hasLocationPermission = await checkLocationPermission ()
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
         async position => {
-          const {latitude, longitude} = position.coords;
+          const {latitude, longitude} = position.coords
           const {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong (latitude, longitude);
+          } = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
             currentLocation: {address, district, province, latitude, longitude},
-          });
+          })
         },
         error => {
-          console.log (error.code, error.message);
+          console.log (error.code, error.message)
         },
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
-      );
+      )
     }
-  };
-  changeFeeOrFree = type => {
-    // let updatedState = {...this.state};
-    // updatedState.currentLocation.address = '';
-    // updatedState.type = type;
-    this.setState (!type);
-  };
+  }
   render () {
-    const {type, stadiumName, phoneNumber} = this.state;
+    const {isFree, stadiumName, phoneNumber} = this.state
     const {
       address,
       latitude,
       longitude,
       district,
       province,
-    } = this.state.currentLocation;
+    } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
         <Header
           title={'STADIUM'}
           pressBackButton={async () => {
             //validate ok
-            return true;
+            return true
           }}
         />
         <View style={{marginTop: 20}} />
@@ -126,20 +120,20 @@ class Stadium extends Component {
             style={styles.textInput}
             value={stadiumName}
             onChangeText={stadiumName => {
-              this.setState ({stadiumName});
+              this.setState ({stadiumName})
             }}
             placeholder={'Tên sân bóng'}
           />
         </View>
 
-        {type == 0
+        {isFree == true
           ? <View style={styles.txtAddresses}>
               <Text style={styles.txtShowAddresses}>
                 {address.length > 0 ? address : 'Click to get location'}
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  this._pressLocation ();
+                  this._pressLocation ()
                 }}
                 style={styles.buttonGetLocation}
               >
@@ -157,7 +151,7 @@ class Stadium extends Component {
                   keyboardType={'number-pad'}
                   value={phoneNumber}
                   onChangeText={phoneNumber => {
-                    this.setState ({phoneNumber});
+                    this.setState ({phoneNumber})
                   }}
                 />
 
@@ -166,11 +160,11 @@ class Stadium extends Component {
                 <TextInput
                   style={styles.textInput}
                   value={address}
-                  editable={type == 0 ? false : true}
+                  editable={isFree == true ? false : true}
                   onChangeText={address => {
-                    let updatedState = {...this.state};
-                    updatedState.currentLocation.address = address;
-                    this.setState (updatedState);
+                    let updatedState = {...this.state}
+                    updatedState.currentLocation.address = address
+                    this.setState (updatedState)
                   }}
                   placeholder={'Địa chỉ sân bóng'}
                 />
@@ -184,19 +178,19 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.changeFeeOrFree (0);
+              this.setState({isFree: true})
             }}
           >
             <Text
               onPress={() => {
-                this.changeFeeOrFree (0);
+                this.setState({isFree: true})
               }}
               style={styles.txtFree}
             >
               Miễn phí
             </Text>
             <FontAwesome5
-              name={type == 0 ? 'check-square' : 'square'}
+              name={isFree == true ? 'check-square' : 'square'}
               size={35}
               color={MAIN_COLOR}
             />
@@ -204,19 +198,19 @@ class Stadium extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.changeFeeOrFree (1);
+              this.setState({isFree: false})
             }}
           >
             <Text
               style={styles.txtFree}
               onPress={() => {
-                this.changeFeeOrFree (1);
+                this.setState({isFree: false})
               }}
             >
               Thu phí
             </Text>
             <FontAwesome5
-              name={type == 1 ? 'check-square' : 'square'}
+              name={isFree == false ? 'check-square' : 'square'}
               size={35}
               color={MAIN_COLOR}
             />
@@ -226,22 +220,22 @@ class Stadium extends Component {
         <TouchableOpacity
           style={styles.btnSubmit}
           onPress={() => {
-            this._isOnpressSubmit ();
+            this._isOnpressSubmit ()
           }}
         >
           <Text style={styles.txtSubmit}>Submit</Text>
         </TouchableOpacity>
 
       </SafeAreaView>
-    );
+    )
   }
 }
 const mapStateToProps = state => ({
   //convert "global object"(shared state) => ServiceRegister's props
   stackNavigation: state.navigationReducers.stackNavigation,
   tabNavigation: state.navigationReducers.tabNavigation,
-});
-export default connect (mapStateToProps) (Stadium);
+})
+export default connect (mapStateToProps) (Stadium)
 
 const styles = StyleSheet.create ({
   container: {
@@ -338,4 +332,4 @@ const styles = StyleSheet.create ({
     width: 100,
     height: 100,
   },
-});
+})
