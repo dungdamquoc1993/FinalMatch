@@ -73,15 +73,7 @@ export default class Orders extends MultiLanguageComponent {
           width={'100%'}
           data={fakeOrders}
           renderItem={({item}) => (
-            <Item
-              name={item.name}
-              phone={item.phone}
-              adress={item.adress}
-              price={item.price}
-              iamgeAvatar={item.iamgeAvatar}
-              orderDate={item.orderDate}
-              Chat={item.Chat}
-            />
+            <Item {...item}/>
           )}
           keyExtractor={item => item.id}
         />
@@ -94,33 +86,52 @@ class Item extends Component {
     order: false   
     } 
 render () {
-  const {
-    name,
-    phone,
-    adress,
-    price,
-    iamgeAvatar,
-    orderDate,
-    Chat
+  const {    
+    orderId,
+    typeRole,
+    orderLatitude,
+    orderLongitude,
+    orderStatus,
+    createdDate,
+    dateTimeStart,
+    dateTimeEnd,
+    supplierId,
+    supplierName,
+    supplierPhoneNumber,
+    supplierDateOfBirth,
+    supplierEmail,
+    supplierLatitude,
+    supplierLongitude,
+    supplierAddress,
+    supplierRadius,
+    supplierAvatar,
+    playerPrice = 0.0,
+    refereePrice = 0.0,
+    customerId,
+    customerAvatar,
+    customerName,
+    customerPhoneNumber,
+customerEmail,
   } = this.props
   return (
     <View style={styles.ViewAllInformation}>
       <View style={styles.ViewDetail}>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-          <Text style={styles.textLabel}>{name}</Text>
+          <Text style={styles.textLabel}>{supplierName}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
-          <Text style={styles.textLabel}>{phone}</Text>
+          <Text style={styles.textLabel}>{supplierPhoneNumber}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('Address : ')}</Text>
-          <Text style={styles.textLabel}>{adress}</Text>
+          <Text style={styles.textLabel}>{supplierAddress}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('price : ')}</Text>
-          <Text style={styles.textLabel}>{price}</Text>
+          <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ? 
+                                                  refereePrice : playerPrice}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
