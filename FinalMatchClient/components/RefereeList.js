@@ -157,7 +157,7 @@ class Item extends Component {
             {order == false
               ? <Text style={styles.textOrder}>{"Order"}</Text>
               : <Image
-                  source={'../images/Order.png'}
+                  source={require('../images/Order.png')}
                   style={{height: 50, width: 90, borderRadius: 25}}
                 />}
   
