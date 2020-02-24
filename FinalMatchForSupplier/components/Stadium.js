@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  Keyboard,
   Image,
+  TouchableWithoutFeedback
 } from 'react-native'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -106,6 +108,9 @@ class Stadium extends Component {
       province,
     } = this.state.currentLocation
     return (
+      <TouchableWithoutFeedback onPress={() => {        
+        Keyboard.dismiss()        
+    }} accessible={false}> 
       <SafeAreaView style={styles.container}>
         <Header
           title={'STADIUM'}
@@ -227,6 +232,7 @@ class Stadium extends Component {
         </TouchableOpacity>
 
       </SafeAreaView>
+      </TouchableWithoutFeedback> 
     )
   }
 }
