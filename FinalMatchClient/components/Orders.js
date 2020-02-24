@@ -11,71 +11,42 @@ import {
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {getOrdersByCustomerId} from '../server/myServices'
-
-const fakeOrders = [
-  {
-    id: '011',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '015',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 10,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '012',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 10,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '013',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-]
+import { urlGetAvatar } from '../server/urlNames'
 
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
   state = {
-    orders: {
-
-    }
+    orders: [],
+    loading: false, // user list loading
+    isRefreshing: false, //for pull to refresh
+  }
+  _getOrdersFromServer = async () => {    
+    this.setState({isRefreshing: true })
+    let orders =  await getOrdersByCustomerId()
+    this.setState({isRefreshing: false, orders})
   }
   async componentDidMount() {
-    getOrdersByCustomerId()
+    this._getOrdersFromServer()
   }
   render () {
+    const { orders } = this.state
     const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
-
       <Text style={styles.textTitle}>{translate('Create a service')}</Text>
         <FlatList
           width={'100%'}
-          data={fakeOrders}
+          data={orders}
+          refreshing={this.state.isRefreshing}
+          onRefresh = {() => {
+            this._getOrdersFromServer()
+          }}
           renderItem={({item}) => (
             <Item {...item}/>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.orderId}
         />
       </SafeAreaView>
     )
@@ -92,7 +63,7 @@ render () {
     orderLatitude,
     orderLongitude,
     orderStatus,
-    createdDate,
+    createdDate,//convert mysql string to Date object
     dateTimeStart,
     dateTimeEnd,
     supplierId,
@@ -104,7 +75,7 @@ render () {
     supplierLongitude,
     supplierAddress,
     supplierRadius,
-    supplierAvatar,
+    supplierAvatar = "",
     playerPrice = 0.0,
     refereePrice = 0.0,
     customerId,
@@ -135,17 +106,23 @@ customerEmail,
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
-          <Text style={styles.textLabel}>{orderDate}</Text>
+          <Text style={styles.textLabel}>{dateTimeStart}</Text>
         </View>
       </View>
 
-      <View style={styles.viewButton}>
-        <Image source={iamgeAvatar} style={styles.images} />
-
+      <View style={styles.viewButton}>      
+        <Image
+          source={
+            supplierAvatar.length > 0
+              ? { uri: urlGetAvatar(supplierAvatar) }
+              : require('../images/avatar.png')
+          }
+          style={styles.images}
+        />
         <TouchableOpacity
           style={styles.btnOrder}
         >
-           <Text style={styles.textOrder}>{Chat}</Text>
+           <Text style={styles.textOrder}>{"Chat"}</Text>
         </TouchableOpacity>
       </View>
     </View>
