@@ -1,5 +1,6 @@
 USE FinalMatch;
 
+SELECT  * FROM view;
 
 SELECT  * FROM viewOrdersSupplierCustomer;
 
@@ -26,6 +27,8 @@ Y(Supplier.point) as supplierLongitude,
 Supplier.address as supplierAddress,
 Supplier.radius as supplierRadius,
 Supplier.avatar as supplierAvatar,
+PlayerService.price as playerPrice,
+RefereeService.price as refereePrice,
 
 Customer.customerId as customerId,
 Customer.avatar as customerAvatar,
@@ -35,7 +38,10 @@ Customer.email as customerEmail
 
 FROM Orders
 INNER JOIN Supplier ON CONVERT(Orders.supplierId, CHAR) = CONVERT(Supplier.id, CHAR) 
-INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.customerId, CHAR);
+INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.customerId, CHAR)
+LEFT JOIN PlayerService ON CONVERT(Orders.supplierId, CHAR) = CONVERT(PlayerService.supplierId , CHAR)
+LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeService.supplierId , CHAR);
+
 
 CALL getDate();
 SELECT tokenKey FROM Customer c WHERE customerId ='47c9165c5bfb03689260a8f230e45589'
