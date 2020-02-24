@@ -491,10 +491,14 @@ export default class Settings extends Component {
                   this.setState({ refereeName })
                 }} />
             </View>
-            {/* <View style={styles.personalInformation}>
+            <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Số trận</Text>
-              <Text style={styles.textNumberMatch}>0</Text>
-            </View> */}
+              <TextInput style={styles.textInputRole}
+              placeholder={'0'}
+              placeholderTextColor = "black"
+              editable={false}
+             />
+            </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>Giá </Text>
               <TextInput style={styles.textInputRole}

@@ -10,15 +10,16 @@ import {
   FlatList,
 } from 'react-native'
 import {
-  getPlayersAroundOrder, 
-  getRefereesAroundOrder,
+  getPlayersAroundOrder,
+  createNewOrder
 } from '../server/myServices'
 import {NavigationEvents} from 'react-navigation'
 
 import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
-
+import { urlGetAvatar } from '../server/urlNames'
+import { getCustomerFromStorage} from '../helpers/Helpers'
 export default class PlayersList extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -65,7 +66,7 @@ export default class PlayersList extends MultiLanguageComponent {
           renderItem={({item}) => (
             <Item {...item} navigate = {navigate}/>
           )}
-          keyExtractor={item => item.supplierId}
+          keyExtractor={item => item.playerId}
         />
         <TouchableOpacity
           style={styles.buttonSubmit}
@@ -82,7 +83,10 @@ export default class PlayersList extends MultiLanguageComponent {
     )
   }
 }
-class Item extends Component {    
+class Item extends Component {  
+  state = {
+    order: false
+  }  
   render () {
     const {
       avatar,
@@ -107,7 +111,8 @@ class Item extends Component {
       distance,
       positionAt,
       navigate
-    } = this.props            
+    } = this.props 
+    const {order} = this.state             
     return (
       <TouchableOpacity
         onPress={() => {
@@ -133,7 +138,38 @@ class Item extends Component {
               <Text style={styles.textLabel}>{playerPrice}</Text>
             </View>
           </View>
+          <View style={styles.viewButton}>
+        <Image
+              source={
+                avatar.length > 0
+                  ? { uri: urlGetAvatar(avatar) }
+                  : require('../images/avatar.png')
+              }
 
+              style={styles.images}
+            />
+  
+          <TouchableOpacity
+            style={styles.btnOrder}
+            onPress={async () => {
+              if(order == true) {
+                return
+              }
+            
+              const {customerId} = await getCustomerFromStorage()                            
+              this.setState ({order: true})
+            }}
+          >
+            {/* Tu chuyen order sang true/false*/}
+            {order == false
+              ? <Text style={styles.textOrder}>{"Order"}</Text>
+              : <Image
+                  source={require('../images/Order.png')}
+                  style={{height: 50, width: 90, borderRadius: 25}}
+                />}
+  
+          </TouchableOpacity>
+        </View>
         </View>
       </TouchableOpacity>
     )
