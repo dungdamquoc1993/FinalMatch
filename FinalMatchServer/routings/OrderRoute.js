@@ -236,8 +236,8 @@ router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
   const { tokenkey, supplierid, customerid } = req.headers
   debugger
-  if (await checkToken(tokenKey, supplierid) == false && 
-	await checkTokenCustomer(tokenKey, customerid)== false) {
+  if (await checkToken(tokenkey, supplierid) == false && 
+	await checkTokenCustomer(tokenkey, customerid)== false) {
     debugger
     res.json({
       result: "false",
@@ -274,7 +274,18 @@ router.post('/updateOrderStatus', async (req, res) => {
       } else {
         debugger
         if (results != null && results.length > 0) {
-          const { supplierId, customerId } = results[0][0]
+	debugger          
+const { supplierId, customerId } = results[0][0]
+          if(!supplierId) {
+		res.json({
+            result: "failed",
+            count: 0,
+            data: {},
+            message: 'Cannot find data to update',
+	            time: Date.now()
+          	})
+return
+	  }
           let updates = {};
           updates[`/orders/${customerId}:${supplierId}`] = {
             action: "updateOrderStatus"
