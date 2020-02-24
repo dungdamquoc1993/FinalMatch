@@ -1,8 +1,10 @@
 USE FinalMatch;
 
-SELECT  * FROM view;
+SELECT  * FROM Customer c WHERE customerId ='47c9165c5bfb03689260a8f230e45589';
+SELECT * from Orders o WHERE ID > 0;
 
-SELECT  * FROM viewOrdersSupplierCustomer WHERE customerId='47c9165c5bfb03689260a8f230e45589';
+SELECT  * FROM viewOrdersSupplierCustomer WHERE 
+customerId='47c9165c5bfb03689260a8f230e45589' AND orderStatus in ("completed", "accepted");
 
 DROP VIEW viewOrdersSupplierCustomer;
 

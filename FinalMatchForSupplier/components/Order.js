@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -9,130 +9,128 @@ import {
   FlatList,
   Dimensions,
   Image,
-} from 'react-native';
-import Header from './Header';
-import Modal from 'react-native-modal';
-import {getSupplierFromStorage, getColorFromStatus} from '../helpers/Helpers';
-import {firebaseDatabase} from '../server/googleServices';
-import {getOrdersBySupplierId, updateOrderStatus} from '../server/myServices';
+} from 'react-native'
+import Header from './Header'
+import Modal from 'react-native-modal'
+import {getSupplierFromStorage, getColorFromStatus} from '../helpers/Helpers'
+import {
+  firebaseDatabase,
+  getAddressFromLatLong
+} from '../server/googleServices'
+import {
+  getOrdersBySupplierId, 
+  updateOrderStatus, 
+} from '../server/myServices'
 
 export default class Order extends Component {
   constructor (props) {
-    super (props);
+    super (props)
 
     this.state = {
       supplierId: '',
       orders: [],
-    };
+    }
   }
   _checkSupplierIdInFirebase = snapshotValue => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
     for (const key in snapshotValue) {
-      const [customerId, supplierId] = key.split (':');
+      const [customerId, supplierId] = key.split (':')
       // console.log("xx"+getSupplierFromStorage().supplierId)
       if (supplierId == this.state.supplierId) {
-        firebaseDatabase.ref ('/orders').remove (key);
-        return true;
+        firebaseDatabase.ref ('/orders').remove (key)
+        return true
       }
     }
-    return false;
-  };
+    return false
+  }
   _readDataFromFirebase = () => {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {
-      let snapshotValue = snapshot.val ();
+      let snapshotValue = snapshot.val ()
       if (this._checkSupplierIdInFirebase (snapshotValue) == true) {
-        debugger;
+        debugger
         //Goi api load orders
-        let orders = await getOrdersBySupplierId ();
-        this.setState ({orders});
+        let orders = await getOrdersBySupplierId ()
+        this.setState ({orders})
       }
-    });
-  };
+    })
+  }
 
   async componentDidMount () {
-    const {tokenKey, supplierId, email} = await getSupplierFromStorage ();
-    debugger;
-    this.setState ({supplierId});
-    this._readDataFromFirebase ();
+    const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
+    debugger
+    this.setState ({supplierId})
+    this._readDataFromFirebase ()
   }
   render () {
-    const {orders} = this.state;
-    // fake
-    let fakeOrders = [
-      { 
-        id:'1234',
-        Name: 'kien',
-        stadium: 'sân lam sơn',
-        timeStart: '12h',
-        status: 'đang chờ',
-        phone:'015457887'
-      },
-      {
-        id:'1234',
-        Name: 'kien',
-        stadium: 'sân lam sơn',
-        timeStart: '12h',
-        status: 'đang chờ',
-        phone:'015457887'
-      },
-      {
-        id:'1234',
-        Name: 'kien',
-        stadium: 'sân lam sơn',
-        timeStart: '12h',
-        status: 'đang chờ',
-        phone:'015457887'
-      },
-    ];
-
+    const {orders} = this.state    
     return (
       <SafeAreaView style={styles.container}>
       <Header
           title={'Order'}
           pressBackButton={async () => {
             //validate ok
-            return true;
+            return true
           }}
         />
         <FlatList
           width={'100%'}
-          data={fakeOrders}
+          data={orders}
           // data={orders}
           renderItem={({item}) => <Item {...item} />}
           keyExtractor={item => item.id}
         />
       </SafeAreaView>
-    );
+    )
   }
 }
 
 class Item extends Component {
   state = {
     status: '',
-  };
+    orderAddress: ''
+  }
+  async componentDidMount() {
+    const {orderLatitude,orderLongitude} = this.props
+    const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)
+    this.setState({orderAddress: address})
+  }
   render () {
-    const {
-      id, //order's id
+    const {    
+      orderId,
       typeRole,
-      customerId,
-      supplierId,
-      point,
-      createdDate,
+      orderLatitude,
+      orderLongitude,      
+      orderStatus,
+      createdDate,//convert mysql string to Date object
       dateTimeStart,
       dateTimeEnd,
-      stadium,
-      timeStart,
-      status,
-      phone,
-      Name
-    } = this.props;
-    // let latitude = point.x;
-    // let longitude = point.y;
+      supplierId,
+      supplierName,
+      supplierPhoneNumber,
+      supplierDateOfBirth,
+      supplierEmail,
+      supplierLatitude,
+      supplierLongitude,
+      supplierAddress,
+      supplierRadius,
+      supplierAvatar = "",
+      playerPrice = 0.0,
+      refereePrice = 0.0,
+      customerId,
+      customerAvatar,
+      customerName,
+      customerPhoneNumber,
+      customerEmail,
+    } = this.props
+    const {orderAddress} = this.state
     return (
       <View style={styles.viewOrder}>
-        <Text style={styles.textInformationOrder}>Name:{Name}</Text>
-        <Text style={styles.textInformationOrder}>stadium:{stadium}</Text>
-        <Text style={styles.textInformationOrder}>phone:{phone}</Text>
+        <Text style={styles.textInformationOrder}>Name:{customerName}</Text>
+        <Text style={styles.textInformationOrder}>stadium:{orderAddress}</Text>
+        <Text style={styles.textInformationOrder}>Match timing:{dateTimeStart}</Text>
+        <Text style={styles.textInformationOrder}>Status:{orderStatus}</Text>
+        <TouchableOpacity><Text style={styles.textInformationOrder}>Chat</Text></TouchableOpacity>     
+        <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>
         <Text
           style={{
             color: getColorFromStatus (
@@ -156,8 +154,8 @@ class Item extends Component {
               borderRadius:8,
             }}
             onPress={async () => {
-              let updatedOrder = await updateOrderStatus (id, 'accepted');
-              this.setState ({status: updatedOrder.status});
+              let updatedOrder = await updateOrderStatus (id, 'accepted')
+              this.setState ({status: updatedOrder.status})
             }}
           >
             <Text style={{height: 50, lineHeight: 50,fontSize: 17}}>Accept</Text>
@@ -177,8 +175,8 @@ class Item extends Component {
               borderRadius:8,
             }}
             onPress={async () => {
-              let updatedOrder = await updateOrderStatus (id, 'cancelled');
-              this.setState ({status: updatedOrder.status});
+              let updatedOrder = await updateOrderStatus (id, 'cancelled')
+              this.setState ({status: updatedOrder.status})
             }}
           >
             <Text style={{height: 50, lineHeight: 50,fontSize: 17}}>Reject</Text>
@@ -190,7 +188,7 @@ class Item extends Component {
         </View>
 
       </View>
-    );
+    )
   }
 }
 
@@ -216,7 +214,7 @@ const styles = StyleSheet.create ({
   textInformationOrder: {
     fontSize: 17,
   },
-});
+})
 
 /*
 {

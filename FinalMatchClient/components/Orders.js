@@ -46,7 +46,7 @@ export default class Orders extends MultiLanguageComponent {
           renderItem={({item}) => (
             <Item {...item}/>
           )}
-          keyExtractor={item => item.orderId}
+          keyExtractor={item => `${item.orderId}`}
         />
       </SafeAreaView>
     )
@@ -82,7 +82,7 @@ render () {
     customerAvatar,
     customerName,
     customerPhoneNumber,
-customerEmail,
+    customerEmail,
   } = this.props
   return (
     <View style={styles.ViewAllInformation}>

@@ -13,7 +13,7 @@ const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
 const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
 const POST_GET_ORDERS_BY_SUPPLIER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
-  "WHERE supplierId = ? AND orderStatus in ('completed', 'accepted') " +
+  "WHERE supplierId = ? AND orderStatus in ('missed', 'pending', 'completed', 'accepted', 'cancelled') " +
   "ORDER BY createdDate DESC"
 const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
