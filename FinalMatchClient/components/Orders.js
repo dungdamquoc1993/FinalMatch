@@ -13,56 +13,19 @@ import MultiLanguageComponent from './MultiLanguageComponent'
 import {getOrdersByCustomerId} from '../server/myServices'
 import { urlGetAvatar } from '../server/urlNames'
 
-const fakeOrders = [
-  {
-    id: '011',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '015',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 10,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '012',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 10,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-  {
-    id: '013',
-    name: 'Vũ Trung Kiên',
-    phone: '015457887',
-    adress: 0,
-    price: 1200,
-    iamgeAvatar: require ('../images/avatar.png'),
-    Chat: 'Chat',
-  },
-]
-
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
   state = {
     orders: [],
-    isLoading: false
+    loading: false, // user list loading
+    isRefreshing: false, //for pull to refresh
   }
   _getOrdersFromServer = async () => {    
+    this.setState({isRefreshing: true })
     let orders =  await getOrdersByCustomerId()
-    this.setState({orders})
+    this.setState({isRefreshing: false, orders})
   }
   async componentDidMount() {
     this._getOrdersFromServer()
@@ -76,6 +39,7 @@ export default class Orders extends MultiLanguageComponent {
         <FlatList
           width={'100%'}
           data={orders}
+          refreshing={this.state.isRefreshing}
           onRefresh = {() => {
             this._getOrdersFromServer()
           }}
@@ -99,7 +63,7 @@ render () {
     orderLatitude,
     orderLongitude,
     orderStatus,
-    createdDate,
+    createdDate,//convert mysql string to Date object
     dateTimeStart,
     dateTimeEnd,
     supplierId,
@@ -111,7 +75,7 @@ render () {
     supplierLongitude,
     supplierAddress,
     supplierRadius,
-    supplierAvatar,
+    supplierAvatar = "",
     playerPrice = 0.0,
     refereePrice = 0.0,
     customerId,
@@ -142,14 +106,14 @@ customerEmail,
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
-          <Text style={styles.textLabel}>{orderDate}</Text>
+          <Text style={styles.textLabel}>{dateTimeStart}</Text>
         </View>
       </View>
 
       <View style={styles.viewButton}>      
         <Image
           source={
-            avatar.length > 0
+            supplierAvatar.length > 0
               ? { uri: urlGetAvatar(supplierAvatar) }
               : require('../images/avatar.png')
           }
@@ -158,7 +122,7 @@ customerEmail,
         <TouchableOpacity
           style={styles.btnOrder}
         >
-           <Text style={styles.textOrder}>{Chat}</Text>
+           <Text style={styles.textOrder}>{"Chat"}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -11,8 +11,14 @@ const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
 const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
-const POST_GET_ORDERS_BY_SUPPLIER_ID = "SELECT * FROM viewOrdersSupplierCustomer WHERE supplierId = ? ORDER BY createdDate DESC" 
-const POST_GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM viewOrdersSupplierCustomer WHERE customerId = ? ORDER BY createdDate DESC" 
+const POST_GET_ORDERS_BY_SUPPLIER_ID = 
+          "SELECT * FROM viewOrdersSupplierCustomer "+
+          "WHERE supplierId = ? AND orderStatus in ('completed', 'accepted') "+
+          "ORDER BY createdDate DESC" 
+const POST_GET_ORDERS_BY_CUSTOMER_ID = 
+          "SELECT * FROM viewOrdersSupplierCustomer "+
+           "WHERE customerId = ? AND orderStatus in ('completed', 'accepted') "+
+           "ORDER BY createdDate DESC" 
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {  
@@ -273,6 +279,14 @@ router.post('/updateOrderStatus', async (req, res) => {
             count: results[0].length,
             data: results[0][0],
             message: 'Update order status successfully',
+            time: Date.now()
+          })
+        } else {
+          res.json({
+            result: "failed",
+            count: 0,
+            data: {},
+            message: 'Cannot find data to update',
             time: Date.now()
           })
         }

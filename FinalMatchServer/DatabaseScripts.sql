@@ -2,7 +2,7 @@ USE FinalMatch;
 
 SELECT  * FROM view;
 
-SELECT  * FROM viewOrdersSupplierCustomer;
+SELECT  * FROM viewOrdersSupplierCustomer WHERE customerId='47c9165c5bfb03689260a8f230e45589';
 
 DROP VIEW viewOrdersSupplierCustomer;
 
@@ -42,6 +42,7 @@ INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.custo
 LEFT JOIN PlayerService ON CONVERT(Orders.supplierId, CHAR) = CONVERT(PlayerService.supplierId , CHAR)
 LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeService.supplierId , CHAR);
 
+SELECT * from Supplier WHERE Supplier.id in (37, 47, 52); 
 
 CALL getDate();
 SELECT tokenKey FROM Customer c WHERE customerId ='47c9165c5bfb03689260a8f230e45589'
