@@ -13,6 +13,7 @@ import {
     urlgetRefereesAroundOrder,
     urlCreateNewOrder,
     urlGetOrdersByCustomerId,
+    urlGetAvatar,
     
 } from './urlNames'
 import { alert } from '../helpers/Helpers'

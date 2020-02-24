@@ -148,6 +148,8 @@ Y(Supplier.point) as supplierLongitude,
 Supplier.address as supplierAddress,
 Supplier.radius as supplierRadius,
 Supplier.avatar as supplierAvatar,
+PlayerService.price as playerPrice,
+RefereeService.price as refereePrice,
 
 Customer.customerId as customerId,
 Customer.avatar as customerAvatar,
@@ -156,5 +158,7 @@ Customer.phoneNumber as customerPhoneNumber,
 Customer.email as customerEmail
 
 FROM Orders
-INNER JOIN Supplier ON Orders.supplierId = Supplier.id 
-INNER JOIN Customer ON Orders.customerId = Customer.customerId
+INNER JOIN Supplier ON CONVERT(Orders.supplierId, CHAR) = CONVERT(Supplier.id, CHAR) 
+INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.customerId, CHAR)
+LEFT JOIN PlayerService ON CONVERT(Orders.supplierId, CHAR) = CONVERT(PlayerService.supplierId , CHAR)
+LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeService.supplierId , CHAR);

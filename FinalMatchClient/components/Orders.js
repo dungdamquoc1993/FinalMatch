@@ -11,6 +11,7 @@ import {
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {getOrdersByCustomerId} from '../server/myServices'
+import { urlGetAvatar } from '../server/urlNames'
 
 const fakeOrders = [
   {
@@ -56,26 +57,32 @@ export default class Orders extends MultiLanguageComponent {
     headerShown: false,
   }
   state = {
-    orders: {
-
-    }
+    orders: [],
+    isLoading: false
+  }
+  _getOrdersFromServer = async () => {    
+    let orders =  await getOrdersByCustomerId()
+    this.setState({orders})
   }
   async componentDidMount() {
-    getOrdersByCustomerId()
+    this._getOrdersFromServer()
   }
   render () {
+    const { orders } = this.state
     const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
-
       <Text style={styles.textTitle}>{translate('Create a service')}</Text>
         <FlatList
           width={'100%'}
-          data={fakeOrders}
+          data={orders}
+          onRefresh = {() => {
+            this._getOrdersFromServer()
+          }}
           renderItem={({item}) => (
             <Item {...item}/>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.orderId}
         />
       </SafeAreaView>
     )
@@ -139,9 +146,15 @@ customerEmail,
         </View>
       </View>
 
-      <View style={styles.viewButton}>
-        <Image source={iamgeAvatar} style={styles.images} />
-
+      <View style={styles.viewButton}>      
+        <Image
+          source={
+            avatar.length > 0
+              ? { uri: urlGetAvatar(supplierAvatar) }
+              : require('../images/avatar.png')
+          }
+          style={styles.images}
+        />
         <TouchableOpacity
           style={styles.btnOrder}
         >
