@@ -5,8 +5,14 @@ const {
   checkToken,
   checkCompletedMatch
 } = require('./helpers')
+const OrderStatus = {
+  PENDING: "pending", 
+  ACCEPTED: "accepted", 
+  CANCELLED:"cancelled", 
+  COMPLETED: "completed", 
+  MISSED: "missed"
+}
 const { connection, firebaseDatabase } = require('../database/database')
-
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
@@ -265,7 +271,8 @@ router.post('/updateOrderStatus', async (req, res) => {
   }
   const { status, orderId } = req.body
   //validate, check token ?  
-  if (!["pending", "accepted", "cancelled", "completed", "missed"].includes(status.trim().toLowerCase())) {
+  const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+  if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(status.trim().toLowerCase())) {
     res.json({
       result: "failed",
       data: {},

@@ -403,7 +403,8 @@ export const insertStadium = async (type,
 export const getOrdersBySupplierId = async () => {
     try {
         const { tokenKey, supplierId} = await getSupplierFromStorage()
-        const response = await fetch(urlGetOrdersBySupplierId, {
+        debugger
+        const response = await fetch(urlGetOrdersBySupplierId(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -414,8 +415,11 @@ export const getOrdersBySupplierId = async () => {
                 supplierId
             }),
         })
+        debugger
         const responseJson = await response.json();
+        debugger
         const { result, data, message, time } = responseJson
+        debugger
         if (result.toUpperCase() === "OK") {
             //Logger ??  
             return data
@@ -423,7 +427,8 @@ export const getOrdersBySupplierId = async () => {
             return []
         }
     } catch (error) {
-        alert("Cannot get orders from supplierId")
+        alert("Cannot get orders from supplierId"+error)
+        debugger
         return []
     }
 }

@@ -33,11 +33,11 @@ class LoginRegister extends Component {
     }
     state = {
         isLogin: true,        
-        email: '', //hoang123456@gmail.com / 123456
+        email: 'hoang55@gmail.com', //hoang123456@gmail.com / 123456
         facebookId: '',
         avatar: '',
         name: '',
-        password: '',
+        password: '123456',
         retypePassword: '',        
     }
     componentDidMount() {                        

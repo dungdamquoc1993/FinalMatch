@@ -12,7 +12,11 @@ import {
 } from 'react-native'
 import Header from './Header'
 import Modal from 'react-native-modal'
-import {getSupplierFromStorage, getColorFromStatus} from '../helpers/Helpers'
+import {
+  getSupplierFromStorage, 
+  getColorFromStatus,
+  OrderStatus
+} from '../helpers/Helpers'
 import {
   firebaseDatabase,
   getAddressFromLatLong
@@ -21,6 +25,7 @@ import {
   getOrdersBySupplierId, 
   updateOrderStatus, 
 } from '../server/myServices'
+
 
 export default class Order extends Component {
   constructor (props) {
@@ -36,8 +41,7 @@ export default class Order extends Component {
     for (const key in snapshotValue) {
       const [customerId, supplierId] = key.split (':')
       // console.log("xx"+getSupplierFromStorage().supplierId)
-      if (supplierId == this.state.supplierId) {
-        firebaseDatabase.ref ('/orders').remove (key)
+      if (supplierId == this.state.supplierId) {        
         return true
       }
     }
@@ -128,19 +132,18 @@ class Item extends Component {
         <Text style={styles.textInformationOrder}>Name:{customerName}</Text>
         <Text style={styles.textInformationOrder}>stadium:{orderAddress}</Text>
         <Text style={styles.textInformationOrder}>Match timing:{dateTimeStart}</Text>
-        <Text style={styles.textInformationOrder}>Status:{orderStatus}</Text>
-        <TouchableOpacity><Text style={styles.textInformationOrder}>Chat</Text></TouchableOpacity>     
-        <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>
         <Text
           style={{
             color: getColorFromStatus (
-              this.state.status.length > 0 ? this.state.status : status
+              orderStatus
             ),
             fontSize: 17,
           }}
         >
-          status:{status}
+          Status:{orderStatus}
         </Text>
+        <TouchableOpacity><Text style={styles.textInformationOrder}>Chat</Text></TouchableOpacity>     
+        <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
 
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity
