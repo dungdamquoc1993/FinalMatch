@@ -424,14 +424,14 @@ export const getOrdersBySupplierId = async () => {
         }
     } catch (error) {
         alert("Cannot get orders from supplierId"+error)
-        debugger
+        
         return []
     }
 }
 export const updateOrderStatus = async (orderId, status) => {
     try {
         const { tokenKey, supplierId} = await getSupplierFromStorage()
-        debugger
+        
         const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
@@ -443,11 +443,11 @@ export const updateOrderStatus = async (orderId, status) => {
                 orderId, status
             }),
         })
-        debugger
+        
         const responseJson = await response.json();
-        debugger
+        
         const {result, data} = responseJson
-        debugger
+        
         if (result.toUpperCase() === "OK") {
             //Logger ??  
             return data
@@ -456,7 +456,7 @@ export const updateOrderStatus = async (orderId, status) => {
         }
     } catch (error) {
         alert("Cannot update order's status to"+error)
-        debugger
+        
         return {}
     }
 }

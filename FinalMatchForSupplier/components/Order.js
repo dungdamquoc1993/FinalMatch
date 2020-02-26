@@ -27,6 +27,7 @@ import {
   getOrdersBySupplierId, 
   updateOrderStatus, 
 } from '../server/myServices'
+import i18n from "i18n-js"
 
 export default class Order extends Component {
   constructor (props) {
@@ -40,23 +41,23 @@ export default class Order extends Component {
   _checkSupplierIdInFirebase = snapshotValue => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
     for (const key in snapshotValue) {
-      debugger      
+            
       const [customerId, supplierId] = key.split (':')
       // console.log("xx"+getSupplierFromStorage().supplierId)
       if (supplierId == this.state.supplierId) {        
-        debugger
+        
         return true
       }
     }
-    debugger
+    
     return false
   }
   _readDataFromFirebase = () => {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {
-      debugger
+      
       let snapshotValue = snapshot.val ()
       if (this._checkSupplierIdInFirebase (snapshotValue) == true) {
-        debugger
+        
         //Goi api load orders
         let orders = await getOrdersBySupplierId ()
         this.setState ({orders})
@@ -67,11 +68,12 @@ export default class Order extends Component {
   async componentDidMount () {
     const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
     let orders = await getOrdersBySupplierId ()
-    this.setState ({orders, supplierId})    
+    this.setState ({orders, supplierId})        
     this._readDataFromFirebase ()
   }
   render () {
     const {orders} = this.state    
+    const {navigate} = this.props.navigation      
     return (
       <SafeAreaView style={styles.container}>
       <Header
@@ -85,8 +87,8 @@ export default class Order extends Component {
           width={'100%'}
           data={orders}
           // data={orders}          
-          renderItem={({item}) => <Item {...item}/>}
-          keyExtractor={item => item.id}
+          renderItem={({item}) => <Item {...item} navigate = {navigate}/>}
+          keyExtractor={item => `${item.orderId}`}
         />
       </SafeAreaView>
     )
@@ -99,7 +101,7 @@ class Item extends Component {
   }
   async componentDidMount() {
     const {orderLatitude,orderLongitude} = this.props //orderLatitude,orderLongitude co ngay khi vao constructor
-    const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)
+    const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)    
     this.setState({orderAddress: address})
   }
 
@@ -130,8 +132,9 @@ class Item extends Component {
       customerName,
       customerPhoneNumber,
       customerEmail,
+      navigate
     } = this.props
-    const {orderAddress} = this.state
+    const {orderAddress} = this.state        
     return (
       <View style={styles.viewOrder}>
         {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
@@ -139,7 +142,9 @@ class Item extends Component {
         <Text style={styles.textInformationOrder}>Địa điểm thi đấu:</Text>
         <Text style={styles.textInformationOrder}>{orderAddress}</Text>
         <Text style={styles.textInformationOrder}>Match timing:</Text>
-        <Text style={styles.textInformationOrder}>{dateTimeStart}</Text>
+        <Text style={styles.textInformationOrder}>{
+          (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")          
+        }</Text>
         <Text style={styles.textInformationOrder}>Trạng thái đơn hàng:</Text>
         <Text
           style={{
@@ -158,8 +163,11 @@ class Item extends Component {
           updateOrderStatus(orderId, CANCELLED)
         }}
         />}
-        {orderStatus == ACCEPTED && <AcceptedItem customerPhoneNumber={customerPhoneNumber}/> }
-        
+        {orderStatus == ACCEPTED && <AcceptedItem 
+          pressChat ={() => {
+            navigate("Chat", {...this.props})
+          }}
+          customerPhoneNumber={customerPhoneNumber}/> }        
         {orderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
         {orderStatus == CANCELLED && <CancelledItem />}
         {orderStatus == MISSED && <MissedItem />}
