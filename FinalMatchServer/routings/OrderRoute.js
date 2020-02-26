@@ -263,8 +263,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   const { tokenkey, supplierid, customerid } = req.headers
   debugger
   if (await checkToken(tokenkey, supplierid) == false &&
-    await checkTokenCustomer(tokenkey, customerid) == false) {
-    debugger
+    await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
       result: "false",
       data: {},
@@ -297,8 +296,7 @@ router.post('/updateOrderStatus', async (req, res) => {
         })
       } else {
 
-        if (results != null && results.length > 0) {
-          debugger
+        if (results != null && results.length > 0) {          
           if (!results[0][0]) {
             res.json({
               result: "failed",
@@ -314,7 +312,11 @@ router.post('/updateOrderStatus', async (req, res) => {
           updates[`/orders/${customerId}:${supplierId}`] = {
             action: "updateOrderStatus"
           }
-          firebaseDatabase.ref().update(updates)
+          debugger
+          firebaseDatabase.ref().update(updates, (error) => {
+            debugger
+            firebaseDatabase.ref().update({})
+          })
           res.json({
             result: "ok",
             count: results[0].length,
