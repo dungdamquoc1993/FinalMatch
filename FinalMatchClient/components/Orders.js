@@ -95,10 +95,10 @@ render () {
           <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
           <Text style={styles.textLabel}>{supplierPhoneNumber}</Text>
         </View>
-        <View style={styles.ViewNamedetailArbitration}>
+        {/* <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('Address : ')}</Text>
           <Text style={styles.textLabel}>{supplierAddress}</Text>
-        </View>
+        </View> */}
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('price : ')}</Text>
           <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ? 
@@ -106,7 +106,7 @@ render () {
         </View>
         <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
-          <Text style={styles.textLabel}>{dateTimeStart}</Text>
+          <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
         </View>
       </View>
 
@@ -138,9 +138,9 @@ const styles = StyleSheet.create ({
   },
   ViewAllInformation: {
     flexDirection: 'row',
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingVertical:10,
+    justifyContent: 'space-around',
+    alignItems: 'stretch',
     borderWidth: 1,
     borderColor: '#d3d3d3',
     borderRadius: 15,
@@ -151,15 +151,15 @@ const styles = StyleSheet.create ({
     flexDirection: 'column',
     width: '60%',
     paddingEnd: '10%',
+    justifyContent: 'center',
   },
   ViewNamedetailArbitration: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: '4%',
+    paddingVertical:7
   },
   textLabel: {
     fontSize: 17,
-    
   },
   btnOrder: {
     width: 90,
