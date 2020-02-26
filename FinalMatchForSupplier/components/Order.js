@@ -66,8 +66,8 @@ export default class Order extends Component {
 
   async componentDidMount () {
     const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
-    debugger
-    this.setState ({supplierId})
+    let orders = await getOrdersBySupplierId ()
+    this.setState ({orders, supplierId})    
     this._readDataFromFirebase ()
   }
   render () {

@@ -312,12 +312,9 @@ router.post('/updateOrderStatus', async (req, res) => {
           let key = `/orders/${customerId}:${supplierId}`
           updates[key] = {
             action: "updateOrderStatus"
-          }
-          debugger
-          await firebaseDatabase.ref().update(updates)
-          debugger
-          await firebaseDatabase.ref(key).remove()
-          debugger
+          }          
+          await firebaseDatabase.ref().update(updates)          
+          await firebaseDatabase.ref(key).remove()          
           res.json({
             result: "ok",
             count: results[0].length,
