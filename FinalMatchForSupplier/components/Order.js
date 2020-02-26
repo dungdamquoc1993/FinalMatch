@@ -94,8 +94,7 @@ export default class Order extends Component {
 }
 
 class Item extends Component {
-  state = {
-    status: '',
+  state = {    
     orderAddress: ''
   }
   async componentDidMount() {
@@ -135,7 +134,7 @@ class Item extends Component {
     const {orderAddress} = this.state
     return (
       <View style={styles.viewOrder}>
-        <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text>
+        {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
         <Text style={styles.textInformationOrder}>Name:{customerName}</Text>
         <Text style={styles.textInformationOrder}>Địa điểm thi đấu:</Text>
         <Text style={styles.textInformationOrder}>{orderAddress}</Text>
@@ -152,20 +151,18 @@ class Item extends Component {
         >
           {orderStatus}
         </Text>                
-        {OrderStatus == PENDING && <PendingItem pressConfirm={async () => {
-          let updatedOrder = await updateOrderStatus(id, 'accepted')
-          this.setState({ status: updatedOrder.status })
+        {orderStatus == PENDING && <PendingItem pressConfirm={() => {          
+          updateOrderStatus(orderId, ACCEPTED)
         }}
         pressCancel={async () => {
-          let updatedOrder = await updateOrderStatus(id, 'cancelled')
-          this.setState({ status: updatedOrder.status })
+          updateOrderStatus(orderId, CANCELLED)
         }}
         />}
-        {OrderStatus == ACCEPTED && <AcceptedItem customerPhoneNumber={customerPhoneNumber}/> }
+        {orderStatus == ACCEPTED && <AcceptedItem customerPhoneNumber={customerPhoneNumber}/> }
         
-        {OrderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
-        {OrderStatus == CANCELLED && <CancelledItem />}
-        {OrderStatus == MISSED && <MissedItem />}
+        {orderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
+        {orderStatus == CANCELLED && <CancelledItem />}
+        {orderStatus == MISSED && <MissedItem />}
       </View>
       
     )
@@ -253,9 +250,6 @@ const MissedItem = ({}) => {
     <Text style={styles.textInformationOrder}>Da missed</Text>            
   </View>)
 }
-
-
-
 
 const styles = StyleSheet.create ({
   container: {

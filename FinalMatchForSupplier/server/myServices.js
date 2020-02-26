@@ -402,8 +402,7 @@ export const insertStadium = async (type,
 }
 export const getOrdersBySupplierId = async () => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()
-        debugger
+        const { tokenKey, supplierId} = await getSupplierFromStorage()        
         const response = await fetch(urlGetOrdersBySupplierId(), {
             method: 'POST',
             headers: {
@@ -414,12 +413,9 @@ export const getOrdersBySupplierId = async () => {
             body: JSON.stringify({
                 supplierId
             }),
-        })
-        debugger
-        const responseJson = await response.json();
-        debugger
-        const { result, data, message, time } = responseJson
-        debugger
+        })        
+        const responseJson = await response.json();        
+        const { result, data, message, time } = responseJson        
         if (result.toUpperCase() === "OK") {
             //Logger ??  
             return data
@@ -435,7 +431,8 @@ export const getOrdersBySupplierId = async () => {
 export const updateOrderStatus = async (orderId, status) => {
     try {
         const { tokenKey, supplierId} = await getSupplierFromStorage()
-        const response = await fetch(urlUpdateOrderStatus, {
+        debugger
+        const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -446,8 +443,11 @@ export const updateOrderStatus = async (orderId, status) => {
                 orderId, status
             }),
         })
+        debugger
         const responseJson = await response.json();
+        debugger
         const {result, data} = responseJson
+        debugger
         if (result.toUpperCase() === "OK") {
             //Logger ??  
             return data
@@ -455,7 +455,8 @@ export const updateOrderStatus = async (orderId, status) => {
             return {}
         }
     } catch (error) {
-        alert("Cannot update order's status to"+status)
+        alert("Cannot update order's status to"+error)
+        debugger
         return {}
     }
 }

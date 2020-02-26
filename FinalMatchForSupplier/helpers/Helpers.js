@@ -107,7 +107,7 @@ export const generateFakeString = () => {
 export const getColorFromStatus = (status) => {
     switch(status) {
         case 'pending':
-            return 'yellow';
+            return 'orange';
         case 'accepted':
             return 'green';
         case 'cancelled':
