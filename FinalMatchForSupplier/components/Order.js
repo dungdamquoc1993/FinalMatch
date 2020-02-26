@@ -40,16 +40,20 @@ export default class Order extends Component {
   _checkSupplierIdInFirebase = snapshotValue => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
     for (const key in snapshotValue) {
+      debugger      
       const [customerId, supplierId] = key.split (':')
       // console.log("xx"+getSupplierFromStorage().supplierId)
       if (supplierId == this.state.supplierId) {        
+        debugger
         return true
       }
     }
+    debugger
     return false
   }
   _readDataFromFirebase = () => {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {
+      debugger
       let snapshotValue = snapshot.val ()
       if (this._checkSupplierIdInFirebase (snapshotValue) == true) {
         debugger
