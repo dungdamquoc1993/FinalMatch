@@ -17,6 +17,8 @@ import {
   getColorFromStatus,
   OrderStatus
 } from '../helpers/Helpers'
+const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+
 import {
   firebaseDatabase,
   getAddressFromLatLong
@@ -25,7 +27,6 @@ import {
   getOrdersBySupplierId, 
   updateOrderStatus, 
 } from '../server/myServices'
-
 
 export default class Order extends Component {
   constructor (props) {
@@ -79,8 +80,8 @@ export default class Order extends Component {
         <FlatList
           width={'100%'}
           data={orders}
-          // data={orders}
-          renderItem={({item}) => <Item {...item} />}
+          // data={orders}          
+          renderItem={({item}) => <Item {...item}/>}
           keyExtractor={item => item.id}
         />
       </SafeAreaView>
@@ -94,10 +95,11 @@ class Item extends Component {
     orderAddress: ''
   }
   async componentDidMount() {
-    const {orderLatitude,orderLongitude} = this.props
+    const {orderLatitude,orderLongitude} = this.props //orderLatitude,orderLongitude co ngay khi vao constructor
     const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)
     this.setState({orderAddress: address})
   }
+
   render () {
     const {    
       orderId,
@@ -129,9 +131,13 @@ class Item extends Component {
     const {orderAddress} = this.state
     return (
       <View style={styles.viewOrder}>
+        <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text>
         <Text style={styles.textInformationOrder}>Name:{customerName}</Text>
-        <Text style={styles.textInformationOrder}>stadium:{orderAddress}</Text>
-        <Text style={styles.textInformationOrder}>Match timing:{dateTimeStart}</Text>
+        <Text style={styles.textInformationOrder}>Địa điểm thi đấu:</Text>
+        <Text style={styles.textInformationOrder}>{orderAddress}</Text>
+        <Text style={styles.textInformationOrder}>Match timing:</Text>
+        <Text style={styles.textInformationOrder}>{dateTimeStart}</Text>
+        <Text style={styles.textInformationOrder}>Trạng thái đơn hàng:</Text>
         <Text
           style={{
             color: getColorFromStatus (
@@ -140,60 +146,112 @@ class Item extends Component {
             fontSize: 17,
           }}
         >
-          Status:{orderStatus}
-        </Text>
-        <TouchableOpacity><Text style={styles.textInformationOrder}>Chat</Text></TouchableOpacity>     
-        <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
-
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              width: 100,
-              height: 50,
-              backgroundColor: '#A2C8C6',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              borderRadius:8,
-            }}
-            onPress={async () => {
-              let updatedOrder = await updateOrderStatus (id, 'accepted')
-              this.setState ({status: updatedOrder.status})
-            }}
-          >
-            <Text style={{height: 50, lineHeight: 50,fontSize: 17}}>Accept</Text>
-            <Image
-              source={require ('../images/tick.png')}
-              style={{height: 30, width: 30}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-          style={{
-              flexDirection: 'row',
-              width: 100,
-              height: 50,
-              backgroundColor: '#A2C8C6',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              borderRadius:8,
-            }}
-            onPress={async () => {
-              let updatedOrder = await updateOrderStatus (id, 'cancelled')
-              this.setState ({status: updatedOrder.status})
-            }}
-          >
-            <Text style={{height: 50, lineHeight: 50,fontSize: 17}}>Reject</Text>
-            <Image
-              source={require ('../images/quit.png')}
-              style={{height: 30, width: 30}}
-            />
-          </TouchableOpacity>
-        </View>
-
+          {orderStatus}
+        </Text>                
+        {OrderStatus == PENDING && <PendingItem pressConfirm={async () => {
+          let updatedOrder = await updateOrderStatus(id, 'accepted')
+          this.setState({ status: updatedOrder.status })
+        }}
+        pressCancel={async () => {
+          let updatedOrder = await updateOrderStatus(id, 'cancelled')
+          this.setState({ status: updatedOrder.status })
+        }}
+        />}
+        {OrderStatus == ACCEPTED && <AcceptedItem customerPhoneNumber={customerPhoneNumber}/> }
+        
+        {OrderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
+        {OrderStatus == CANCELLED && <CancelledItem />}
+        {OrderStatus == MISSED && <MissedItem />}
       </View>
+      
     )
   }
 }
+const PendingItem = ({pressConfirm, pressCancel}) => {  
+  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        width: 100,
+        height: 50,
+        backgroundColor: '#A2C8C6',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderRadius: 8,
+      }}
+      onPress={pressConfirm}
+    >
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Accept</Text>
+      <Image
+        source={require('../images/tick.png')}
+        style={{ height: 30, width: 30 }}
+      />
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        width: 100,
+        height: 50,
+        backgroundColor: '#A2C8C6',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderRadius: 8,
+      }}
+      onPress={pressCancel}      
+    >
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Reject</Text>
+      <Image
+        source={require('../images/quit.png')}
+        style={{ height: 30, width: 30 }}
+      />
+    </TouchableOpacity>
+  </View>)
+}
+
+const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber}) => {  
+  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
+    <TouchableOpacity onPress={pressCall}>
+    <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={{
+        flexDirection: 'row',
+        width: 100,
+        height: 50,
+        backgroundColor: '#A2C8C6',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderRadius: 8,
+      }}
+      onPress={pressChat}
+    >
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Chat</Text>
+      
+    </TouchableOpacity>        
+  </View>)
+}
+
+const CompletedItem = ({pressRate}) => {  
+  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
+    <TouchableOpacity onPress={pressRate}>      
+      <Text style={styles.textInformationOrder}>Danh gia 5 sao</Text>        
+    </TouchableOpacity>    
+  </View>)
+}
+const CancelledItem = ({}) => {  
+  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
+    <Text style={styles.textInformationOrder}>Da an cancelled</Text>            
+  </View>)
+}
+
+const MissedItem = ({}) => {  
+  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
+    <Text style={styles.textInformationOrder}>Da missed</Text>            
+  </View>)
+}
+
+
+
 
 const styles = StyleSheet.create ({
   container: {

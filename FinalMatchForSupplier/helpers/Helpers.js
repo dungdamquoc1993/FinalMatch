@@ -120,7 +120,13 @@ export const getColorFromStatus = (status) => {
             return 'black';
     }
 }
-
+export const OrderStatus  = {
+    PENDING : "pending", 
+    ACCEPTED : "accepted",
+    CANCELLED: "cancelled", 
+    COMPLETED: "completed", 
+    MISSED: "missed" 
+}
 
 
 
