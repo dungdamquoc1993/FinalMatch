@@ -226,7 +226,7 @@ router.post('/createNewOrder', async (req, res) => {
       longitude,
       typeRole,
       dateTimeStart]
-    , (error, results) => {
+    , async (error, results) => {
       debugger
       if (error) {
         res.json({
@@ -286,7 +286,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   }
   connection.query(POST_UPDATE_ORDER_STATUS,
     [status, orderId]
-    , (error, results) => {
+    , async (error, results) => {
       if (error) {
         res.json({
           result: "failed",
@@ -309,14 +309,15 @@ router.post('/updateOrderStatus', async (req, res) => {
           }
           const { supplierId, customerId } = results[0][0]
           let updates = {}
-          updates[`/orders/${customerId}:${supplierId}`] = {
+          let key = `/orders/${customerId}:${supplierId}`
+          updates[key] = {
             action: "updateOrderStatus"
           }
           debugger
-          firebaseDatabase.ref().update(updates, (error) => {
-            debugger
-            firebaseDatabase.ref().update({})
-          })
+          await firebaseDatabase.ref().update(updates)
+          debugger
+          await firebaseDatabase.ref(key).remove()
+          debugger
           res.json({
             result: "ok",
             count: results[0].length,
