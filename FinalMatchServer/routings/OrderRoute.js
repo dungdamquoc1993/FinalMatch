@@ -242,10 +242,10 @@ router.post('/createNewOrder', async (req, res) => {
             action: "createNewOrder"
           }
           debugger
-          firebaseDatabase.ref().update(updates, (error) => {
-            debugger
-            firebaseDatabase.ref().update({})
-          })
+          await firebaseDatabase.ref().update(updates)
+          debugger
+          await firebaseDatabase.ref().update({})
+          debugger
           res.json({
             result: "ok",
             count: results[0].length,
