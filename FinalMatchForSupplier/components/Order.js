@@ -17,7 +17,6 @@ import {
   getColorFromStatus,
   OrderStatus
 } from '../helpers/Helpers'
-const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 
 import {
   firebaseDatabase,
@@ -28,93 +27,30 @@ import {
   updateOrderStatus, 
 } from '../server/myServices'
 import i18n from "i18n-js"
-import {pushLocalNotification} from '../helpers/PushNotification'
+const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+import MultiLanguageComponent from './MultiLanguageComponent'
 
-export default class Order extends Component {
+export default class Order extends MultiLanguageComponent {
   constructor (props) {
-    super (props)
-
+    super (props)    
     this.state = {
       supplierId: '',
       orders: [],
     }
-  }
-  _pushNotifications(snapshotValue) {    
-    if(Object.keys(snapshotValue).length == 0) {
-      return
-    }
-    const {    
-      orderId,
-      typeRole,
-      orderLatitude,
-      orderLongitude,      
-      orderStatus,
-      createdDate,//convert mysql string to Date object
-      dateTimeStart,
-      dateTimeEnd,
-      supplierId,
-      supplierName,
-      supplierPhoneNumber,
-      supplierDateOfBirth,
-      supplierEmail,
-      supplierLatitude,
-      supplierLongitude,
-      supplierAddress,
-      supplierRadius,
-      supplierAvatar = "",
-      playerPrice = 0.0,
-      refereePrice = 0.0,
-      customerId,
-      customerAvatar,
-      customerName,
-      customerPhoneNumber,
-      customerEmail,
-      navigate
-    } = snapshotValue[Object.keys(snapshotValue)[0]]
+  }  
+  async componentDidMount () {    
     debugger
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
-    const {orderAddress} = this.state        
-    if(orderStatus == PENDING) {
-      pushLocalNotification("You have order", 
-        `Ban dang co don hang moi pending`) //TRu: accepted, cancelled
-    } else if(orderStatus == MISSED) {
-      pushLocalNotification("You have order", `Missed`) //TRu: accepted, cancelled
-    } else if(orderStatus == COMPLETED) {
-      pushLocalNotification("Completed order", `complete`) //TRu: accepted, cancelled
-    }
-  }
-  _checkSupplierIdInFirebase = snapshotValue => {
-    //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
-    for (const key in snapshotValue) {
-            
-      const [customerId, supplierId] = key.split (':')
-      // console.log("xx"+getSupplierFromStorage().supplierId)
-      if (supplierId == this.state.supplierId) {        
-        
-        return true
-      }
-    }
+    await super.componentDidMount()
     
-    return false
-  }
-  _readDataFromFirebase = () => {
-    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {
-      
-      let snapshotValue = snapshot.val ()
-      if (this._checkSupplierIdInFirebase (snapshotValue) == true) {                
-        this._pushNotifications(snapshotValue)
+    const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
+      debugger
+      if(super.hasOrder = true) {
         //Goi api load orders
         let orders = await getOrdersBySupplierId ()
-        this.setState ({orders})
-      }
-    })
-  }
-
-  async componentDidMount () {    
-    const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
-    let orders = await getOrdersBySupplierId ()
-    this.setState ({orders, supplierId})        
-    this._readDataFromFirebase ()
+        this.setState ({orders, supplierId})        
+      }          
+    })        
   }
   render () {
     const {orders} = this.state    

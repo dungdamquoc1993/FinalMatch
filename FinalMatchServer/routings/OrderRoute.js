@@ -310,9 +310,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           updates[key] = {
             ...results[0][0] || {}
           }          
-	debugger		
           await firebaseDatabase.ref(key).remove()   
-	debugger
           await firebaseDatabase.ref().update(updates)                           
           res.json({
             result: "ok",
