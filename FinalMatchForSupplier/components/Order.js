@@ -39,6 +39,50 @@ export default class Order extends Component {
       orders: [],
     }
   }
+  _pushNotifications(snapshotValue) {    
+    if(Object.keys(snapshotValue).length == 0) {
+      return
+    }
+    const {    
+      orderId,
+      typeRole,
+      orderLatitude,
+      orderLongitude,      
+      orderStatus,
+      createdDate,//convert mysql string to Date object
+      dateTimeStart,
+      dateTimeEnd,
+      supplierId,
+      supplierName,
+      supplierPhoneNumber,
+      supplierDateOfBirth,
+      supplierEmail,
+      supplierLatitude,
+      supplierLongitude,
+      supplierAddress,
+      supplierRadius,
+      supplierAvatar = "",
+      playerPrice = 0.0,
+      refereePrice = 0.0,
+      customerId,
+      customerAvatar,
+      customerName,
+      customerPhoneNumber,
+      customerEmail,
+      navigate
+    } = snapshotValue[Object.keys(snapshotValue)[0]]
+    debugger
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
+    const {orderAddress} = this.state        
+    if(orderStatus == PENDING) {
+      pushLocalNotification("You have order", 
+        `Ban dang co don hang moi pending`) //TRu: accepted, cancelled
+    } else if(orderStatus == MISSED) {
+      pushLocalNotification("You have order", `Missed`) //TRu: accepted, cancelled
+    } else if(orderStatus == COMPLETED) {
+      pushLocalNotification("Completed order", `complete`) //TRu: accepted, cancelled
+    }
+  }
   _checkSupplierIdInFirebase = snapshotValue => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
     for (const key in snapshotValue) {
@@ -58,6 +102,7 @@ export default class Order extends Component {
       
       let snapshotValue = snapshot.val ()
       if (this._checkSupplierIdInFirebase (snapshotValue) == true) {                
+        this._pushNotifications(snapshotValue)
         //Goi api load orders
         let orders = await getOrdersBySupplierId ()
         this.setState ({orders})
@@ -135,15 +180,7 @@ class Item extends Component {
       navigate
     } = this.props
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
-    const {orderAddress} = this.state        
-    if(orderStatus == PENDING) {
-      pushLocalNotification("You have order", 
-        `Ban dang co don hang moi pending`) //TRu: accepted, cancelled
-    } else if(orderStatus == MISSED) {
-      pushLocalNotification("You have order", `Missed`) //TRu: accepted, cancelled
-    } else if(orderStatus == COMPLETED) {
-      pushLocalNotification("Completed order", `complete`) //TRu: accepted, cancelled
-    }    
+    const {orderAddress} = this.state                
     return (
       <View style={styles.viewOrder}>
         {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}

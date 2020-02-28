@@ -143,9 +143,10 @@ IF numberOfOrders = 0 THEN
     INSERT INTO Orders(customerId, supplierId, point, typeRole, dateTimeStart, dateTimeEnd)
     VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateTimeStart, DATE_ADD(dateTimeStart, INTERVAL 2 HOUR));
 END IF;
-SELECT * FROM Orders WHERE Orders.point = POINT(latitude,longitude) 
-        AND Orders.dateTimeStart = dateTimeStart
-        AND Orders.typeRole = typeRole;        
+SELECT * FROM viewOrdersSupplierCustomer WHERE orderLatitude = latitude 
+        AND orderLongitude = longitude
+        AND viewOrdersSupplierCustomer.dateTimeStart = dateTimeStart
+        AND viewOrdersSupplierCustomer.typeRole = typeRole;               
 END;
 DELIMITER ;
 
@@ -158,7 +159,7 @@ CREATE PROCEDURE updateOrderStatus(
 )
 BEGIN
 UPDATE Orders SET Orders.status = status WHERE id = orderId;
-SELECT * FROM Orders WHERE id = orderId;
+SELECT * FROM viewOrdersSupplierCustomer WHERE viewOrdersSupplierCustomer.orderId = orderId;
 END;
 DELIMITER ;
 

@@ -241,11 +241,8 @@ router.post('/createNewOrder', async (req, res) => {
           updates[`/orders/${customerId}:${supplierId}`] = {
             ...results[0][0] || {}
           }
-          debugger
-          await firebaseDatabase.ref().update(updates)
-          debugger
-          // await firebaseDatabase.ref().update({})
-          debugger
+          await firebaseDatabase.ref(key).remove()   
+          await firebaseDatabase.ref().update(updates)  
           res.json({
             result: "ok",
             count: results[0].length,
@@ -313,8 +310,8 @@ router.post('/updateOrderStatus', async (req, res) => {
           updates[key] = {
             ...results[0][0] || {}
           }          
-          await firebaseDatabase.ref().update(updates)          
-          // await firebaseDatabase.ref(key).remove()          
+          await firebaseDatabase.ref(key).remove()   
+          await firebaseDatabase.ref().update(updates)                           
           res.json({
             result: "ok",
             count: results[0].length,
