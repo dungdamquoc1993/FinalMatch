@@ -237,12 +237,16 @@ router.post('/createNewOrder', async (req, res) => {
         })
       } else {
         if (results != null && results.length > 0) {
-          let updates = {}
+          let 
+updates = {}
           updates[`/orders/${customerId}:${supplierId}`] = {
-            ...results[0][0] || {}
+            action: "createNewOrder"
           }
-          await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates)  
+          debugger
+          await firebaseDatabase.ref().update(updates)
+          debugger
+          await firebaseDatabase.ref().update({})
+          debugger
           res.json({
             result: "ok",
             count: results[0].length,
@@ -308,12 +312,10 @@ router.post('/updateOrderStatus', async (req, res) => {
           let updates = {}
           let key = `/orders/${customerId}:${supplierId}`
           updates[key] = {
-            ...results[0][0] || {}
+            action: "updateOrderStatus"
           }          
-	debugger		
-          await firebaseDatabase.ref(key).remove()   
-	debugger
-          await firebaseDatabase.ref().update(updates)                           
+          await firebaseDatabase.ref().update(updates)          
+          await firebaseDatabase.ref(key).remove()          
           res.json({
             result: "ok",
             count: results[0].length,
