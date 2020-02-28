@@ -39,12 +39,12 @@ export default class Order extends MultiLanguageComponent {
     }
   }  
   async componentDidMount () {    
-    debugger
+    
     await super.componentDidMount()
     
     const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
-      debugger
+      
       if(super.hasOrder = true) {
         //Goi api load orders
         let orders = await getOrdersBySupplierId ()
