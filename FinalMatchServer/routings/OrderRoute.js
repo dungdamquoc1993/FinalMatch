@@ -244,7 +244,7 @@ router.post('/createNewOrder', async (req, res) => {
           debugger
           await firebaseDatabase.ref().update(updates)
           debugger
-          await firebaseDatabase.ref().update({})
+          // await firebaseDatabase.ref().update({})
           debugger
           res.json({
             result: "ok",
@@ -314,7 +314,7 @@ router.post('/updateOrderStatus', async (req, res) => {
             ...results[0][0] || {}
           }          
           await firebaseDatabase.ref().update(updates)          
-          await firebaseDatabase.ref(key).remove()          
+          // await firebaseDatabase.ref(key).remove()          
           res.json({
             result: "ok",
             count: results[0].length,
