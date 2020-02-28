@@ -1,6 +1,11 @@
 
 //import PushNotification from "react-native-push-notification"
+import {isIOS} from './Helpers'
 var PushNotification = require("react-native-push-notification")
+import NotificationActions from 'react-native-ios-notification-actions'
+import PushNotificationAndroid from 'react-native-push-notification'
+PushNotificationAndroid.registerNotificationActions(['Accept','Reject','Yes','No']);
+
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function(token) {
@@ -35,4 +40,50 @@ PushNotification.configure({
    */
   requestPermissions: true
 })
-export {PushNotification}
+export const pushLocalNotification = (title, message, pressAction) => {
+  PushNotification.localNotification({
+    id: '123',
+    /* Android Only Properties */                  
+    vibrate: true, // (optional) default: true
+    vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000      
+    ongoing: false, // (optional) set whether this is an "ongoing" notification              
+
+    /* iOS and Android properties */      
+    title,
+    message,
+    playSound: true, // (optional) default: true
+    soundName: 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+    number: '10', // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)      
+    actions: '["Yes", "No"]',  // (Android only) See the doc for notification actions to know more
+  })  
+  if(isIOS) {
+    let upvoteButton = new NotificationActions.Action({
+      activationMode: 'background',
+      title: 'Upvote',
+      identifier: 'UPVOTE_ACTION'
+    }, (res, done) => {
+      console.info('upvote button pressed with result: ', res);
+      pressAction()
+      done(); //important!
+    });              
+    // Create a category containing our two actions
+    let myCategory = new NotificationActions.Category({
+      identifier: 'something_happened',
+      actions: [upvoteButton],
+      forContext: 'default'
+    });
+     
+    // ** important ** update the categories
+    NotificationActions.updateCategories([myCategory]);
+  } else {
+    DeviceEventEmitter.addListener('notificationActionReceived', function(action){
+      console.log ('Notification action received: ' + action);
+      const info = JSON.parse(action.dataJSON);
+      if (info.action == 'Accept') {
+        pressAction()
+      } else if (info.action == 'Reject') {
+        //Do nothing
+      }   
+    })
+  }
+}

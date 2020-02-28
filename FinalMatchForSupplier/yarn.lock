@@ -6035,6 +6035,11 @@ react-native-image-crop-picker@^0.26.1:
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.26.1.tgz#3499ff5d4a09c9a9e927eb4f6ff936015ff594f1"
   integrity sha512-5JdOjQS2V5L/vfb8+jPTUYx4VZPLvhZTyCUjiG0BZCbh+N1L24Kj2C+8EOuWS7xXXHrz5Bpe/eq5lQO1Efc+Yw==
 
+react-native-ios-notification-actions@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-ios-notification-actions/-/react-native-ios-notification-actions-1.0.1.tgz#dc394e428e425921562f9e4b9833c0de9c85d630"
+  integrity sha1-3DlOQo5CWSFWL55LmDPA3pyF1jA=
+
 react-native-linear-gradient@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"

@@ -239,7 +239,7 @@ router.post('/createNewOrder', async (req, res) => {
         if (results != null && results.length > 0) {
           let updates = {}
           updates[`/orders/${customerId}:${supplierId}`] = {
-            action: "createNewOrder"
+            ...results[0][0] || {}
           }
           debugger
           await firebaseDatabase.ref().update(updates)
@@ -311,7 +311,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           let updates = {}
           let key = `/orders/${customerId}:${supplierId}`
           updates[key] = {
-            action: "updateOrderStatus"
+            ...results[0][0] || {}
           }          
           await firebaseDatabase.ref().update(updates)          
           await firebaseDatabase.ref(key).remove()          

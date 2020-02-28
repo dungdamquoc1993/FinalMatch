@@ -28,7 +28,7 @@ import {
   updateOrderStatus, 
 } from '../server/myServices'
 import i18n from "i18n-js"
-import {PushNotification} from '../helpers/PushNotification'
+import {pushLocalNotification} from '../helpers/PushNotification'
 
 export default class Order extends Component {
   constructor (props) {
@@ -57,8 +57,7 @@ export default class Order extends Component {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {
       
       let snapshotValue = snapshot.val ()
-      if (this._checkSupplierIdInFirebase (snapshotValue) == true) {
-        
+      if (this._checkSupplierIdInFirebase (snapshotValue) == true) {                
         //Goi api load orders
         let orders = await getOrdersBySupplierId ()
         this.setState ({orders})
@@ -66,23 +65,7 @@ export default class Order extends Component {
     })
   }
 
-  async componentDidMount () {
-    PushNotification.localNotification({
-      id: '123',
-      /* Android Only Properties */                  
-      vibrate: true, // (optional) default: true
-      vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000      
-      ongoing: false, // (optional) set whether this is an "ongoing" notification              
-  
-      /* iOS and Android properties */      
-      title: "Day la noi dung Noti", // (optional)
-      message: "Cung la noi dung dong 2", // (required)
-      playSound: true, // (optional) default: true
-      soundName: 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
-      number: '10', // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)      
-      actions: '["Yes", "No"]',  // (Android only) See the doc for notification actions to know more
-  })
-
+  async componentDidMount () {    
     const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
     let orders = await getOrdersBySupplierId ()
     this.setState ({orders, supplierId})        
@@ -121,7 +104,7 @@ class Item extends Component {
     const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)    
     this.setState({orderAddress: address})
   }
-
+  
   render () {
     const {    
       orderId,
@@ -151,7 +134,16 @@ class Item extends Component {
       customerEmail,
       navigate
     } = this.props
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
     const {orderAddress} = this.state        
+    if(orderStatus == PENDING) {
+      pushLocalNotification("You have order", 
+        `Ban dang co don hang moi pending`) //TRu: accepted, cancelled
+    } else if(orderStatus == MISSED) {
+      pushLocalNotification("You have order", `Missed`) //TRu: accepted, cancelled
+    } else if(orderStatus == COMPLETED) {
+      pushLocalNotification("Completed order", `complete`) //TRu: accepted, cancelled
+    }    
     return (
       <View style={styles.viewOrder}>
         {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
@@ -160,7 +152,7 @@ class Item extends Component {
         <Text style={styles.textInformationOrder}>{orderAddress}</Text>
         <Text style={styles.textInformationOrder}>Match timing:</Text>
         <Text style={styles.textInformationOrder}>{
-          (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")          
+          strDatetimeStart          
         }</Text>
         <Text style={styles.textInformationOrder}>Trạng thái đơn hàng:</Text>
         <Text
