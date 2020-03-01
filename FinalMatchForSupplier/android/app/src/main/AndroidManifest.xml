@@ -48,6 +48,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <receiver android:name=".MyBroadcastReceiver" />
     </application>
 
 </manifest>

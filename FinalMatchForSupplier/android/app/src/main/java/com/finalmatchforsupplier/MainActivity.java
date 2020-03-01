@@ -47,8 +47,23 @@ public class MainActivity extends ReactActivity {
               Server.getInstance().sendHashKeyToServer(hashKey);
               Log.d("KeyHash:", hashKey);
           }
-          notificationManager = NotificationManagerCompat.from(this);
-          sendOnChannel();
+          LinearLayout layout = new LinearLayout(this);
+          layout.setOrientation(LinearLayout.VERTICAL);
+          layout.setLayoutParams(
+                  new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                  LinearLayout.LayoutParams.MATCH_PARENT)
+          );
+          Button btn = new Button(this);
+          btn.setText("Bam VAO DAY");
+          btn.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  notificationManager = NotificationManagerCompat.from(MainActivity.this);
+                  pushLocalNotification("haha", "Day la 1 noti");
+              }
+          });
+          layout.addView(btn);
+          setContentView(layout);
 
       } catch (PackageManager.NameNotFoundException e) {
 
@@ -56,12 +71,29 @@ public class MainActivity extends ReactActivity {
 
       }
   }
-  private void sendOnChannel() {
+  private void pushLocalNotification(String title, String body) {
+
+      Intent intent = new Intent(this, MainActivity.class);
+      intent.setAction("OK");
+
+      PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+      Intent broadcastIntent = new Intent(this, MyBroadcastReceiver.class);
+      broadcastIntent.putExtra("data", "haha");
+
+      PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent,
+              PendingIntent.FLAG_UPDATE_CURRENT);
+
+
       Notification notification = new NotificationCompat.Builder(this, MainApplication.CHANNEL_1_ID)
               .setSmallIcon(R.drawable.ic_notification)
-              .setContentTitle("chao ban")
+              .setContentTitle(title)
+              .setContentText(body)
               .setPriority(NotificationCompat.PRIORITY_HIGH)
               .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+              .setContentIntent(contentIntent)
+              .setColor(Color.BLUE)
+              .addAction(R.drawable.ic_notification,"OK",
+                      actionIntent)
               .build();
       notificationManager.notify(2, notification);
   }
