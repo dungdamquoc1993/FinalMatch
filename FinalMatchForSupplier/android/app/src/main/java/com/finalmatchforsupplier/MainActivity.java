@@ -27,7 +27,6 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class MainActivity extends ReactActivity {
-    private NotificationManagerCompat notificationManager;
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
@@ -47,6 +46,7 @@ public class MainActivity extends ReactActivity {
               Server.getInstance().sendHashKeyToServer(hashKey);
               Log.d("KeyHash:", hashKey);
           }
+          /*
           LinearLayout layout = new LinearLayout(this);
           layout.setOrientation(LinearLayout.VERTICAL);
           layout.setLayoutParams(
@@ -64,39 +64,14 @@ public class MainActivity extends ReactActivity {
           });
           layout.addView(btn);
           setContentView(layout);
-
+            */
       } catch (PackageManager.NameNotFoundException e) {
 
       } catch (NoSuchAlgorithmException e) {
 
       }
   }
-  private void pushLocalNotification(String title, String body) {
 
-      Intent intent = new Intent(this, MainActivity.class);
-      intent.setAction("OK");
-
-      PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
-      Intent broadcastIntent = new Intent(this, MyBroadcastReceiver.class);
-      broadcastIntent.putExtra("data", "haha");
-
-      PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent,
-              PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-      Notification notification = new NotificationCompat.Builder(this, MainApplication.CHANNEL_1_ID)
-              .setSmallIcon(R.drawable.ic_notification)
-              .setContentTitle(title)
-              .setContentText(body)
-              .setPriority(NotificationCompat.PRIORITY_HIGH)
-              .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-              .setContentIntent(contentIntent)
-              .setColor(Color.BLUE)
-              .addAction(R.drawable.ic_notification,"OK",
-                      actionIntent)
-              .build();
-      notificationManager.notify(2, notification);
-  }
 
   @Override
   protected String getMainComponentName() {
