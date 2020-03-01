@@ -1,7 +1,11 @@
 package com.finalmatchforsupplier;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
@@ -12,7 +16,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
-
+    public  static final String CHANNEL_1_ID = "channel1";
+    public  static final String CHANNEL_2_ID = "channel2";
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -27,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           // packages.add(new ReactNativePushNotificationPackage());
+            createNotificationChannels();
           return packages;
         }
 
@@ -35,7 +41,25 @@ public class MainApplication extends Application implements ReactApplication {
           return "index";
         }
       };
-
+  private void createNotificationChannels() {
+      if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+          NotificationChannel channel1 = new NotificationChannel(
+                  CHANNEL_1_ID,
+                  "Channel 1",
+                  NotificationManager.IMPORTANCE_HIGH
+          );
+          channel1.setDescription("This is channel 1 ");
+          NotificationChannel channel2 = new NotificationChannel(
+                  CHANNEL_2_ID,
+                  "Channel 2",
+                  NotificationManager.IMPORTANCE_LOW
+          );
+          channel1.setDescription("This is channel 2 ");
+          NotificationManager manager = getSystemService(NotificationManager.class);
+          manager.createNotificationChannel(channel1);
+          manager.createNotificationChannel(channel2);
+      }
+  }
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;

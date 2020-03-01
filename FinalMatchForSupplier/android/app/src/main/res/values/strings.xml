@@ -2,4 +2,5 @@
     <string name="app_name">FinalMatchSupplier</string>
     <string name="facebook_app_id">501150603831653</string>
     <string name="fb_login_protocol_scheme">fb501150603831653</string>
+    <string name="title_activity_important">ImportantActivity</string>
 </resources>
