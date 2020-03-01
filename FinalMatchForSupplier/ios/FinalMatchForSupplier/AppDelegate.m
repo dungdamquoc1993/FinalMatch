@@ -10,6 +10,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "MainViewController.h"
 
 @implementation AppDelegate
 
@@ -26,15 +27,39 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
-  
-//  if ([[rootViewController navigationController] respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-//      [rootViewController navigationController].interactivePopGestureRecognizer.enabled = NO;
-//  }
-  self.window.rootViewController = rootViewController;
+    
+  //self.window.rootViewController = rootViewController;
+  self.window.rootViewController = [[MainViewController alloc] init];
   [self.window makeKeyAndVisible];
+  
   return YES;
 }
 
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+           didReceiveNotificationResponse:(UNNotificationResponse *)response
+           withCompletionHandler:(void (^)(void))completionHandler {
+    if ([response.notification.request.content.categoryIdentifier isEqualToString:@"TIMER_EXPIRED"]) {
+        // Handle the actions for the expired timer.
+        if ([response.actionIdentifier isEqualToString:@"SNOOZE_ACTION"])
+        {
+            // Invalidate the old timer and create a new one. . .
+        }
+        else if ([response.actionIdentifier isEqualToString:@"STOP_ACTION"])
+        {
+            // Invalidate the timer. . .
+        }
+ 
+    }
+ 
+    // Else handle actions for other notification types. . .
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  
+}
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+}
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
