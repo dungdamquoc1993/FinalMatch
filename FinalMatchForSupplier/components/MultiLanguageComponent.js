@@ -19,15 +19,20 @@ const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 export default class MultiLanguageComponent extends Component {
   constructor(props) {
     super(props)
+    debugger
     this.hasOrder = false
     setI18nConfig() // set initial config
   }
+  navigateToOrder= () => {
+    const {navigate} = this.props.navigation      
+    navigate("Order")
+  }
   _pushNotifications(snapshotValue) {    
-    debugger
+    
     if(Object.keys(snapshotValue).length == 0) {
       return
     }
-    debugger
+    
     const {    
       orderId,
       typeRole,
@@ -55,16 +60,15 @@ export default class MultiLanguageComponent extends Component {
       customerPhoneNumber,
       customerEmail,
       navigate
-    } = snapshotValue[Object.keys(snapshotValue)[0]]    
-    debugger
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")        
+    } = snapshotValue[Object.keys(snapshotValue)[0]]        
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")                
     if(orderStatus == PENDING) {
       pushLocalNotification("You have order", 
-        `Ban dang co don hang moi pending`) //TRu: accepted, cancelled
+        `Ban dang co don hang moi pending`, this.navigateToOrder) //TRu: accepted, cancelled
     } else if(orderStatus == MISSED) {
-      pushLocalNotification("You have order", `Missed`) //TRu: accepted, cancelled
+      pushLocalNotification("You have order", `Missed`,this.navigateToOrder) //TRu: accepted, cancelled
     } else if(orderStatus == COMPLETED) {
-      pushLocalNotification("Completed order", `complete`) //TRu: accepted, cancelled
+      pushLocalNotification("Completed order", `complete`,this.navigateToOrder) //TRu: accepted, cancelled
     }
   }
   _checkSupplierIdInFirebase = async (snapshotValue) => {
@@ -72,9 +76,9 @@ export default class MultiLanguageComponent extends Component {
     for (const key in snapshotValue) {            
       const [customerId, supplierID] = key.split (':')
       // console.log("xx"+getSupplierFromStorage().supplierId)
-      debugger
+      
       const {supplierId} = await getSupplierFromStorage()
-      debugger
+      
       if (supplierId == supplierID) {                
         return true
       }
@@ -83,20 +87,20 @@ export default class MultiLanguageComponent extends Component {
   }
 
   _readDataFromFirebase = () => {
-    debugger
+    
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
-      debugger
+      
       let snapshotValue = snapshot.val ()
-      debugger
+      
       this.hasOrder = await this._checkSupplierIdInFirebase (snapshotValue) 
-      debugger
+      
       if (this.hasOrder == true) {                
         this._pushNotifications(snapshotValue)                
       }
     })
   }
   async componentDidMount() {
-    debugger    
+        
     await this._readDataFromFirebase ()        
     RNLocalize.addEventListener("change", this.handleLocalizationChange)    
   }

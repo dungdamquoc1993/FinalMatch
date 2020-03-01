@@ -15,9 +15,10 @@ import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
 import {tokenCheck} from '../server/myServices'
+import MultiLanguageComponent from './MultiLanguageComponent'
 
 const {height, width} = Dimensions.get('window')
-class Splash extends Component {
+class Splash extends MultiLanguageComponent {
     static navigationOptions = {
         headerShown: false,
     }
@@ -25,7 +26,9 @@ class Splash extends Component {
         logoOpacity: new Animated.Value(0),
         titleMarginTop: new Animated.Value(height / 2)
     }
+    
     async componentDidMount() {
+        await super.componentDidMount()
         //Add animations here        
         Animated.sequence([
             //animations by sequence
