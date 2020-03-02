@@ -28,8 +28,8 @@
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
     
-  //self.window.rootViewController = rootViewController;
-  self.window.rootViewController = [[MainViewController alloc] init];
+  self.window.rootViewController = rootViewController;
+//  self.window.rootViewController = [[MainViewController alloc] init];
   [self.window makeKeyAndVisible];
   
   return YES;

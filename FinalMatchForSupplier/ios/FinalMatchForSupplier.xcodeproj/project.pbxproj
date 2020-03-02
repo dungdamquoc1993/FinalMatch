@@ -22,6 +22,7 @@
 		AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */; };
 		AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */; };
 		AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */; };
+		AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */; };
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
 		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 		808F25FB83C1425C9C8AABFE /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		A1962344E1EB4DA1837C6C79 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		A28685F5EEDC45319898BC36 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		AD2A134C240D03B1003CF1AF /* FinalMatchForSupplier.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FinalMatchForSupplier.entitlements; path = FinalMatchForSupplier/FinalMatchForSupplier.entitlements; sourceTree = "<group>"; };
 		AD90A63C23D58A9A00BBF83B /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = ../android/app/src/main/assets/fonts/Fontisto.ttf; sourceTree = "<group>"; };
 		AD90A63E23D58A9A00BBF83B /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = ../android/app/src/main/assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		AD90A63F23D58A9B00BBF83B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = ../android/app/src/main/assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
@@ -83,6 +85,8 @@
 		AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-SemiBold.ttf"; path = "../assets/JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Thin.ttf"; path = "../assets/JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
 		AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-ThinItalic.ttf"; path = "../assets/JosefinSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		AD9DDA8E240CF8AE00AB9CD5 /* NotificationModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationModule.h; sourceTree = "<group>"; };
+		AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationModule.m; sourceTree = "<group>"; };
 		ADB4CE37240BC807009F8D4D /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		ADB4CE39240BCBD2009F8D4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 		13B07FAE1A68108700A75B9A /* FinalMatchForSupplier */ = {
 			isa = PBXGroup;
 			children = (
+				AD2A134C240D03B1003CF1AF /* FinalMatchForSupplier.entitlements */,
 				ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -143,6 +148,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				ADB4CE39240BCBD2009F8D4D /* MainViewController.h */,
 				ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */,
+				AD9DDA8E240CF8AE00AB9CD5 /* NotificationModule.h */,
+				AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */,
 			);
 			name = FinalMatchForSupplier;
 			sourceTree = "<group>";
@@ -455,6 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -481,6 +489,7 @@
 			baseConfigurationReference = 769CD0576FA69C9C2997B2B6 /* Pods-FinalMatchForSupplier.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FinalMatchForSupplier/FinalMatchForSupplier.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = K58H99UQSN;
@@ -550,7 +559,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = FinalMatchForSupplier;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FinalMatchForSupplier;
 				PRODUCT_NAME = FinalMatchForSupplier;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -561,6 +570,7 @@
 			baseConfigurationReference = 69D0DADA70B16F193944F8F3 /* Pods-FinalMatchForSupplier.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FinalMatchForSupplier/FinalMatchForSupplier.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K58H99UQSN;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
@@ -629,7 +639,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = FinalMatchForSupplier;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FinalMatchForSupplier;
 				PRODUCT_NAME = FinalMatchForSupplier;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

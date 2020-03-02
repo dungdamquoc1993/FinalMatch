@@ -1,16 +1,16 @@
 //
-//  MainViewController.h
+//  NotificationModule.h
 //  FinalMatchForSupplier
 //
-//  Created by Nguyen Duc Hoang on 3/1/20.
+//  Created by Nguyen Duc Hoang on 3/2/20.
 //  Copyright © 2020 Facebook. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <React/RCTBridgeModule.h>
 @import UserNotifications;
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainViewController : UIViewController
+@interface NotificationModule : NSObject <RCTBridgeModule>
 
 @end
 

@@ -91,7 +91,7 @@ export default class MultiLanguageComponent extends Component {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
       
       let snapshotValue = snapshot.val ()
-      
+      debugger
       this.hasOrder = await this._checkSupplierIdInFirebase (snapshotValue) 
       
       if (this.hasOrder == true) {                

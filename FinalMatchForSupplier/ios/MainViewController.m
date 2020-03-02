@@ -29,22 +29,10 @@
 -(void)btnSend:(id)event {
   [self pushLocalNotification:@"xx" message: @"yyy"];
 }
-- (void)pushLocalNotification:(NSString *)title message:(NSString *)message {
-  UILocalNotification *notification = [[UILocalNotification alloc] init];
-  notification.fireDate = [[NSDate date] dateByAddingTimeInterval: 0];
-  notification.alertTitle = title;
-  notification.alertBody = message;
-  [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+
+-(void)pushLocalNotification:(NSString *)title message:(NSString *)message {
   
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
+
