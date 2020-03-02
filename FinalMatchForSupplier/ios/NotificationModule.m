@@ -16,12 +16,11 @@
 RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(pushLocalNotification:(NSString *)title message:(NSString *)message) {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+  UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound+ UNAuthorizationOptionBadge;
   [center requestAuthorizationWithOptions: options
                         completionHandler:^(BOOL granted, NSError * _Nullable error) {
-    if (granted == NO) {
-      NSLog(@"Something went wrong");
-    }
+//    NSLog(@"granted");
+//    NSLog(granted);
   }];
   UNMutableNotificationContent *content = [UNMutableNotificationContent new];
   content.title = title;

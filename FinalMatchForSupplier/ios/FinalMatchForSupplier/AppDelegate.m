@@ -53,7 +53,9 @@
  
     // Else handle actions for other notification types. . .
 }
-
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  
+}
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   
 }
