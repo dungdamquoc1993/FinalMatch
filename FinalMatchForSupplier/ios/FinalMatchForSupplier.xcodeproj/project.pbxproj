@@ -26,6 +26,7 @@
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
 		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
+		FAE2F2A7240F6E3B0038971A /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2F2A6240F6E3B0038971A /* NotificationEventEmitter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,9 @@
 		E5480655839B46419F92D17D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		FAE2F2A5240F6E3B0038971A /* NotificationEventEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NotificationEventEmitter.h; path = EventsToReactNative/NotificationEventEmitter.h; sourceTree = "<group>"; };
+		FAE2F2A6240F6E3B0038971A /* NotificationEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NotificationEventEmitter.m; path = EventsToReactNative/NotificationEventEmitter.m; sourceTree = "<group>"; };
+		FAE2F2A8240F73330038971A /* EventNames.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EventNames.h; path = EventsToReactNative/EventNames.h; sourceTree = "<group>"; };
 		FDD3F0A5E8CB45C5B46F4C3D /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		FFCB072DBFB8AFFF426901AB /* Pods-FinalMatchForSupplier-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplier-tvOS.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplier-tvOS/Pods-FinalMatchForSupplier-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,6 +154,7 @@
 				ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */,
 				AD9DDA8E240CF8AE00AB9CD5 /* NotificationModule.h */,
 				AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */,
+				FAE2F2A4240F6DCB0038971A /* EventsToReactNative */,
 			);
 			name = FinalMatchForSupplier;
 			sourceTree = "<group>";
@@ -261,6 +266,16 @@
 				4DEDEB1A54664660906B76B8 /* Zocial.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		FAE2F2A4240F6DCB0038971A /* EventsToReactNative */ = {
+			isa = PBXGroup;
+			children = (
+				FAE2F2A5240F6E3B0038971A /* NotificationEventEmitter.h */,
+				FAE2F2A6240F6E3B0038971A /* NotificationEventEmitter.m */,
+				FAE2F2A8240F73330038971A /* EventNames.h */,
+			);
+			name = EventsToReactNative;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +479,7 @@
 			files = (
 				AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				FAE2F2A7240F6E3B0038971A /* NotificationEventEmitter.m in Sources */,
 				ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

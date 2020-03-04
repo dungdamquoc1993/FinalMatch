@@ -11,12 +11,16 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "MainViewController.h"
+#import "NotificationEventEmitter.h"
 
 @implementation AppDelegate
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  //How to send event to RN ?
+  //[[NotificationEventEmitter shared] sendEventWithName:kEventPressNotification body:@{"x": @{100}}];
+  
   [FIRApp configure];
   [FIRMessaging messaging].delegate = self;
   if ([UNUserNotificationCenter class] != nil) {
