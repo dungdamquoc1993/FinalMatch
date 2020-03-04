@@ -43,6 +43,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     [application registerUserNotificationSettings:settings];
   }
   [application registerForRemoteNotifications];
+  [self getFCMToken];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
@@ -59,6 +60,21 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 //  self.window.rootViewController = [[MainViewController alloc] init];
   [self.window makeKeyAndVisible];  
   return YES;
+}
+-(void)getFCMToken {
+  //send test message: https://console.firebase.google.com/project/finalmatch-9f4fe/notification/compose
+  [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result,
+                                                      NSError * _Nullable error) {
+    if (error != nil) {
+      NSLog(@"Error fetching remote instance ID: %@", error);
+    } else {
+      //c4qvvWAQ5E9Mtjo4wH7wmG:APA91bGmtDcp3CskbaLekX9WRx4g_kFaKPxw7p4AlrfK37iDRSCzG1Jes0ScYZuzfPEcktpKcBjwLdQHMAoN2rIewf_M6eKwNnSWC2Gvu6LnyfrkLbgkXdb3-lSi0DAMnwRlhWuhbUvZ
+      NSLog(@"Remote instance ID token: %@", result.token);
+      NSString* message =
+        [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
+      NSLog(message);
+    }
+  }];
 }
 // [START receive_message]
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -120,7 +136,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   
 }
-// [refresh_token]
+// [refresh_token] FCM gui cho App, se chui vao day, co 1 token
 - (void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
     NSLog(@"FCM registration token: %@", fcmToken);
     // Notify about received token.

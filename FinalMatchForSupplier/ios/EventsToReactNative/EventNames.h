@@ -9,6 +9,6 @@
 #ifndef EventNames_h
 #define EventNames_h
 
-#define kEventPressNotification @"" //Ten event khi nguoi dung bam vao notification
+#define kEventPressNotification @"pressNotification" //Ten event khi nguoi dung bam vao notification
 
 #endif /* EventNames_h */
