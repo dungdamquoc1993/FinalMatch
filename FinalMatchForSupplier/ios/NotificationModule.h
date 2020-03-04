@@ -7,6 +7,7 @@
 //
 
 #import <React/RCTBridgeModule.h>
+@import Firebase;
 @import UserNotifications;
 NS_ASSUME_NONNULL_BEGIN
 

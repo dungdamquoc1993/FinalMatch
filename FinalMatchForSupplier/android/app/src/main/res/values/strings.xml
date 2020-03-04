@@ -3,4 +3,10 @@
     <string name="facebook_app_id">501150603831653</string>
     <string name="fb_login_protocol_scheme">fb501150603831653</string>
     <string name="title_activity_important">ImportantActivity</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">FinalMatchOrder</string>
+    <!-- [END fcm_default_icon_string] -->
+    <string name="fcm_message">FCM Message</string>
 </resources>

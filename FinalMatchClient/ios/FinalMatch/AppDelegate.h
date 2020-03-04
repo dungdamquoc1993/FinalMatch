@@ -7,8 +7,13 @@
 
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
+@import UserNotifications;
+@import Firebase;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, 
+                                    UNUserNotificationCenterDelegate,
+                                    FIRMessagingDelegate,
+                                    RCTBridgeDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 
