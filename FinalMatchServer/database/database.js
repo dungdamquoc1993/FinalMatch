@@ -3,6 +3,12 @@ const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 const FCM_REGISTRATION_TOKEN = "fUV34vmw_k3UumcU3ffkk3:APA91bGYPLlhEV1pIqRozb9oOR3YkQj6bqMsy8__n_3PSNGeUzzjmlfM7l8J74sy8-Ksx5MRz4JfGTaI9EaOAu3HMdFnlLmbskBuap8dozdSXHnkQJzg0sKcwrBfaqBvDSAv35A496o6"
 var Firebase = require('firebase')
 var admin = require('firebase-admin')
+var serviceAccount = require("./");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://finalmatch-9f4fe.firebaseio.com"
+});
+
 //mysql
 const connection = mysql.createConnection({
     host: HOSTNAME,
