@@ -1,6 +1,8 @@
 const mysql = require('mysql')
 const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
+const FCM_REGISTRATION_TOKEN = "fUV34vmw_k3UumcU3ffkk3:APA91bGYPLlhEV1pIqRozb9oOR3YkQj6bqMsy8__n_3PSNGeUzzjmlfM7l8J74sy8-Ksx5MRz4JfGTaI9EaOAu3HMdFnlLmbskBuap8dozdSXHnkQJzg0sKcwrBfaqBvDSAv35A496o6"
 var Firebase = require('firebase')
+var admin = require('firebase-admin')
 //mysql
 const connection = mysql.createConnection({
     host: HOSTNAME,
@@ -27,7 +29,21 @@ const firebaseConfig = {
 }
 const firebaseApp = Firebase.initializeApp(firebaseConfig);
 const firebaseDatabase = firebaseApp.database();
+const sendFirebaseCloudMessage = async (objectData) => {
+    try {
+        let response = admin.messaging().send({
+            data: objectData,
+            token: FCM_REGISTRATION_TOKEN
+        })
+        debugger
+    } catch (error) {
+        debugger
+        console.log('Error sending message:', error)
+
+    }
+}
 module.exports = {
     connection, 
-    firebaseDatabase
+    firebaseDatabase,
+    sendFirebaseCloudMessage
 }

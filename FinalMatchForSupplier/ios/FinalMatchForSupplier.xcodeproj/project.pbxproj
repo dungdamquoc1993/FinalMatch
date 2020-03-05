@@ -312,7 +312,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = K58H99UQSN;
+						DevelopmentTeam = CH6RC35PCB;
 					};
 				};
 			};
@@ -508,7 +508,7 @@
 				CODE_SIGN_ENTITLEMENTS = FinalMatchForSupplier/FinalMatchForSupplier.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = K58H99UQSN;
+				DEVELOPMENT_TEAM = CH6RC35PCB;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

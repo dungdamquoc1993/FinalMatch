@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "firebase": "^7.9.0",
+    "firebase-admin": "^8.9.2",
     "forever": "^1.0.0",
     "http": "^0.0.0",
     "json-parser": "^3.1.2",

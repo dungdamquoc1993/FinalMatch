@@ -31,7 +31,8 @@ app.use('/stadium', StadiumRoute)
 app.use('/orders', OrderRoute)
 app.use('/temp', TempRoute)
 
-
-app.listen(PORT, () => {
-    console.log(`app listen from : ${PORT}`)
+//Chạy api test: node index.js port 3001
+const port = process.argv[3] == 'undefined' ? PORT : parseInt(process.argv[3])
+app.listen(port, () => {
+    console.log(`app listen from : ${port}`)
 })

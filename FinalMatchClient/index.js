@@ -25,4 +25,3 @@ import {name as appName} from './app.json';
 //import SwitchNavigator from './components/SwitchNavigator'
 import StackNavigator from './components/StackNavigator'
 AppRegistry.registerComponent(appName, () => StackNavigator)
- 
