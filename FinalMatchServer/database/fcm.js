@@ -138,7 +138,8 @@ if (message && message == 'common-message') {
 }
 */
 const sendFirebaseCloudMessage = () => {
-    sendFcmMessage(buildCommonMessage());
+    //sendFcmMessage(buildCommonMessage());
+    sendFcmMessage(buildOverrideMessage());
 }
 module.exports = {
     sendFirebaseCloudMessage
