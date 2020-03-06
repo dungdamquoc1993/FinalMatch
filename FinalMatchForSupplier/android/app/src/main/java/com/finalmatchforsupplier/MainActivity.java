@@ -16,17 +16,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.ReactActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
 public class MainActivity extends ReactActivity {
+    private static final String TAG = "TAG";
+    public void runtimeEnableAutoInit() {
+        // [START fcm_runtime_enable_auto_init]
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        // [END fcm_runtime_enable_auto_init]
+    }
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
@@ -46,25 +59,6 @@ public class MainActivity extends ReactActivity {
               Server.getInstance().sendHashKeyToServer(hashKey);
               Log.d("KeyHash:", hashKey);
           }
-          /*
-          LinearLayout layout = new LinearLayout(this);
-          layout.setOrientation(LinearLayout.VERTICAL);
-          layout.setLayoutParams(
-                  new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                  LinearLayout.LayoutParams.MATCH_PARENT)
-          );
-          Button btn = new Button(this);
-          btn.setText("Bam VAO DAY");
-          btn.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  notificationManager = NotificationManagerCompat.from(MainActivity.this);
-                  pushLocalNotification("haha", "Day la 1 noti");
-              }
-          });
-          layout.addView(btn);
-          setContentView(layout);
-            */
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
               // Create channel to show notifications.
               String channelId  = getString(R.string.default_notification_channel_id);
@@ -79,6 +73,24 @@ public class MainActivity extends ReactActivity {
                   Object value = getIntent().getExtras().get(key);
               }
           }
+          FirebaseInstanceId.getInstance().getInstanceId()
+                  .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                      @Override
+                      public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                          if (!task.isSuccessful()) {
+                              Log.w(TAG, "getInstanceId failed", task.getException());
+                              return;
+                          }
+
+                          // Get new Instance ID token
+                          String token = task.getResult().getToken();
+
+                          // Log and toast
+                          String msg = getString(R.string.msg_token_fmt, token);
+                          Log.d(TAG, msg);
+                          Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                      }
+                  });
       } catch (PackageManager.NameNotFoundException e) {
 
       } catch (NoSuchAlgorithmException e) {
