@@ -52,6 +52,13 @@ const sendFirebaseCloudMessage = async (objectData) => {
 }
 */
 const sendFirebaseCloudMessage = async (objectData) => {
+    var message = {
+        data: {
+          score: '850',
+          time: '2:45'
+        },
+        token: FCM_REGISTRATION_TOKEN
+      };
     admin.messaging().send(message)
     .then((response) => {
       // Response is a message ID string.
