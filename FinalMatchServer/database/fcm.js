@@ -141,8 +141,8 @@ const sendFirebaseCloudMessage = () => {
     //sendFcmMessage(buildCommonMessage());
     sendFcmMessage(buildOverrideMessage());
 }
-sendFirebaseCloudMessage()
-/*
+//sendFirebaseCloudMessage()
+
 module.exports = {
     sendFirebaseCloudMessage
-}*/
+}
