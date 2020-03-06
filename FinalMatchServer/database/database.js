@@ -37,6 +37,7 @@ const firebaseApp = Firebase.initializeApp(firebaseConfig);
 const firebaseDatabase = firebaseApp.database();
 const sendFirebaseCloudMessage = async (objectData) => {
     try {
+        debugger
         let response = admin.messaging().send({
             data: objectData,
             token: FCM_REGISTRATION_TOKEN

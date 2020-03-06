@@ -315,8 +315,10 @@ router.post('/updateOrderStatus', async (req, res) => {
             ...results[0][0] || {}
           }          
           await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates)           
+          await firebaseDatabase.ref().update(updates)    
+          debugger       
           sendFirebaseCloudMessage({title: "title 1", message: 'kaka'})                
+          debugger
           res.json({
             result: "ok",
             count: results[0].length,
