@@ -14,6 +14,7 @@ var SCOPES = [MESSAGING_SCOPE];
 function getAccessToken() {
   return new Promise(function(resolve, reject) {
     var key = require('./finalmatch-9f4fe-firebase-adminsdk-xsl4q-bab844d519.json');
+    debugger
     var jwtClient = new google.auth.JWT(
       key.client_email,
       null,
@@ -21,7 +22,9 @@ function getAccessToken() {
       SCOPES,
       null
     );
+    debugger
     jwtClient.authorize(function(err, tokens) {
+        debugger
       if (err) {
         reject(err);
         return;
