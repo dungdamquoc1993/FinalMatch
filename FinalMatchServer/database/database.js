@@ -53,12 +53,15 @@ const sendFirebaseCloudMessage = async (objectData) => {
 }
 */
 const sendFirebaseCloudMessage = async (objectData) => {
+    var accessToken = await getAccessToken()
+    debugger
     var message = {
         data: {
           score: '850',
           time: '2:45'
         },
-        token: FCM_REGISTRATION_TOKEN
+        // token: FCM_REGISTRATION_TOKEN
+        token: accessToken
       };
     admin.messaging().send(message)
     .then((response) => {
@@ -72,8 +75,31 @@ const sendFirebaseCloudMessage = async (objectData) => {
     })
 }
 
+function getAccessToken() {
+  var MESSAGING_SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
+  var SCOPES = [MESSAGING_SCOPE]
+  return new Promise(function(resolve, reject) {    
+    var jwtClient = new google.auth.JWT(
+      serviceAccount.client_email,
+      null,
+      serviceAccount.private_key,
+      SCOPES,
+      null
+    );
+    jwtClient.authorize(function(err, tokens) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(tokens.access_token);
+    });
+  });
+}
+
+
 module.exports = {
     connection, 
     firebaseDatabase,
-    sendFirebaseCloudMessage
+    sendFirebaseCloudMessage, 
+    getAccessToken
 }
