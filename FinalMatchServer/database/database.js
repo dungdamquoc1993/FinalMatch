@@ -78,6 +78,7 @@ const sendFirebaseCloudMessage = async (objectData) => {
 function getAccessToken() {
   var MESSAGING_SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
   var SCOPES = [MESSAGING_SCOPE]
+  var {google} = require('googleapis');
   return new Promise(function(resolve, reject) {    
     var jwtClient = new google.auth.JWT(
       serviceAccount.client_email,
