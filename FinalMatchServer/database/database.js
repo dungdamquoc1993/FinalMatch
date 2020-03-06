@@ -35,6 +35,7 @@ const firebaseConfig = {
 }
 const firebaseApp = Firebase.initializeApp(firebaseConfig);
 const firebaseDatabase = firebaseApp.database();
+/*
 const sendFirebaseCloudMessage = async (objectData) => {
     try {
         debugger
@@ -49,6 +50,20 @@ const sendFirebaseCloudMessage = async (objectData) => {
 
     }
 }
+*/
+const sendFirebaseCloudMessage = async (objectData) => {
+    admin.messaging().send(message)
+    .then((response) => {
+      // Response is a message ID string.
+      console.log('Successfully sent message:', response);
+      debugger
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+      debugger
+    })
+}
+
 module.exports = {
     connection, 
     firebaseDatabase,
