@@ -53,7 +53,7 @@ const sendFirebaseCloudMessage = async (objectData) => {
 }
 */
 const sendFirebaseCloudMessage = async (objectData) => {
-    var accessToken = await getAccessToken()
+    var accessToken = await getAccessToken() //ya29.c.Kl7BB0GNVoOxqTdaO1yHGYWt0-R5_QgtZShluUudptbpDqroNRWEDJVrOTqbOJdAxoVPOKKCTpgcJZF6mUUy88qynmfwCxqsOV1V_YUGd2Ht4iGh3B_mMKqzp3fz43sd
     debugger
     var message = {
         data: {
@@ -101,6 +101,4 @@ function getAccessToken() {
 module.exports = {
     connection, 
     firebaseDatabase,
-    sendFirebaseCloudMessage, 
-    getAccessToken
 }

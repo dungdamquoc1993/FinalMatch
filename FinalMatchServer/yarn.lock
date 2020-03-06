@@ -1647,6 +1647,11 @@ google-p12-pem@^2.0.0:
   dependencies:
     node-forge "^0.9.0"
 
+googleapi@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/googleapi/-/googleapi-1.0.2.tgz#92704a3427c2fd01ea4219a92c1b0fbc6b421954"
+  integrity sha1-knBKNCfC/QHqQhmpLBsPvGtCGVQ=
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"

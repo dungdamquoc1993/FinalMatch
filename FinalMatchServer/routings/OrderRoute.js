@@ -13,9 +13,9 @@ const OrderStatus = {
   MISSED: "missed"
 }
 const { 
-  connection, 
-  sendFirebaseCloudMessage,
+  connection,   
   firebaseDatabase } = require('../database/database')
+const{sendFirebaseCloudMessage} = require('../database/fcm')
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
@@ -246,7 +246,7 @@ router.post('/createNewOrder', async (req, res) => {
           }
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)  
-          sendFirebaseCloudMessage({title: "create new order", message: 'kaka'})                
+          sendFirebaseCloudMessage()                
           res.json({
             result: "ok",
             count: results[0].length,
@@ -317,7 +317,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
           debugger       
-          sendFirebaseCloudMessage({title: "title 1", message: 'kaka'})                
+          sendFirebaseCloudMessage()
           debugger
           res.json({
             result: "ok",
