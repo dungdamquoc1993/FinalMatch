@@ -15,7 +15,7 @@ const OrderStatus = {
 const { 
   connection,   
   firebaseDatabase } = require('../database/database')
-const{sendFirebaseCloudMessage} = require('../database/fcm')
+const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
 const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
