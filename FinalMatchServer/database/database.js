@@ -4,13 +4,6 @@ const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 const FCM_REGISTRATION_TOKEN = "fSmrwaegQZarMvltkuQw8w:APA91bEpLrNwSboRP1Dh_6oIOqiOITaEw4DSE1blqcqARQ0381DglRY2vfqW_DuLnsJKRRxthpHBzV6DQ_hXbV-tC_Q3L8zRRy1U34c2Z6Plnpoq2E-S7MMeX4NPGWI9-FVKdBUbZ0sr"
 //f-XFAPHJQMm2BpaU_FB4vM:APA91bEetIISax7ofTuLtQF-VzYRxCU7bJvbI4VF4349miH1zFONLZ1iQBXALs6FcUrp5Uh04kkRZwF18A_7JbR4v6P3AyZQ9p4luELr0f9kg5SdmQsK8FaDbhVO46yGuvN8t-pF3vup
 var Firebase = require('firebase')
-var admin = require('firebase-admin')
-var serviceAccount = require("./finalmatch-9f4fe-firebase-adminsdk-xsl4q-bab844d519.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://finalmatch-9f4fe.firebaseio.com"
-});
-
 //mysql
 const connection = mysql.createConnection({
     host: HOSTNAME,
@@ -108,11 +101,16 @@ sendFcmMessage2 = () => {
     data: {score: '850', time: '2:45'},
     tokens: registrationTokens,
   }
-  debugger
+  
+
+
   admin.messaging().sendMulticast(message)
   .then((response) => {
     debugger
     if (response.failureCount > 0) {
+      if(response.successCount == registrationTokens.length) {
+        console.log("send all notifications successfully")
+      }
       const failedTokens = [];
       response.responses.forEach((resp, idx) => {
         if (!resp.success) {
@@ -126,11 +124,8 @@ sendFcmMessage2 = () => {
   })
 }
 
-
-/*
 module.exports = {
     connection, 
     firebaseDatabase,
 }
-*/
-sendFcmMessage2()
+

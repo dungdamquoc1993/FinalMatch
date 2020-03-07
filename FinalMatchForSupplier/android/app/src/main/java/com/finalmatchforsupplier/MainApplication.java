@@ -8,7 +8,7 @@ import android.os.Build;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactcommunity.rnlocalize.RNLocalizePackage;
+import com.finalmatchforsupplier.notifications.NotificationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;

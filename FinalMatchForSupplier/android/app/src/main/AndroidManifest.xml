@@ -67,7 +67,7 @@
         <receiver android:name=".MyBroadcastReceiver" />
         <!-- [START firebase_service] -->
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".notifications.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

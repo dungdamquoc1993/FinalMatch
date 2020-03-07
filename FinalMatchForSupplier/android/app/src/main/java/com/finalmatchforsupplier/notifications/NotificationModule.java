@@ -1,4 +1,4 @@
-package com.finalmatchforsupplier;
+package com.finalmatchforsupplier.notifications;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -14,6 +14,10 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.finalmatchforsupplier.MainActivity;
+import com.finalmatchforsupplier.MainApplication;
+import com.finalmatchforsupplier.MyBroadcastReceiver;
+import com.finalmatchforsupplier.R;
 
 import java.util.Map;
 import java.util.HashMap;
