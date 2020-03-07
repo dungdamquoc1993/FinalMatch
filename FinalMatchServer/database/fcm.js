@@ -42,6 +42,7 @@ function getAccessToken() {
  */
 function sendFcmMessage(fcmMessage) {
   getAccessToken().then(function(accessToken) {
+    debugger
     var options = {
       hostname: HOST,
       path: PATH,
@@ -141,7 +142,7 @@ const sendFirebaseCloudMessage = () => {
     //sendFcmMessage(buildCommonMessage());
     sendFcmMessage(buildOverrideMessage());
 }
-//sendFirebaseCloudMessage()
+sendFirebaseCloudMessage()
 
 module.exports = {
     sendFirebaseCloudMessage

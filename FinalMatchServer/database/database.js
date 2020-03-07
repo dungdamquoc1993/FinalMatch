@@ -2,6 +2,7 @@ const mysql = require('mysql')
 const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 //const FCM_REGISTRATION_TOKEN = "fUV34vmw_k3UumcU3ffkk3:APA91bGYPLlhEV1pIqRozb9oOR3YkQj6bqMsy8__n_3PSNGeUzzjmlfM7l8J74sy8-Ksx5MRz4JfGTaI9EaOAu3HMdFnlLmbskBuap8dozdSXHnkQJzg0sKcwrBfaqBvDSAv35A496o6"
 const FCM_REGISTRATION_TOKEN = "fSmrwaegQZarMvltkuQw8w:APA91bEpLrNwSboRP1Dh_6oIOqiOITaEw4DSE1blqcqARQ0381DglRY2vfqW_DuLnsJKRRxthpHBzV6DQ_hXbV-tC_Q3L8zRRy1U34c2Z6Plnpoq2E-S7MMeX4NPGWI9-FVKdBUbZ0sr"
+//f-XFAPHJQMm2BpaU_FB4vM:APA91bEetIISax7ofTuLtQF-VzYRxCU7bJvbI4VF4349miH1zFONLZ1iQBXALs6FcUrp5Uh04kkRZwF18A_7JbR4v6P3AyZQ9p4luELr0f9kg5SdmQsK8FaDbhVO46yGuvN8t-pF3vup
 var Firebase = require('firebase')
 var admin = require('firebase-admin')
 var serviceAccount = require("./finalmatch-9f4fe-firebase-adminsdk-xsl4q-bab844d519.json");
@@ -97,8 +98,39 @@ function getAccessToken() {
   });
 }
 
+sendFcmMessage2 = () => {
+  const registrationTokens = [
+    'f-XFAPHJQMm2BpaU_FB4vM:APA91bEetIISax7ofTuLtQF-VzYRxCU7bJvbI4VF4349miH1zFONLZ1iQBXALs6FcUrp5Uh04kkRZwF18A_7JbR4v6P3AyZQ9p4luELr0f9kg5SdmQsK8FaDbhVO46yGuvN8t-pF3vup',
+    'fSmrwaegQZarMvltkuQw8w:APA91bEpLrNwSboRP1Dh_6oIOqiOITaEw4DSE1blqcqARQ0381DglRY2vfqW_DuLnsJKRRxthpHBzV6DQ_hXbV-tC_Q3L8zRRy1U34c2Z6Plnpoq2E-S7MMeX4NPGWI9-FVKdBUbZ0sr'        
+  ];
+  
+  const message = {
+    data: {score: '850', time: '2:45'},
+    tokens: registrationTokens,
+  }
+  debugger
+  admin.messaging().sendMulticast(message)
+  .then((response) => {
+    debugger
+    if (response.failureCount > 0) {
+      const failedTokens = [];
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          failedTokens.push(registrationTokens[idx]);
+        }
+      });
+      console.log('List of tokens that caused failures: ' + failedTokens);
+    }
+  }).catch(error => {
+    debugger
+  })
+}
 
+
+/*
 module.exports = {
     connection, 
     firebaseDatabase,
 }
+*/
+sendFcmMessage2()
