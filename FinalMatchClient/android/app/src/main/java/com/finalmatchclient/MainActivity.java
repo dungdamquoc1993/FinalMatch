@@ -1,4 +1,5 @@
-package com.finalmatchforsupplier;
+package com.finalmatchclient;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -23,9 +24,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
-import com.finalmatchforsupplier.notifications.NotificationModule;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.finalmatchclient.notifications.EventNames;
+import com.finalmatchclient.notifications.NotificationModule;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -34,10 +40,15 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends ReactActivity {
-    private static final String TAG = "TAG";
-    public void runtimeEnableAutoInit() {
+	private static final String TAG = "TAG";
+	public void runtimeEnableAutoInit() {
         // [START fcm_runtime_enable_auto_init]
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         // [END fcm_runtime_enable_auto_init]
@@ -48,11 +59,10 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-
     super.onCreate(savedInstanceState);
       try {
           PackageInfo info = getPackageManager().getPackageInfo(
-                  "com.finalmatchforsupplier",
+                  "com.finalmatchclient",
                   PackageManager.GET_SIGNATURES);
           for (Signature signature : info.signatures) {
               MessageDigest md = MessageDigest.getInstance("SHA");
@@ -95,7 +105,7 @@ public class MainActivity extends ReactActivity {
 
       }
   }
-  public void sendTokenEventToReactNative(String token) {
+    public void sendTokenEventToReactNative(String token) {
         //sendRegistrationToServer(token);
         WritableMap params = Arguments.createMap();//key-value
         params.putString("notificationToken", token);
@@ -107,10 +117,8 @@ public class MainActivity extends ReactActivity {
             }
         });
     }
-
-
   @Override
   protected String getMainComponentName() {
-    return "FinalMatchForSupplier";
-  }
+        return "FinalMatchClient";
+    }
 }

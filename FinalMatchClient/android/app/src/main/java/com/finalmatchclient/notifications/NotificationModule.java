@@ -1,4 +1,4 @@
-package com.finalmatchforsupplier.notifications;
+package com.finalmatchclient.notifications;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -9,23 +9,16 @@ import android.graphics.Color;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.finalmatchforsupplier.MainActivity;
-import com.finalmatchforsupplier.MainApplication;
+import com.finalmatchclient.MainActivity;
+import com.finalmatchclient.MainApplication;
 import com.finalmatchforsupplier.MyBroadcastReceiver;
-import com.finalmatchforsupplier.R;
-
-import java.util.Map;
-import java.util.HashMap;
+import com.finalmatchclient.R;
 
 public class NotificationModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -60,7 +53,6 @@ public class NotificationModule extends ReactContextBaseJavaModule {
         notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(2, notification);
     }
-    
     @Override
     public String getName() {
         return "NotificationModule";
