@@ -2,6 +2,9 @@ const {connection} = require('../database/database')
 const POST_CHECK_TOKEN = "SELECT checkToken(?, ?) as checkTokenResult"
 const POST_CHECK_TOKEN_CUSTOMER = "SELECT checkTokenCustomer(?, ?) as checkTokenCustomerResult"
 const SQL_CHECK_COMPLETED_MATCH = "UPDATE Orders SET status = 'completed' WHERE dateTimeEnd < NOW()"
+const GET_NOTIFICATION_TOKENS_CUSTOMER = "SELECT * FROM CustomerNotificationTokens WHERE customerId = ?"
+const GET_NOTIFICATION_TOKENS_SUPPLIER = "SELECT * FROM SupplierNotificationTokens WHERE supplierId = ?"
+
 const checkToken = (tokenKey = '', supplierId = 0) => {    
     //convert callback => Promise = async/await
     return new Promise((resolve, reject) => {
@@ -41,6 +44,26 @@ const checkTokenCustomer = (tokenKey = '', customerId = '') => {
         }) 
     })
 }
+//Là token của mỗi device, dùng token này để gửi Remote Notification
+const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {    
+    let notificationTokens = []
+    return new Promise((resolve, reject) => {
+        if((supplierId == 0 && customerId == '') ||(supplierId != 0 && customerId != '')) {            
+            resolve(notificationTokens)
+        } 
+        connection.query(
+            supplierId == 0 ? GET_NOTIFICATION_TOKENS_CUSTOMER : GET_NOTIFICATION_TOKENS_SUPPLIER, 
+            [supplierId == 0 ? customerId : supplierId], (error, results) => {            
+            if (error) {                
+                resolve(notificationTokens)
+            } else {                                    
+                debugger
+                const notificationTokens = results[0];                                
+                resolve(notificationTokens)                
+            }
+        }) 
+    })
+}
 const convertDateToDayMonthYear = (date) => {
     return {
         day: date.getDate(),
@@ -76,4 +99,5 @@ module.exports = {
     convertDateToDayMonthYear,
     removeNullProperties,
     checkCompletedMatch,
+    getNotificationTokens
 }

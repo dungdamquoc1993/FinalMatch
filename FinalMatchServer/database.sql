@@ -98,3 +98,13 @@ CREATE TABLE IF NOT EXISTS Temp (
     content VARCHAR(500),
     createdDate DATETIME
 );
+CREATE TABLE IF NOT EXISTS CustomerNotificationTokens (
+    token VARCHAR(500),
+    customerId VARCHAR(400),
+    createdDate DATETIME
+);
+CREATE TABLE IF NOT EXISTS SupplierNotificationTokens (
+    token VARCHAR(500),
+    supplierId INTEGER,
+    createdDate DATETIME
+);

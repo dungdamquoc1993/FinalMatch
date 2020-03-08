@@ -487,7 +487,41 @@ BEGIN
 END;//
 delimiter;
 
+DROP PROCEDURE IF EXISTS insertCustomerNotificationToken;
+delimiter //
+CREATE PROCEDURE insertCustomerNotificationToken(
+                    token VARCHAR(500),
+                    customerId VARCHAR(400)) 
+BEGIN    
+	DECLARE numberOfNotificationTokens INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfNotificationTokens 
+    FROM CustomerNotificationTokens 
+    WHERE CustomerNotificationTokens.customerId = customerId;
 
+    IF numberOfNotificationTokens = 0 THEN
+        INSERT INTO CustomerNotificationTokens(token, customerId, createdDate)
+        VALUES(token, customerId, NOW());        
+    END IF;
+END;//
+delimiter;
+
+DROP PROCEDURE IF EXISTS insertSupplierNotificationToken;
+delimiter //
+CREATE PROCEDURE insertSupplierNotificationToken(
+                    token VARCHAR(500),
+                    supplierId INTEGER) 
+BEGIN    
+	DECLARE numberOfNotificationTokens INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfNotificationTokens 
+    FROM SupplierNotificationTokens 
+    WHERE SupplierNotificationTokens.supplierId = supplierId;
+
+    IF numberOfNotificationTokens = 0 THEN
+        INSERT INTO SupplierNotificationTokens(token, supplierId, createdDate)
+        VALUES(token, supplierId, NOW());        
+    END IF;
+END;//
+delimiter;
 https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
 

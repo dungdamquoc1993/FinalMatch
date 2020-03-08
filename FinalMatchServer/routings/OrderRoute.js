@@ -3,7 +3,8 @@ var router = express.Router()
 const {
   checkTokenCustomer,
   checkToken,
-  checkCompletedMatch
+  checkCompletedMatch,
+  getNotificationTokens
 } = require('./helpers')
 const OrderStatus = {
   PENDING: "pending", 
@@ -14,7 +15,8 @@ const OrderStatus = {
 }
 const { 
   connection,   
-  firebaseDatabase } = require('../database/database')
+  firebaseDatabase 
+} = require('../database/database')
 const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const POST_GET_REFEREE_AROUND_ORDER = "CALL getRefereesAroundOrder(?, ?, ?)"
 const POST_GET_PLAYER_AROUND_ORDER = "CALL getPlayersAroundOrder(?, ?, ?, ?)"
@@ -245,8 +247,14 @@ router.post('/createNewOrder', async (req, res) => {
             ...results[0][0] || {}
           }
           await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates)  
-          sendFirebaseCloudMessage()                
+          await firebaseDatabase.ref().update(updates) 
+          //Tạo order mới, báo cho supplierid biết
+          let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})
+          sendFirebaseCloudMessage({title: 'New Order', 
+                                    body: 'You have a new order', 
+                                    payload: {},
+                                    notificationTokens
+                                  })                
           res.json({
             result: "ok",
             count: results[0].length,
@@ -316,9 +324,13 @@ router.post('/updateOrderStatus', async (req, res) => {
           }          
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
-          debugger       
-          sendFirebaseCloudMessage()
-          debugger
+          //Update order, báo cho customerid biết
+          let notificationTokens = await getNotificationTokens({supplierId = 0, customerId})
+          sendFirebaseCloudMessage({title: 'Update Order', 
+                                    body: 'An order is updated', 
+                                    payload: results[0][0],
+                                    notificationTokens
+                                  })                
           res.json({
             result: "ok",
             count: results[0].length,
