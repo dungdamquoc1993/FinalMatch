@@ -9,20 +9,51 @@ import {
     MAIN_COLOR, 
 } 
 from '../colors/colors'
+import {
+    EVENT_PRESS_NOTIFICATION,
+    EVENT_INSERT_CUSTOMER_NOTIFICATION,
+    EVENT_INSERT_SUPPLIER_NOTIFICATION
+} from './eventNames'
 import {getCustomerFromStorage, saveCustomerToStorage} from '../helpers/Helpers'
-import {tokenCheckCustomer} from '../server/myServices'
+import {tokenCheckCustomer, insertCustomerNotificationToken} from '../server/myServices'
 
 const {height, width} = Dimensions.get('window')
 export default class Splash extends Component {
     static navigationOptions = {
         headerShown: false,
     }
+    constructor(props){
+        super(props)
+        this.nativeEventEmitter = new NativeEventEmitter()
+    }
     state = {
         logoOpacity: new Animated.Value(0),
         titleMarginTop: new Animated.Value(height / 2)
     }
+    //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
+    reloadEventsFromNative() {        
+        const {navigate} = this.props.navigation
+        this.subsribeEventInsertCustomer = this.nativeEventEmitter.addListener(
+            EVENT_INSERT_CUSTOMER_NOTIFICATION,
+            (reminder) => {
+                insertCustomerNotificationToken(reminder.notificationToken)
+            }
+        )
+        this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
+            EVENT_PRESS_NOTIFICATION,
+            (reminder) => {
+                navigate("Orders")  
+            }
+        )
+    }
+    componentWillUnmount() {
+        this.subsribeEventInsertCustomer.remove()
+        this.subsribeEventPressNotification.remove()
+    }
+    
     async componentDidMount() {
         const {navigate} = this.props.navigation
+        reloadEventsFromNative()
         //Add animations here        
         Animated.sequence([
             //animations by sequence
