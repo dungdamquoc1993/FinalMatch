@@ -14,7 +14,7 @@ import {
     urlCreateNewOrder,
     urlGetOrdersByCustomerId,
     urlGetAvatar,
-    
+    urlInsertCustomerNotificationToken    
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -313,6 +313,32 @@ export const getOrdersByCustomerId = async () => {
         return [] 
     }
 }
-
+export const insertCustomerNotificationToken = async (notificationToken) => {
+    //Hàm này gọi ở React Native(vì trên này mới lấy đc customerId), khi có token dưới ios/android, sẽ gửi Event lên RN, RN gọi hàm này
+    try {
+        const { tokenKey, customerId } = await getCustomerFromStorage()
+        const response = await fetch(urlInsertCustomerNotificationToken(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, customerId
+            },
+            body: JSON.stringify({
+                notificationToken
+            }),
+        })
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
+            //Logger ??  
+            return { data, message: '', error: null}
+        } else {
+            return { data, message: 'Cannot update settings', error: 'Cannot update settings'}
+        }
+    } catch (error) {
+        return { data: null, message: 'Cannot update settings', error}
+    }
+}
 
 

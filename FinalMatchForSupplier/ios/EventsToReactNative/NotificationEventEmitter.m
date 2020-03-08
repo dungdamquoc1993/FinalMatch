@@ -21,13 +21,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[@"pressNotification"];
-}
-
-- (void)calendarEventReminderReceived:(NSNotification *)notification {
-  NSString *eventName = notification.userInfo[@"name"];
-  NSLog(eventName);
-  [self sendEventWithName:kEventPressNotification body:@{@"x": @(100)}];
+  return @[kEventPressNotification, kEventInsertSupplierNotification, kEventInsertCustomerNotification];
 }
 
 

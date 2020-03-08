@@ -13,7 +13,9 @@ import {urlLoginSupplier,
     urlInsertStadium,
     urlLoginFacebook,
     urlGetOrdersBySupplierId,
-    urlUpdateOrderStatus
+    urlUpdateOrderStatus,
+    urlInsertCustomerNotificationToken,
+    urlInsertSupplierNotificationToken,
 } from './urlNames'
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
 import axios from 'axios'
@@ -360,6 +362,34 @@ export const updateSettings = async (supplierId,
         }
     } catch (error) {        
         return error
+    }
+}
+
+export const insertSupplierNotificationToken = async (notificationToken) => {
+    //Hàm này gọi ở React Native(vì trên này mới lấy đc supplierId), khi có token dưới ios/android, sẽ gửi Event lên RN, RN gọi hàm này
+    try {
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+        const response = await fetch(urlInsertSupplierNotificationToken(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                notificationToken
+            }),
+        })
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
+            //Logger ??  
+            return { data, message: '', error: null}
+        } else {
+            return { data, message: 'Cannot update settings', error: 'Cannot update settings'}
+        }
+    } catch (error) {
+        return { data: null, message: 'Cannot update settings', error}
     }
 }
 

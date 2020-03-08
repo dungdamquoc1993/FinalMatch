@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import {
+    EVENT_PRESS_NOTIFICATION,
+    EVENT_INSERT_CUSTOMER_NOTIFICATION,
+    EVENT_INSERT_SUPPLIER_NOTIFICATION
+} from './eventNames';
+import {
   StyleSheet,
   Text,
   View,
   Animated,
   Image,
-  Dimensions
+  Dimensions,
+  NativeEventEmitter, 
+  NativeModules
 } from 'react-native'
 import {
     COLOR_PINK, MAIN_COLOR, 
@@ -14,11 +21,15 @@ from '../colors/colors'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
-import {tokenCheck} from '../server/myServices'
+import {tokenCheck, insertSupplierNotificationToken} from '../server/myServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
 
 const {height, width} = Dimensions.get('window')
 class Splash extends MultiLanguageComponent {
+    constructor(props){
+        super(props)
+        this.nativeEventEmitter = new NativeEventEmitter()
+    }
     static navigationOptions = {
         headerShown: false,
     }
@@ -27,8 +38,29 @@ class Splash extends MultiLanguageComponent {
         titleMarginTop: new Animated.Value(height / 2)
     }
     
+    //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
+    reloadEventsFromNative() {        
+        const {navigate} = this.props.navigation
+        this.subsribeEventInsertCustomer = this.nativeEventEmitter.addListener(
+            EVENT_INSERT_CUSTOMER_NOTIFICATION,
+            (reminder) => {
+                insertSupplierNotificationToken(reminder.notificationToken)
+            }
+        )
+        this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
+            EVENT_PRESS_NOTIFICATION,
+            (reminder) => {
+                navigate("Order")  
+            }
+        )
+    }
+    componentWillUnmount() {
+        this.subsribeEventInsertCustomer.remove()
+        this.subsribeEventPressNotification.remove()
+    }
     async componentDidMount() {
         await super.componentDidMount()
+        reloadEventsFromNative()
         //Add animations here        
         Animated.sequence([
             //animations by sequence

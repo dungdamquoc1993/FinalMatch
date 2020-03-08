@@ -63,3 +63,11 @@ export const urlGetOrdersBySupplierId = () => {
 export const urlUpdateOrderStatus = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/updateOrderStatus`
 }
+
+export const urlInsertCustomerNotificationToken = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertCustomerNotificationToken`
+}
+
+export const urlInsertSupplierNotificationToken = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertSupplierNotificationToken`
+}

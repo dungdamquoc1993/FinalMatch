@@ -60,3 +60,11 @@ export const urlCreateNewOrder = () => {
 export const urlGetOrdersByCustomerId = () => {        
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersByCustomerId`    
 }
+
+export const urlInsertCustomerNotificationToken = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertCustomerNotificationToken`
+}
+
+export const urlInsertSupplierNotificationToken = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertSupplierNotificationToken`
+}
