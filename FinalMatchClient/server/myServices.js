@@ -19,6 +19,7 @@ import {
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
+import AsyncStorage from '@react-native-community/async-storage'
 
 export const registerCustomer = async (name, email, password) => {
     try {        
@@ -317,6 +318,10 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
     //Hàm này gọi ở React Native(vì trên này mới lấy đc customerId), khi có token dưới ios/android, sẽ gửi Event lên RN, RN gọi hàm này
     try {
         const { tokenKey, customerId } = await getCustomerFromStorage()
+        if(customerId == 0) {            
+            await AsyncStorage.setItem('notificationToken', notificationToken)
+            return
+        }
         const response = await fetch(urlInsertCustomerNotificationToken(), {
             method: 'POST',
             headers: {

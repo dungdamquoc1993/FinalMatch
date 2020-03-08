@@ -17,6 +17,7 @@ import {urlLoginSupplier,
     urlInsertCustomerNotificationToken,
     urlInsertSupplierNotificationToken,
 } from './urlNames'
+import AsyncStorage from '@react-native-community/async-storage'
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
@@ -68,7 +69,8 @@ export const loginSupplier = async (email, password) => {
             return { 
                 tokenKey: tokenKeySupplierId.split(";")[0], 
                 supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
-                message: ''}
+                message: ''
+            }
         } else {            
             return { tokenKey : '', message}
         }
@@ -369,6 +371,10 @@ export const insertSupplierNotificationToken = async (notificationToken) => {
     //Hàm này gọi ở React Native(vì trên này mới lấy đc supplierId), khi có token dưới ios/android, sẽ gửi Event lên RN, RN gọi hàm này
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
+        if(supplierId == 0) {            
+            await AsyncStorage.setItem('notificationToken', notificationToken)
+            return
+        }
         const response = await fetch(urlInsertSupplierNotificationToken(), {
             method: 'POST',
             headers: {

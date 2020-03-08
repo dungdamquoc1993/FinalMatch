@@ -14,7 +14,12 @@ import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
-import {registerSupplier, loginSupplier, loginFacebook} from '../server/myServices'
+import {
+    registerSupplier, 
+    insertSupplierNotificationToken,
+    loginSupplier, 
+    loginFacebook
+} from '../server/myServices'
 import {alert, 
     saveSupplierToStorage,
     generateFakeString, 
@@ -25,6 +30,7 @@ import { LoginManager, LoginResult,
     GraphRequestManager, } from "react-native-fbsdk";
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
+import AsyncStorage from '@react-native-community/async-storage'
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
@@ -100,10 +106,14 @@ class LoginRegister extends Component {
                 const { accessToken, userID } = tokenObject                
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
-                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                         
+                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                                         
                 debugger
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
+                    const notificationToken = await AsyncStorage.getItem("notificationToken")
+                    if(notificationToken != null) {
+                        insertSupplierNotificationToken(notificationToken)
+                    }                    
                     //dispatch = call action                                        
                     this.props.navigation.navigate("MyTabNavigator", {})
                 } else {
@@ -137,7 +147,11 @@ class LoginRegister extends Component {
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
-                await saveSupplierToStorage(tokenKey, supplierId, email)                
+                await saveSupplierToStorage(tokenKey, supplierId, email)       
+                const notificationToken = await AsyncStorage.getItem("notificationToken")
+                if(notificationToken != null) {
+                    insertSupplierNotificationToken(notificationToken)
+                }         
                 const stackNavigation = this.props.navigation
                 //dispatch = call action
                 this.props.dispatch(getStackNavigation(stackNavigation))

@@ -15,10 +15,16 @@ import {
 } from 'react-native'
 import {validateEmail, validatePasword} from '../Validations/Validation'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {registerCustomer, loginCustomer} from '../server/myServices'
+import {
+  insertCustomerNotificationToken,
+  registerCustomer, 
+  loginCustomer
+} from '../server/myServices'
+import AsyncStorage from '@react-native-community/async-storage'
 import {saveCustomerToStorage} from '../helpers/Helpers'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
+
 export default class LoginAndSignup extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,    
@@ -53,6 +59,10 @@ export default class LoginAndSignup extends MultiLanguageComponent {
                                                                   await registerCustomer(name, email, password)      
       if (tokenKey.length > 0) {        
         await saveCustomerToStorage(tokenKey, customerId, email)
+        const notificationToken = await AsyncStorage.getItem("notificationToken")
+        if (notificationToken != null) {
+          insertCustomerNotificationToken(notificationToken)
+        }
         navigate('Service') //success
       } else {
         alert(message)
