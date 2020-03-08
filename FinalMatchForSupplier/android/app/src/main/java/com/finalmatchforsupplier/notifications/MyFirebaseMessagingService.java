@@ -12,6 +12,12 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.finalmatchforsupplier.MainActivity;
 import com.finalmatchforsupplier.MainApplication;
 import com.finalmatchforsupplier.MyBroadcastReceiver;
@@ -47,10 +53,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         //Not called
         Log.d(TAG, "Refreshed token: " + token);
-        sendRegistrationToServer(token);
-    }
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
     }
     public void pushRemoteNotification(NotificationObject notificationObject) {
         Context context = this;

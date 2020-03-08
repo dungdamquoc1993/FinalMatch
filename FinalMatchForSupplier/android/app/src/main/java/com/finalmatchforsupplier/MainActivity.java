@@ -23,6 +23,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.finalmatchforsupplier.notifications.NotificationModule;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -31,7 +34,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 
 public class MainActivity extends ReactActivity {
     private static final String TAG = "TAG";
@@ -81,14 +83,11 @@ public class MainActivity extends ReactActivity {
                               Log.w(TAG, "getInstanceId failed", task.getException());
                               return;
                           }
-
                           // Get new Instance ID token
                           String token = task.getResult().getToken();
-
-                          // Log and toast
-                          String msg = getString(R.string.msg_token_fmt, token);
-                          Log.d(TAG, msg);
-                          Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                          //ReactContext reactContext = MainActivity.this.getReactInstanceManager().getCurrentReactContext();
+                          (new NotificationModule((ReactApplicationContext) getReactInstanceManager()
+                                  .getCurrentReactContext())).sendTokenEventToReactNative(token);
                       }
                   });
       } catch (PackageManager.NameNotFoundException e) {

@@ -70,6 +70,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     } else {
       //c4qvvWAQ5E9Mtjo4wH7wmG:APA91bGmtDcp3CskbaLekX9WRx4g_kFaKPxw7p4AlrfK37iDRSCzG1Jes0ScYZuzfPEcktpKcBjwLdQHMAoN2rIewf_M6eKwNnSWC2Gvu6LnyfrkLbgkXdb3-lSi0DAMnwRlhWuhbUvZ
       NSLog(@"Remote instance ID token: %@", result.token);
+      [[NotificationEventEmitter shared] sendEventWithName:kEventInsertSupplierNotification body:@{@"notificationToken": result.token}];
       NSString* message =
         [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
       NSLog(message);

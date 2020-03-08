@@ -8,6 +8,7 @@ admin.initializeApp({
 
 const sendFirebaseCloudMessage = async ({title, body, payload, registrationTokens}) => {      
   try {
+    if(registrationTokens.length == 0) {return}
     let response = admin.messaging().sendMulticast({
       data: {title, body, payload},
       tokens: registrationTokens,
