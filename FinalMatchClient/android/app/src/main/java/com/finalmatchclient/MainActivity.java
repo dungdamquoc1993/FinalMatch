@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -95,8 +96,12 @@ public class MainActivity extends ReactActivity {
                           }
                           // Get new Instance ID token
                           String token = Objects.requireNonNull(task.getResult()).getToken();
-                          //ReactContext reactContext = MainActivity.this.getReactInstanceManager().getCurrentReactContext();
-                          sendTokenEventToReactNative(token);
+                          //Luu local,ko gửi event nữa
+                          //Bên RN, khi nào login/register xong,HOẶC thì lấy local này + supplierid/customerId gửi lên DB
+                          SharedPreferences sharedPreferences = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+                          SharedPreferences.Editor editor = sharedPreferences.edit();
+                          editor.putString("notificationToken", token);
+                          editor.commit();
                       }
                   });
       } catch (PackageManager.NameNotFoundException e) {
@@ -105,6 +110,7 @@ public class MainActivity extends ReactActivity {
 
       }
   }
+  /*
     public void sendTokenEventToReactNative(String token) {
         //sendRegistrationToServer(token);
         WritableMap params = Arguments.createMap();//key-value
@@ -117,6 +123,7 @@ public class MainActivity extends ReactActivity {
             }
         });
     }
+    */
   @Override
   protected String getMainComponentName() {
         return "FinalMatchClient";

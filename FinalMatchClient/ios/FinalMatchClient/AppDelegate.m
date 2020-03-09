@@ -39,7 +39,6 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     [application registerUserNotificationSettings:settings];
   }
   [application registerForRemoteNotifications];
-  [self getFCMToken];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"FinalMatchClient"
@@ -52,6 +51,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [self getFCMToken];
   return YES;
 }
 
@@ -64,10 +64,10 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     } else {
       //c4qvvWAQ5E9Mtjo4wH7wmG:APA91bGmtDcp3CskbaLekX9WRx4g_kFaKPxw7p4AlrfK37iDRSCzG1Jes0ScYZuzfPEcktpKcBjwLdQHMAoN2rIewf_M6eKwNnSWC2Gvu6LnyfrkLbgkXdb3-lSi0DAMnwRlhWuhbUvZ
       NSLog(@"Remote instance ID token: %@", result.token);
-      [[NotificationEventEmitter shared] sendEventWithName:kEventInsertCustomerNotification body:@{@"notificationToken": result.token}];
-      NSString* message =
-        [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
-      NSLog(message);
+      //Luu local,ko gửi event nữa
+      //Bên RN, khi nào login/register xong,HOẶC thì lấy local này + supplierid/customerId gửi lên DB
+      [[NSUserDefaults standardUserDefaults] setObject:result.token forKey: @"notificationToken"];
+      [[NSUserDefaults standardUserDefaults] synchronize];
     }
   }];
 }

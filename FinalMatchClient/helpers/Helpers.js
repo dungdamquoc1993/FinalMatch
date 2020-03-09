@@ -1,6 +1,6 @@
 import {Platform } from 'react-native'
 import {Alert} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+const {AsyncStorage} = NativeModules
 
 export const saveCustomerToStorage = async (tokenKey, customerId, email) => {
     try {
@@ -12,20 +12,12 @@ export const saveCustomerToStorage = async (tokenKey, customerId, email) => {
     }
 }
 
-export const getCustomerFromStorage = async () => {    
-    let tokenKey = await AsyncStorage.getItem('tokenKey')
-    if(tokenKey == null) {
-        tokenKey = ''
-    }
-    let customerId = await AsyncStorage.getItem('customerId')
-    if(customerId == null) {
-        customerId = ''
-    } 
-    let email = await AsyncStorage.getItem('email')
-    if(email == null) {
-        email = ''
-    }    
-    return {tokenKey, customerId, email}
+export const getCustomerFromStorage = async () => {        
+    let tokenKey = await AsyncStorage.getItem('tokenKey')    
+    let customerId = await AsyncStorage.getItem('customerId')     
+    let email = await AsyncStorage.getItem('email')    
+    let notificationToken = await AsyncStorage.getItem('notificationToken')    
+    return {tokenKey, customerId, email, notificationToken}
 }
 
 export const isIOS = () => {

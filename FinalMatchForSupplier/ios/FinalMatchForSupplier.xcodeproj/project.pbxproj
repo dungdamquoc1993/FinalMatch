@@ -26,6 +26,7 @@
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
 		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
+		ADDB6155241647340034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6153241647340034B843 /* AsynStorage.m */; };
 		FAE2F2A7240F6E3B0038971A /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2F2A6240F6E3B0038971A /* NotificationEventEmitter.m */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +93,8 @@
 		ADB4CE39240BCBD2009F8D4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FinalMatchForSupplier/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ADDB6153241647340034B843 /* AsynStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsynStorage.m; path = AsynStorage/AsynStorage.m; sourceTree = "<group>"; };
+		ADDB6154241647340034B843 /* AsyncStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncStorage.h; path = AsynStorage/AsyncStorage.h; sourceTree = "<group>"; };
 		AEBA27E12EE94C89A5DE4145 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		B7AA961D88B6717BBC78D056 /* Pods-FinalMatchForSupplierTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplierTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplierTests/Pods-FinalMatchForSupplierTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF89F7712A70E1C892539FC6 /* Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchForSupplier-tvOSTests/Pods-FinalMatchForSupplier-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				AD2A134C240D03B1003CF1AF /* FinalMatchForSupplier.entitlements */,
+				ADDB61522416471E0034B843 /* AsyncStorage */,
 				ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -224,6 +228,15 @@
 				13B07F961A680F5B00A75B9A /* FinalMatchForSupplier.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ADDB61522416471E0034B843 /* AsyncStorage */ = {
+			isa = PBXGroup;
+			children = (
+				ADDB6154241647340034B843 /* AsyncStorage.h */,
+				ADDB6153241647340034B843 /* AsynStorage.m */,
+			);
+			name = AsyncStorage;
 			sourceTree = "<group>";
 		};
 		F191822CD1D64AA69127D02B /* Resources */ = {
@@ -477,6 +490,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADDB6155241647340034B843 /* AsynStorage.m in Sources */,
 				AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				FAE2F2A7240F6E3B0038971A /* NotificationEventEmitter.m in Sources */,

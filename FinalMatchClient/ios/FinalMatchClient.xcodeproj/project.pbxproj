@@ -12,6 +12,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		4300FA74F27FE43C23EC83B4 /* libPods-FinalMatchClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D05CD93DDB7CF380B031E52 /* libPods-FinalMatchClient.a */; };
+		ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADDB614924163B910034B843 /* GoogleService-Info.plist */; };
+		ADDB6151241643240034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6150241643240034B843 /* AsynStorage.m */; };
 		FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2A424151E0900CFD4C6 /* NotificationModule.m */; };
 		FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2AA24151E1400CFD4C6 /* NotificationEventEmitter.m */; };
 		FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */; };
@@ -31,6 +33,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FinalMatchClient/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FinalMatchClient/main.m; sourceTree = "<group>"; };
 		2D05CD93DDB7CF380B031E52 /* libPods-FinalMatchClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinalMatchClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADDB614924163B910034B843 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FinalMatchClient/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ADDB614D241640A00034B843 /* AsyncStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AsyncStorage.h; path = FinalMatchClient/AsynStorage/AsyncStorage.h; sourceTree = "<group>"; };
+		ADDB6150241643240034B843 /* AsynStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsynStorage.m; path = FinalMatchClient/AsynStorage/AsynStorage.m; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FAD9A2A324151E0900CFD4C6 /* NotificationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationModule.h; path = FinalMatchClient/Notification/NotificationModule.h; sourceTree = "<group>"; };
@@ -78,6 +83,8 @@
 		13B07FAE1A68108700A75B9A /* FinalMatchClient */ = {
 			isa = PBXGroup;
 			children = (
+				ADDB614924163B910034B843 /* GoogleService-Info.plist */,
+				ADDB614C241640710034B843 /* AsynStorage */,
 				FAD9A2AC241520D900CFD4C6 /* FinalMatchClient.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -132,6 +139,15 @@
 				13B07F961A680F5B00A75B9A /* FinalMatchClient.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ADDB614C241640710034B843 /* AsynStorage */ = {
+			isa = PBXGroup;
+			children = (
+				ADDB614D241640A00034B843 /* AsyncStorage.h */,
+				ADDB6150241643240034B843 /* AsynStorage.m */,
+			);
+			name = AsynStorage;
 			sourceTree = "<group>";
 		};
 		D8547547975553C6244C3BF9 /* Pods */ = {
@@ -226,6 +242,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADDB6151241643240034B843 /* AsynStorage.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */,
 				FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */,

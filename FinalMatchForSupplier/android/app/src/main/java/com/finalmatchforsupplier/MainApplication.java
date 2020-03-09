@@ -8,6 +8,7 @@ import android.os.Build;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.finalmatchforsupplier.asyncstorage.AsyncStoragePackage;
 import com.finalmatchforsupplier.notifications.NotificationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
             @SuppressWarnings("UnnecessaryLocalVariable")
             List<ReactPackage> packages = new PackageList(this).getPackages();
             packages.add(new NotificationPackage());
+            packages.add(new AsyncStoragePackage());
           return packages;
         }
 

@@ -21,7 +21,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[kEventPressNotification, kEventInsertSupplierNotification, kEventInsertCustomerNotification];
+  return @[kEventPressNotification];
 }
 
 
