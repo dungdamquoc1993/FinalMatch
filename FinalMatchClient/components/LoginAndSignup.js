@@ -11,6 +11,7 @@ import {
   Dimensions,
   SafeAreaView,
   TouchableWithoutFeedback,
+  NativeModules,
   Keyboard
 } from 'react-native'
 import {validateEmail, validatePasword} from '../Validations/Validation'
@@ -20,7 +21,7 @@ import {
   registerCustomer, 
   loginCustomer
 } from '../server/myServices'
-import AsyncStorage from '@react-native-community/async-storage'
+const {AsyncStorage} = NativeModules
 import {saveCustomerToStorage} from '../helpers/Helpers'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'

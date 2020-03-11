@@ -3,7 +3,9 @@ import {
   StyleSheet,
   View,
   Animated,  
-  Dimensions
+  Dimensions,
+  NativeEventEmitter, 
+  NativeModules,
 } from 'react-native'
 import {
     MAIN_COLOR, 
@@ -13,7 +15,7 @@ import {
     EVENT_PRESS_NOTIFICATION,
     EVENT_INSERT_CUSTOMER_NOTIFICATION,
     EVENT_INSERT_SUPPLIER_NOTIFICATION
-} from './eventNames'
+} from './eventNames.js'
 import {getCustomerFromStorage, saveCustomerToStorage} from '../helpers/Helpers'
 import {tokenCheckCustomer, insertCustomerNotificationToken} from '../server/myServices'
 

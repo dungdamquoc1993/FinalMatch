@@ -20,7 +20,7 @@ import {urlLoginSupplier,
     urlGetChatHistory,
     urlMakeSeen,
 } from './urlNames'
-import AsyncStorage from '@react-native-community/async-storage'
+const {AsyncStorage} = NativeModules
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()

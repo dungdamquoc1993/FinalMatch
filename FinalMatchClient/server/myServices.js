@@ -1,5 +1,5 @@
 
-import { Platform } from 'react-native'
+import { Platform, NativeModules } from 'react-native'
 import {getCustomerFromStorage} from '../helpers/Helpers'
 import {
     urlLoginCustomer,
@@ -22,7 +22,7 @@ import {
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
-import AsyncStorage from '@react-native-community/async-storage'
+const {AsyncStorage} = NativeModules
 
 export const registerCustomer = async (name, email, password) => {
     try {        

@@ -1,6 +1,7 @@
 import {Platform } from 'react-native'
 import {Alert} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import { NativeEventEmitter, NativeModules } from 'react-native'
+const {AsyncStorage} = NativeModules
 
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {

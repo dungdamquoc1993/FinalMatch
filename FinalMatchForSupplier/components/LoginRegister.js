@@ -30,7 +30,7 @@ import { LoginManager, LoginResult,
     GraphRequestManager, } from "react-native-fbsdk";
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
-import AsyncStorage from '@react-native-community/async-storage'
+const {AsyncStorage} = NativeModules
 //export = public
 //Component = thẻ
 class LoginRegister extends Component {
