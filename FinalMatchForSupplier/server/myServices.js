@@ -16,6 +16,9 @@ import {urlLoginSupplier,
     urlUpdateOrderStatus,
     urlInsertCustomerNotificationToken,
     urlInsertSupplierNotificationToken,
+    urlInsertNewChat,
+    urlGetChatHistory,
+    urlMakeSeen,
 } from './urlNames'
 import AsyncStorage from '@react-native-community/async-storage'
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
@@ -496,4 +499,105 @@ export const updateOrderStatus = async (orderId, status) => {
         return {}
     }
 }
+export const insertNewChat = async ({orderId, sms, senderId}) => {
+    try {
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const response = await fetch(urlInsertNewChat(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                orderId, sms, senderId
+            }),
+        })
+        
+        const responseJson = await response.json();        
+        const {result, data} = responseJson
+        return result.toUpperCase() === "OK" ? data : []
+    } catch (error) {
+        alert("Cannot update order's status to"+error)        
+        return []
+    }
+}
+export const insertNewChat = async ({orderId, sms, senderId}) => {
+    try {
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const response = await fetch(urlInsertNewChat(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                orderId, sms, senderId
+            }),
+        })
+        
+        const responseJson = await response.json();        
+        const {result, data} = responseJson
+        return result.toUpperCase() === "OK" ? data : []
+    } catch (error) {
+        alert("Cannot insert new chat. Error: "+error)        
+        return []
+    }
+}
+
+export const getChatHistory = async ({customerOrSupplierId}) => {
+    try {
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const response = await fetch(urlInsertNewChat(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                customerOrSupplierId
+            }),
+        })
+        
+        const responseJson = await response.json();        
+        const {result, data} = responseJson
+        return result.toUpperCase() === "OK" ? data : []
+    } catch (error) {
+        alert("Cannot get chat history, error : "+error)        
+        return []
+    }
+}
+export const makeSeen = async () => {
+    try {
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const response = await fetch(urlInsertNewChat(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                tokenKey, supplierId
+            },
+            body: JSON.stringify({
+                
+            }),
+        })        
+        const responseJson = await response.json()        
+        const {result, data, message, time} = responseJson          
+        if (result.toUpperCase() === "OK") {                 
+            //Logger ??              
+            return { data, message: ''}
+        } else {    
+            return { data, message}
+        }
+    } catch (error) {               
+        return { data, message: error}
+    }
+}
+
 

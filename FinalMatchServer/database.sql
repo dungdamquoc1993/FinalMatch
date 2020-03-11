@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS Orders (
 --Khi nao cho dat: pending, cancelled, missed
 ALTER TABLE Orders ADD UNIQUE unique_index(customerId, supplierId, dateTimeStart, dateTimeEnd);
 
-CREATE TABLE IF NOT EXISTS Conversations (
+CREATE TABLE IF NOT EXISTS Chat (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     orderId INTEGER,
     sms TEXT,
@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS Conversations (
     createdDate DATETIME DEFAULT NOW(),
     seen BOOLEAN DEFAULT FALSE
 );
+
 CREATE TABLE IF NOT EXISTS Customer (
     customerId VARCHAR(400) PRIMARY KEY,
     avatar VARCHAR(500) DEFAULT '',

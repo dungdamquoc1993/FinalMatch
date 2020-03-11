@@ -71,3 +71,15 @@ export const urlInsertCustomerNotificationToken = () => {
 export const urlInsertSupplierNotificationToken = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertSupplierNotificationToken`
 }
+export const urlInsertNewChat = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/insertNewChat`
+}
+export const urlGetChatHistory = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/getChatHistory`
+}
+export const urlMakeSeen = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/chat/makeSeen`
+}
+
+
+

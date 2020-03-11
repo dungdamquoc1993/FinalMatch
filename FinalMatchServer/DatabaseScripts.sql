@@ -1,17 +1,23 @@
 USE FinalMatch;
 
-SELECT  * FROM Supplier WHERE id = 98;
-SELECT * FROM viewOrdersSupplierCustomer WHERE supplierId = 98
-AND orderStatus in ('missed', 'pending', 'completed', 'accepted', 'cancelled') ORDER BY createdDate DESC;
-  
-SELECT * FROM N
+CREATE PROCEDURE insertNewChat(
+                    orderId INTEGER,
+                    sms TEXT,
+                    senderId VARCHAR(400))
+BEGIN    
+	DECLARE numberOfCChat INT DEFAULT 0;
+    SELECT COUNT(*) INTO numberOfCChat 
+    FROM Chat 
+    WHERE Chat.orderId = orderId 
+        AND Chat.sms = sms
+        AND ONVERT(Chat.senderId, CHAR) = CONVERT(senderId, CHAR);
 
-SELECT  * FROM Customer c WHERE customerId ='47c9165c5bfb03689260a8f230e45589';
-SELECT * from Orders;
-
-SELECT  * FROM viewOrdersSupplierCustomer WHERE orderId =12;
-
-SELECT * FROM Supplier WHERE Supplier.id = 98;
-
-
-SELECT * FROM viewOrdersSupplierCustomer;
+    IF numberOfCChat = 0 THEN
+        INSERT INTO Chat(orderId, sms, senderId) 
+        VALUES(orderId, sms, senderId);        
+    END IF;
+    SELECT * FROM viewChatOrder 
+    WHERE viewChatOrder.orderId = orderId 
+        AND viewChatOrder.sms = sms
+        AND ONVERT(viewChatOrder.senderId, CHAR) = CONVERT(senderId, CHAR);
+END;

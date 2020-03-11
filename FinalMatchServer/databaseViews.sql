@@ -113,19 +113,6 @@ LEFT JOIN Orders
 ON viewSupplierServices.supplierId = Orders.supplierId
 ORDER BY Orders.supplierId;
 
-SELECT Orders.id as orderId, 
-Orders.customerId as customerId,
-Orders.supplierId as supplierId,
-X(Orders.point) as latitude,
-Y(Orders.point) as longitude,
-Orders.status as status,
-Conversations.sms as sms,
-Conversations.senderId as senderId,
-Conversations.seen as seen
-FROM Conversations
-INNER JOIN Orders
-ON Conversations.orderId=Orders.id
-ORDER BY Conversations.createdDate DESC;
 
 CREATE VIEW viewOrdersSupplierCustomer AS
 SELECT 
@@ -162,3 +149,27 @@ INNER JOIN Supplier ON CONVERT(Orders.supplierId, CHAR) = CONVERT(Supplier.id, C
 INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.customerId, CHAR)
 LEFT JOIN PlayerService ON CONVERT(Orders.supplierId, CHAR) = CONVERT(PlayerService.supplierId , CHAR)
 LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeService.supplierId , CHAR);
+
+CREATE VIEW viewChatOrder AS 
+SELECT 
+Chat.id as chatId,
+Chat.orderId as orderId,
+Chat.sms as sms,
+Chat.senderId as senderId,
+Chat.createdDate as createdDate,
+Chat.seen as seen,
+
+Orders.customerId as customerId,
+Orders.supplierId as supplierId,
+Orders.typeRole as typeRole,
+X(Orders.point) as orderLatitude,
+Y(Orders.point) as orderLongitude,
+Orders.status as orderStatus,
+Orders.dateTimeStart as dateTimeStart, 
+Orders.dateTimeEnd as dateTimeEnd
+
+FROM Chat
+LEFT JOIN Orders ON Chat.orderId = Orders.id;
+
+
+

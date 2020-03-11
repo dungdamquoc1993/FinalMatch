@@ -7,6 +7,11 @@ Image,
 FlatList,
 TouchableHighlight
 } 
+import {
+    insertNewChat, 
+    getChatHistory, 
+    makeSeen,
+} from '../server/myServices'
 from 'react-native'
 const fakeURL = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Tiffanie_at_cat_show.jpg"
 var fakeData  = [    
@@ -85,8 +90,24 @@ export default class Chat extends Component {
         </View>
     }
 }
-class _ChatItem extends Component {
+class _ChatItem extends Component {    
     render() {
+        const {
+            chatId,
+            orderId,
+            customerId,
+            supplierId,
+            sms,
+            senderId,
+            createdDate,
+            seen,
+            typeRole,
+            orderLatitude,
+            orderLongitude,
+            orderStatus,
+            dateTimeStart,
+            dateTimeEnd,
+        } = this.props        
         const {url, text, status, isSender} = this.props.item
         const {index} = this.props
         const styles = stylesChatItem(isSender)

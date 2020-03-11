@@ -7,6 +7,12 @@ Image,
 FlatList,
 TouchableHighlight
 } 
+import {
+    insertNewChat, 
+    getChatHistory, 
+    makeSeen,
+} from '../server/myServices'
+
 from 'react-native'
 const fakeURL = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Tiffanie_at_cat_show.jpg"
 var fakeData  = [    
