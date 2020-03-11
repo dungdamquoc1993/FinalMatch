@@ -41,8 +41,7 @@ export default class Splash extends Component {
     //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
     reloadEventsFromNative() {        
         debugger
-        const {navigate} = this.props.navigation        
-        /*
+        /*        
         this.nativeEventEmitter = new NativeEventEmitter()
         debugger
         this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
@@ -50,8 +49,8 @@ export default class Splash extends Component {
             (reminder) => {
                 navigate("Orders")  
             }
-        )
-        */
+        ) 
+        */       
     }
     async componentDidMount() {
         const {navigate} = this.props.navigation

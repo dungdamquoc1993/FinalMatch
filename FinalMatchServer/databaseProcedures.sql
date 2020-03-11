@@ -496,7 +496,8 @@ BEGIN
 	DECLARE numberOfNotificationTokens INT DEFAULT 0;
     SELECT COUNT(*) INTO numberOfNotificationTokens 
     FROM CustomerNotificationTokens 
-    WHERE CustomerNotificationTokens.customerId = customerId;
+    WHERE CustomerNotificationTokens.customerId = customerId
+           AND CustomerNotificationTokens.token = token;
 
     IF numberOfNotificationTokens = 0 THEN
         INSERT INTO CustomerNotificationTokens(token, customerId, createdDate)

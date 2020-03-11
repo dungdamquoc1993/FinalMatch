@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NotificationEventEmitter : RCTEventEmitter <RCTBridgeModule>
 + (id)shared;//thuoc tinh static
-
 @end
 
 NS_ASSUME_NONNULL_END
