@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as RNLocalize from "react-native-localize"
+
 
 import {
   View,
@@ -14,6 +14,7 @@ import {
   NativeModules,
   Keyboard
 } from 'react-native'
+import * as RNLocalize from "react-native-localize"
 import {validateEmail, validatePasword} from '../Validations/Validation'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {
@@ -64,6 +65,7 @@ export default class LoginAndSignup extends MultiLanguageComponent {
         const notificationToken = await AsyncStorage.getItem("notificationToken")        
         if (notificationToken != null) {
           const {error} = await insertCustomerNotificationToken(notificationToken)
+          debugger
           if(!error) {
             navigate('Service') //success
           }          
