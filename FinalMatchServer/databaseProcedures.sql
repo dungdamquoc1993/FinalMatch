@@ -515,8 +515,8 @@ BEGIN
 	DECLARE numberOfNotificationTokens INT DEFAULT 0;
     SELECT COUNT(*) INTO numberOfNotificationTokens 
     FROM SupplierNotificationTokens 
-    WHERE SupplierNotificationTokens.supplierId = supplierId;
-
+    WHERE SupplierNotificationTokens.supplierId = supplierId
+            AND SupplierNotificationTokens.token = token;
     IF numberOfNotificationTokens = 0 THEN
         INSERT INTO SupplierNotificationTokens(token, supplierId, createdDate)
         VALUES(token, supplierId, NOW());        

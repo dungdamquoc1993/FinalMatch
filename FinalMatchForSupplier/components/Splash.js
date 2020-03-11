@@ -28,7 +28,7 @@ const {height, width} = Dimensions.get('window')
 class Splash extends MultiLanguageComponent {
     constructor(props){
         super(props)
-        this.nativeEventEmitter = new NativeEventEmitter()
+        
     }
     static navigationOptions = {
         headerShown: false,
@@ -39,22 +39,16 @@ class Splash extends MultiLanguageComponent {
     }
     
     //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug    
-    reloadEventsFromNative() {        
-        const {navigate} = this.props.navigation
-        debugger
-        this.subsribeEventInsertCustomer = this.nativeEventEmitter.addListener(
-            EVENT_INSERT_CUSTOMER_NOTIFICATION,
-            (reminder) => {
-                debugger
-                insertCustomerNotificationToken(reminder.notificationToken)
-            }
-        )
+    reloadEventsFromNative() {                        
+        /*
+        this.nativeEventEmitter = new NativeEventEmitter()
         this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
             EVENT_PRESS_NOTIFICATION,
             (reminder) => {
                 navigate("Orders")  
             }
         )
+        */
     }
     componentWillUnmount() {
         this.subsribeEventInsertCustomer.remove()
