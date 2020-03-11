@@ -1,5 +1,9 @@
 var express = require('express')
 var router = express.Router()
+const { 
+  connection,   
+  firebaseDatabase 
+} = require('../database/database')
 const {checkToken, checkTokenCustomer} = require('./helpers')
 const INSERT_SUPPLIER_NOTIFICATION_TOKEN = "call insertSupplierNotificationToken(?, ?)" //insertSupplierNotificationToken(token, supplierId)
 const INSERT_CUSTOMER_NOTIFICATION_TOKEN = "call insertCustomerNotificationToken(?, ?)" //insertCustomerNotificationToken(token, supplierId)
@@ -44,7 +48,8 @@ router.post('/insertSupplierNotificationToken', async (req, res) => {
 //Link http://localhost:3000/token/insertCustomerNotificationToken
 router.post('/insertCustomerNotificationToken', async (req, res) => {
   const { tokenkey, customerid } = req.headers
-  const checkTokenResult = await checkToken(tokenkey, customerid)
+  const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
+debugger
   if (checkTokenResult == false) {
     res.json({
       result: "failed",
@@ -54,6 +59,7 @@ router.post('/insertCustomerNotificationToken', async (req, res) => {
     })
     return
   }  
+debugger
   const {notificationToken} = req.body
   connection.query(INSERT_CUSTOMER_NOTIFICATION_TOKEN,
     [notificationToken, customerid], (error, results) => {

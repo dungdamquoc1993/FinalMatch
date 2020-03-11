@@ -5,7 +5,7 @@ const {
   firebaseDatabase 
 } = require('../database/database')
 
-const {checkTokenCustomer, checkToken, checkTokenCustomer} = require('./helpers')
+const {checkTokenCustomer, checkToken} = require('./helpers')
 const GET_CHAT_HISTORY = 
           "SELECT * FROM viewChatOrder "+
           +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
@@ -48,7 +48,7 @@ router.post('/insertNewChat', async (req, res) => {
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
-          let notificationTokens = await getNotificationTokens({supplierId = 0, customerId})
+          let notificationTokens = await getNotificationTokens({supplierId, customerId})
           sendFirebaseCloudMessage({title: 'New Message', 
                                     body: "You got new message", 
                                     payload: results[0][0],

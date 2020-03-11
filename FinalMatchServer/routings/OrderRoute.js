@@ -325,7 +325,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
-          let notificationTokens = await getNotificationTokens({supplierId = 0, customerId})
+          let notificationTokens = await getNotificationTokens({supplierId, customerId})
           sendFirebaseCloudMessage({title: 'Update Order', 
                                     body: 'An order is updated', 
                                     payload: results[0][0],
