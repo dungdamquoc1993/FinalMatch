@@ -319,12 +319,8 @@ export const getOrdersByCustomerId = async () => {
 }
 export const insertCustomerNotificationToken = async (notificationToken) => {
     //Hàm này gọi ở React Native(vì trên này mới lấy đc customerId), khi có token dưới ios/android, sẽ gửi Event lên RN, RN gọi hàm này
-    try {
-        const { tokenKey, customerId } = await getCustomerFromStorage()
-        if(customerId == 0) {            
-            await AsyncStorage.setItem('notificationToken', notificationToken)
-            return
-        }
+    try {        
+        const { tokenKey, customerId } = await getCustomerFromStorage()                
         const response = await fetch(urlInsertCustomerNotificationToken(), {
             method: 'POST',
             headers: {
@@ -336,15 +332,20 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
                 notificationToken
             }),
         })
+        debugger
         const responseJson = await response.json();
+        debugger
         const { result, data, message, time } = responseJson
+        debugger
         if (result.toUpperCase() === "OK") {
             //Logger ??  
+            debugger
             return { data, message: '', error: null}
         } else {
             return { data, message: 'Cannot update settings', error: 'Cannot update settings'}
         }
     } catch (error) {
+        debugger
         return { data: null, message: 'Cannot update settings', error}
     }
 }
