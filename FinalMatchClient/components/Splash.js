@@ -30,6 +30,12 @@ export default class Splash extends Component {
         logoOpacity: new Animated.Value(0),
         titleMarginTop: new Animated.Value(height / 2)
     }
+    
+    componentWillUnmount() {
+        debugger
+        this.subsribeEventInsertCustomer.remove()
+        this.subsribeEventPressNotification.remove()
+    }
     //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
     reloadEventsFromNative() {        
         const {navigate} = this.props.navigation
@@ -48,15 +54,9 @@ export default class Splash extends Component {
             }
         )
     }
-    componentWillUnmount() {
-        debugger
-        this.subsribeEventInsertCustomer.remove()
-        this.subsribeEventPressNotification.remove()
-    }
-    
     async componentDidMount() {
         const {navigate} = this.props.navigation
-        reloadEventsFromNative()
+        this.reloadEventsFromNative()
         //Add animations here        
         Animated.sequence([
             //animations by sequence
@@ -88,6 +88,7 @@ export default class Splash extends Component {
             }                                    
         })
     }
+    
     render() {
         return <View style={styles.container}>
             <Animated.Image source={require('../images/soccer.png')} 

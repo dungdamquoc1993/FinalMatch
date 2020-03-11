@@ -350,14 +350,13 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getCustomerFromStorage()        
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, supplierId
+                tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
                 orderId, sms, senderId
@@ -375,14 +374,13 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
 
 export const getChatHistory = async ({customerOrSupplierId}) => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getCustomerFromStorage()
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, supplierId
+                tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
                 customerOrSupplierId
@@ -399,14 +397,13 @@ export const getChatHistory = async ({customerOrSupplierId}) => {
 }
 export const makeSeen = async () => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()        
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, supplierId
+                tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
                 

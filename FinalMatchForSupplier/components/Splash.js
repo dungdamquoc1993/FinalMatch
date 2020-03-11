@@ -38,19 +38,21 @@ class Splash extends MultiLanguageComponent {
         titleMarginTop: new Animated.Value(height / 2)
     }
     
-    //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
+    //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug    
     reloadEventsFromNative() {        
         const {navigate} = this.props.navigation
+        debugger
         this.subsribeEventInsertCustomer = this.nativeEventEmitter.addListener(
             EVENT_INSERT_CUSTOMER_NOTIFICATION,
             (reminder) => {
-                insertSupplierNotificationToken(reminder.notificationToken)
+                debugger
+                insertCustomerNotificationToken(reminder.notificationToken)
             }
         )
         this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
             EVENT_PRESS_NOTIFICATION,
             (reminder) => {
-                navigate("Order")  
+                navigate("Orders")  
             }
         )
     }
@@ -60,7 +62,7 @@ class Splash extends MultiLanguageComponent {
     }
     async componentDidMount() {
         await super.componentDidMount()
-        reloadEventsFromNative()
+        this.reloadEventsFromNative()
         //Add animations here        
         Animated.sequence([
             //animations by sequence

@@ -501,38 +501,13 @@ export const updateOrderStatus = async (orderId, status) => {
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, supplierId
-            },
-            body: JSON.stringify({
-                orderId, sms, senderId
-            }),
-        })
-        
-        const responseJson = await response.json();        
-        const {result, data} = responseJson
-        return result.toUpperCase() === "OK" ? data : []
-    } catch (error) {
-        alert("Cannot update order's status to"+error)        
-        return []
-    }
-}
-export const insertNewChat = async ({orderId, sms, senderId}) => {
-    try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
-        const response = await fetch(urlInsertNewChat(), {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                tokenKey, supplierId
+                tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
                 orderId, sms, senderId
@@ -550,8 +525,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
 
 export const getChatHistory = async ({customerOrSupplierId}) => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
@@ -574,14 +548,13 @@ export const getChatHistory = async ({customerOrSupplierId}) => {
 }
 export const makeSeen = async () => {
     try {
-        const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const { tokenKey, customerId } = await getCustomerFromStorage()                
+        const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, supplierId
+                tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
                 
