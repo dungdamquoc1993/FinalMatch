@@ -6,6 +6,7 @@ import {View, StyleSheet, Image,
     Keyboard,
     KeyboardAvoidingView, 
     TouchableWithoutFeedback,   
+    NativeModules,
     SafeAreaView, 
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'

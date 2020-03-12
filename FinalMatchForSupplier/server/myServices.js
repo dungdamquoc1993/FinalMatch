@@ -1,3 +1,4 @@
+import {NativeModules} from 'react-native'
 import {urlLoginSupplier, 
     urlRegisterSupplier, 
     urlGetSupplierById,
