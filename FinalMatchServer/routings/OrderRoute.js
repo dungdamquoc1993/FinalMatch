@@ -251,7 +251,7 @@ router.post('/createNewOrder', async (req, res) => {
           //Tạo order mới, báo cho supplierid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})
           debugger
-          sendFirebaseCloudMessage({title: 'New Order', 
+          await sendFirebaseCloudMessage({title: 'New Order', 
                                     body: 'You have a new order', 
                                     payload: {},
                                     notificationTokens
