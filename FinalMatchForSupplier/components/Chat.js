@@ -13,6 +13,10 @@ import {
     getChatHistory, 
     makeSeen,
 } from '../server/myServices'
+import {
+    firebaseDatabase,
+    getAddressFromLatLong
+  } from '../server/googleServices'
 const fakeURL = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Tiffanie_at_cat_show.jpg"
 var fakeData  = [    
     {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
@@ -48,22 +52,21 @@ var fakeData  = [
 ]
 export default class Chat extends Component {
     constructor(props) {
-        super(props)
-        this.pressSend = this.pressSend.bind(this)
+        super(props)        
     }
     state = {
-        messengers: fakeData,
+        messengers: [],
         flatList: React.createRef()
-    }
-    pressSend = (typedText) => {
-
-        this.setState({messengers: [...this.state.messengers, {
-            url: fakeURL, text: typedText, status: "I am 32typing", isSender: true
-        }]})           
-        
-    }
+    }    
     componentDidUpdate() {
         this.state.flatList.current.scrollToIndex({index: this.state.messengers.length - 1})
+    }
+    async componentDidMount() {
+        const that = this
+        firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
+            let messengers = await getChatHistory()
+            that.setState({messengers})                      
+        })                
     }
     
     render() {        
@@ -84,9 +87,9 @@ export default class Chat extends Component {
                 }}
                 extraData={this.state.messengers}
                 renderItem={(item) => {
-                    return <_ChatItem {...item} />
+                    return <_ChatItem {...item} {...this.props}/>
                 }} />
-            <_BottomView pressSend={this.pressSend} />
+            <_BottomView {...this.props} />
         </View>
     }
 }
@@ -96,7 +99,9 @@ class _ChatItem extends Component {
             chatId,
             orderId,
             customerId,
+            supplierAvatar,
             supplierId,
+            supplierName,
             sms,
             senderId,
             createdDate,
@@ -107,19 +112,16 @@ class _ChatItem extends Component {
             orderStatus,
             dateTimeStart,
             dateTimeEnd,
-        } = this.props        
-        const {url, text, status, isSender} = this.props.item
+        } = this.props                
         const {index} = this.props
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>
-                <Image style={styles.profile} source={{ uri: url }} />
+                <Image style={styles.profile} source={{ uri: supplierAvatar }} />
                 <View style={styles.text}>
-                    <Text>{text}</Text>
-                </View>
-                
+                    <Text>{sms}</Text>
+                </View>                
             </View>
-
             <Text style={styles.status}>{status}</Text>
         </View>
     }
@@ -128,16 +130,28 @@ class _BottomView extends Component {
     state = {
         typedText: ''
     }
-    render() {
+    pressSend = async () => {
+        const {
+            orderId,
+            supplierId, 
+            customerId
+        } = this.props
         const {typedText} = this.state
-        const {pressSend} = this.props
+        insertNewChat({
+            orderId, 
+            sms: typedText, 
+            senderId: supplierId
+        })
+    }
+    render() {
+        const {typedText} = this.state        
         return <View style={stylesBottomView.container}>
             <TextInput placeholder={"Enter your sms:"} 
                 onChangeText = {(typedText) => this.setState({typedText})}
                 value={typedText}
                 style={stylesBottomView.textInput}/>
             <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
-                pressSend(typedText)
+                pressSend()
             }}>
                 <Text>Send</Text>
             </TouchableHighlight>

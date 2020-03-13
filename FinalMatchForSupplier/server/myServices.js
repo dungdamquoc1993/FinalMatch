@@ -524,7 +524,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
     }
 }
 
-export const getChatHistory = async ({customerOrSupplierId}) => {
+export const getChatHistory = async () => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
         const response = await fetch(urlInsertNewChat(), {
@@ -535,7 +535,7 @@ export const getChatHistory = async ({customerOrSupplierId}) => {
                 tokenKey, supplierId
             },
             body: JSON.stringify({
-                customerOrSupplierId
+                customerOrSupplierId: supplierId
             }),
         })
         
