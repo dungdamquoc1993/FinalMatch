@@ -10,7 +10,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 //man hinh 
 import ServiceRegister from './ServiceRegister';
 import Notification from './Notification';
-import Order from './Order';
+import Orders from './Orders';
 import Settings from './Settings';
 import {Image} from 'react-native'
 //mau sac
@@ -20,7 +20,7 @@ const TabNavigator = createBottomTabNavigator(
     {
         ServiceRegister: { screen: ServiceRegister },
         Notification: { screen: Notification },
-        Order: { screen: Order },
+        Order: { screen: Orders },
         Settings: { screen: Settings }
     },
     {
@@ -35,7 +35,7 @@ const TabNavigator = createBottomTabNavigator(
                     case 'Notification':
                         iconName = require('../images/notification.png')
                         break
-                    case 'Order':
+                    case 'Orders':
                         iconName = require('../images/order.png')
                         break
                     case 'Settings':

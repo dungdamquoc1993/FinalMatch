@@ -27,7 +27,7 @@ import {saveCustomerToStorage} from '../helpers/Helpers'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 
-export default class LoginAndSignup extends MultiLanguageComponent {
+export default class LoginRegister extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,    
   }

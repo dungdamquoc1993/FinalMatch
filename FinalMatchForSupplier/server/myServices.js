@@ -526,7 +526,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
 
 export const getChatHistory = async ({customerOrSupplierId}) => {
     try {
-        const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {

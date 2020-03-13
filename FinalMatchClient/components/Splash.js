@@ -83,7 +83,7 @@ export default class Splash extends Component {
                 
                 navigate("Service")
             } else {
-                navigate("LoginAndSignup")    
+                navigate("LoginRegister")    
             }                                    
         })
     }

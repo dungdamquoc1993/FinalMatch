@@ -1,14 +1,14 @@
 import {createAppContainer,createSwitchNavigator} from 'react-navigation'
 import MyStackNavigator from './StackNavigator'
 import MyTabnavigator from './TabNavigator'
-import LoginAndSignup from './LoginAndSignup'
+import LoginRegister from './LoginRegister'
 import Splash from './Splash'
 const SwitchNavigator = createSwitchNavigator({
-    // AuthLoading:LoginAndSignup,
+    // AuthLoading:LoginRegister,
     AuthLoading:Splash,
     App:MyStackNavigator,
     //Auth:MyTabnavigator
-    Auth: LoginAndSignup
+    Auth: LoginRegister
 },{
     headerShown: false,    
 })

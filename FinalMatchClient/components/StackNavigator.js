@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Splash from './Splash'
-import LoginAndSignup from './LoginAndSignup';
+import LoginRegister from './LoginRegister';
 import TabNavigator from './TabNavigator';
 import OrderReferee from './OrderReferee';
 import OrderPlayer from './OrderPlayer';
@@ -12,7 +12,7 @@ import SearchPlace from './SearchPlace'
 import Chat from './Chat'
 export const StackNavigator = createStackNavigator ({
   Splash: { screen: Splash},
-  LoginAndSignup: {screen: LoginAndSignup},
+  LoginRegister: {screen: LoginRegister},
   TabNavigator: {screen: TabNavigator}, 
   OrderReferee: {screen: OrderReferee},
   OrderPlayer: {screen: OrderPlayer},
