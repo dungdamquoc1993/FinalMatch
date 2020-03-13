@@ -254,7 +254,7 @@ router.post('/createNewOrder', async (req, res) => {
           debugger
           await sendFirebaseCloudMessage({title: 'New Order', 
                                     body: 'You have a new order', 
-                                    payload: {},
+                                    payload: "Noi dung chi tiet",
                                     notificationTokens
                                   })                
           res.json({
