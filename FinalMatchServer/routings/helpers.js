@@ -56,14 +56,12 @@ const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {
             [supplierId == 0 ? customerId : supplierId], (error, results) => {            
             if (error) {                
                 resolve(notificationTokens)
-            } else {                                    
-                debugger
+            } else {                                                    
                 if(results.length > 0) {
                     results.forEach(tokenObject => {
                         notificationTokens.push(tokenObject.token)
                     })
-                }                                             
-                debugger
+                }                                                             
                 resolve(notificationTokens)                
             }
         }) 
