@@ -7,12 +7,11 @@ admin.initializeApp({
 });
 
 const sendFirebaseCloudMessage = async ({title, body, payload, notificationTokens}) => {      
-  try {
-    debugger
+  try {    
     if(notificationTokens.length == 0) {return}
     debugger
     let response = await admin.messaging().sendMulticast({
-      data: {title, body, payload},
+      data: {title, body},
       tokens: notificationTokens,
     })
     debugger
