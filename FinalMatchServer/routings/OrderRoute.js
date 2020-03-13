@@ -243,7 +243,8 @@ router.post('/createNewOrder', async (req, res) => {
       } else {
         if (results != null && results.length > 0) {
           let updates = {}
-          updates[`/orders/${customerId}:${supplierId}`] = {
+          let key = `/orders/${customerId}:${supplierId}`
+          updates[key] = {
             ...results[0][0] || {}
           }
           await firebaseDatabase.ref(key).remove()   
