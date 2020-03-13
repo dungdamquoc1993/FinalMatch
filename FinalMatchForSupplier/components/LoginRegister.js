@@ -40,7 +40,8 @@ class LoginRegister extends Component {
     }
     state = {
         isLogin: true,        
-        email: 'hoang55@gmail.com', //hoang123456@gmail.com / 123456
+        //email: 'hoang55@gmail.com', //hoang123456@gmail.com / 123456
+        enail: 'dung12@gmail.com',
         facebookId: '',
         avatar: '',
         name: '',
