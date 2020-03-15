@@ -20,6 +20,8 @@ import {urlLoginSupplier,
     urlInsertNewChat,
     urlGetChatHistory,
     urlMakeSeen,
+    urlGetNotificationsBySupplierId,
+    urlGetNotificationsByCustomerId,
 } from './urlNames'
 const {AsyncStorage} = NativeModules
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
@@ -527,7 +529,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
 export const getChatHistory = async () => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
-        const response = await fetch(urlInsertNewChat(), {
+        const response = await fetch(urlGetChatHistory(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -550,7 +552,7 @@ export const getChatHistory = async () => {
 export const makeSeen = async () => {
     try {
         const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
-        const response = await fetch(urlInsertNewChat(), {
+        const response = await fetch(urlMakeSeen(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -575,3 +577,26 @@ export const makeSeen = async () => {
 }
 
 
+export const getNotificationsBySupplierId = async (supplierId) => {
+    try {                    
+        const response = await fetch(await urlGetNotificationsBySupplierId(supplierId))               
+        const responseJson = await response.json();                
+        const {result, data, message, time} = responseJson                                   
+        return result.toUpperCase() === "OK" ? data : []        
+    } catch (error) {               
+        console.log(`getNotificationsBySupplierId's error :${error}`)
+        return []
+    }
+}
+
+export const getNotificationsByCustomerId = async (customerId) => {
+    try {                    
+        const response = await fetch(await urlGetNotificationsByCustomerId(customerId))               
+        const responseJson = await response.json();                
+        const {result, data, message, time} = responseJson                                   
+        return result.toUpperCase() === "OK" ? data : []        
+    } catch (error) {               
+        console.log(`getNotificationsByCustomerId's error :${error}`)
+        return []
+    }
+}

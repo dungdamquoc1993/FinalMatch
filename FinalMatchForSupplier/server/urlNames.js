@@ -78,7 +78,14 @@ export const urlGetChatHistory = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/getChatHistory`
 }
 export const urlMakeSeen = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/chat/makeSeen`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/makeSeen`
+}
+
+export const urlGetNotificationsBySupplierId = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId`
+}
+export const urlGetNotificationsByCustomerId = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId`
 }
 
 
