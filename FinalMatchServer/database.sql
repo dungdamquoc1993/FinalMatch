@@ -109,3 +109,12 @@ CREATE TABLE IF NOT EXISTS SupplierNotificationTokens (
     supplierId INTEGER,
     createdDate DATETIME
 );
+CREATE TABLE IF NOT EXISTS Notification (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(300),
+    body VARCHAR(500),
+    supplierId INTEGER,
+    customerId VARCHAR(400),
+    orderId INTEGER,        
+    createdDate DATETIME DEFAULT NOW()    
+);

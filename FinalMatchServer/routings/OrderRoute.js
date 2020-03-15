@@ -30,6 +30,9 @@ const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
   "WHERE customerId = ? AND orderStatus in ('completed', 'accepted') " +
   "ORDER BY createdDate DESC"
+const INSERT_NOTIFICATION = 
+  "INSERT INTO Notification(title, body, supplierId, customerId, orderId) "+
+  "VALUES(?, ?, ?, ?, ?)"   
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {
@@ -250,14 +253,19 @@ router.post('/createNewOrder', async (req, res) => {
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates) 
           //Tạo order mới, báo cho supplierid biết
-          let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})
-          debugger
+          let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
           const {supplierName, customerName} = results[0][0]
-          await sendFirebaseCloudMessage({title: 'New Order', 
-                                    body: 'You have a new order', 
-                                    payload: `${customerName} send you an order`,
+          const title = 'New Order'
+          const body = `${customerName} create a new order`
+          let failedTokens = await sendFirebaseCloudMessage({title, 
+                                    body, 
+                                    payload: body,
                                     notificationTokens
-                                  })                
+                                  })         
+          if(failedTokens.length == 0) {
+            //success
+            await insertNotification({supplierId, customerId, title, body, orderId})
+          }                        
           res.json({
             result: "ok",
             count: results[0].length,
@@ -269,6 +277,19 @@ router.post('/createNewOrder', async (req, res) => {
       }
     })
 })
+const insertNotification = ({ supplierId, customerId, title, body, orderId }) => {
+  return new Promise((resolve, reject) => {
+    connection.query(INSERT_NOTIFICATION,
+      [supplierId, customerId, title, body, orderId]
+      , async (error, results) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      })
+  })
+}
 // http://150.95.113.87:3000/orders/updateOrderStatus
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
@@ -330,12 +351,18 @@ router.post('/updateOrderStatus', async (req, res) => {
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
           debugger
-          const {supplierName, customerName} = results[0][0]          
-          sendFirebaseCloudMessage({title: 'Update Order', 
-                                    body: 'An order is updated', 
-                                    payload: `${supplierName} update an order`,
+          const {supplierName, customerName} = results[0][0]                                                      
+          const title = 'Update Order'
+          const body = `${supplierName} update an order`
+          let failedTokens = await sendFirebaseCloudMessage({title, 
+                                    body, 
+                                    payload: body,
                                     notificationTokens
-                                  })                
+                                  })         
+          if(failedTokens.length == 0) {
+            //success
+            await insertNotification({supplierId, customerId, title, body, orderId})
+          }                                  
           res.json({
             result: "ok",
             count: results[0].length,

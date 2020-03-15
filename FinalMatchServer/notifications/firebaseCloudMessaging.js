@@ -7,31 +7,28 @@ admin.initializeApp({
 });
 
 const sendFirebaseCloudMessage = async ({title, body, payload, notificationTokens}) => {      
-  try {    
-    if(notificationTokens.length == 0) {return}
-    debugger
+  try {
+    const failedTokens = [];    
+    if(notificationTokens.length == 0) {return}    
     let response = await admin.messaging().sendMulticast({
       data: {title, body},
       tokens: notificationTokens,
-    })
-    debugger
-    if (response.failureCount > 0) {
-      debugger
+    })    
+    if (response.failureCount > 0) {      
       if(response.successCount == notificationTokens.length) {
         console.log("send all notifications successfully")
-      }
-      const failedTokens = [];
+      }      
       response.responses.forEach((resp, idx) => {
         if (!resp.success) {
           failedTokens.push(notificationTokens[idx]);
         }
-      });
+      })
       console.log('List of tokens that caused failures: ' + failedTokens);
-    }
-    debugger
-  }catch(error) {
-    debugger
+    } 
+    return failedTokens   
+  }catch(error) {    
     console.log('Cannot send FCM.Error ='+error);
+    return failedTokens
   }  
 }
 

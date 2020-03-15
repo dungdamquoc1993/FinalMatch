@@ -21,6 +21,7 @@ const TokenRoute = require('./routings/TokenRoute')
 const OrderRoute = require('./routings/OrderRoute')
 const TempRoute = require('./routings/TempRoute')
 const ChatRoute = require('./routings/ChatRoute')
+const NotificationRoute = require('./routings/NotificationRoute')
 
 app.use('/suppliers', SupplierRoute)
 app.use('/customers', CustomerRoute)
@@ -32,6 +33,8 @@ app.use('/stadium', StadiumRoute)
 app.use('/orders', OrderRoute)
 app.use('/chat', ChatRoute)
 app.use('/temp', TempRoute)
+app.use('/notifications', NotificationRoute)
+
 
 //Chạy api test: node index.js port 3001
 const port = process.argv[3] == 'undefined' ? PORT : parseInt(process.argv[3])
