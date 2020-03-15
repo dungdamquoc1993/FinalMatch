@@ -252,9 +252,10 @@ router.post('/createNewOrder', async (req, res) => {
           //Tạo order mới, báo cho supplierid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})
           debugger
+          const {supplierName, customerName} = results[0][0]
           await sendFirebaseCloudMessage({title: 'New Order', 
                                     body: 'You have a new order', 
-                                    payload: "Noi dung chi tiet",
+                                    payload: `${customerName} send you an order`,
                                     notificationTokens
                                   })                
           res.json({
@@ -329,9 +330,10 @@ router.post('/updateOrderStatus', async (req, res) => {
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
           debugger
+          const {supplierName, customerName} = results[0][0]          
           sendFirebaseCloudMessage({title: 'Update Order', 
                                     body: 'An order is updated', 
-                                    payload: results[0][0],
+                                    payload: `${supplierName} update an order`,
                                     notificationTokens
                                   })                
           res.json({

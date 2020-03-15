@@ -17,39 +17,7 @@ import {
     firebaseDatabase,
     getAddressFromLatLong
   } from '../server/googleServices'
-const fakeURL = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Tiffanie_at_cat_show.jpg"
-var fakeData  = [    
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-]
+
 export default class Chat extends Component {
     constructor(props) {
         super(props)        
@@ -113,7 +81,7 @@ class _ChatItem extends Component {
             dateTimeStart,
             dateTimeEnd,
         } = this.props                
-        const {index} = this.props
+        const {isSender} = senderId == supplierId
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>
