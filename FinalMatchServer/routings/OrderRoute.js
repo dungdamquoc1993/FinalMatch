@@ -279,7 +279,7 @@ const insertNotification = ({ supplierId, customerId, title, body, orderId }) =>
   return new Promise((resolve, reject) => {
     debugger
     connection.query(INSERT_NOTIFICATION,
-      [supplierId, customerId, title, body, orderId]
+      [title, body, supplierId, customerId, orderId]
       , async (error, results) => {
         debugger
         if (error) {
