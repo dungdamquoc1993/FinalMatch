@@ -11,7 +11,6 @@ import {
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
 const {width, height} = Dimensions.get ('window')
-const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
 import {
   getNotificationsByCustomerId,
   getNotificationsBySupplierId,
@@ -24,6 +23,7 @@ export default class Notifications extends Component {
   }
   reloadDataFromServer = async () => {    
     //call api
+    const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
     let notifications = await getNotificationsBySupplierId(supplierId)    
     this.setState({notifications})    
   }
