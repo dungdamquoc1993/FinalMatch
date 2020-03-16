@@ -279,9 +279,11 @@ router.post('/createNewOrder', async (req, res) => {
 })
 const insertNotification = ({ supplierId, customerId, title, body, orderId }) => {
   return new Promise((resolve, reject) => {
+    debugger
     connection.query(INSERT_NOTIFICATION,
       [supplierId, customerId, title, body, orderId]
       , async (error, results) => {
+        debugger
         if (error) {
           reject(error)
         } else {
