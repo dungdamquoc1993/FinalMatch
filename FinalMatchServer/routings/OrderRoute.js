@@ -30,9 +30,7 @@ const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
   "WHERE customerId = ? AND orderStatus in ('completed', 'accepted') " +
   "ORDER BY createdDate DESC"
-const INSERT_NOTIFICATION = 
-  "INSERT INTO Notification(title, body, supplierId, customerId, orderId) "+
-  "VALUES(?, ?, ?, ?, ?)"   
+const INSERT_NOTIFICATION = "INSERT INTO Notification(title, body, supplierId, customerId, orderId) VALUES(?, ?, ?, ?, ?)"   
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {
