@@ -79,6 +79,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   }
   // Print full message.
   NSLog(@"%@", userInfo);
+  [self pushLocalNotification: userInfo[@"title"] message: userInfo[@"body"]];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -89,7 +90,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
   // Print full message.
   NSLog(@"%@", userInfo);
-
+  [self pushLocalNotification: userInfo[@"title"] message: userInfo[@"body"]];
   completionHandler(UIBackgroundFetchResultNewData);
 }
 
