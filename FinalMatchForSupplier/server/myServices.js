@@ -578,10 +578,11 @@ export const makeSeen = async () => {
 
 
 export const getNotificationsBySupplierId = async (supplierId) => {
-    try {                    
-        const response = await fetch(await urlGetNotificationsBySupplierId(supplierId))               
-        const responseJson = await response.json();                
-        const {result, data, message, time} = responseJson                                   
+    try {                            
+        let url = await urlGetNotificationsBySupplierId(supplierId)        
+        const response = await fetch(url)                       
+        const responseJson = await response.json();                        
+        const {result, data, message, time} = responseJson                                           
         return result.toUpperCase() === "OK" ? data : []        
     } catch (error) {               
         console.log(`getNotificationsBySupplierId's error :${error}`)

@@ -10,6 +10,13 @@ import {
 } from 'react-native'
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
+import {getSupplierFromStorage, 
+  saveSupplierToStorage, 
+  alertWithOKButton, 
+  getPosition, 
+  alert,
+  isIOS
+} from '../helpers/Helpers'
 const {width, height} = Dimensions.get ('window')
 import {
   getNotificationsByCustomerId,
@@ -22,9 +29,9 @@ export default class Notifications extends Component {
     notifications: []
   }
   reloadDataFromServer = async () => {    
-    //call api
-    const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
-    let notifications = await getNotificationsBySupplierId(supplierId)    
+    //call api    
+    const {supplierId, tokenKey, email} = await getSupplierFromStorage()     
+    let notifications = await getNotificationsBySupplierId(supplierId)        
     this.setState({notifications})    
   }
   async componentDidMount() {
@@ -35,23 +42,21 @@ export default class Notifications extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
-          onWillFocus={payload => {
+          onWillFocus={payload => {            
             this.reloadDataFromServer()
           }}
         />
-        <View style={{marginLeft: 0.3 * width}}>
-          <Header title={'Thông Báo'} hideBack={true} />
-        </View>
-        <FlatList
-        data={notifications}
-        renderItem={({ item }) => <Item {...this.props} />}
-        keyExtractor={item => item.id}
+        <Header title={'Thông Báo'} hideBack={true} />
+        <FlatList          
+          data={notifications}
+          renderItem={({ item }) => <Item {...item} />}
+          keyExtractor={item => `${item.id}`}
       />
       </SafeAreaView>
     )
   }
 }
-const Item = (props) => {
+const Item = (props) => {  
   const { title,
     body,
     supplierId,
@@ -59,28 +64,29 @@ const Item = (props) => {
     orderId,
     createdDate,
   } = props
+  
   return (
-    <View style={styles.item}>
-      <TouchableOpacity>
+    <TouchableOpacity>
+      <View style={styles.item}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.title}>{body}</Text>
-      </TouchableOpacity>
-
-    </View>
+      </View>
+    </TouchableOpacity>
   )
 }
 const styles = StyleSheet.create ({
-  container: {
+  container: {    
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'center',    
     flex: 1,
-  },item: {
-    backgroundColor: '#f0f8ff',
-    padding: 10,
-    marginVertical: 8,
+  },
+  item: {
+    backgroundColor: '#f0f8ff',    
+    flex: 1
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
+    width: '100%'
   },
 })

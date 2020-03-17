@@ -81,11 +81,11 @@ export const urlMakeSeen = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/makeSeen`
 }
 
-export const urlGetNotificationsBySupplierId = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId`
+export const urlGetNotificationsBySupplierId = (supplierId) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId?supplierId=${supplierId}`
 }
-export const urlGetNotificationsByCustomerId = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId`
+export const urlGetNotificationsByCustomerId = (customerId) => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId?customerId=${customerId}`
 }
 
 

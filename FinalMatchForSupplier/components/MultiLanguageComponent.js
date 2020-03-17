@@ -19,7 +19,7 @@ const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 export default class MultiLanguageComponent extends Component {
   constructor(props) {
     super(props)
-    debugger
+    
     this.hasOrder = false
     setI18nConfig() // set initial config
   }
@@ -91,7 +91,7 @@ export default class MultiLanguageComponent extends Component {
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
       
       let snapshotValue = snapshot.val ()
-      debugger
+      
       this.hasOrder = await this._checkSupplierIdInFirebase (snapshotValue) 
       
       if (this.hasOrder == true) {                
