@@ -49,22 +49,22 @@ const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {
     let notificationTokens = []
     return new Promise((resolve, reject) => {
         if((supplierId == 0 && customerId == '') ||(supplierId != 0 && customerId != '')) {            
-            debugger
+            
             resolve(notificationTokens)
         } 
-        debugger
+        
         connection.query(
             supplierId == 0 ? GET_NOTIFICATION_TOKENS_CUSTOMER : GET_NOTIFICATION_TOKENS_SUPPLIER, 
             [supplierId == 0 ? customerId : supplierId], (error, results) => {            
             if (error) {                
-                debugger
+                
                 resolve(notificationTokens)
             } else {    
-                debugger                                                
+                                                                
                 if(results.length > 0) {
-                    debugger
+                    
                     results.forEach(tokenObject => {
-                        debugger
+                        
                         notificationTokens.push(tokenObject.token)
                     })
                 }                                                             
