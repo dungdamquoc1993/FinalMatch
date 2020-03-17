@@ -29,9 +29,8 @@ export default class Notifications extends Component {
     notifications: []
   }
   reloadDataFromServer = async () => {    
-    //call api    
-    const {supplierId, tokenKey, email} = await getSupplierFromStorage()     
-    let notifications = await getNotificationsBySupplierId(supplierId)        
+    const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
+    let notifications = await getNotificationsBySupplierId(supplierId)    
     this.setState({notifications})    
   }
   async componentDidMount() {

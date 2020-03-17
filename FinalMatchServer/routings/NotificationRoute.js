@@ -7,11 +7,10 @@ const GET_NOTIFICATIONS_BY_CUSTOMER_ID = "SELECT * FROM Notification WHERE custo
 
 //Link http://localhost:3000/notifications/getNotificationsBySupplierId
 router.get('/getNotificationsBySupplierId', async (req, res) => {
-    const { supplierId = '' } = req.query
-    debugger
+    const { supplierId = '' } = req.query    
     connection.query(GET_NOTIFICATIONS_BY_SUPPLIER_ID,
         [supplierId]
-        , (error, results) => {
+        , (error, results) => {            
             if (error) {
                 res.json({
                     result: "failed",
@@ -21,22 +20,12 @@ router.get('/getNotificationsBySupplierId', async (req, res) => {
                 })
                 return
             }
-            if (results != null && results.length > 0) {
-                let data = removeNullProperties(results[0])
-                res.json({
-                    result: "ok",
-                    data,
-                    message: `Get Notifications by supplierId successfully`,
-                    time: Date.now()
-                })
-            } else {
-                res.json({
-                    result: "ok",
-                    data: [],
-                    message: `Get Notifications by supplierId successfully`,
-                    time: Date.now()
-                })
-            }
+            res.json({
+                result: "ok",
+                data: results != null && results.length > 0 ? results : [],
+                message: `Get Notifications by supplierId successfully`,
+                time: Date.now()
+            })
         })
 })
 //Link http://localhost:3000/notifications/getNotificationsByCustomerId

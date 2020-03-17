@@ -48,7 +48,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
   await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID,
     [supplierid], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -84,7 +84,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
   await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID,
     [customerid], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -129,7 +129,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
   connection.query(POST_GET_REFEREE_AROUND_ORDER,
     [radius, latitude, longitude]
     , (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -233,7 +233,7 @@ router.post('/createNewOrder', async (req, res) => {
       typeRole,
       dateTimeStart]
     , async (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -277,11 +277,11 @@ router.post('/createNewOrder', async (req, res) => {
 })
 const insertNotification = ({ supplierId, customerId, title, body, orderId }) => {
   return new Promise((resolve, reject) => {
-    debugger
+    
     connection.query(INSERT_NOTIFICATION,
       [title, body, supplierId, customerId, orderId]
       , async (error, results) => {
-        debugger
+        
         if (error) {
           reject(error)
         } else {
@@ -294,7 +294,7 @@ const insertNotification = ({ supplierId, customerId, title, body, orderId }) =>
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
   const { tokenkey, supplierid, customerid } = req.headers
-  debugger
+  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -350,7 +350,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
-          debugger
+          
           const {supplierName, customerName} = results[0][0]                                                      
           const title = 'Update Order'
           const body = `${supplierName} update an order`

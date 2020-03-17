@@ -83,7 +83,7 @@ router.post('/insertPlayerService', async (req, res) => {
         address,
         radius ]
     , (error, results) => {
-          debugger
+          
           if(error) {
               res.json({
                 result: "failed", 
@@ -91,7 +91,7 @@ router.post('/insertPlayerService', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {
-	      debugger	
+	      	
               if(results != null && results.length > 0) {
                   const {playerName, position, supplierId } = results[0][0]
                   res.json({

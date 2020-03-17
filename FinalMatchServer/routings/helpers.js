@@ -86,7 +86,7 @@ const removeNullProperties = (jsObject) => {
 const checkCompletedMatch = () => {
     return new Promise((resolve, reject) => {        
         connection.query(SQL_CHECK_COMPLETED_MATCH, [], (error, results) => {            
-            debugger
+            
             if (error) {                
                 resolve(false)
             } else {                                    

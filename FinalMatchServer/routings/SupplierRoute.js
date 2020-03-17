@@ -174,7 +174,7 @@ router.post('/uploadAvatar', async (req, res) => {
       }
       imageNames.push(`${fileName}.${fileExtension}`)
       //Kiểm tra file cuối cùng trong list ?
-      debugger
+      
       if (key === keys[keys.length - 1]) {
         res.json({
           result: "ok",
@@ -196,7 +196,7 @@ router.post('/uploadAvatar', async (req, res) => {
 router.get('/getImage', async (req, res) =>{        
   let {fileName} = req.query   
   const destination = `${path.join(__dirname, '..')}/uploads/${fileName}`
-  debugger;
+  ;
   try {           
       fs.readFile(destination, function(err, data) {
           if (err) {
@@ -232,10 +232,10 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
   }
   const { avatar = '' } = req.body
   //validate, check token ?  
-  debugger
+  
   connection.query(POST_UPDATE_AVATAR_FOR_SUPPLIER, [avatar, supplierid]
     , (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -256,7 +256,7 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
 //Link http://localhost:3000/suppliers/getSupplierServicesOrders
 router.get('/getSupplierServicesOrders', async (req, res) => {  
   const { supplierId = '' } = req.query
-  debugger
+  
   connection.query(GET_SUPPLIER_SERVICES_ORDERS,
     [supplierId]
     , (error, results) => {      
@@ -344,7 +344,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 router.post('/updateSettings', async (req, res) => {  
   const {tokenkey, supplierid} = req.headers  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
-  debugger
+  
   if(checkTokenResult == false) {
     res.json({
       result: "failed", 
@@ -386,7 +386,7 @@ router.post('/updateSettings', async (req, res) => {
           position,
           refereeName]
     , (error, results) => {
-          debugger
+          
           if(error) {
               res.json({
                 result: "failed", 

@@ -85,7 +85,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
   //validate, check token ?  
   const { tokenkey, customerid } = req.headers
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
-  debugger
+  
   if (checkTokenResult == false) {
     res.json({
       result: "false",
@@ -99,7 +99,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
   connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
     [name, phoneNumber, customerid]
     , (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
