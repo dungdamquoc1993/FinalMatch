@@ -23,6 +23,7 @@ export default class Notifications extends Component {
   }
   reloadDataFromServer = async () => {    
     //call api
+    debugger
     const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
     let notifications = await getNotificationsBySupplierId(supplierId)    
     this.setState({notifications})    

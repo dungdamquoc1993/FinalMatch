@@ -16,7 +16,7 @@ const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
   const { tokenkey, supplierid, customerid } = req.headers
-  debugger
+  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -30,7 +30,7 @@ router.post('/insertNewChat', async (req, res) => {
   const {orderId, sms, senderId} = req.body
   connection.query(INSERT_NEW_CHAT,
     [orderId, sms, senderId], async (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -68,7 +68,7 @@ router.post('/insertNewChat', async (req, res) => {
 //Link http://localhost:3000/chat/getChatHistory
 router.post('/getChatHistory', async (req, res) => {  
   const { tokenkey, supplierid, customerid } = req.headers
-  debugger
+  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -82,7 +82,7 @@ router.post('/getChatHistory', async (req, res) => {
   const {customerOrSupplierId} = req.body
   connection.query(GET_CHAT_HISTORY,
     [customerOrSupplierId], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -105,7 +105,7 @@ router.post('/getChatHistory', async (req, res) => {
 //Link http://localhost:3000/chat/makeSeen
 router.post('/makeSeen', async (req, res) => {  
   const { tokenkey, supplierid, customerid } = req.headers
-  debugger
+  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -118,7 +118,7 @@ router.post('/makeSeen', async (req, res) => {
   }  
   connection.query(MAKE_CHAT_SEEN,
     [], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",

@@ -38,7 +38,7 @@ router.post('/insertStadium', async (req, res) => {
           phoneNumber,
           supplierId]
     , (error, results) => {
-          debugger;        
+          ;        
           if(error) {
               res.json({
                 result: "failed", 
@@ -61,7 +61,7 @@ router.post('/getStadiumsAroundPoint', async (req, res) => {
   const {tokenkey, customerid} = req.headers
   
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)  
-debugger
+
   if(checkTokenResult == false) {
     res.json({
       result: "false", 
@@ -81,7 +81,7 @@ debugger
             longitude,
             radius]
       , (error, results) => {
-            debugger;        
+            ;        
             if(error) {
                 res.json({
                   result: "failed", 
