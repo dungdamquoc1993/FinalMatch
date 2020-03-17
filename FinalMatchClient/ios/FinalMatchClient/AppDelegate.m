@@ -161,12 +161,32 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 }
 - (void)pushLocalNotification:(NSString *)title message:(NSString *)message {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound+ UNAuthorizationOptionBadge;
-  [center requestAuthorizationWithOptions: options
-                        completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//    NSLog(@"granted");
-//    NSLog(granted);
-  }];
+  if (@available(iOS 12.0, *)) {
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert +
+    UNAuthorizationOptionSound +
+    UNAuthorizationOptionBadge +
+    UNAuthorizationOptionCarPlay+
+    UNAuthorizationOptionCriticalAlert+
+    UNAuthorizationOptionProvidesAppNotificationSettings+
+    UNAuthorizationOptionProvisional+
+    UNAuthorizationOptionProvisional                        ;
+    [center requestAuthorizationWithOptions: options
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      //    NSLog(@"granted");
+      //    NSLog(granted);
+    }];
+  } else {
+    // Fallback on earlier versions
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert +
+    UNAuthorizationOptionSound +
+    UNAuthorizationOptionBadge +
+    UNAuthorizationOptionCarPlay                      ;
+    [center requestAuthorizationWithOptions: options
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      //    NSLog(@"granted");
+      //    NSLog(granted);
+    }];
+  }
   UNMutableNotificationContent *content = [UNMutableNotificationContent new];
   content.title = title;
   content.body = message;
