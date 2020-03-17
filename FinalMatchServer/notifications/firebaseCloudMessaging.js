@@ -11,7 +11,10 @@ const sendFirebaseCloudMessage = async ({title, body, payload, notificationToken
     debugger
     const failedTokens = [];    
     debugger
-    if(notificationTokens.length == 0) {return}    
+    if(notificationTokens.length == 0) {
+      console.log('No notification Tokens to send');
+      return []
+    }     
     let response = await admin.messaging().sendMulticast({
       data: {title, body},
       tokens: notificationTokens,
