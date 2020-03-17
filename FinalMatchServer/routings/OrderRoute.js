@@ -348,12 +348,14 @@ router.post('/updateOrderStatus', async (req, res) => {
           }          
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
+          debugger
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
           
           const {supplierName, customerName} = results[0][0]                                                      
           const title = 'Update Order'
           const body = `${supplierName} update an order`
+          debugger
           let failedTokens = await sendFirebaseCloudMessage({title, 
                                     body, 
                                     payload: body,
