@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS Notification (
 );
 --Lưu lịch sử thay đổi status của 1 đơn hàng
 --Trả lời câu hỏi: trạng thái mới thêm vào là gì, ai thêm(supplier hay customer)
+--Mỗi lần thay đổi status => đổi trong bảng này, tính toán để ra status của bảng Ordersm,=>update bảng Orders
 CREATE TABLE IF NOT EXISTS StatusHistory (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     orderId INTEGER, 

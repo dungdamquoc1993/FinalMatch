@@ -4,9 +4,20 @@ CREATE TRIGGER tCheckTime BEFORE INSERT ON Orders
  FOR EACH ROW BEGIN
     IF (NEW.dateTimeStart < NEW.createdDate OR TIMESTAMPDIFF(MINUTE,NEW.dateTimeStart, NEW.dateTimeEnd) < 180) THEN
      signal sqlstate '45000' set message_text = "dateTimeStart, dateTimeEnd error in range";     
-   END IF;
+   END IF;   
 END;//
 delimiter ;
+
+--Trước khi insert order mới thì bảng StatusHistory cũng được insert 1 bản ghi 
+DROP TRIGGER IF EXISTS tInsertStatusHistory;
+delimiter //
+CREATE TRIGGER tInsertStatusHistory AFTER INSERT ON Orders
+FOR EACH ROW BEGIN
+    INSERT INTO StatusHistory(orderId, status, whoChanged)
+    VALUES(NEW.id, "pending", "customer");
+END;//
+delimiter ;
+
 
 DROP TRIGGER IF EXISTS tCreateCustomerId;
 delimiter //
