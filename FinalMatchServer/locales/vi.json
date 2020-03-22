@@ -24,4 +24,13 @@
     "Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT": "Sai kiểu ngày, chuẩn phải là: Tue, 18 Feb 2020 09:48:32 GMT",
     "New Order":"Đơn hàng mới",
     "%s create a new order": "%s vừa tạo một đơn hàng mới",
+    "Insert new Order successfully": "Thêm đơn hàng mới thành công",
+    "Status must be: pending, accepted, cancelled, completed, missed": "Trạng thái đơn hàng phải là: pending, accepted, cancelled, completed, missed",
+	"Update order status successfully": "Cập nhật thành công trạng thái đơn hàng",    
+	"Cannot find order with id: %s to update": "Không tìm thấy đơn hàng có id = %s",
+	"Supplier with id: %s has Player's Service": "Nhà cung cấp có id: %s đã có dịch vụ cầu thủ",
+	"Supplier with id: %s donot have Player's Service": "Nhà cung cấp có id: %s chưa có dịch vụ cầu thủ",
+	"insert Player Service  successfully": "Thêm thành công dịch vụ cầu thủ",
+	"Supplier with id: %s has Referee's Service": "Nhà cung cấp có id: %s đã có dịch vụ trọng tài",
+	"Supplier with id: %s donot have Referee's Service": "Nhà cung cấp có id: %s chưa có dịch vụ trọng tài",
 }

@@ -38,14 +38,14 @@ router.get('/checkRefereeServiceExist', async (req, res) => {
           res.json({
             result: "failed",
             data: {numberOfRefereeServices},
-            message: `RefereeService exists supplierId = ${supplierId} exist`,
+            message: i18n.__("Supplier with id: %s has Referee's Service", `${supplierId}`),
             time: Date.now()
           })
         } else if (numberOfRefereeServices == 0) {
           res.json({
             result: "ok",
             data: {numberOfRefereeServices: 0},
-            message: `RefereeService of supplierId = ${supplierId} does not exist`,
+            message: i18n.__("Supplier with id: %s donot have Referee's Service", `${supplierId}`),
             time: Date.now()
           })
         }        

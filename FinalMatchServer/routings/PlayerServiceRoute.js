@@ -38,14 +38,14 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
           res.json({
             result: "failed",
             data: {numberOfPlayerServices},
-            message: `PlayerService exists supplierId = ${supplierId} exist`,
+            message: i18n.__("Supplier with id: %s has Player's Service", `${supplierId}`),
             time: Date.now()
           })
         } else if (numberOfPlayerServices == 0) {
           res.json({
             result: "ok",
             data: {numberOfPlayerServices: 0},
-            message: `PlayerService of supplierId = ${supplierId} does not exist`,
+            message: i18n.__("Supplier with id: %s donot have Player's Service", `${supplierId}`),
             time: Date.now()
           })
         }        
@@ -99,7 +99,7 @@ router.post('/insertPlayerService', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {playerName, position, supplierId }, 
-                    message: 'insert PlayerService  successfully',
+                    message: "insert Player Service  successfully",
                     time: Date.now()})
               }                
           }

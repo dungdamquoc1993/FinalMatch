@@ -23,4 +23,14 @@
     "Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT": "Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT",
     "New Order":"New Order",
     "%s create a new order": "%s create a new order",
+    "Insert new Order successfully": "Insert new Order successfully",
+    "Status must be: pending, accepted, cancelled, completed, missed": "Status must be: pending, accepted, cancelled, completed, missed",
+	"Update order status successfully": "Update order status successfully",    
+	"Cannot find order with id: %s to update": "Cannot find order with id: %s to update",
+	"Supplier with id: %s has Player's Service": "Supplier with id: %s has Player's Service",
+	"Supplier with id: %s donot have Player's Service": "Supplier with id: %s donot have Player's Service",
+	"insert Player Service  successfully": "insert Player Service  successfully",
+	"Supplier with id: %s has Referee's Service": "Supplier with id: %s has Referee's Service",
+	"Supplier with id: %s donot have Referee's Service": "Supplier with id: %s donot have Referee's Service"
+
 }

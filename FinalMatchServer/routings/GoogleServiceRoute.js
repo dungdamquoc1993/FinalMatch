@@ -36,8 +36,8 @@ router.get('/getAddressFromLatLong', async (req, res) => {
     }).on("error", (error) => {
         res.json({
             result: "failed",
-            data: {},
-            message: `Cannot get address from lat, long: ${error}`,
+            data: {},            
+            message: i18n.__("Cannot get address from lat, long: %s", `${error}`),
             time: Date.now()
         })
     });    

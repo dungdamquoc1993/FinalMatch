@@ -274,7 +274,7 @@ router.post('/createNewOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0][0],
-            message: 'Insert new Order successfully',
+            message: "Insert new Order successfully",
             time: Date.now()
           })
         }
@@ -374,7 +374,7 @@ router.post('/updateOrderStatus', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0][0],
-            message: 'Update order status successfully',
+            message: "Update order status successfully",
             time: Date.now()
           })
         } else {
@@ -382,7 +382,7 @@ router.post('/updateOrderStatus', async (req, res) => {
             result: "failed",
             count: 0,
             data: {},
-            message: 'Cannot find data to update',
+            message: i18n.__("Cannot find order with id: %s to update", `${orderId}`),
             time: Date.now()
           })
         }
