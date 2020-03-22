@@ -17,8 +17,8 @@ router.get('/getNotificationsBySupplierId', async (req, res) => {
             if (error) {
                 res.json({
                     result: "failed",
-                    data: {},
-                    message: error.sqlMessage,
+                    data: {},                    
+                    message: i18n.__("Cannot get Notifications: %s", `${error.sqlMessage}`),
                     time: Date.now()
                 })
                 return
@@ -26,7 +26,7 @@ router.get('/getNotificationsBySupplierId', async (req, res) => {
             res.json({
                 result: "ok",
                 data: results != null && results.length > 0 ? results : [],
-                message: `Get Notifications by supplierId successfully`,
+                message: `Get Notifications successfully`,
                 time: Date.now()
             })
         })
@@ -42,7 +42,7 @@ router.get('/getNotificationsByCustomerId', async (req, res) => {
                 res.json({
                     result: "failed",
                     data: {},
-                    message: error.sqlMessage,
+                    message: i18n.__("Cannot get Notifications: %s", `${error.sqlMessage}`),
                     time: Date.now()
                 })
                 return

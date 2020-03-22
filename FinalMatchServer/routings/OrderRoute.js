@@ -44,7 +44,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
       data: {},
       message: i18n.__('Token is invalid'),
       time: Date.now()
-    })
+    })    
     return
   }
   await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
@@ -63,7 +63,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
             result: "ok",
             count: results.length,
             data: results,
-            message: 'Get orders by supplierId successfully',
+            message: "Get orders successfully",
             time: Date.now()
           })
         }
@@ -100,7 +100,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
             result: "ok",
             count: results.length,
             data: results,
-            message: 'Get orders by customerid successfully',
+            message: "Get orders successfully",
             time: Date.now()
           })
         }
@@ -146,7 +146,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0],
-            message: 'Get referees around Order successfully',
+            message: "Get referees successfully",
             time: Date.now()
           })
         }
@@ -189,7 +189,7 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0],
-            message: 'Get player around Order successfully',
+            message: "Get players successfully",
             time: Date.now()
           })
         }
@@ -225,7 +225,7 @@ router.post('/createNewOrder', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: "Invalid date format. Format must be like this: Tue, 18 Feb 2020 09:48:32 GMT",
+      message: "Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT",
       time: Date.now()
     })
     return
@@ -258,8 +258,9 @@ router.post('/createNewOrder', async (req, res) => {
           //Tạo order mới, báo cho supplierid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
           const {supplierName, customerName, orderId} = results[0][0]
-          const title = 'New Order'
-          const body = `${customerName} create a new order`
+          const title = "New Order"
+          
+          const body = i18n.__("%s create a new order", `${customerName}`);
           let failedTokens = await sendFirebaseCloudMessage({title, 
                                     body, 
                                     payload: body,

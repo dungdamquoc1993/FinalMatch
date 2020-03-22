@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
           res.json({
             result: "ok",
             data: {customerId,name,email, tokenKey, userType},
-            message: 'Register Customer successfully',
+            message: "Register Customer successfully",
             time: Date.now()
         })
       }
@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {customerId,name,email, tokenKey, userType}, 
-                    message: 'Login user successfully',
+                    message: "Login user successfully",
                     time: Date.now()})
               }                
           }
@@ -77,7 +77,7 @@ router.post('/loginFacebook', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {customerId,facebookId, name, tokenKey, userType}, 
-                    message: 'Login facebook customer successfully',
+                    message: "Login facebook successfully",
                     time: Date.now()})
               }                
           }
@@ -117,7 +117,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
         res.json({
           result: "ok",
           data: {},
-          message: `Update Customer successfully`,
+          message: "Update customer successfully",
           time: Date.now()
         })
       }
@@ -145,14 +145,14 @@ router.get('/urlGetCustomerInformation', async (req, res) => {
         res.json({
           result: "ok",
           data: {customerId, email, name, phoneNumber, tokenKey, userType},
-          message: `Get Customer successfully`,
+          message: "Get customer successfully",
           time: Date.now()
         })
       } else {
         res.json({
           result: "failed",
-          data: {},
-          message: `Cannot find Customer with id = ${customerId}`,
+          data: {},          
+          message: i18n.__("Cannot find Customer with id = %s", `${customerId}`),
           time: Date.now()
         })
       }
