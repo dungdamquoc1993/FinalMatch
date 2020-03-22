@@ -49,7 +49,7 @@ router.post('/insertNewChat', async (req, res) => {
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
-          sendFirebaseCloudMessage({title: 'New Message', 
+          sendFirebaseCloudMessage({title: "New Message", 
                                     body: "You got new message", 
                                     payload: results[0][0],
                                     notificationTokens

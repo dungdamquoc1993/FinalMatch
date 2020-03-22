@@ -1,3 +1,8 @@
 {
-    "Token is invalid": "Token is invalid"
+    "Token is invalid": "Token is invalid",
+    "New Message": "New Message",
+    "You got new message":"You got new message",
+    "Insert new message successfully": "Insert new message successfully",
+    "Get chat's history successfully":"Get chat's history successfully",
+    "Make chat seen successfully": "Make chat seen successfully"
 }

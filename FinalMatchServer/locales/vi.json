@@ -1,3 +1,9 @@
 {
-    "Token is invalid": "Sai token"
+    "Token is invalid": "Sai token",
+    "New Message": "Tin nhắn mới",
+    "You got new message":"Bạn có tin nhắn mới",
+    "Insert new message successfully": "Gửi tin nhắn mới thành công",
+    "You got new message":"Bạn có tin nhắn mới",
+    "Get chat's history successfully":"Lấy lịch sử chat thành công",
+    "Make chat seen successfully": "Tin nhắn đã được đọc"
 }
