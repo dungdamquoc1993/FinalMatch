@@ -1,5 +1,5 @@
 var express = require('express')
-const {i18n} = require('./locales/i18n')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {
   checkTokenCustomer,
@@ -35,14 +35,15 @@ const INSERT_NOTIFICATION = "INSERT INTO Notification(title, body, supplierId, c
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {
-  const { tokenkey, supplierid } = req.headers
+  const { tokenkey, supplierid, locale } = req.headers
   const checkTokenResult = await checkToken(tokenkey, supplierid)
-  i18n.setLocale('vi');
+  i18n.setLocale(locale);
+debugger
   if (checkTokenResult == false) {
     res.json({
       result: "failed",
       data: {},
-      message: res.__('Token is invalid'),
+      message: i18n.__('Token is invalid'),
       time: Date.now()
     })
     return
