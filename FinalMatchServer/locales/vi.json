@@ -36,4 +36,9 @@
 	"Insert Referee Service  successfully": "Thêm thành công dịch vụ trọng tài",
 	"Insert Stadium  successfully": "Thêm sân bóng thành công",
 	"Query Stadiums successfully": "Đã lấy được danh sách sân bóng",
+	"Register user successfully":"Đăng ký thành công",
+	"Get Supplier successfully": "Đã lấy được thông tin nhà cung cấp",
+	"Cannot find Supplier with id: %s":"Không tìm thấy nhà cung cấp với id: %s",
+	"Cannot find files to upload": "Không tìm thấy file để tải lên server",
+	"Cannot upload files: %s": "Lỗi tải file lên server: %s",
 }

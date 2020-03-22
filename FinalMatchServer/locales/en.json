@@ -34,5 +34,12 @@
 	"Supplier with id: %s donot have Referee's Service": "Supplier with id: %s donot have Referee's Service",
 	"Insert Referee Service  successfully": "Insert Referee Service  successfully",
 	"Insert Stadium  successfully": "Insert Stadium  successfully",
-
+	"Query Stadiums successfully": "Query Stadiums successfully",
+	"Register user successfully":"Register user successfully",
+	"Get Supplier successfully": "Get Supplier successfully",
+	"Cannot find Supplier with id: %s":"Cannot find Supplier with id: %s",
+	"Cannot find files to upload": "Cannot find files to upload",
+	"Cannot upload files: %s": "Cannot upload files: %s",
+	"Upload files successfully":"Upload files successfully",
+	"Lỗi không lấy được thông tin chi tiết Product:%s": "Lỗi không lấy được thông tin chi tiết Product:%s",
 }

@@ -117,14 +117,14 @@ router.get('/urlGetSupplierById', async (req, res) => {
           res.json({
             result: "ok",
             data: {name, phoneNumber, latitude, longitude, radius, address},
-            message: `Get Supplier successfully`,
+            message: "Get Supplier successfully",
             time: Date.now()
           })             
       } else {
         res.json({
               result: "failed",
               data: {},
-              message: `Cannot find Supplier with id = ${supplierId}`,
+              message: `Cannot find Supplier with id: ${supplierId}`,
               time: Date.now()
             })
       }
@@ -209,7 +209,7 @@ router.get('/getImage', async (req, res) =>{
           if (err) {
               res.json({
                   result: 'failed',
-                  message: `Ko lấy được thông tin chi tiết Product. Error: ${err}`
+                  message: `Error getting detail's product: ${err}`
               })
               return
           }
