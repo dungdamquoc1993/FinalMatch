@@ -29,8 +29,10 @@
 	"Cannot find order with id: %s to update": "Cannot find order with id: %s to update",
 	"Supplier with id: %s has Player's Service": "Supplier with id: %s has Player's Service",
 	"Supplier with id: %s donot have Player's Service": "Supplier with id: %s donot have Player's Service",
-	"insert Player Service  successfully": "insert Player Service  successfully",
+	"Insert Player Service  successfully": "Insert Player Service  successfully",
 	"Supplier with id: %s has Referee's Service": "Supplier with id: %s has Referee's Service",
-	"Supplier with id: %s donot have Referee's Service": "Supplier with id: %s donot have Referee's Service"
+	"Supplier with id: %s donot have Referee's Service": "Supplier with id: %s donot have Referee's Service",
+	"Insert Referee Service  successfully": "Insert Referee Service  successfully",
+	"Insert Stadium  successfully": "Insert Stadium  successfully",
 
 }

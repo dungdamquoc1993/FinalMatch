@@ -30,7 +30,10 @@
 	"Cannot find order with id: %s to update": "Không tìm thấy đơn hàng có id = %s",
 	"Supplier with id: %s has Player's Service": "Nhà cung cấp có id: %s đã có dịch vụ cầu thủ",
 	"Supplier with id: %s donot have Player's Service": "Nhà cung cấp có id: %s chưa có dịch vụ cầu thủ",
-	"insert Player Service  successfully": "Thêm thành công dịch vụ cầu thủ",
+	"Insert Player Service  successfully": "Thêm thành công dịch vụ cầu thủ",
 	"Supplier with id: %s has Referee's Service": "Nhà cung cấp có id: %s đã có dịch vụ trọng tài",
 	"Supplier with id: %s donot have Referee's Service": "Nhà cung cấp có id: %s chưa có dịch vụ trọng tài",
+	"Insert Referee Service  successfully": "Thêm thành công dịch vụ trọng tài",
+	"Insert Stadium  successfully": "Thêm sân bóng thành công",
+	"Query Stadiums successfully": "Đã lấy được danh sách sân bóng",
 }
