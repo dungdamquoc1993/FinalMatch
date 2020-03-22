@@ -23,7 +23,7 @@ router.post('/insertNewChat', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -49,8 +49,8 @@ router.post('/insertNewChat', async (req, res) => {
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId})
-          sendFirebaseCloudMessage({title: "New Message", 
-                                    body: "You got new message", 
+          sendFirebaseCloudMessage({title: i18n.__("New Message"),
+                                    body: i18n.__("You got new message"),
                                     payload: results[0][0],
                                     notificationTokens
                                   })                                                  
@@ -58,7 +58,7 @@ router.post('/insertNewChat', async (req, res) => {
           result: "ok",
           count: result != null ? results.length : 0,
           data: results != null ? results : {},
-          message: "Insert new message successfully",
+          message: i18n.__("Insert new message successfully"),
           time: Date.now()
         })
       }
@@ -74,7 +74,7 @@ router.post('/getChatHistory', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -95,7 +95,7 @@ router.post('/getChatHistory', async (req, res) => {
           result: "ok",
           count: result != null ? results.length : 0,
           data: results != null ? results : {},
-          message: "Get chat's history successfully",
+          message: i18n.__("Get chat's history successfully"),
           time: Date.now()
         })
       }
@@ -111,7 +111,7 @@ router.post('/makeSeen', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -130,7 +130,7 @@ router.post('/makeSeen', async (req, res) => {
         res.json({
           result: "ok",          
           data: {},
-          message: "Make chat seen successfully",
+          message: i18n.__("Make chat seen successfully"),
           time: Date.now()
         })
       }

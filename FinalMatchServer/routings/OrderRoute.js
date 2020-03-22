@@ -78,7 +78,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -118,7 +118,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -161,7 +161,7 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -205,7 +205,7 @@ router.post('/createNewOrder', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -305,7 +305,7 @@ router.post('/updateOrderStatus', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return

@@ -22,7 +22,7 @@ router.post('/insertHashKey', async (req, res) => {
                 res.json({
                     result: "ok",
                     data: { },
-                    message: 'Insert hashkey successfully',
+                    message: "Insert hashkey successfully",
                     time: Date.now()
                 })
             }

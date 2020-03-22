@@ -18,7 +18,7 @@ router.post('/insertSupplierNotificationToken', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -57,7 +57,7 @@ router.post('/insertCustomerNotificationToken', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -96,7 +96,7 @@ router.post('/tokenCheck', async (req, res) => {
     res.json({
       result: "failed", 
       data: {}, 
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()})      
   } else {
     res.json({
@@ -115,13 +115,13 @@ router.post('/tokenCheckCustomer', async (req, res) => {
     res.json({
       result: "failed", 
       data: {}, 
-      message: 'Customer token is invalid',
+      message: "Customer token is invalid",
       time: Date.now()})      
   } else {
     res.json({
       result: "ok", 
       data: {}, 
-      message: 'Customer token is Good',
+      message: "Customer token is Good",
       time: Date.now()})      
   }   
 })

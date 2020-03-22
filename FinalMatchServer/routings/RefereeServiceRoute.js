@@ -61,7 +61,7 @@ router.post('/insertRefereeService', async (req, res) => {
     res.json({
       result: "failed", 
       data: {}, 
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()})
       return
   }

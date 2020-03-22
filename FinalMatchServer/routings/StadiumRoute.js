@@ -17,7 +17,7 @@ router.post('/insertStadium', async (req, res) => {
     res.json({
       result: "false", 
       data: {}, 
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()})
       return
   }
@@ -67,7 +67,7 @@ router.post('/getStadiumsAroundPoint', async (req, res) => {
     res.json({
       result: "false", 
       data: {}, 
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()})
       return
   }

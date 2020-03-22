@@ -141,7 +141,7 @@ router.post('/uploadAvatar', async (req, res) => {
       res.json({
         result: "false",
         data: {},
-        message: 'Token is invalid',
+        message: i18n.__("Token is invalid"),
         time: Date.now()
       })
       return
@@ -233,7 +233,7 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
@@ -255,7 +255,7 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
         res.json({
           result: "ok",
           data: { supplierId: supplierid, avatar },
-          message: 'Update Avatar for Supplier successfully',
+          message: "Update Avatar for supplier successfully",
           time: Date.now()
         })
       }
@@ -334,7 +334,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
           res.json({
             result: "ok",
             data,
-            message: `Get SupplierServicesOrders successfully`,
+            message: "Get SupplierServicesOrders successfully",
             time: Date.now()
           })             
       } else {
@@ -358,7 +358,7 @@ router.post('/updateSettings', async (req, res) => {
     res.json({
       result: "failed", 
       data: {}, 
-      message: 'Token is invalid',
+      message: i18n.__("Token is invalid"),
       time: Date.now()})
       return
   }
@@ -407,7 +407,7 @@ router.post('/updateSettings', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {}, 
-                    message: 'Update settings  successfully',
+                    message: "Update settings  successfully",
                     time: Date.now()})
               }                
           }

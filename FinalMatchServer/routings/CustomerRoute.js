@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
           res.json({
             result: "ok",
             data: {customerId,name,email, tokenKey, userType},
-            message: "Register Customer successfully",
+            message: i18n.__("Register Customer successfully"),
             time: Date.now()
         })
       }
@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {customerId,name,email, tokenKey, userType}, 
-                    message: "Login user successfully",
+                    message: i18n.__("Login user successfully"),
                     time: Date.now()})
               }                
           }
@@ -77,7 +77,7 @@ router.post('/loginFacebook', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {customerId,facebookId, name, tokenKey, userType}, 
-                    message: "Login facebook successfully",
+                    message: i18n.__("Login facebook successfully"),
                     time: Date.now()})
               }                
           }
@@ -95,7 +95,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
     res.json({
       result: "false",
       data: {},
-      message: 'TokenCustomer is invalid',
+      message: i18n.__("Customer's token is invalid"),
       time: Date.now()
     })
     return
@@ -117,7 +117,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
         res.json({
           result: "ok",
           data: {},
-          message: "Update customer successfully",
+          message: i18n.__("Update customer's information successfully"),
           time: Date.now()
         })
       }
@@ -145,7 +145,7 @@ router.get('/urlGetCustomerInformation', async (req, res) => {
         res.json({
           result: "ok",
           data: {customerId, email, name, phoneNumber, tokenKey, userType},
-          message: "Get customer successfully",
+          message: i18n.__("Get customer successfully"),
           time: Date.now()
         })
       } else {
