@@ -15,8 +15,7 @@ const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = true"
 const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
-  const { tokenkey, supplierid, customerid } = req.headers
-  
+  const { tokenkey, supplierid, customerid } = req.headers  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -29,8 +28,7 @@ router.post('/insertNewChat', async (req, res) => {
   }
   const {orderId, sms, senderId} = req.body
   connection.query(INSERT_NEW_CHAT,
-    [orderId, sms, senderId], async (error, results) => {
-      
+    [orderId, sms, senderId], async (error, results) => {      
       if (error) {
         res.json({
           result: "failed",
@@ -39,7 +37,7 @@ router.post('/insertNewChat', async (req, res) => {
           time: Date.now()
         })
       } else {
-        const { chatId } = results[0][0]
+          const { chatId } = results[0][0]
           let updates = {}
           let key = `/chats/${chatId}`
           updates[key] = {

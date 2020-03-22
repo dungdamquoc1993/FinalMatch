@@ -158,7 +158,37 @@ CREATE PROCEDURE updateOrderStatus(
     orderId INTEGER    
 )
 BEGIN
+SELECT 
+    Orders.typeRole, 
+    Orders.customerId, 
+    Orders.supplierId, 
+    X(Orders.point), 
+    Y(Orders.point), 
+    Orders.dateTimeStart, 
+    Orders.dateTimeEnd
+INTO 
+    @typeRole,
+    @customerId,
+    @supplierId,
+    @latitude,
+    @longitude,
+    @dateTimeStart,
+    @dateTimeEnd
+FROM Orders;
+
 UPDATE Orders SET Orders.status = status WHERE id = orderId;
+IF status = 'accepted' THEN
+    UPDATE Orders SET Orders.status = 'missed' 
+    WHERE Orders.id != orderId
+    AND Orders.status = 'pending'
+    AND Orders.typeRole = @typeRole
+    AND Orders.customerId = @customerId
+    AND Orders.supplierId = @supplierId
+    AND Orders.latitude = @latitude
+    AND Orders.longitude = @longitude
+    AND Orders.dateTimeStart = @dateTimeStart
+    AND Orders.dateTimeEnd = @dateTimeEnd;
+END IF;
 SELECT * FROM viewOrdersSupplierCustomer WHERE viewOrdersSupplierCustomer.orderId = orderId;
 END;
 DELIMITER ;

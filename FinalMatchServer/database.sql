@@ -128,3 +128,8 @@ CREATE TABLE IF NOT EXISTS StatusHistory (
     whoChanged VARCHAR(100) NOT NULL DEFAULT 'supplier',
     createdDate DATETIME DEFAULT NOW()
 );
+  --PENDING: "pending", 
+  --ACCEPTED: "accepted", 
+  --CANCELLED:"cancelled", 
+  --COMPLETED: "completed", 
+  --MISSED: "missed"

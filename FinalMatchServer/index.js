@@ -3,6 +3,7 @@
  */
 const { HOSTNAME, PORT, MAXMUM_FILE_SIZE} = require('./constants/constants')
 const {app} = require('./server')
+const {i18n} = require('./locales/i18n')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 
