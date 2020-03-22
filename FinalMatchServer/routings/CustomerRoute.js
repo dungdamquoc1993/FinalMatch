@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {connection} = require('../database/database')
 const {checkTokenCustomer} = require('./helpers')
@@ -11,7 +12,8 @@ const POST_UPDATE_CUSTOMER_INFORMATION = "UPDATE Customer SET name = ?, phoneNum
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
-  const { name, email, password} = req.body
+  const { name, email, password, locale} = req.body
+  i18n.setLocale(locale)
   connection.query(POST_REGISTER_CUSTOMER, [name, email, password], (error, results) => {
     if (error) {
       res.json({
@@ -36,7 +38,8 @@ router.post('/register', async (req, res) => {
 
 //Link http://localhost:3000/customers/login
 router.post('/login', async (req, res) => {
-  const {email, password} = req.body      
+  const {email, password, locale} = req.body      
+  i18n.setLocale(locale)
   connection.query(POST_LOGIN_CUSTOMER, [email, password], (error, results) => {          
           if(error) {
               res.json({
@@ -59,7 +62,8 @@ router.post('/login', async (req, res) => {
 
 //Link http://localhost:3000/customers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
-  const {facebookId = '', email = '', name, avatar = ''} = req.body      
+  const {facebookId = '', email = '', name, avatar = '', locale} = req.body     
+  i18n.setLocale(locale) 
   connection.query(POST_LOGIN_FACEBOOK_CUSTOMER, [facebookId, email, name, avatar], (error, results) => {
           if(error) {
               res.json({
@@ -83,7 +87,8 @@ router.post('/loginFacebook', async (req, res) => {
 //Link http://localhost:3000/customers/updateCustomerInformation
 router.post('/updateCustomerInformation', async (req, res) => {
   //validate, check token ?  
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
   
   if (checkTokenResult == false) {
@@ -95,7 +100,7 @@ router.post('/updateCustomerInformation', async (req, res) => {
     })
     return
   }
-  const { name = '', phoneNumber = '' } = req.body
+  const { name = '', phoneNumber = '' } = req.body  
   connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
     [name, phoneNumber, customerid]
     , (error, results) => {
@@ -120,7 +125,8 @@ router.post('/updateCustomerInformation', async (req, res) => {
 })
 //Link http://localhost:3000/customers/urlPostUpdateCustomerInformation
 router.get('/urlGetCustomerInformation', async (req, res) => {
-  const { customerId = '' } = req.query
+  const { customerId = '', locale } = req.query
+  i18n.setLocale(locale)
   //validate, check token ?  
   connection.query(GET_CUSTOMER_INFORMATION,
     [customerId]

@@ -1,4 +1,6 @@
+
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken, convertDateToDayMonthYear, removeNullProperties} = require('./helpers')
 const {connection} = require('../database/database')
@@ -7,7 +9,8 @@ const GET_NOTIFICATIONS_BY_CUSTOMER_ID = "SELECT * FROM Notification WHERE custo
 
 //Link http://localhost:3000/notifications/getNotificationsBySupplierId
 router.get('/getNotificationsBySupplierId', async (req, res) => {
-    const { supplierId = '' } = req.query    
+    const { supplierId = '', locale } = req.query    
+    i18n.setLocale(locale)
     connection.query(GET_NOTIFICATIONS_BY_SUPPLIER_ID,
         [supplierId]
         , (error, results) => {            
@@ -30,7 +33,8 @@ router.get('/getNotificationsBySupplierId', async (req, res) => {
 })
 //Link http://localhost:3000/notifications/getNotificationsByCustomerId
 router.get('/getNotificationsByCustomerId', async (req, res) => {
-    const { customerId = '' } = req.query    
+    const { customerId = '', locale } = req.query    
+    i18n.setLocale(locale)
     connection.query(GET_NOTIFICATIONS_BY_CUSTOMER_ID,
         [customerId]
         , (error, results) => {

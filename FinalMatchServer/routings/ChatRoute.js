@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const { 
   connection,   
@@ -15,7 +16,8 @@ const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = true"
 const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
-  const { tokenkey, supplierid, customerid } = req.headers  
+  const { tokenkey, supplierid, customerid, locale } = req.headers    
+  i18n.setLocale(locale)
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -65,8 +67,8 @@ router.post('/insertNewChat', async (req, res) => {
 
 //Link http://localhost:3000/chat/getChatHistory
 router.post('/getChatHistory', async (req, res) => {  
-  const { tokenkey, supplierid, customerid } = req.headers
-  
+  const { tokenkey, supplierid, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -102,8 +104,8 @@ router.post('/getChatHistory', async (req, res) => {
 
 //Link http://localhost:3000/chat/makeSeen
 router.post('/makeSeen', async (req, res) => {  
-  const { tokenkey, supplierid, customerid } = req.headers
-  
+  const { tokenkey, supplierid, customerid, locale } = req.headers
+  i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({

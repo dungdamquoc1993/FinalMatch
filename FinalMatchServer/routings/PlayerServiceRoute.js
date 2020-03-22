@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken} = require('./helpers')
 const {connection} = require('../database/database')
@@ -14,9 +15,9 @@ router.get('/', async (req, res) => {
 })
 
 //Link http://localhost:3000/suppliers/checkPlayerServiceExist
-router.get('/checkPlayerServiceExist', async (req, res) => {
-  
-  const { supplierId = '' } = req.query
+router.get('/checkPlayerServiceExist', async (req, res) => {  
+  const { supplierId = '', locale } = req.query
+  i18n.setLocale(locale)
   //validate, check token ?  
   connection.query(GET_CHECK_PLAYER_SERVICE_EXIST,
     [supplierId]
@@ -54,7 +55,8 @@ router.get('/checkPlayerServiceExist', async (req, res) => {
 //Link http://localhost:3000/suppliers/insertPlayerService
 //CALL insertPlayerService("playx", "0010", 1, 12.33, 44.55, "Giap Nhat", 11.1)
 router.post('/insertPlayerService', async (req, res) => {  
-  const {tokenkey, supplierid} = req.headers
+  const {tokenkey, supplierid, locale} = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
   if(checkTokenResult == false) {
     res.json({

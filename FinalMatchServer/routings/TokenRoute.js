@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const { 
   connection,   
@@ -10,7 +11,8 @@ const INSERT_CUSTOMER_NOTIFICATION_TOKEN = "call insertCustomerNotificationToken
 
 //Link http://localhost:3000/token/insertSupplierNotificationToken
 router.post('/insertSupplierNotificationToken', async (req, res) => {
-  const { tokenkey, supplierid } = req.headers
+  const { tokenkey, supplierid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, supplierid)
   if (checkTokenResult == false) {
     res.json({
@@ -48,6 +50,7 @@ router.post('/insertSupplierNotificationToken', async (req, res) => {
 //Link http://localhost:3000/token/insertCustomerNotificationToken
 router.post('/insertCustomerNotificationToken', async (req, res) => {
   const { tokenkey, customerid } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
 
   if (checkTokenResult == false) {
@@ -87,7 +90,7 @@ router.post('/insertCustomerNotificationToken', async (req, res) => {
 //Link http://localhost:3000/token/tokenCheck
 router.post('/tokenCheck', async (req, res) => {  
   const {tokenkey = '', supplierid = ''} = req.headers  
-  
+  i18n.setLocale(locale)  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))    
   if(checkTokenResult == false) {
     res.json({
@@ -106,6 +109,7 @@ router.post('/tokenCheck', async (req, res) => {
 
 router.post('/tokenCheckCustomer', async (req, res) => {  
   const {tokenkey = '', customerid = ''} = req.headers    
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)    
   if(checkTokenResult == false) {
     res.json({

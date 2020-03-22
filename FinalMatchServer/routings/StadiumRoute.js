@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken, checkTokenCustomer} = require('./helpers')
 const {connection} = require('../database/database')
@@ -9,8 +10,8 @@ const POST_GET_STADIUM_AROUND_POINT = "CALL getStadiumsAroundPoint(?, ?, ?)"
 
 //Link http://localhost:3000/suppliers/insertStadium
 router.post('/insertStadium', async (req, res) => {  
-  const {tokenkey, supplierid} = req.headers
-  
+  const {tokenkey, supplierid, locale} = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   if(checkTokenResult == false) {
     res.json({
@@ -58,8 +59,8 @@ router.post('/insertStadium', async (req, res) => {
   })    
 })
 router.post('/getStadiumsAroundPoint', async (req, res) => {  
-  const {tokenkey, customerid} = req.headers
-  
+  const {tokenkey, customerid, locale} = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)  
 
   if(checkTokenResult == false) {

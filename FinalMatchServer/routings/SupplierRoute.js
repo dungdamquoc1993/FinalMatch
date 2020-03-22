@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken, convertDateToDayMonthYear, removeNullProperties} = require('./helpers')
 const {connection} = require('../database/database')
@@ -23,7 +24,8 @@ router.get('/', async (req, res) => {
 //Dang ky Supplier
 //Link http://localhost:3000/suppliers/register
 router.post('/register', async (req, res) => {    
-    const {email, password,userType = "default"} = req.body        
+    const {email, password,userType = "default", locale} = req.body   
+    i18n.setLocale(locale)     
     connection.query(POST_REGISTER_SUPPLIER, [email, password,userType], (error, results) => {            
             if(error) {
                 res.json({
@@ -45,7 +47,8 @@ router.post('/register', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/login
 router.post('/login', async (req, res) => {
-  const {email, password,userType = "default"} = req.body      
+  const {email, password,userType = "default", locale} = req.body   
+  i18n.setLocale(locale)   
   connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {
           
           if(error) {
@@ -68,7 +71,8 @@ router.post('/login', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
-  const {facebookId, email = '', name, avatar = ''} = req.body      
+  const {facebookId, email = '', name, avatar = '', locale} = req.body   
+  i18n.setLocale(locale)   
   connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
           
           if(error) {
@@ -92,7 +96,8 @@ router.post('/loginFacebook', async (req, res) => {
 //Link http://localhost:3000/suppliers/urlGetSupplierById
 router.get('/urlGetSupplierById', async (req, res) => {
   
-  const { supplierId = '' } = req.query
+  const { supplierId = '', locale } = req.query
+  i18n.setLocale(locale)
   //validate, check token ?  
   connection.query(GET_SUPPLIER_PLAYER_SERVICE,
     [supplierId]
@@ -127,7 +132,8 @@ router.get('/urlGetSupplierById', async (req, res) => {
 })
 //Link http://localhost:3000/suppliers/uploadAvatar
 router.post('/uploadAvatar', async (req, res) => {
-  const { tokenkey, supplierid } = req.headers
+  const { tokenkey, supplierid, locale } = req.headers
+  i18n.setLocale(locale)
   //Dữ liệu files đc lưu tại : req.files    
   try {
     const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
@@ -194,7 +200,8 @@ router.post('/uploadAvatar', async (req, res) => {
   }
 })
 router.get('/getImage', async (req, res) =>{        
-  let {fileName} = req.query   
+  let {fileName, locale} = req.query   
+  i18n.setLocale(locale)
   const destination = `${path.join(__dirname, '..')}/uploads/${fileName}`
   ;
   try {           
@@ -219,7 +226,8 @@ router.get('/getImage', async (req, res) =>{
 //Link http://localhost:3000/suppliers/updateAvatarForSupplier
 router.post('/updateAvatarForSupplier', async (req, res) => {
   
-  const { tokenkey, supplierid } = req.headers
+  const { tokenkey, supplierid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
   if (checkTokenResult == false) {
     res.json({
@@ -255,8 +263,8 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
 })
 //Link http://localhost:3000/suppliers/getSupplierServicesOrders
 router.get('/getSupplierServicesOrders', async (req, res) => {  
-  const { supplierId = '' } = req.query
-  
+  const { supplierId = '', locale } = req.query
+  i18n.setLocale(locale)
   connection.query(GET_SUPPLIER_SERVICES_ORDERS,
     [supplierId]
     , (error, results) => {      
@@ -342,7 +350,8 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/updateSettings
 router.post('/updateSettings', async (req, res) => {  
-  const {tokenkey, supplierid} = req.headers  
+  const {tokenkey, supplierid, locale} = req.headers  
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   
   if(checkTokenResult == false) {

@@ -1,3 +1,4 @@
+const {i18n} = require('../locales/i18n')
 const {connection} = require('../database/database')
 const POST_CHECK_TOKEN = "SELECT checkToken(?, ?) as checkTokenResult"
 const POST_CHECK_TOKEN_CUSTOMER = "SELECT checkTokenCustomer(?, ?) as checkTokenCustomerResult"

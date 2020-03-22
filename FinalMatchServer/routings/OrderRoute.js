@@ -36,9 +36,8 @@ const INSERT_NOTIFICATION = "INSERT INTO Notification(title, body, supplierId, c
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {
   const { tokenkey, supplierid, locale } = req.headers
-  const checkTokenResult = await checkToken(tokenkey, supplierid)
-  i18n.setLocale(locale);
-debugger
+  i18n.setLocale(locale)
+  const checkTokenResult = await checkToken(tokenkey, supplierid)  
   if (checkTokenResult == false) {
     res.json({
       result: "failed",
@@ -50,8 +49,7 @@ debugger
   }
   await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID,
-    [supplierid], (error, results) => {
-      
+    [supplierid], (error, results) => {      
       if (error) {
         res.json({
           result: "failed",
@@ -74,7 +72,8 @@ debugger
 })
 //Link http://150.95.113.87:3000/orders/getOrdersByCustomerId
 router.post('/getOrdersByCustomerId', async (req, res) => {
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   if (await checkTokenCustomer(tokenkey, customerid) == false) {
     res.json({
       result: "failed",
@@ -112,7 +111,8 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
 
 //Link http://150.95.113.87:3000/orders/getRefereesAroundOrder
 router.post('/getRefereesAroundOrder', async (req, res) => {
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
   if (checkTokenResult == false) {
     res.json({
@@ -154,7 +154,8 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
     })
 })
 router.post('/getPlayersAroundOrder', async (req, res) => {
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
   if (checkTokenResult == false) {
     res.json({
@@ -197,7 +198,8 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
 })
 //http://150.95.113.87:3000/orders/createNewOrder
 router.post('/createNewOrder', async (req, res) => {
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
+  i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
   if (checkTokenResult == false) {
     res.json({
@@ -279,8 +281,7 @@ router.post('/createNewOrder', async (req, res) => {
     })
 })
 const insertNotification = ({ supplierId, customerId, title, body, orderId }) => {
-  return new Promise((resolve, reject) => {
-    
+  return new Promise((resolve, reject) => {    
     connection.query(INSERT_NOTIFICATION,
       [title, body, supplierId, customerId, orderId]
       , async (error, results) => {
@@ -296,8 +297,8 @@ const insertNotification = ({ supplierId, customerId, title, body, orderId }) =>
 // http://150.95.113.87:3000/orders/updateOrderStatus
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
-  const { tokenkey, supplierid, customerid } = req.headers
-  
+  const { tokenkey, supplierid, customerid, locale } = req.headers
+  i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({

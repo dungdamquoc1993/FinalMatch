@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken} = require('./helpers')
 const {connection} = require('../database/database')
@@ -15,7 +16,8 @@ router.get('/', async (req, res) => {
 //Link http://localhost:3000/suppliers/checkRefereeServiceExist
 router.get('/checkRefereeServiceExist', async (req, res) => {
   
-  const { supplierId = '' } = req.query
+  const { supplierId = '', locale } = req.query
+  i18n.setLocale(locale)
   //validate, check token ?  
   connection.query(GET_CHECK_REFEREE_SERVICE_EXIST,
     [supplierId]
@@ -52,8 +54,8 @@ router.get('/checkRefereeServiceExist', async (req, res) => {
 })
 //Link http://localhost:3000/suppliers/insertRefereeService
 router.post('/insertRefereeService', async (req, res) => {  
-  const {tokenkey, supplierid} = req.headers  
-  
+  const {tokenkey, supplierid, locale} = req.headers  
+  i18n.setLocale(locale)
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   if(checkTokenResult == false) {
     res.json({

@@ -1,4 +1,5 @@
 var express = require('express')
+const {i18n} = require('../locales/i18n')
 const https = require('https')
 const  request = require("request")
 var router = express.Router()
@@ -14,7 +15,8 @@ const urlGetLatLongFromAddress = () => {
     return `https://maps.googleapis.com/maps/api/geocode/json`
 }
 router.get('/getAddressFromLatLong', async (req, res) => {    
-    const { latitude = '', longitude = '' } = req.query
+    const { latitude = '', longitude = '', locale } = req.query
+    i18n.setLocale(locale)
     https.get(urlGetAddressFromLatLong(latitude, longitude), (resp) => {
         let data = '';
         // A chunk of data has been recieved.
@@ -43,7 +45,8 @@ router.get('/getAddressFromLatLong', async (req, res) => {
     });    
 })
 router.get('/getLatLongFromAddress', async (req, res) => {    
-    const { address = '' } = req.query    
+    const { address = '', locale } = req.query   
+    i18n.setLocale(locale) 
     const option = {
         uri: urlGetLatLongFromAddress(),
 	//qs: query string
@@ -79,56 +82,4 @@ router.get('/getLatLongFromAddress', async (req, res) => {
             }     
     })    
 })
-/*
-router.get('/getPlacesFromAddress', async (req, res) => {    
-    const { address = '' } = req.query    
-    const option = {
-        uri: urlGetPlacesFromAddress,
-	    //qs: query string
-        qs: {
-            address, key: GoogleAPIKey
-        }
-    }
-    request(
-        option, (error, data, body) => {           		
-            if(error) {
-                res.json({
-                    result: "failed",
-                    data: {},
-                    message: `Cannot get Places from address: ${error}`,
-                    time: Date.now()
-                })
-                return
-            }
-            if(data.error_message && data.error_message.length > 0){
-                res.json({
-                    result: "failed",
-                    data: {},
-                    message: "Get Places failed: "+  data.error_message,
-                    time: Date.now()
-                })    
-            } else {                
-                let { results } = JSON.parse(data.body)
-                let places = results.map(place => {
-                    let formattedAddress = place["formatted_address"];
-                    let latitude = 0.0
-                    let longitude = 0.0
-                    if (place.geometry && place.geometry.location) {
-                        latitude = place.geometry.lat
-                        longitude = place.geometry.lng
-                    }
-                    let name = place["name"] ? place["name"] : ""
-                    let placeId = place["place_id"]
-                    return { formattedAddress, latitude, longitude, name, placeId }
-                })
-                res.json({
-                    result: "ok",
-                    data: places,                    
-                    message: "Get Places successfully",
-                    time: Date.now()
-                })    
-            }     
-    })    
-})
-*/
 module.exports = router
