@@ -1,4 +1,5 @@
 import {NativeModules} from 'react-native'
+import i18n from "i18n-js"
 import {urlLoginSupplier, 
     urlRegisterSupplier, 
     urlGetSupplierById,
@@ -37,6 +38,7 @@ export const registerSupplier = async (email, password) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({email, password}),// stringify de lam gi 
         })               
@@ -64,6 +66,7 @@ export const loginSupplier = async (email, password) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({email, password}),
         })             
@@ -91,6 +94,7 @@ export const loginFacebook = async (name, email, facebookId, avatar) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({name, email, facebookId, avatar}),
         })             
@@ -117,6 +121,7 @@ export const tokenCheck = async (tokenKey,supplierId) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({}),
@@ -140,6 +145,7 @@ export const insertPlayerService = async (playerName,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({playerName,
@@ -174,6 +180,7 @@ export const insertRefereeService = async (refereeName,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({refereeName,
@@ -310,6 +317,7 @@ export const postUploadPhoto = async (photos, supplierId) => {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data',
+                    locale: i18n.locale,
                     tokenKey, supplierId
                 },                    
         });        
@@ -343,6 +351,7 @@ export const updateSettings = async (supplierId,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -386,6 +395,7 @@ export const insertSupplierNotificationToken = async (notificationToken) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -419,6 +429,7 @@ export const insertStadium = async (type,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -450,6 +461,7 @@ export const getOrdersBySupplierId = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -479,6 +491,7 @@ export const updateOrderStatus = async (orderId, status) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -510,6 +523,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
@@ -534,6 +548,7 @@ export const getChatHistory = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
@@ -557,6 +572,7 @@ export const makeSeen = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({

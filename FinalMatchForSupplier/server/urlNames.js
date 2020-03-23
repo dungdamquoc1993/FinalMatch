@@ -1,3 +1,4 @@
+import i18n from "i18n-js"
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 //const SERVER_NAME = '192.168.1.59' //mrDung
 //const SERVER_NAME = '192.168.1.149' //Giap Nhat
@@ -18,7 +19,7 @@ export const urlInsertRefereeService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/insertRefereeService`
 }
 export const urlCheckRefereeServiceExist = (supplierId) => {
-    return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 
 
@@ -32,11 +33,11 @@ export const urlTokenCheck = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheck`
 }
 export const urlGetAddressFromLatLong = (latitude, longitude) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}&locale=${i18n.locale}`
 }
 
 export const urlGetSupplierServicesOrders = (supplierId) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getSupplierServicesOrders?supplierId=${supplierId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getSupplierServicesOrders?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 export const urlUploadAvatar = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/uploadAvatar`
@@ -46,7 +47,7 @@ export const urlGetAvatar = (fileName) => {
     if(fileName.toLowerCase().includes("https://")) {
         return fileName
     }    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}&locale=${i18n.locale}`
 }
 export const urlUpdateSettings = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
@@ -82,10 +83,10 @@ export const urlMakeSeen = () => {
 }
 
 export const urlGetNotificationsBySupplierId = (supplierId) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId?supplierId=${supplierId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 export const urlGetNotificationsByCustomerId = (customerId) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId?customerId=${customerId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId?customerId=${customerId}&locale=${i18n.locale}`
 }
 
 

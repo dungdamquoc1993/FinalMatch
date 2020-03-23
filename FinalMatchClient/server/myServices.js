@@ -1,4 +1,4 @@
-
+import i18n from "i18n-js"
 import { Platform, NativeModules } from 'react-native'
 import {getCustomerFromStorage} from '../helpers/Helpers'
 import {
@@ -31,6 +31,7 @@ export const registerCustomer = async (name, email, password) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({ name, email, password }),
         })        
@@ -54,6 +55,7 @@ export const loginCustomer = async (email, password) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({ email, password }),
         })        
@@ -77,6 +79,7 @@ export const loginFacebookCustomer = async (name, email, facebookId, avatar) => 
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
             },
             body: JSON.stringify({ name, email, facebookId, avatar }),
         })
@@ -100,7 +103,8 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                tokenKey, customerId
+                locale: i18n.locale,
+                tokenKey, customerId,
             },
             body: JSON.stringify({}),
         })        
@@ -122,6 +126,7 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ name, phoneNumber }),
@@ -172,6 +177,7 @@ export const getStadiumsAroundPoint = async (latitude, longitude, radius) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ latitude, longitude,radius }),
@@ -200,6 +206,7 @@ export const getRefereesAroundOrder = async (radius, latitude, longitude) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ radius, latitude, longitude }),
@@ -226,6 +233,7 @@ export const getPlayersAroundOrder = async (radius, latitude, longitude, positio
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ radius, latitude, longitude, position}),
@@ -260,6 +268,7 @@ export const createNewOrder = async (
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId
                 //Cả customer và supplier đều thay đổi đc order
             },
@@ -296,6 +305,7 @@ export const getOrdersByCustomerId = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenkey: tokenKey, customerid: customerId                
             },
             body: JSON.stringify({
@@ -326,6 +336,7 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, customerId
             },
             body: JSON.stringify({
@@ -357,6 +368,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
@@ -381,6 +393,7 @@ export const getChatHistory = async ({customerOrSupplierId}) => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
@@ -404,6 +417,7 @@ export const makeSeen = async () => {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                locale: i18n.locale,
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({

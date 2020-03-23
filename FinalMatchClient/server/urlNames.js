@@ -1,3 +1,4 @@
+import i18n from "i18n-js"
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 const SERVER_NAME = '150.95.113.87' //Real Server
 const SERVER_PORT = '3001'
@@ -21,21 +22,21 @@ export const urlUpdateCustomerInformation = () => {
 }
 
 export const urlGetCustomerInformation = (customerId) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/urlGetCustomerInformation?customerId=${customerId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/customers/urlGetCustomerInformation?customerId=${customerId}&locale=${i18n.locale}`
 }
 export const urlGetAddressFromLatLong = (latitude, longitude) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}&locale=${i18n.locale}`
 }
 
 export const urlGetLatLongFromAddress = (address) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getLatLongFromAddress?address=${address}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getLatLongFromAddress?address=${address}&locale=${i18n.locale}`
 }
 
 export const urlGetStadiumsAroundPoint = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/getStadiumsAroundPoint`
 }
 export const urlGetPlacesFromAddress = (address) => {        
-    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}`
+    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}&locale=${i18n.locale}`
 }
 
 export const urlgetRefereesAroundOrder = () => {    
@@ -50,7 +51,7 @@ export const urlGetAvatar = (fileName) => {
     if(fileName.toLowerCase().includes("https://")) {
         return fileName
     }    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}&locale=${i18n.locale}`
 }
 
 export const urlCreateNewOrder = () => {        
