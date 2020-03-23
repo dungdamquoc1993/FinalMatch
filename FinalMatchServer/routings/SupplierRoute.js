@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
                     res.json({
                       result: "ok", 
                       data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
-                      message: 'Register user successfully',
+                      message: i18n.__("Register user successfully"),
                       time: Date.now()})
                 }                
             }
@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
-                    message: 'Login user successfully',
+                    message: i18n.__("Login user successfully"),
                     time: Date.now()})
               }                
           }
@@ -86,7 +86,7 @@ router.post('/loginFacebook', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
-                    message: 'Login facebook successfully',
+                    message: i18n.__("Login facebook successfully"),
                     time: Date.now()})
               }                
           }
@@ -117,14 +117,14 @@ router.get('/urlGetSupplierById', async (req, res) => {
           res.json({
             result: "ok",
             data: {name, phoneNumber, latitude, longitude, radius, address},
-            message: "Get Supplier successfully",
+            message: i18n.__("Get Supplier successfully"),
             time: Date.now()
           })             
       } else {
         res.json({
               result: "failed",
               data: {},
-              message: `Cannot find Supplier with id: ${supplierId}`,
+              message: i18n.__("Cannot find Supplier with id: %s",`${supplierId}`),
               time: Date.now()
             })
       }
@@ -149,7 +149,7 @@ router.post('/uploadAvatar', async (req, res) => {
     if (!req.files) {
       res.json({
         result: "failed",
-        message: "Cannot find files to upload",
+        message: i18n.__("Cannot find files to upload"),
         time: Date.now()
       })
       return
@@ -158,7 +158,7 @@ router.post('/uploadAvatar', async (req, res) => {
     if (keys.length === 0) {
       res.json({
         result: "failed",
-        message: "Cannot find files to upload",
+        message: i18n.__("Cannot find files to upload"),
         time: Date.now()
       })
       return
@@ -173,7 +173,7 @@ router.post('/uploadAvatar', async (req, res) => {
       if (error) {
         res.json({
           result: "failed",
-          message: `Cannot upload files. Error: ${error}`,
+          message: i18n.__("Cannot upload files: %s",`${error}`),
           time: Date.now()
         })
         return
@@ -184,7 +184,7 @@ router.post('/uploadAvatar', async (req, res) => {
       if (key === keys[keys.length - 1]) {
         res.json({
           result: "ok",
-          message: `Upload files successfully`,
+          message: i18n.__("Upload files successfully"),
           data: imageNames
         })
       }
@@ -195,7 +195,7 @@ router.post('/uploadAvatar', async (req, res) => {
   } catch (error) {
     res.json({
       result: "failed",
-      message: `Cannot upload files. Error: ${error}`
+      message: i18n.__("Cannot upload files: %s",`${error}`),
     })
   }
 })
@@ -209,7 +209,7 @@ router.get('/getImage', async (req, res) =>{
           if (err) {
               res.json({
                   result: 'failed',
-                  message: `Error getting detail's product: ${err}`
+                  message: i18n.__("Error getting detail's product:%s",`${err}`),
               })
               return
           }
@@ -219,7 +219,7 @@ router.get('/getImage', async (req, res) =>{
   } catch(error) {
       res.json({
           result: 'failed',
-          message: `Ko lấy được thông tin chi tiết Product. Error: ${error}`
+          message: i18n.__("Error getting detail's product:%s",`${err}`),
       })
   }
 })
@@ -255,7 +255,7 @@ router.post('/updateAvatarForSupplier', async (req, res) => {
         res.json({
           result: "ok",
           data: { supplierId: supplierid, avatar },
-          message: "Update Avatar for supplier successfully",
+          message: i18n.__("Update Avatar for supplier successfully"),
           time: Date.now()
         })
       }
@@ -334,14 +334,14 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
           res.json({
             result: "ok",
             data,
-            message: "Get SupplierServicesOrders successfully",
+            message: i18n.__("Get SupplierServicesOrders successfully"),
             time: Date.now()
           })             
       } else {
         res.json({
               result: "failed",
               data: {},
-              message: `Cannot find Supplier with id = ${supplierId}`,
+              message: i18n.__("Cannot find Supplier with id: %s",`${supplierId}`),
               time: Date.now()
         })
       }
@@ -407,7 +407,7 @@ router.post('/updateSettings', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {}, 
-                    message: "Update settings  successfully",
+                    message: i18n.__("Update settings  successfully"),
                     time: Date.now()})
               }                
           }

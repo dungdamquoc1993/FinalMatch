@@ -42,7 +42,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: i18n.__('Token is invalid'),
+      message: i18n.__("Token is invalid"),
       time: Date.now()
     })    
     return
@@ -63,7 +63,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
             result: "ok",
             count: results.length,
             data: results,
-            message: "Get orders successfully",
+            message: i18n.__("Get orders successfully"),
             time: Date.now()
           })
         }
@@ -100,7 +100,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
             result: "ok",
             count: results.length,
             data: results,
-            message: "Get orders successfully",
+            message: i18n.__("Get orders successfully"),
             time: Date.now()
           })
         }
@@ -146,7 +146,7 @@ router.post('/getRefereesAroundOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0],
-            message: "Get referees successfully",
+            message: i18n.__("Get referees successfully"),
             time: Date.now()
           })
         }
@@ -189,7 +189,7 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0],
-            message: "Get players successfully",
+            message: i18n.__("Get players successfully"),
             time: Date.now()
           })
         }
@@ -225,7 +225,7 @@ router.post('/createNewOrder', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: "Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT",
+      message: i18n.__("Invalid date format. Tue, 18 Feb 2020 09:48:32 GMT"),
       time: Date.now()
     })
     return
@@ -274,7 +274,7 @@ router.post('/createNewOrder', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0][0],
-            message: "Insert new Order successfully",
+            message: i18n.__("Insert new Order successfully"),
             time: Date.now()
           })
         }
@@ -317,7 +317,7 @@ router.post('/updateOrderStatus', async (req, res) => {
     res.json({
       result: "failed",
       data: {},
-      message: "Status must be: pending, accepted, cancelled, completed, missed",
+      message: i18n.__("Status must be: pending, accepted, cancelled, completed, missed"),
       time: Date.now()
     })
     return
@@ -340,7 +340,7 @@ router.post('/updateOrderStatus', async (req, res) => {
               result: "failed",
               count: 0,
               data: {},
-              message: 'Cannot find data to update',
+              message: i18n.__("Cannot find order with id: %s to update", `${orderId}`),
               time: Date.now()
             })
             return
@@ -358,8 +358,8 @@ router.post('/updateOrderStatus', async (req, res) => {
           let notificationTokens = await getNotificationTokens({supplierId: 0, customerId})
           
           const {supplierName, customerName} = results[0][0]                                                      
-          const title = 'Update Order'
-          const body = `${supplierName} update an order`
+          const title = i18n.__("Update an order")
+          const body = i18n.__("%s update an order", `${supplierName}`)
           
           let failedTokens = await sendFirebaseCloudMessage({title, 
                                     body, 
@@ -374,7 +374,7 @@ router.post('/updateOrderStatus', async (req, res) => {
             result: "ok",
             count: results[0].length,
             data: results[0][0],
-            message: "Update order status successfully",
+            message: i18n.__("Update order status successfully"),
             time: Date.now()
           })
         } else {

@@ -28,7 +28,7 @@ router.get('/getAddressFromLatLong', async (req, res) => {
             res.json({
                 result: "ok",
                 data: JSON.parse(data),
-                message: "Get address successfully",
+                message: i18n.__("Get address successfully"),
                 time: Date.now()
             })    
         });
@@ -58,7 +58,7 @@ router.get('/getLatLongFromAddress', async (req, res) => {
                 res.json({
                     result: "failed",
                     data: {},
-                    message: `Cannot get address from lat, long: ${error}`,
+                    message: i18n.__("Cannot get address from lat, long: %s", `${error}`),
                     time: Date.now()
                 })
                 return
@@ -67,14 +67,14 @@ router.get('/getLatLongFromAddress', async (req, res) => {
                 res.json({
                     result: "failed",
                     data: {},
-                    message: "Get lat/long failed: "+  data.error_message,
+                    message: i18n.__("Get lat/long failed: %", `${data.error_message}`),
                     time: Date.now()
                 })    
             } else {                
                 res.json({
                     result: "ok",
                     data: JSON.parse(data.body),
-                    message: "Get lat/long successfully",
+                    message: i18n.__("Get lat/long successfully"),
                     time: Date.now()
                 })    
             }     

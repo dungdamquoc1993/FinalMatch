@@ -26,7 +26,7 @@ router.get('/getNotificationsBySupplierId', async (req, res) => {
             res.json({
                 result: "ok",
                 data: results != null && results.length > 0 ? results : [],
-                message: `Get Notifications successfully`,
+                message: i18n.__("Get Notifications successfully"),
                 time: Date.now()
             })
         })
@@ -52,14 +52,14 @@ router.get('/getNotificationsByCustomerId', async (req, res) => {
                 res.json({
                     result: "ok",
                     data,
-                    message: `Get Notifications by customerId successfully`,
+                    message: i18n.__("Get Notifications successfully"),
                     time: Date.now()
                 })
             } else {
                 res.json({
                     result: "ok",
                     data: [],
-                    message: `Get Notifications by customerId successfully`,
+                    message: i18n.__("Get Notifications successfully"),
                     time: Date.now()
                 })
             }

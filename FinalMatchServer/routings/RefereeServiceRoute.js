@@ -102,7 +102,7 @@ router.post('/insertRefereeService', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {refereeName, supplierId }, 
-                    message: 'insert RefereeService  successfully',
+                    message: i18n.__("Insert Referee Service  successfully"),
                     time: Date.now()})
               }                
           }

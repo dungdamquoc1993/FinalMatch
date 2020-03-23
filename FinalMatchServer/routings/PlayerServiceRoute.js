@@ -99,7 +99,7 @@ router.post('/insertPlayerService', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {playerName, position, supplierId }, 
-                    message: "insert Player Service  successfully",
+                    message: i18n.__("Insert Player Service  successfully"),
                     time: Date.now()})
               }                
           }

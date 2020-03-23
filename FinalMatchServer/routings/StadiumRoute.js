@@ -52,7 +52,7 @@ router.post('/insertStadium', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: {stadiumName, supplierId }, 
-                    message: "Insert Stadium  successfully",
+                    message: i18n.__("Insert Stadium  successfully"),
                     time: Date.now()})
               }                
           }
@@ -103,7 +103,7 @@ router.post('/getStadiumsAroundPoint', async (req, res) => {
                       result: "ok",
                       count: results == null ? 0: results.length,
                       data: results[0],
-                      message: "Query Stadiums successfully",
+                      message: i18n.__("Query Stadiums successfully"),
                       time: Date.now()})
                 }                
             }
