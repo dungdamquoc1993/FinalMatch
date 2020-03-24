@@ -186,7 +186,7 @@ export default class Settings extends Component {
         }
       })
     } catch (error) {
-      alert(`Cannot getSupplierServicesOrders. error = ${JSON.stringify(error)}`)
+      alert(`Cannot get service's information: ${JSON.stringify(error)}`)
     }
   }
   async componentDidMount() {
@@ -265,7 +265,7 @@ export default class Settings extends Component {
     } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Quản Lý Tài Khoản'} pressBackButton={async () => {
+        <Header title={'Account management'} pressBackButton={async () => {
           if (this.validateInput() == true) {
             await this._saveSettings()
             return true
@@ -515,7 +515,7 @@ export default class Settings extends Component {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              alert('Modal has been closed.')
+              //alert('Modal has been closed.')
             }}
           >
             <FinalMatchDatePicker

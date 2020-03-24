@@ -148,7 +148,7 @@ export class RefereeService extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView style={styles.container}>
-        <Header title={'REFEREE SERVICE'} pressBackButton={async () => {
+        <Header title={"Refere Service"} pressBackButton={async () => {
           //validate ok
           return true
         }}/>
@@ -241,7 +241,7 @@ export class RefereeService extends Component {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              alert('Modal has been closed.')
+              // alert('Modal has been closed.')
             }}
           >
             <FinalMatchDatePicker

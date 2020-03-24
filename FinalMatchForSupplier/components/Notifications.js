@@ -45,7 +45,7 @@ export default class Notifications extends Component {
             this.reloadDataFromServer()
           }}
         />
-        <Header title={'Thông Báo'} hideBack={true} />
+        <Header title={"Notifications"} hideBack={true} />
         <FlatList          
           data={notifications}
           renderItem={({ item }) => <Item {...item} />}

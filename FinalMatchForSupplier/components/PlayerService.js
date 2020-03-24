@@ -94,7 +94,7 @@ class PlayerService extends Component {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })      
     } catch(error) {
-      alert('Cannot get data from Server'+JSON.stringify(error))
+      alert("Cannot get data from Server"+JSON.stringify(error))
     } 
     
   }
@@ -130,7 +130,7 @@ class PlayerService extends Component {
         
       <SafeAreaView style={styles.container}>
         
-        <Header title={'PLAYER SERVICE'} pressBackButton={async () => {
+        <Header title={"Player Service"} pressBackButton={async () => {
           //validate ok
           return true
         }}/>        
@@ -234,7 +234,7 @@ class PlayerService extends Component {
         <View style={styles.radiusInput}>
               <TextInput
               style={styles.textInputRadius}
-              placeholder={'Enter radius'}
+              placeholder={"Enter radius"}
               keyboardType={'numeric'}
               onChangeText={radius => {
                 this.setState ({radius})

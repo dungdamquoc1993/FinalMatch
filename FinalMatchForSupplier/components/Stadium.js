@@ -66,7 +66,7 @@ class Stadium extends Component {
         supplierId
       )
       if (message.length > 0) {
-        alertWithOKButton (`Cannot insert Stadium. Error = ${message}`, null)
+        alertWithOKButton (`Cannot insert Stadium: ${message}`, null)
       } else {
         alertWithOKButton ('Insert stadium successfully', () => {
           this.props.stackNavigation.dispatch (NavigationActions.back ())

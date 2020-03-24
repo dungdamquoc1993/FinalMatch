@@ -33,8 +33,7 @@ import { LoginManager, LoginResult,
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
 const {AsyncStorage} = NativeModules
-//export = public
-//Component = thẻ
+
 class LoginRegister extends Component {
     static navigationOptions = {
         headerShown: false,
