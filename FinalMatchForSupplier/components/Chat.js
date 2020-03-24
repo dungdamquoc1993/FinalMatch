@@ -1,23 +1,23 @@
 import React, {Component} from 'react'
 import {
-View, TextInput, 
-StyleSheet,
-Text, 
-Image,
-FlatList,
-TouchableHighlight
-} 
-from 'react-native'
+    View, TextInput,
+    StyleSheet,
+    Text,
+    Image,
+    FlatList,
+    TouchableHighlight
+}
+    from 'react-native'
 import {
-    insertNewChat, 
-    getChatHistory, 
+    insertNewChat,
+    getChatHistory,
     makeSeen,
 } from '../server/myServices'
 import {
     firebaseDatabase,
     getAddressFromLatLong
-  } from '../server/googleServices'
-
+} from '../server/googleServices'
+import { translate } from '../languages/languageConfigurations'
 export default class Chat extends Component {
     constructor(props) {
         super(props)        
@@ -43,12 +43,12 @@ export default class Chat extends Component {
                 data={this.state.messengers} style={styles.flatList}
                 ref={this.state.flatList}
                 onScrollToIndexFailed={(error) => {
-                    this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true });
+                    this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
                     setTimeout(() => {
                         if (this.state.messengers.length !== 0 && this.state.flatList.current !== null) {
-                            this.state.flatList.current.scrollToIndex({ index: error.index, animated: true });
+                            this.state.flatList.current.scrollToIndex({ index: error.index, animated: true })
                         }
-                    }, 100);
+                    }, 100)
                 }}
                 keyExtractor={(item, index) => {
                     return `${index}`

@@ -102,23 +102,23 @@ export const setPosition = (position = '0000') => {
     }
 }
 export const generateFakeString = () => {
-    return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`;
+    return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`
 }
 // pending, accepted, cancelled, completed, missed
 export const getColorFromStatus = (status) => {
     switch(status) {
         case 'pending':
-            return 'orange';
+            return 'orange'
         case 'accepted':
-            return 'green';
+            return 'green'
         case 'cancelled':
-            return 'red';
+            return 'red'
         case 'completed':
-            return 'blue';
+            return 'blue'
         case 'missed':
-            return 'red';
+            return 'red'
         default:
-            return 'black';
+            return 'black'
     }
 }
 export const OrderStatus  = {

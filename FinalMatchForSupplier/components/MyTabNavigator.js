@@ -3,15 +3,15 @@
 //yarn add react-native-vector-icons
 //yarn add react-navigation-stack react-navigation 
 //react-native link
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import React from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 //man hinh 
-import ServiceRegister from './ServiceRegister';
-import Notifications from './Notifications';
-import Orders from './Orders';
-import Settings from './Settings';
+import ServiceRegister from './ServiceRegister'
+import Notifications from './Notifications'
+import Orders from './Orders'
+import Settings from './Settings'
 import {Image} from 'react-native'
 //mau sac
 import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
@@ -26,7 +26,7 @@ const TabNavigator = createBottomTabNavigator(
     {
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
-                const { routeName } = navigation.state;
+                const { routeName } = navigation.state
                 let iconName = ""
                 switch (routeName) {
                     case 'ServiceRegister':

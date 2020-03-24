@@ -29,7 +29,7 @@ import {
 import i18n from "i18n-js"
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
-
+import {translate} from '../languages/languageConfigurations'
 export default class Orders extends MultiLanguageComponent {
   constructor (props) {
     super (props)    

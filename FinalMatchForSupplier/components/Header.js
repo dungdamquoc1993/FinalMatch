@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors'
 import { alert } from '../helpers/Helpers'
-
+import {translate} from '../languages/languageConfigurations'
 //hideBack: boolean
 class Header extends Component {
     constructor(props) {

@@ -12,7 +12,7 @@ import {
   getColorFromStatus,
   OrderStatus
 } from '../helpers/Helpers'
-
+import {translate} from '../languages/languageConfigurations'
 import {pushLocalNotification} from '../helpers/PushNotification'
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 

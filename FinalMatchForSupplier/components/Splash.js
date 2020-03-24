@@ -3,7 +3,7 @@ import {
     EVENT_PRESS_NOTIFICATION,
     EVENT_INSERT_CUSTOMER_NOTIFICATION,
     EVENT_INSERT_SUPPLIER_NOTIFICATION
-} from './eventNames';
+} from './eventNames'
 import {
   StyleSheet,
   Text,
@@ -23,7 +23,7 @@ import {getStackNavigation} from '../redux/actions/actions'
 import {getSupplierFromStorage, saveSupplierToStorage} from '../helpers/Helpers'
 import {tokenCheck, insertSupplierNotificationToken} from '../server/myServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
-
+import {translate} from '../languages/languageConfigurations'
 const {height, width} = Dimensions.get('window')
 class Splash extends MultiLanguageComponent {
     constructor(props){

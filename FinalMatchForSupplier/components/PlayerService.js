@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -13,26 +13,27 @@ import {
   Picker,
   Image,
   KeyboardAvoidingView
-} from 'react-native';
-import Header from './Header';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Geolocation from 'react-native-geolocation-service';
+} from 'react-native'
+import {translate} from '../languages/languageConfigurations'
+import Header from './Header'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
+} from '../server/googleServices'
 import {insertPlayerService, getSupplierById} from '../server/myServices'
 import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition, alert,isIOS} from '../helpers/Helpers'
 import {NavigationActions} from 'react-navigation'
-import {MAIN_COLOR} from '../colors/colors';
+import {MAIN_COLOR} from '../colors/colors'
 class PlayerService extends Component {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   
   constructor (props) {
-    super (props);
+    super (props)
     this.state = {
       playerName: 'người a',
       price: 30000,
@@ -49,7 +50,7 @@ class PlayerService extends Component {
         longitude: 0.0,  
       },
       radius: 0.0,
-    };
+    }
   }
 
   componentDidMount = async () => {
@@ -65,7 +66,7 @@ class PlayerService extends Component {
       alert("Cannot get Supplier information"+JSON.stringify(error))
       //Quay lai Tab
     }
-  };
+  }
 
 
   _insertPlayerService = async () => {    
@@ -98,31 +99,31 @@ class PlayerService extends Component {
     
   }
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission ();
+    const hasLocationPermission = await checkLocationPermission ()
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
         async position => {
-          const {latitude, longitude} = position.coords;
+          const {latitude, longitude} = position.coords
           const {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong (latitude, longitude);
+          } = await getAddressFromLatLong (latitude, longitude)
 
-          this.setState ({currentLocation: {address, district, province, latitude, longitude}});
+          this.setState ({currentLocation: {address, district, province, latitude, longitude}})
         },
         error => {
-          console.log (error.code, error.message);
+          console.log (error.code, error.message)
         },
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
-      );
+      )
     }
   }
   render () {
-    const {playerName,price, phoneNumber} = this.state;
-    const {isGK, isCB, isMF, isCF} = this.state;
-    const {address = '', district = '', province = ''} = this.state.currentLocation;
-    const {radius} = this.state;
+    const {playerName,price, phoneNumber} = this.state
+    const {isGK, isCB, isMF, isCF} = this.state
+    const {address = '', district = '', province = ''} = this.state.currentLocation
+    const {radius} = this.state
     return (
       <ScrollView>  
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -140,7 +141,7 @@ class PlayerService extends Component {
             placeholder={'Tên Thi Đấu của Bạn (Đấu Danh) :)'}
             value={playerName}
             onChangeText={playerName => {
-              this.setState ({playerName});
+              this.setState ({playerName})
             }}
           />
         </View>
@@ -151,7 +152,7 @@ class PlayerService extends Component {
             keyboardType={'phone-pad'}
             value={phoneNumber}
             onChangeText={phoneNumber => {
-              this.setState ({phoneNumber});
+              this.setState ({phoneNumber})
             }}
           />          
         </View>
@@ -162,7 +163,7 @@ class PlayerService extends Component {
             keyboardType={'number-pad'}
             value={price}
             onChangeText={price => {
-              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)});
+              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)})
             }}
           />          
         </View>
@@ -180,7 +181,7 @@ class PlayerService extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isGK: !this.state.isGK});
+              this.setState ({isGK: !this.state.isGK})
             }}
           >
             <Text>GK</Text>
@@ -193,7 +194,7 @@ class PlayerService extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isCB: !this.state.isCB});
+              this.setState ({isCB: !this.state.isCB})
             }}
           >
             <Text>CB</Text>
@@ -206,7 +207,7 @@ class PlayerService extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isMF: !this.state.isMF});
+              this.setState ({isMF: !this.state.isMF})
             }}
           >
             <Text>MF</Text>
@@ -219,7 +220,7 @@ class PlayerService extends Component {
           <TouchableOpacity
             style={styles.eachPosition}
             onPress={() => {
-              this.setState ({isCF: !this.state.isCF});
+              this.setState ({isCF: !this.state.isCF})
             }}
           >
             <Text>CF</Text>
@@ -236,7 +237,7 @@ class PlayerService extends Component {
               placeholder={'Enter radius'}
               keyboardType={'numeric'}
               onChangeText={radius => {
-                this.setState ({radius});
+                this.setState ({radius})
               }}
               />
           <Text style={styles.textKM}>
@@ -369,4 +370,4 @@ const styles = StyleSheet.create ({
     color: 'white',
     alignSelf: 'center',
   }
-});
+})

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   View,
@@ -13,22 +13,22 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Header from './Header';
+} from 'react-native'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Header from './Header'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
-import {getStadiumsAroundPoint} from '../server/myServices';
-import Geolocation from 'react-native-geolocation-service';
-import {validateLocation} from '../Validations/Validation';
-import {translate} from '../languages/languageConfigurations';
-import MultiLanguageComponent from './MultiLanguageComponent';
+} from '../server/googleServices'
+import {getStadiumsAroundPoint} from '../server/myServices'
+import Geolocation from 'react-native-geolocation-service'
+import {validateLocation} from '../Validations/Validation'
+import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 export default class Stadium extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   state = {
     isFree: false,
     currentLocation: {
@@ -41,46 +41,46 @@ export default class Stadium extends MultiLanguageComponent {
     },
     stadiums: [], //free + unfree
     filteredStadiums: [],
-  };
+  }
   getStadiumList = async () => {
     try {
-      const {latitude = 0, longitude = 0, radius} = this.state.currentLocation;
+      const {latitude = 0, longitude = 0, radius} = this.state.currentLocation
       const {data, message, error} = await getStadiumsAroundPoint (
         latitude,
         longitude,
         parseFloat (radius)
-      );
+      )
       if (error) {
-        alert ("Cannot get stadium list:" + error.toString ());
+        alert (translate("Cannot get stadium list:")+ error.toString ())
       } else {
-        this.setState ({stadiums: data});
-        this.filterStadiums ();
+        this.setState ({stadiums: data})
+        this.filterStadiums ()
       }
     } catch (error) {
-      alert ('Cannot get stadium list. Error: ' + error.toString ());
+      alert (translate("Cannot get stadium list:")+ error.toString ())
     }
-  };
+  }
   filterStadiums = () => {
-    const {stadiums, isFree} = this.state;
+    const {stadiums, isFree} = this.state
     this.setState ({
       filteredStadiums: stadiums.filter (stadium => {
-        return stadium.type == (isFree === true) ? 0 : 1;
+        return stadium.type == (isFree === true) ? 0 : 1
       }),
-    });
-  };
+    })
+  }
 
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission ();
+    const hasLocationPermission = await checkLocationPermission ()
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition (
         async position => {
-          const {latitude, longitude} = position.coords;
+          const {latitude, longitude} = position.coords
 
           const {
             address = '',
             district = '',
             province = '',
-          } = await getAddressFromLatLong (latitude, longitude);
+          } = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
             currentLocation: {
               address,
@@ -90,29 +90,29 @@ export default class Stadium extends MultiLanguageComponent {
               longitude,
               radius: this.state.currentLocation.radius,
             },
-          });
+          })
 
-          await this.getStadiumList ();
+          await this.getStadiumList ()
         },
         error => {
-          console.log (error.code, error.message);
+          console.log (error.code, error.message)
         },
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
-      );
+      )
     }
-  };
+  }
   componentDidMount () {
     this.keyboardDidHideListener = Keyboard.addListener (
       'keyboardDidHide',
       this._pressLocation
-    );
+    )
   }
   componentWillUnmount () {
-    this.keyboardDidHideListener.remove ();
+    this.keyboardDidHideListener.remove ()
   }
   render () {
-    const {isFree, filteredStadiums} = this.state;
-    const {currentLocation} = this.state;
+    const {isFree, filteredStadiums} = this.state
+    const {currentLocation} = this.state
     const {
       address,
       district,
@@ -120,11 +120,11 @@ export default class Stadium extends MultiLanguageComponent {
       latitude,
       longitude,
       radius,
-    } = currentLocation;
+    } = currentLocation
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          Keyboard.dismiss ();
+          Keyboard.dismiss ()
         }}
         accessible={false}
       >
@@ -133,7 +133,7 @@ export default class Stadium extends MultiLanguageComponent {
             title={translate ("Search Stadium")}
             hideBack={true}
             pressBackButton={() => {
-              this.props.navigation.navigate ('Service');
+              this.props.navigation.navigate ('Service')
             }}
           />
           <View width={'100%'}>
@@ -149,7 +149,7 @@ export default class Stadium extends MultiLanguageComponent {
               <View style={{flexDirection: 'column', width: '40%'}}>
                 <TouchableOpacity
                   onPress={async () => {
-                    await this._pressLocation ();
+                    await this._pressLocation ()
                   }}
                   style={{width: '30%', paddingStart: '22%', marginBottom: 5}}
                 >
@@ -166,7 +166,7 @@ export default class Stadium extends MultiLanguageComponent {
                     marginTop: 5,
                   }}
                   onPress={async () => {
-                    await this._pressLocation ();
+                    await this._pressLocation ()
                   }}
                 >
                   {translate ("Get location : ")}{' '}
@@ -180,14 +180,14 @@ export default class Stadium extends MultiLanguageComponent {
                 onChangeText={radius => {
                   this.setState ({
                     currentLocation: {...currentLocation, radius},
-                  });
+                  })
                 }}
                 onEndEditing={async () => {
                   if (validateLocation (latitude, longitude) == false) {
-                    await this._pressLocation ();
+                    await this._pressLocation ()
                   }
-                  await this.getStadiumList ();
-                  await this.filterStadiums ();
+                  await this.getStadiumList ()
+                  await this.filterStadiums ()
                 }}
                 keyboardType={'numeric'}
                 placeholder={translate ("Range around you : ")}
@@ -219,17 +219,14 @@ export default class Stadium extends MultiLanguageComponent {
             <View style={styles.FeeAndFree}>
               <TouchableOpacity
                 onPress={async () => {
-                  await this.setState ({isFree: false});
-                  await this.filterStadiums ();
+                  await this.setState ({isFree: false})
+                  await this.filterStadiums ()
                 }}
               >
                 <Text
                   style={{
                     fontSize: 17,
-                    marginBottom: 10,
-                    fontFamily: Platform.OS === 'ios'
-                      ? 'arial'
-                      : 'JosefinSans-Italic',
+                    marginBottom: 10,                    
                   }}
                 >
                   Fee
@@ -242,17 +239,14 @@ export default class Stadium extends MultiLanguageComponent {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={async () => {
-                  await this.setState ({isFree: true});
-                  await this.filterStadiums ();
+                  await this.setState ({isFree: true})
+                  await this.filterStadiums ()
                 }}
               >
                 <Text
                   style={{
                     fontSize: 17,
-                    marginBottom: 10,
-                    fontFamily: Platform.OS === 'ios'
-                      ? 'arial'
-                      : 'JosefinSans-Italic',
+                    marginBottom: 10,                    
                   }}
                 >
                   Free
@@ -274,11 +268,11 @@ export default class Stadium extends MultiLanguageComponent {
           />
         </SafeAreaView>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 }
 const StadiumItem = props => {
-  const {stadiumId, stadiumName, address, phoneNumber, distance} = props;
+  const {stadiumId, stadiumName, address, phoneNumber, distance} = props
   return (
     <TouchableHighlight>
       <View
@@ -297,12 +291,12 @@ const StadiumItem = props => {
           Tên sân bóng: {stadiumName}
         </Text>
         <Text style={{fontSize: 17}}>{translate ("Stadium's address : ")}{address}</Text>
-        <Text style={{fontSize: 17}}>{translate ('Phone number : ')}{phoneNumber}</Text>
+        <Text style={{fontSize: 17}}>{translate("Phone : ")}{phoneNumber}</Text>
         <Text style={{fontSize: 17, paddingBottom: 10}}>{distance}</Text>
       </View>
     </TouchableHighlight>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create ({
   container: {
@@ -366,4 +360,4 @@ const styles = StyleSheet.create ({
     fontSize: 17,
     marginEnd: 10,
   },
-});
+})

@@ -22,7 +22,7 @@ import {
   getNotificationsByCustomerId,
   getNotificationsBySupplierId,
 } from '../server/myServices'
-
+import {translate} from '../languages/languageConfigurations'
 
 export default class Notifications extends Component {
   state = {

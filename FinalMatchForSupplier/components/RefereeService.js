@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Text,
   View,
@@ -12,15 +12,16 @@ import {
   Keyboard,
   Modal,
   Image
-} from 'react-native';
+} from 'react-native'
+import {translate} from '../languages/languageConfigurations'
 import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert ,isIOS} from '../helpers/Helpers'
 import { insertRefereeService, getSupplierById } from '../server/myServices'
 import Header from './Header'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-import {MAIN_COLOR} from '../colors/colors';
+import {MAIN_COLOR} from '../colors/colors'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 
 import {
@@ -29,16 +30,16 @@ import {
   convertDateToString,
   convertDateTimeToString,
   convertDateToStringDDMMYYYY
-} from '../helpers/Helpers';
+} from '../helpers/Helpers'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
-} from '../server/googleServices';
+} from '../server/googleServices'
 
 export class RefereeService extends Component {
   static navigationOptions = {
     headerShown: false,
-  };
+  }
   state = {
     age: 0,
     price: 100000,
@@ -66,13 +67,13 @@ export class RefereeService extends Component {
     } catch (error) {
       alertWithOKButton("Cannot get Supplier information" + error)
     }
-  };
+  }
 
   _displayAge(age) {
     if (age > 0) {
-      return age > 1 ? `${age} ages` : `${age} age`;
+      return age > 1 ? `${age} ages` : `${age} age`
     } else {
-      return '';
+      return ''
     }
   }
   _pressLocation = async () => {
@@ -89,10 +90,10 @@ export class RefereeService extends Component {
           this.setState({ currentLocation: { address, district, province, latitude, longitude } })
         },
         (error) => {
-          console.log(error.code, error.message);
+          console.log(error.code, error.message)
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
+      )
     }
   }
   _insertRefereeService = async () => {    
@@ -180,7 +181,7 @@ export class RefereeService extends Component {
             keyboardType={'number-pad'}
             value={price}
             onChangeText={price => {
-              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)});
+              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)})
             }}
           />          
         </View>
@@ -222,7 +223,7 @@ export class RefereeService extends Component {
               placeholder={'Enter radius'}
               keyboardType={'numeric'}
               onChangeText={radius => {
-                this.setState ({radius});
+                this.setState ({radius})
               }}
               />
           <Text style={styles.textKM}>
@@ -240,12 +241,12 @@ export class RefereeService extends Component {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              alert('Modal has been closed.');
+              alert('Modal has been closed.')
             }}
           >
             <FinalMatchDatePicker
               dismissModal={() => {
-                this.setState({ modalVisible: false });
+                this.setState({ modalVisible: false })
               }}
               updateDateTime={(date) => {                   
                 this.setState({
@@ -377,4 +378,4 @@ const styles = StyleSheet.create({
     fontSize:17,
     textAlign:'center'
   }
-});
+})

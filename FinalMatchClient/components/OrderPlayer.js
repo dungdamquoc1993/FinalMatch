@@ -64,9 +64,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         phoneNumber,
       })
     } catch (error) {
-      alert (
-        `Cannot get customer's information: ${JSON.stringify (error)}`
-      )
+      alert (translate("Cannot get customer's information: ")+`${JSON.stringify (error)}`)
     }
   }
   sendRequest = async () => {
@@ -83,7 +81,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
 
       if (!error) {        
         if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
-          alert("You must enter order's name or phone number")
+          alert(translate("You must enter order's name or phone number"))
           return
         }
         if(!isGK && !isCB && !isMF && !isCF) {
@@ -107,10 +105,10 @@ export default class OrderPlayer extends MultiLanguageComponent {
           matchTiming
         })
       } else {
-        alert ("Cannot update customer's information:" + error)
+        alert (translate("Cannot update customer's information:")+ error)
       }
     } catch (error) {
-      alert ("Cannot update customer's information: " + error)
+      alert (translate("Cannot update customer's information:")+ error)
     }
   }
   render () {
@@ -150,7 +148,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               onChangeText={phoneNumber => {
                 this.setState ({phoneNumber})
               }}
-              placeholder={translate ("Enter telephone number: ")}
+              placeholder={translate ("Enter phone number: ")}
             />
           </View>
           <View style={{height: 40, width: '100%', alignItems: 'center'}}>
@@ -282,7 +280,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >                
-                {dateTimeString === '' ? "Match's timing": dateTimeString}                
+                {dateTimeString === '' ? translate("Match's timing"): dateTimeString}                
               </Text>
             </TouchableOpacity>
           </View>

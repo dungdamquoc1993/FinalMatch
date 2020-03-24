@@ -23,7 +23,7 @@ import {
 import {insertStadium} from '../server/myServices'
 import {getSupplierFromStorage, alertWithOKButton,isIOS} from '../helpers/Helpers'
 import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors'
-
+import {translate} from '../languages/languageConfigurations'
 class Stadium extends Component {
   static navigationOptions = {
     headerShown: false,

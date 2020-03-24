@@ -47,15 +47,15 @@ export default class OrderReferee extends MultiLanguageComponent {
       const { message, error } = await updateCustomerInformation(name, phoneNumber)      
       if (!error) {        
         if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
-          alert("You must enter order's name or phone number")
+          alert(translate("You must enter order's name or phone number"))
           return
         }        
         if(latitude == 0 || longitude == 0){
-          alert("You must enter place")          
+          alert(translate("You must enter place"))          
           return
         }
         if(!matchTiming){
-            alert("You must enter matching time")            
+            alert(translate("You must enter matching time"))            
             return
         }        
         navigate ('RefereeList', {
@@ -65,10 +65,10 @@ export default class OrderReferee extends MultiLanguageComponent {
           matchTiming
         })        
       } else {
-        alert("Cannot update customer's information "+error)
+        alert(translate("Cannot update customer's information:")+error)
       }
     } catch (error) {
-      alert("Cannot update customer's information: "+error)
+      alert(translate("Cannot update customer's information:")+error)
     }
   }
   reloadDataFromServer = async () => {    
@@ -82,7 +82,7 @@ export default class OrderReferee extends MultiLanguageComponent {
         name, phoneNumber
       })
     } catch (error) {
-      alert(`Cannot get customer's information. error = ${JSON.stringify(error)}`)
+      alert(translate("Cannot update customer's information:")+error)
     }
   }
   render () {
@@ -114,7 +114,7 @@ export default class OrderReferee extends MultiLanguageComponent {
             onChangeText={(phoneNumber) => {
               this.setState({phoneNumber})
             }}
-            placeholder={translate("Enter telephone number: ")}
+            placeholder={translate("Enter phone number: ")}
           />
         </View>
         <View style={{borderBottomWidth:1,backgroundColor:'#a9a9a9',width:'80%',marginVertical:25}} />
@@ -138,7 +138,7 @@ export default class OrderReferee extends MultiLanguageComponent {
                   color: place.trim() === ''? '#a9a9a9' : 'black',
                 }}                
               >
-                {place.trim() === ''? "Địa điểm thi đấu" : place}
+                {place.trim() === ""? translate("Match's place") : place}
               </Text>
             </TouchableOpacity>
 
@@ -159,7 +159,7 @@ export default class OrderReferee extends MultiLanguageComponent {
                   color: dateTimeString.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >                
-                {dateTimeString === '' ? "Match's timing": dateTimeString}                
+                {dateTimeString === '' ? translate("Match's timing"): dateTimeString}                
               </Text>
             </TouchableOpacity>
           </View>

@@ -1,11 +1,11 @@
-import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack'
+import {createAppContainer} from 'react-navigation'
 import Splash from './Splash'
-import LoginRegister from './LoginRegister';
-import TabNavigator from './TabNavigator';
-import OrderReferee from './OrderReferee';
-import OrderPlayer from './OrderPlayer';
-import Stadium from './Stadium';
+import LoginRegister from './LoginRegister'
+import TabNavigator from './TabNavigator'
+import OrderReferee from './OrderReferee'
+import OrderPlayer from './OrderPlayer'
+import Stadium from './Stadium'
 import RefereeList from './RefereeList'
 import PlayersList from './PlayersList'
 import SearchPlace from './SearchPlace'
@@ -28,8 +28,8 @@ export const StackNavigator = createStackNavigator ({
   navigationOptions: {
     gesturesEnabled: false
   }
-});
+})
 
 
-const MyStackNavigator = createAppContainer (StackNavigator);
-export default MyStackNavigator;
+const MyStackNavigator = createAppContainer (StackNavigator)
+export default MyStackNavigator

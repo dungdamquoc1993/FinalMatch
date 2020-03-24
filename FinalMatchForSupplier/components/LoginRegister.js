@@ -9,6 +9,7 @@ import {View, StyleSheet, Image,
     NativeModules,
     SafeAreaView, 
 } from 'react-native'
+import {translate} from '../languages/languageConfigurations'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler'
@@ -28,7 +29,7 @@ import {alert,
     isIOS} from '../helpers/Helpers'
 import { LoginManager, LoginResult, 
     AccessToken, GraphRequest,
-    GraphRequestManager, } from "react-native-fbsdk";
+    GraphRequestManager, } from "react-native-fbsdk"
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
 const {AsyncStorage} = NativeModules
@@ -61,7 +62,7 @@ class LoginRegister extends Component {
                 },
             }, (error, avatarObject) => {
                 if (error) {
-                    alert('Error avatar ' + JSON.stringify(error));
+                    alert('Error avatar ' + JSON.stringify(error))
                     reject(error)
                 } else {
                     const avatar = avatarObject.picture.data.url
@@ -69,7 +70,7 @@ class LoginRegister extends Component {
                     resolve(avatar)
                 }
             })                                
-            new GraphRequestManager().addRequest(avatarRequest).start();    
+            new GraphRequestManager().addRequest(avatarRequest).start()    
         })        
     }
     _getFacebookInfo = async (accessToken, userID) => {
@@ -80,7 +81,7 @@ class LoginRegister extends Component {
                 async (error, facebookUser) => {
                     // alert(JSON.stringify(facebookUser))
                     if (error) {
-                        console.log('Error fb user: ' + error.toString());
+                        console.log('Error fb user: ' + error.toString())
                         reject(error)
                     } else {
                         const facebookId = facebookUser.id
@@ -102,7 +103,7 @@ class LoginRegister extends Component {
             const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                                
                
             if (loginResult.isCancelled) {
-                console.log("Login cancelled");
+                console.log("Login cancelled")
             } else {
                 const tokenObject = await AccessToken.getCurrentAccessToken()                
                 const { accessToken, userID } = tokenObject                
@@ -250,8 +251,8 @@ export default connect(
     mapStateToProps
 )(LoginRegister)
 
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
+const screenWidth = Math.round(Dimensions.get('window').width)
+const screenHeight = Math.round(Dimensions.get('window').height)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

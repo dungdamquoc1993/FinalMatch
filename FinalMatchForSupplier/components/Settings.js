@@ -37,6 +37,7 @@ import {
   postUploadPhoto,
   updateSettings,
 } from '../server/myServices'
+import {translate} from '../languages/languageConfigurations'
 import { urlGetAvatar } from '../server/urlNames'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Geolocation from 'react-native-geolocation-service'

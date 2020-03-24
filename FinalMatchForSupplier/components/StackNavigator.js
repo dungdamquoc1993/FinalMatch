@@ -3,8 +3,8 @@ import MyTabNavigator from './MyTabNavigator'
 import RefereeService from './RefereeService'
 import Stadium from './Stadium'
 import PlayerService from './PlayerService'
-import LoginRegister from './LoginRegister';
-import Splash from './Splash';
+import LoginRegister from './LoginRegister'
+import Splash from './Splash'
 
 import React, {Component} from 'react'
 import { createAppContainer } from 'react-navigation'
