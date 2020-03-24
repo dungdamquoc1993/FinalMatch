@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {translate} from '../languages/languageConfigurations'
 import {
   View,
   StyleSheet,

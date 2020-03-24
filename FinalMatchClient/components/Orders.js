@@ -35,7 +35,7 @@ export default class Orders extends MultiLanguageComponent {
     const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
-      <Text style={styles.textTitle}>{translate('Create a service')}</Text>
+      <Text style={styles.textTitle}>{translate("Create a service")}</Text>
         <FlatList
           width={'100%'}
           data={orders}
@@ -100,12 +100,12 @@ render () {
           <Text style={styles.textLabel}>{supplierAddress}</Text>
         </View> */}
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('price : ')}</Text>
+          <Text style={styles.textLabel}>{translate('Price : ')}</Text>
           <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ? 
                                                   refereePrice : playerPrice}</Text>
         </View>
         <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('orderDate : ')}</Text>
+          <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
           <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
         </View>
       </View>

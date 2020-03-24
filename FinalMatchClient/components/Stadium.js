@@ -51,7 +51,7 @@ export default class Stadium extends MultiLanguageComponent {
         parseFloat (radius)
       );
       if (error) {
-        alert ('Cannot get stadium list. Error: ' + error.toString ());
+        alert ("Cannot get stadium list:" + error.toString ());
       } else {
         this.setState ({stadiums: data});
         this.filterStadiums ();
@@ -130,7 +130,7 @@ export default class Stadium extends MultiLanguageComponent {
       >
         <SafeAreaView style={styles.container}>
           <Header
-            title={translate ('Search Stadium')}
+            title={translate ("Search Stadium")}
             hideBack={true}
             pressBackButton={() => {
               this.props.navigation.navigate ('Service');
@@ -169,7 +169,7 @@ export default class Stadium extends MultiLanguageComponent {
                     await this._pressLocation ();
                   }}
                 >
-                  {translate ('Get location : ')}{' '}
+                  {translate ("Get location : ")}{' '}
                 </Text>
 
               </View>
@@ -190,7 +190,7 @@ export default class Stadium extends MultiLanguageComponent {
                   await this.filterStadiums ();
                 }}
                 keyboardType={'numeric'}
-                placeholder={translate ('Range around you : ')}
+                placeholder={translate ("Range around you : ")}
               />
               <Text
                 style={{
@@ -296,7 +296,7 @@ const StadiumItem = props => {
         <Text style={{fontSize: 17, paddingTop: 10}}>
           Tên sân bóng: {stadiumName}
         </Text>
-        <Text style={{fontSize: 17}}>{translate ('Stadium address : ')}{address}</Text>
+        <Text style={{fontSize: 17}}>{translate ("Stadium's address : ")}{address}</Text>
         <Text style={{fontSize: 17}}>{translate ('Phone number : ')}{phoneNumber}</Text>
         <Text style={{fontSize: 17, paddingBottom: 10}}>{distance}</Text>
       </View>

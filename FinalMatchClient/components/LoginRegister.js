@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-
-
 import {
   View,
   StyleSheet,
@@ -74,7 +72,7 @@ export default class LoginRegister extends MultiLanguageComponent {
         alert(message) //failed
       }
     } catch (error) {
-      alert(translate("Error login or register Customer. Error = ")+error)
+      alert(translate("Error login or register Customer: ")+error)
     }
   }
 

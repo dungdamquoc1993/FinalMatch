@@ -54,7 +54,7 @@ export default class PlayersList extends MultiLanguageComponent {
           }}
         />
         <Header
-          title={translate('Player around you')}
+          title={translate("Players around you")}
           hideBack={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderPlayer')
@@ -126,7 +126,7 @@ class Item extends Component {
               <Text style={styles.textLabel}>{playerName || name}</Text>
             </View>
             <View style={styles.viewInformation}>
-              <Text style={styles.textLabel}>{translate('Position : ')}</Text>
+              <Text style={styles.textLabel}>{translate("Position : ")}</Text>
               <Text style={styles.textLabel}>{position}</Text>
             </View>
             <View style={styles.viewInformation}>

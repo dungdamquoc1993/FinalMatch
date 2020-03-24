@@ -51,7 +51,7 @@ export default class SearchPlace extends MultiLanguageComponent {
               this.setState({typedAddress})
             }}
             onEndEditing = {this.searchPlace}
-            placeholder={translate('Competition address')}
+            placeholder={translate("Competition address")}
           />
           <TouchableOpacity
             style={{
@@ -97,8 +97,7 @@ class Item extends Component {
       <View style={styles.ViewAllInformation}>
         <TouchableOpacity 
           style={{ width: '85%', height: '100%' }}
-          onPress = {() => {
-            console.log("haha"+JSON.stringify({latitude, longitude}))
+          onPress = {() => {            
             updatePlace(formattedAddress, latitude, longitude)
             navigation.goBack()
           }}

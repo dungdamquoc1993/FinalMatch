@@ -1,5 +1,6 @@
 import i18n from "i18n-js"
 import React, {Component} from 'react'
+import {translate} from '../languages/languageConfigurations'
 import {
   Text,
   View,

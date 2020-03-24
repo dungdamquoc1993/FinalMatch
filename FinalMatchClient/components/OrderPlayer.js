@@ -65,7 +65,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
       })
     } catch (error) {
       alert (
-        `Cannot get customer's information. error = ${JSON.stringify (error)}`
+        `Cannot get customer's information: ${JSON.stringify (error)}`
       )
     }
   }
@@ -107,7 +107,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           matchTiming
         })
       } else {
-        alert ("Cannot update customer's information " + error)
+        alert ("Cannot update customer's information:" + error)
       }
     } catch (error) {
       alert ("Cannot update customer's information: " + error)
@@ -125,7 +125,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
           }}
         />
         <Header
-          title={translate ('Order a player')}
+          title={translate("Order a player")}
           hideBack={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('Service')
@@ -139,7 +139,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               onChangeText={name => {
                 this.setState ({name})
               }}
-              placeholder={translate ('Enter name: ')}
+              placeholder={translate ("Enter name: ")}
             />
           </View>
           <View style={styles.personalInformation}>
@@ -150,7 +150,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               onChangeText={phoneNumber => {
                 this.setState ({phoneNumber})
               }}
-              placeholder={translate ('Enter telephone number: ')}
+              placeholder={translate ("Enter telephone number: ")}
             />
           </View>
           <View style={{height: 40, width: '100%', alignItems: 'center'}}>
@@ -161,7 +161,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                 fontSize: 20,
               }}
             >
-              {translate ('Player position')}
+              {translate ("Player position")}
             </Text>
           </View>
 
@@ -261,7 +261,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   color: place.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                {place.trim () === '' ? 'Địa điểm thi đấu' : place}
+                {place.trim () === '' ? "Match's place" : place}
               </Text>
             </TouchableOpacity>
 
@@ -294,7 +294,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               }}
             >
               <Text style={styles.textSubmit}>
-                {translate ('Send a request')}
+                {translate ("Send a request")}
               </Text>
             </TouchableOpacity>
           </View>
