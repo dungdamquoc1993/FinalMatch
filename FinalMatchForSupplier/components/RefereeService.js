@@ -65,13 +65,13 @@ export class RefereeService extends Component {
         longitude, radius, address } = data      
       this.setState({ phoneNumber, currentLocation: { latitude, longitude, address }, radius })
     } catch (error) {
-      alertWithOKButton("Cannot get Supplier information" + error)
+      alertWithOKButton(translate("Cannot get supplier's information") + error)
     }
   }
 
   _displayAge(age) {
     if (age > 0) {
-      return age > 1 ? `${age} ages` : `${age} age`
+      return age > 1 ? `${age} `+translate("ages") : `${age} `+translate("age")
     } else {
       return ''
     }
@@ -102,7 +102,7 @@ export class RefereeService extends Component {
     const { supplierId, email } = await getSupplierFromStorage()      
 
     if (latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
-      alertWithOKButton("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+      alertWithOKButton(translate("You must press Location and choose radius"))
       return
     }
     try {                
@@ -116,14 +116,14 @@ export class RefereeService extends Component {
         address,
         radius)
       if (message.length == 0) {
-        alertWithOKButton("Insert referee service successfully", () => {
+        alertWithOKButton(translate("Insert player service successfully"), () => {
           this.props.stackNavigation.dispatch(NavigationActions.back())
         })
       } else {
         alertWithOKButton(message, null)
       }
     } catch (error) {
-      alertWithOKButton('Cannot get data from Server' + error)
+      alertWithOKButton(translate("Cannot get data from Server") + error)
     }
 
   }
@@ -160,7 +160,7 @@ export class RefereeService extends Component {
             onChangeText={(refereeName) => {
               this.setState({refereeName})
             }}
-            placeholder={'Tên trọng tài của Bạn (còi danh)'}
+            placeholder={translate("Your referee's name:")}
           />
         </View>
         <View style={styles.personalInformation}>
@@ -177,7 +177,7 @@ export class RefereeService extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Giá dịch vụ của Bạn (ít hơn 300k)'}
+            placeholder={translate("Your service's price(less than 300K):")}
             keyboardType={'number-pad'}
             value={price}
             onChangeText={price => {
@@ -200,7 +200,7 @@ export class RefereeService extends Component {
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                {stringDateOfBirth === '' ? "Ngày sinh: dd/mm/yyyy" : stringDateOfBirth}
+                {stringDateOfBirth === '' ? translate("Date of birth: dd/mm/yyyy") : stringDateOfBirth}
               </Text>              
           </TouchableOpacity>
             <Text style={styles.age}>
@@ -220,7 +220,7 @@ export class RefereeService extends Component {
           <View style={styles.radiusInput}>
               <TextInput
               style={styles.textInputRadius}
-              placeholder={'Enter radius'}
+              placeholder={translate("Enter radius:")}
               keyboardType={'numeric'}
               onChangeText={radius => {
                 this.setState ({radius})

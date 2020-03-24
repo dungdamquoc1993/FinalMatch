@@ -63,7 +63,7 @@ class PlayerService extends Component {
       
       this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
     } catch(error) {
-      alert("Cannot get Supplier information"+JSON.stringify(error))
+      alert(translate("Cannot get supplier's information")+JSON.stringify(error))
       //Quay lai Tab
     }
   }
@@ -78,7 +78,7 @@ class PlayerService extends Component {
     const {supplierId, email} = await getSupplierFromStorage()          
         
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
-      alert("Bạn phải nút bấm nút lấy Location và chọn bán kính")
+      alert(translate("You must press Location and choose radius"))
       return
     }    
     try {      
@@ -90,11 +90,11 @@ class PlayerService extends Component {
         longitude,
         address,
         radius)                    
-      alertWithOKButton("Insert player service successfully", () => {
+      alertWithOKButton(translate("Insert player service successfully"), () => {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })      
     } catch(error) {
-      alert("Cannot get data from Server"+JSON.stringify(error))
+      alert(translate("Cannot get data from Server")+JSON.stringify(error))
     } 
     
   }
@@ -130,7 +130,7 @@ class PlayerService extends Component {
         
       <SafeAreaView style={styles.container}>
         
-        <Header title={"Player Service"} pressBackButton={async () => {
+        <Header title={translate("Player Service")} pressBackButton={async () => {
           //validate ok
           return true
         }}/>        
@@ -138,7 +138,7 @@ class PlayerService extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Tên Thi Đấu của Bạn (Đấu Danh) :)'}
+            placeholder={translate("Your player's name :")}
             value={playerName}
             onChangeText={playerName => {
               this.setState ({playerName})
@@ -148,7 +148,7 @@ class PlayerService extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Số Điện Thoại của Bạn'}
+            placeholder={translate("Phone : ")}
             keyboardType={'phone-pad'}
             value={phoneNumber}
             onChangeText={phoneNumber => {
@@ -159,7 +159,7 @@ class PlayerService extends Component {
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
-            placeholder={'Gia dich vu'}
+            placeholder={translate("Player's price: ")}
             keyboardType={'number-pad'}
             value={price}
             onChangeText={price => {
@@ -234,7 +234,7 @@ class PlayerService extends Component {
         <View style={styles.radiusInput}>
               <TextInput
               style={styles.textInputRadius}
-              placeholder={"Enter radius"}
+              placeholder={translate("Enter radius:")}
               keyboardType={'numeric'}
               onChangeText={radius => {
                 this.setState ({radius})

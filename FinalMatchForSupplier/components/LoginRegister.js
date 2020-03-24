@@ -61,7 +61,7 @@ class LoginRegister extends Component {
                 },
             }, (error, avatarObject) => {
                 if (error) {
-                    alert('Error avatar ' + JSON.stringify(error))
+                    alert(translate("Cannot get Facebook' avatar: ") + JSON.stringify(error))
                     reject(error)
                 } else {
                     const avatar = avatarObject.picture.data.url
@@ -79,8 +79,7 @@ class LoginRegister extends Component {
                 null,
                 async (error, facebookUser) => {
                     // alert(JSON.stringify(facebookUser))
-                    if (error) {
-                        console.log('Error fb user: ' + error.toString())
+                    if (error) {                        
                         reject(error)
                     } else {
                         const facebookId = facebookUser.id
@@ -124,7 +123,7 @@ class LoginRegister extends Component {
             }
         } catch(error) {  
                       
-            alert("Cannot login Facebook: " + JSON.stringify(error))
+            alert(translate("Cannot login Facebook: ") + JSON.stringify(error))
         }        
     }
     _login = async () => {
@@ -137,12 +136,12 @@ class LoginRegister extends Component {
         try {
             const { email, password, retypePassword, isLogin } = await this.state            
             if(!validateEmail(email) || !validatePasword(password)) {
-                alert("Email and password is invalid format")
+                alert(translate("Email and password is invalid format"))
                 return
             }
             if(isLogin != true) {                            
                 if(retypePassword != password) {
-                    alert('Password and retype password does not match')
+                    alert(translate("Password and retype password does not match"))
                     return
                 }
             }                        
@@ -162,7 +161,7 @@ class LoginRegister extends Component {
                 alert(message)
             }
         } catch(error) {
-            alert(`Error login or register user. Error = ${JSON.stringify(error)}`)
+            alert(translate("Error login or register customer: ") + `${JSON.stringify(error)}`)
         }
         
     }
@@ -174,7 +173,7 @@ class LoginRegister extends Component {
             }} accessible={false}> 
           <SafeAreaView style={styles.container} 
             enabled>                
-            <Image style={styles.logo} source={require('../images/LOGO_Dung_2.png')} />
+            <Image style={styles.logo} source={require('../images/logo2.png')} />
             
             <Icon.Button
                 style={styles.facebookButton}
@@ -229,12 +228,13 @@ class LoginRegister extends Component {
                     value={this.state.retypePassword}
                     keyboardType={"default"}
                     secureTextEntry
-                    placeholder={"Retype password:"} />}
+                    placeholder={translate("Retype password:")} />}
             <TouchableOpacity style={styles.loginButton} onPress={() => {
                 this._loginOrRegister()
             }}>
                 <Text style={styles.textLogin}>
-                    {isLogin === true ? "Login to your account" : "Register new user"}
+                    {isLogin === true ? translate("Login to your account") 
+                                        : translate("Register new user")}
                 </Text>
             </TouchableOpacity>
         </SafeAreaView>

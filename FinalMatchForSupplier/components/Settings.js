@@ -144,7 +144,7 @@ export default class Settings extends Component {
   validateInput() {
     const { phoneNumber } = this.state
     if (phoneNumber.trim().length == 0) {
-      alert("Please enter phone number")
+      alert(translate("Enter telephone number: "))
       return false
     }
     return true
@@ -186,7 +186,7 @@ export default class Settings extends Component {
         }
       })
     } catch (error) {
-      alert(`Cannot get service's information: ${JSON.stringify(error)}`)
+      alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
     }
   }
   async componentDidMount() {
@@ -201,12 +201,12 @@ export default class Settings extends Component {
       const { data, message = '' } = await postUploadPhoto(photos, supplierId)
       this.setState({ avatar: typeof data == "object" ? data[0] : data })
     } catch (error) {
-      alert(`Cannot upload avatar: ${JSON.stringify(error)}`)
+      alert(translate("Cannot upload avatar: ")+`${JSON.stringify(error)}`)
     }
   }
   _displayAge(age) {
     if (age > 0) {
-      return age > 1 ? `${age} ages` : `${age} age`
+      return age > 1 ? `${age} `+translate("ages") : `${age} `+translate("age")      
     } else {
       return ''
     }
@@ -265,7 +265,7 @@ export default class Settings extends Component {
     } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={'Account management'} pressBackButton={async () => {
+        <Header title={"Account management"} pressBackButton={async () => {
           if (this.validateInput() == true) {
             await this._saveSettings()
             return true
@@ -301,7 +301,7 @@ export default class Settings extends Component {
             </Text>
             <TextInput
               style={styles.textInput}
-              placeholder={'Please enter name'}
+              placeholder={translate("Enter name: ")}
               value={name}
               onChangeText={name => {
                 this.setState({ name })
@@ -341,7 +341,7 @@ export default class Settings extends Component {
             </Text>
             <TextInput
               style={styles.textInput}
-              placeholder={'Please enter phone'}
+              placeholder={translate("Phone : ")}
               keyboardType={'phone-pad'}
               value={phoneNumber}
               onChangeText={phoneNumber => {
@@ -370,7 +370,7 @@ export default class Settings extends Component {
               </Text>
               <TextInput
                 style={styles.radiusInput}
-                placeholder={'Radius'}
+                placeholder={translate("Radius")}
                 keyboardType={'numeric'}
                 value={`${radius}`}
                 onChangeText={radius => {

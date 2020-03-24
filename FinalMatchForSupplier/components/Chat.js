@@ -114,7 +114,7 @@ class _BottomView extends Component {
     render() {
         const {typedText} = this.state        
         return <View style={stylesBottomView.container}>
-            <TextInput placeholder={"Enter your sms:"} 
+            <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
                 value={typedText}
                 style={stylesBottomView.textInput}/>

@@ -68,7 +68,7 @@ class ServiceRegister extends Component {
           </Text>
         </View>
         <View style={{marginLeft: 0.15 * screenWidth}}>
-          <Header title={"Đăng Ký Cung Cấp Dịch Vụ"} hideBack={true} />
+          <Header title={translate("Register a service")} hideBack={true} />
         </View>
         <View style={{alignItems: 'center', marginBottom: 20}}>
           <TouchableOpacity

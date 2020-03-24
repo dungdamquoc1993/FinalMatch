@@ -120,14 +120,24 @@ class Item extends Component {
     return (
       <View style={styles.viewOrder}>
         {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
-        <Text style={styles.textInformationOrder}>Name:{customerName}</Text>
-        <Text style={styles.textInformationOrder}>Địa điểm thi đấu:</Text>
-        <Text style={styles.textInformationOrder}>{orderAddress}</Text>
-        <Text style={styles.textInformationOrder}>Match timing:</Text>
+        <Text style={styles.textInformationOrder}>
+            {translate("Name : ")}{customerName}
+          </Text>
+        <Text style={styles.textInformationOrder}>
+            {translate("Match's place")}
+          </Text>
+        <Text style={styles.textInformationOrder}>
+          {orderAddress}
+          </Text>
+        <Text style={styles.textInformationOrder}>
+          {translate("Match's timing")}
+        </Text>
         <Text style={styles.textInformationOrder}>{
           strDatetimeStart          
         }</Text>
-        <Text style={styles.textInformationOrder}>Trạng thái đơn hàng:</Text>
+        <Text style={styles.textInformationOrder}>
+          {translate("Order's status")}
+        </Text>
         <Text
           style={{
             color: getColorFromStatus (

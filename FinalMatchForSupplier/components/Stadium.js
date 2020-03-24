@@ -66,14 +66,14 @@ class Stadium extends Component {
         supplierId
       )
       if (message.length > 0) {
-        alertWithOKButton (`Cannot insert Stadium: ${message}`, null)
+        alertWithOKButton (translate("Cannot insert Stadium:") + `${message}`, null)
       } else {
-        alertWithOKButton ('Insert stadium successfully', () => {
+        alertWithOKButton (translate("Insert stadium successfully"), () => {
           this.props.stackNavigation.dispatch (NavigationActions.back ())
         })
       }
     } catch (error) {
-      alert ('Cannot get data from Server' + error)
+      alert (translate("Cannot get data from Server")+ error)
     }
   }
   _pressLocation = async () => {
@@ -113,7 +113,7 @@ class Stadium extends Component {
     }} accessible={false}> 
       <SafeAreaView style={styles.container}>
         <Header
-          title={'STADIUM'}
+          title={translate("Stadium")}
           pressBackButton={async () => {
             //validate ok
             return true
@@ -127,14 +127,14 @@ class Stadium extends Component {
             onChangeText={stadiumName => {
               this.setState ({stadiumName})
             }}
-            placeholder={'Tên sân bóng'}
+            placeholder={translate("Stadium's name")}
           />
         </View>
 
         {isFree == true
           ? <View style={styles.txtAddresses}>
               <Text style={styles.txtShowAddresses}>
-                {address.length > 0 ? address : 'Click to get location'}
+                {address.length > 0 ? address : translate("Click to get location")}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -152,7 +152,7 @@ class Stadium extends Component {
               <View style={styles.personalInformation}>
                 <TextInput
                   style={styles.textInput}
-                  placeholder={'số điện thoại sân bóng 09xxxx...'}
+                  placeholder={translate("Stadium's phone")}
                   keyboardType={'number-pad'}
                   value={phoneNumber}
                   onChangeText={phoneNumber => {
@@ -171,7 +171,7 @@ class Stadium extends Component {
                     updatedState.currentLocation.address = address
                     this.setState (updatedState)
                   }}
-                  placeholder={'Địa chỉ sân bóng'}
+                  placeholder={translate("Stadium's address")}
                 />
 
               </View>
