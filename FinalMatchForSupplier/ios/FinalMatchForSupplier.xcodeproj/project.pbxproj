@@ -12,16 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		482052AB463A7B93D95A4561 /* libPods-FinalMatchForSupplier.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E487326CD91E06E475F141D0 /* libPods-FinalMatchForSupplier.a */; };
-		AD90A66323D592E100BBF83B /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */; };
-		AD90A66423D592E100BBF83B /* JosefinSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65D23D5906200BBF83B /* JosefinSans-BoldItalic.ttf */; };
-		AD90A66523D592E100BBF83B /* JosefinSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65F23D5906200BBF83B /* JosefinSans-Italic.ttf */; };
-		AD90A66623D592E100BBF83B /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65C23D5906200BBF83B /* JosefinSans-Light.ttf */; };
-		AD90A66723D592E100BBF83B /* JosefinSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65923D5906200BBF83B /* JosefinSans-LightItalic.ttf */; };
-		AD90A66823D592E100BBF83B /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65E23D5906200BBF83B /* JosefinSans-Regular.ttf */; };
-		AD90A66923D592E100BBF83B /* JosefinSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66023D5906200BBF83B /* JosefinSans-SemiBold.ttf */; };
-		AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A65A23D5906200BBF83B /* JosefinSans-SemiBoldItalic.ttf */; };
-		AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66123D5906200BBF83B /* JosefinSans-Thin.ttf */; };
-		AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */; };
 		AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */; };
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
@@ -354,16 +344,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */,
-				AD90A66323D592E100BBF83B /* JosefinSans-Bold.ttf in Resources */,
-				AD90A66423D592E100BBF83B /* JosefinSans-BoldItalic.ttf in Resources */,
-				AD90A66523D592E100BBF83B /* JosefinSans-Italic.ttf in Resources */,
-				AD90A66623D592E100BBF83B /* JosefinSans-Light.ttf in Resources */,
-				AD90A66723D592E100BBF83B /* JosefinSans-LightItalic.ttf in Resources */,
-				AD90A66823D592E100BBF83B /* JosefinSans-Regular.ttf in Resources */,
-				AD90A66923D592E100BBF83B /* JosefinSans-SemiBold.ttf in Resources */,
-				AD90A66A23D592E100BBF83B /* JosefinSans-SemiBoldItalic.ttf in Resources */,
-				AD90A66B23D592E100BBF83B /* JosefinSans-Thin.ttf in Resources */,
-				AD90A66C23D592E100BBF83B /* JosefinSans-ThinItalic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
