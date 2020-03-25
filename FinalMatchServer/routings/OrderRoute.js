@@ -298,6 +298,7 @@ const insertNotification = ({ supplierId, customerId, title, body, orderId }) =>
 // http://150.95.113.87:3000/orders/updateOrderStatus
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order
+  debugger
   const { tokenkey, supplierid, customerid, locale } = req.headers
   i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
