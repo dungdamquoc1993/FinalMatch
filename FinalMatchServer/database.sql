@@ -118,16 +118,6 @@ CREATE TABLE IF NOT EXISTS Notification (
     orderId INTEGER,        
     createdDate DATETIME DEFAULT NOW()    
 );
---Lưu lịch sử thay đổi status của 1 đơn hàng
---Trả lời câu hỏi: trạng thái mới thêm vào là gì, ai thêm(supplier hay customer)
---Mỗi lần thay đổi status => đổi trong bảng này, tính toán để ra status của bảng Ordersm,=>update bảng Orders
-CREATE TABLE IF NOT EXISTS StatusHistory (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    orderId INTEGER, 
-    status VARCHAR(120) DEFAULT "pending", 
-    whoChanged VARCHAR(100) NOT NULL DEFAULT 'supplier',
-    createdDate DATETIME DEFAULT NOW()
-);
   --PENDING: "pending", 
   --ACCEPTED: "accepted", 
   --CANCELLED:"cancelled", 

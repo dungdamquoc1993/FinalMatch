@@ -186,8 +186,7 @@ IF status = 'accepted' THEN
     AND Orders.supplierId = @supplierId
     AND Orders.latitude = @latitude
     AND Orders.longitude = @longitude
-    AND Orders.dateTimeStart = @dateTimeStart
-    AND Orders.dateTimeEnd = @dateTimeEnd;
+    AND Orders.dateTimeStart = @dateTimeStart;    
 END IF;
 SELECT * FROM viewOrdersSupplierCustomer WHERE viewOrdersSupplierCustomer.orderId = orderId;
 END;

@@ -250,7 +250,7 @@ export const getPlayersAroundOrder = async (radius, latitude, longitude, positio
     }
 }
 
-export const createNewOrder = async (
+export const createNewOrder = async (    
     supplierId, 
     latitude,
     longitude,
@@ -258,6 +258,7 @@ export const createNewOrder = async (
     typeRole,
     dateTimeStart, //phải là kiểu Date    
     ) => {
+        debugger
     //if order exists, do nothing
     dateTimeStart.setMilliseconds(0);
     dateTimeStart.setSeconds(0)        

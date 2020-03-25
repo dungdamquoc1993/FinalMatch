@@ -87,7 +87,7 @@ export default class Service extends MultiLanguageComponent {
         >
           <TouchableOpacity
             onPress={() => {
-              navigate ("Order Referee");
+              navigate ("OrderReferee");
             }}
           >
             <View

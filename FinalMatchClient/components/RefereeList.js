@@ -138,6 +138,7 @@ class Item extends Component {
           <TouchableOpacity
             style={styles.btnOrder}
             onPress={async () => {
+              debugger
               if(order == true) {
                 return
               }
