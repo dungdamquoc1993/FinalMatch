@@ -60,7 +60,8 @@ export const registerSupplier = async (email, password) => {
     }
 }
 export const loginSupplier = async (email, password) => {
-    try {            
+    try {        
+        debugger    
         const response = await fetch(await urlLoginSupplier(), {
             method: 'POST',
             headers: {
