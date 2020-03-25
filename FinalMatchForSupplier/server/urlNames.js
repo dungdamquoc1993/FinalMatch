@@ -24,10 +24,10 @@ export const urlCheckRefereeServiceExist = (supplierId) => {
 
 
 export const urlGetSupplierById = (supplierId) => {
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 export const urlCheckPlayerServiceExist = (supplierId) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/checkPlayerServiceExist?supplierId=${supplierId}`
+    return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/checkPlayerServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 export const urlTokenCheck = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheck`
