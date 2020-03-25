@@ -7,10 +7,9 @@ admin.initializeApp({
 });
 
 const sendFirebaseCloudMessage = async ({title, body, payload, notificationTokens}) => {      
-  try {
-    
-    const failedTokens = [];    
-    
+  try {    
+    debugger
+    const failedTokens = [];        
     if(notificationTokens.length == 0) {
       console.log('No notification Tokens to send');
       return []
@@ -29,7 +28,11 @@ const sendFirebaseCloudMessage = async ({title, body, payload, notificationToken
           failedTokens.push(notificationTokens[idx]);
         }
       })
-      console.log('List of tokens that caused failures: ' + failedTokens);
+      console.log('List of tokens that caused failures: ');
+      failedTokens.forEach(failedToken => {
+        console.log(`{failedToken}\n`)
+      })
+
     } 
     
     return failedTokens   
