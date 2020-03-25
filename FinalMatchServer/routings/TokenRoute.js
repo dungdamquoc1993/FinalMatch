@@ -49,7 +49,7 @@ router.post('/insertSupplierNotificationToken', async (req, res) => {
 })
 //Link http://localhost:3000/token/insertCustomerNotificationToken
 router.post('/insertCustomerNotificationToken', async (req, res) => {
-  const { tokenkey, customerid } = req.headers
+  const { tokenkey, customerid, locale } = req.headers
   i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
 
@@ -89,7 +89,7 @@ router.post('/insertCustomerNotificationToken', async (req, res) => {
 })
 //Link http://localhost:3000/token/tokenCheck
 router.post('/tokenCheck', async (req, res) => {  
-  const {tokenkey = '', supplierid = ''} = req.headers  
+  const {tokenkey = '', supplierid = '', locale} = req.headers  
   i18n.setLocale(locale)  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))    
   if(checkTokenResult == false) {
@@ -108,7 +108,7 @@ router.post('/tokenCheck', async (req, res) => {
 })
 
 router.post('/tokenCheckCustomer', async (req, res) => {  
-  const {tokenkey = '', customerid = ''} = req.headers    
+  const {tokenkey = '', customerid = '', locale} = req.headers    
   i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)    
   if(checkTokenResult == false) {

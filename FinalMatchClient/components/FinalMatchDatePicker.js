@@ -8,7 +8,6 @@ import {
   TouchableOpacity,  
 } from 'react-native'
 import {isIOS} from '../helpers/Helpers'
-import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import { TextInput } from 'react-native-gesture-handler'
 import DatePicker from 'react-native-date-picker'
