@@ -87,7 +87,7 @@ export default class Service extends MultiLanguageComponent {
         >
           <TouchableOpacity
             onPress={() => {
-              navigate ('OrderReferee');
+              navigate ("Order Referee");
             }}
           >
             <View
@@ -99,7 +99,7 @@ export default class Service extends MultiLanguageComponent {
               }}
             >
               <Text style={styles.textButton}>
-              {translate('Order Referee')}
+              {translate("Order Referee")}
               </Text>
               <Image
                 style={{height: 30, width: 30}}
