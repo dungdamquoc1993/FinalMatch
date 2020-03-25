@@ -24,8 +24,8 @@ router.get('/', async (req, res) => {
 //Dang ky Supplier
 //Link http://localhost:3000/suppliers/register
 router.post('/register', async (req, res) => {    
-    const {email, password,userType = "default", locale} = req.body   
-    i18n.setLocale(locale)     
+    const {email, password,userType = "default"} = req.body   
+    i18n.setLocale(req.headers.locale)   
     connection.query(POST_REGISTER_SUPPLIER, [email, password,userType], (error, results) => {            
             if(error) {
                 res.json({
@@ -72,8 +72,8 @@ router.post('/login', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
-  const {facebookId, email = '', name, avatar = '', locale} = req.body   
-  i18n.setLocale(locale)   
+  const {facebookId, email = '', name, avatar = ''} = req.body   
+  i18n.setLocale(req.headers.locale)   
   connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
           
           if(error) {
@@ -226,9 +226,8 @@ router.get('/getImage', async (req, res) =>{
 })
 //Link http://localhost:3000/suppliers/updateAvatarForSupplier
 router.post('/updateAvatarForSupplier', async (req, res) => {
-  
-  const { tokenkey, supplierid, locale } = req.headers
-  i18n.setLocale(locale)
+  const { tokenkey, supplierid} = req.headers
+  i18n.setLocale(req.headers.locale)   
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
   if (checkTokenResult == false) {
     res.json({

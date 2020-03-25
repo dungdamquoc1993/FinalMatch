@@ -12,8 +12,8 @@ const POST_UPDATE_CUSTOMER_INFORMATION = "UPDATE Customer SET name = ?, phoneNum
 //Dang ky Customer
 //Link http://localhost:3000/customers/register
 router.post('/register', async (req, res) => {
-  const { name, email, password, locale} = req.body
-  i18n.setLocale(locale)
+  const { name, email, password} = req.body
+  i18n.setLocale(req.headers.locale)   
   connection.query(POST_REGISTER_CUSTOMER, [name, email, password], (error, results) => {
     if (error) {
       res.json({
@@ -38,8 +38,8 @@ router.post('/register', async (req, res) => {
 
 //Link http://localhost:3000/customers/login
 router.post('/login', async (req, res) => {
-  const {email, password, locale} = req.body      
-  i18n.setLocale(locale)
+  const {email, password} = req.body      
+  i18n.setLocale(req.headers.locale)   
   connection.query(POST_LOGIN_CUSTOMER, [email, password], (error, results) => {          
           if(error) {
               res.json({
@@ -62,8 +62,8 @@ router.post('/login', async (req, res) => {
 
 //Link http://localhost:3000/customers/loginFacebook
 router.post('/loginFacebook', async (req, res) => {
-  const {facebookId = '', email = '', name, avatar = '', locale} = req.body     
-  i18n.setLocale(locale) 
+  const {facebookId = '', email = '', name, avatar = ''} = req.body     
+  i18n.setLocale(req.headers.locale)   
   connection.query(POST_LOGIN_FACEBOOK_CUSTOMER, [facebookId, email, name, avatar], (error, results) => {
           if(error) {
               res.json({
