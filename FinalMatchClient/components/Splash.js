@@ -7,6 +7,7 @@ import {
   NativeEventEmitter, 
   NativeModules,
 } from 'react-native'
+const {AsyncStorage} = NativeModules
 import {
     MAIN_COLOR, 
 } 
@@ -80,8 +81,14 @@ export default class Splash extends Component {
                 customerId = '' 
             }                        
             if(tokenKey.length > 0) {                
-                
-                navigate("Service")
+                const notificationToken = await AsyncStorage.getItem("notificationToken")
+                if (notificationToken != null) {
+                    const { error } = await insertCustomerNotificationToken(notificationToken)
+                    debugger
+                    if (!error) {
+                        navigate('Service') //success
+                    }
+                }                
             } else {
                 navigate("LoginRegister")    
             }                                    
