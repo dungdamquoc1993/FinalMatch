@@ -297,8 +297,7 @@ const insertNotification = ({ supplierId, customerId, title, body, orderId }) =>
 }
 // http://150.95.113.87:3000/orders/updateOrderStatus
 router.post('/updateOrderStatus', async (req, res) => {
-  //Cả customer và supplier đều thay đổi đc order
-  debugger
+  //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
   i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
@@ -314,6 +313,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   const { status, orderId } = req.body
   //validate, check token ?  
   const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+  debugger
   if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(status.trim().toLowerCase())) {
     res.json({
       result: "failed",
@@ -326,6 +326,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   connection.query(POST_UPDATE_ORDER_STATUS,
     [status, orderId]
     , async (error, results) => {
+      debugger
       if (error) {
         res.json({
           result: "failed",
