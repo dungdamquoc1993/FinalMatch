@@ -12,7 +12,7 @@ const GET_CHAT_HISTORY =
           +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
           +"OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) "+
           +"ORDER BY viewChatOrder.createdDate"
-const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = true" 
+const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1" 
 const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  

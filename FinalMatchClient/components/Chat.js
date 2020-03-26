@@ -1,110 +1,96 @@
 import React, {Component} from 'react'
-import {translate} from '../languages/languageConfigurations'
 import {
-View, TextInput, 
-StyleSheet,
-Text, 
-Image,
-FlatList,
-TouchableHighlight
-} 
-from 'react-native'
+    View, TextInput,
+    StyleSheet,
+    Text,
+    Image,
+    FlatList,
+    TouchableHighlight
+}
+    from 'react-native'
 import {
-    insertNewChat, 
-    getChatHistory, 
+    insertNewChat,
+    getChatHistory,
     makeSeen,
 } from '../server/myServices'
-const fakeURL = "https://upload.wikimedia.org/wikipedia/commons/a/a7/Tiffanie_at_cat_show.jpg"
-var fakeData  = [    
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: false},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: false},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow eweware you??", status: "I am 32typing", isSender: true},
-    {url: fakeURL, text: "Hoow 2323re you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow ar323e you??", status: "I am t32yping", isSender: true},
-    {url: fakeURL, text: "Hoow are you??", status: "I am 32typing", isSender: true},
-]
+import {
+    firebaseDatabase,
+    getAddressFromLatLong
+} from '../server/googleServices'
+import { translate } from '../languages/languageConfigurations'
 export default class Chat extends Component {
     constructor(props) {
-        super(props)
-        this.pressSend = this.pressSend.bind(this)
+        super(props)        
     }
     state = {
-        messengers: fakeData,
+        messengers: [],
         flatList: React.createRef()
-    }
-    pressSend = (typedText) => {
-
-        this.setState({messengers: [...this.state.messengers, {
-            url: fakeURL, text: typedText, status: "I am 32typing", isSender: true
-        }]})           
-        
-    }
+    }    
     componentDidUpdate() {
         this.state.flatList.current.scrollToIndex({index: this.state.messengers.length - 1})
+    }
+    async componentDidMount() {
+        const that = this
+        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
+            let messengers = await getChatHistory()
+            that.setState({messengers})                      
+        })                
     }
     
     render() {        
         return <View style={styles.container}>
             <FlatList
-                data={this.state.messengers} style={styles.flatList}
+                data={this.state.messengers} 
+                style={styles.flatList}
                 ref={this.state.flatList}
                 onScrollToIndexFailed={(error) => {
-                    this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true });
+                    this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
                     setTimeout(() => {
                         if (this.state.messengers.length !== 0 && this.state.flatList.current !== null) {
-                            this.state.flatList.current.scrollToIndex({ index: error.index, animated: true });
+                            this.state.flatList.current.scrollToIndex({ index: error.index, animated: true })
                         }
-                    }, 100);
+                    }, 100)
                 }}
                 keyExtractor={(item, index) => {
                     return `${index}`
                 }}
                 extraData={this.state.messengers}
                 renderItem={(item) => {
-                    return <_ChatItem {...item} />
+                    return <_ChatItem {...item} {...this.props}/>
                 }} />
-            <_BottomView pressSend={this.pressSend} />
+            <_BottomView {...this.props} />
         </View>
     }
 }
-class _ChatItem extends Component {
+class _ChatItem extends Component {    
     render() {
-        const {url, text, status, isSender} = this.props.item
-        const {index} = this.props
+        const {
+            chatId,
+            orderId,
+            customerId,
+            supplierAvatar,
+            supplierId,
+            supplierName,
+            sms,
+            senderId,
+            createdDate,
+            seen,
+            typeRole,
+            orderLatitude,
+            orderLongitude,
+            orderStatus,
+            dateTimeStart,
+            dateTimeEnd,
+        } = this.props                
+        const {isSender} = senderId == supplierId
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>
-                <Image style={styles.profile} source={{ uri: url }} />
+                <Image style={styles.profile} source={{ uri: supplierAvatar }} />
                 <View style={styles.text}>
-                    <Text>{text}</Text>
-                </View>
-                
+                    <Text>{sms}</Text>
+                </View>                
             </View>
-
             <Text style={styles.status}>{status}</Text>
         </View>
     }
@@ -113,16 +99,28 @@ class _BottomView extends Component {
     state = {
         typedText: ''
     }
-    render() {
+    pressSend = async () => {
+        const {
+            orderId,
+            supplierId, 
+            customerId
+        } = this.props
         const {typedText} = this.state
-        const {pressSend} = this.props
+        insertNewChat({
+            orderId, 
+            sms: typedText, 
+            senderId: supplierId
+        })
+    }
+    render() {
+        const {typedText} = this.state        
         return <View style={stylesBottomView.container}>
-            <TextInput placeholder={"Enter your sms:"} 
+            <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
                 value={typedText}
                 style={stylesBottomView.textInput}/>
             <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
-                pressSend(typedText)
+                pressSend()
             }}>
                 <Text>Send</Text>
             </TouchableHighlight>

@@ -31,7 +31,7 @@ export default class Chat extends Component {
     }
     async componentDidMount() {
         const that = this
-        firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
+        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
             let messengers = await getChatHistory()
             that.setState({messengers})                      
         })                
@@ -40,7 +40,8 @@ export default class Chat extends Component {
     render() {        
         return <View style={styles.container}>
             <FlatList
-                data={this.state.messengers} style={styles.flatList}
+                data={this.state.messengers} 
+                style={styles.flatList}
                 ref={this.state.flatList}
                 onScrollToIndexFailed={(error) => {
                     this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
@@ -116,6 +117,9 @@ class _BottomView extends Component {
         return <View style={stylesBottomView.container}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
+                onTouchStart={() => {
+                    makeSeen
+                }}
                 value={typedText}
                 style={stylesBottomView.textInput}/>
             <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
