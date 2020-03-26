@@ -46,7 +46,7 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
                      
     } catch (error) {
         
-        console.error(`Cannot get Address From Lat Long. Error: ${error}`)
+        console.error(translate("Cannot get address from lat, lon")+`${error}`)
         return { address: '', district: '', province:''}
     }
 }
@@ -71,7 +71,7 @@ export const getLatLongFromAddress = async (address) => {
         } 
         return { latitude: 0, longitude: 0 }                  
     } catch (error) {        
-        console.error(`Cannot get Lat Long From Address. Error: ${error}`)
+        console.error(translate("Cannot get lat, lon from address")+`${error}`)
         return { latitude: 0, longitude: 0 }
     }
 }
@@ -97,7 +97,7 @@ export const getPlacesFromAddress = async (address) => {
             return []
         }        
     } catch (error) {        
-        console.error(`Cannot get Places From Address. Error: ${error}`)
+        console.error(translate("Cannot get Places From Address:")+`${error}`)
         return []
     }
 }
@@ -121,9 +121,9 @@ export const checkLocationPermission = async () => {
 
     if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
     if (status === PermissionsAndroid.RESULTS.DENIED) {
-        ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+        ToastAndroid.show(translate("Location permission denied by user."), ToastAndroid.LONG);
     } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+        ToastAndroid.show(translate("Location permission denied by user."), ToastAndroid.LONG);
     }
 
     return false;

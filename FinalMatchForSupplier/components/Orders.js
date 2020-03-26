@@ -159,6 +159,9 @@ class Item extends Component {
           pressChat ={() => {
             navigate("Chat", {...this.props})
           }}
+          pressReject={async () => {
+            updateOrderStatus(orderId, CANCELLED)
+          }}
           customerPhoneNumber={customerPhoneNumber}/> }        
         {orderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
         {orderStatus == CANCELLED && <CancelledItem />}
@@ -182,7 +185,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
       }}
       onPress={pressConfirm}
     >
-      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Accept</Text>
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>{translate("Accept")}</Text>
       <Image
         source={require('../images/tick.png')}
         style={{ height: 30, width: 30 }}
@@ -200,7 +203,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
       }}
       onPress={pressCancel}      
     >
-      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Reject</Text>
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>{translate("Reject")}</Text>
       <Image
         source={require('../images/quit.png')}
         style={{ height: 30, width: 30 }}
@@ -209,7 +212,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
   </View>)
 }
 
-const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber}) => {  
+const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressCall}>
     <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
@@ -226,28 +229,31 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber}) => {
       }}
       onPress={pressChat}
     >
-      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>Chat</Text>
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>{translate("Chat")}</Text>
       
-    </TouchableOpacity>        
+    </TouchableOpacity>       
+    <TouchableOpacity onPress={pressReject}>      
+      <Text>{translate("Reject")}</Text>
+    </TouchableOpacity>       
   </View>)
 }
 
 const CompletedItem = ({pressRate}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressRate}>      
-      <Text style={styles.textInformationOrder}>Danh gia 5 sao</Text>        
+      <Text style={styles.textInformationOrder}>{translate("Rate app")}</Text>        
     </TouchableOpacity>    
   </View>)
 }
 const CancelledItem = ({}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
-    <Text style={styles.textInformationOrder}>Da an cancelled</Text>            
+    <Text style={styles.textInformationOrder}>{translate("Pressed cancel")}</Text>            
   </View>)
 }
 
 const MissedItem = ({}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
-    <Text style={styles.textInformationOrder}>Da missed</Text>            
+    <Text style={styles.textInformationOrder}>{translate("Missed")}</Text>            
   </View>)
 }
 

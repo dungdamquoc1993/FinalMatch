@@ -37,7 +37,8 @@ export default class Chat extends Component {
         })                
     }
     
-    render() {        
+    render() {       
+        const {messengers} = this.state 
         return <View style={styles.container}>
             <FlatList
                 data={this.state.messengers} 
@@ -55,14 +56,18 @@ export default class Chat extends Component {
                     return `${index}`
                 }}
                 extraData={this.state.messengers}
-                renderItem={(item) => {
-                    return <_ChatItem {...item} {...this.props}/>
-                }} />
+                renderItem={(item) => 
+                     <_ChatItem {...item}                      
+                                {...this.props}
+                                isLastItem = {item.index == messengers.length - 1}
+                                />
+                } />
             <_BottomView {...this.props} />
         </View>
     }
 }
 class _ChatItem extends Component {    
+    
     render() {
         const {
             chatId,
@@ -92,6 +97,7 @@ class _ChatItem extends Component {
                 </View>                
             </View>
             <Text style={styles.status}>{status}</Text>
+            {isLastItem == true && seen == true && <Text>{translate("Seen")}</Text>}
         </View>
     }
 }
@@ -117,6 +123,9 @@ class _BottomView extends Component {
         return <View style={stylesBottomView.container}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
+                onTouchStart={() => {
+                    makeSeen({orderId, senderId: supplierId})
+                }}
                 value={typedText}
                 style={stylesBottomView.textInput}/>
             <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {

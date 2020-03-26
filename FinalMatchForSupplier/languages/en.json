@@ -66,5 +66,11 @@
     "Click to get location":"Click to get location",
     "Stadium's phone":"Stadium's phone",
     "Stadium's address":"Stadium's address",
-    "Seen": "Seen"
+    "Seen": "Seen",
+    "Accept":"Accept",
+    "Reject": "Reject",
+    "Chat": "Chat",
+    "Rate app": "Rate app",
+    "Pressed cancel":"Pressed cancel",
+    "Missed": "Missed"
 }
