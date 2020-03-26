@@ -410,10 +410,10 @@ export const getChatHistory = async ({customerOrSupplierId}) => {
         return []
     }
 }
-export const makeSeen = async () => {
+export const makeSeen = async ({orderId, senderId}) => {
     try {
         const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()        
-        const response = await fetch(urlInsertNewChat(), {
+        const response = await fetch(urlMakeSeen(), {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -422,19 +422,14 @@ export const makeSeen = async () => {
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
-                
+                orderId, senderId
             }),
         })        
         const responseJson = await response.json()        
         const {result, data, message, time} = responseJson          
-        if (result.toUpperCase() === "OK") {                 
-            //Logger ??              
-            return { data, message: ''}
-        } else {    
-            return { data, message}
-        }
+        return result.toUpperCase() === "OK"
     } catch (error) {               
-        return { data, message: error}
+        result false;
     }
 }
 

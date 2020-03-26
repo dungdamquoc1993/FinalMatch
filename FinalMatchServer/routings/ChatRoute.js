@@ -12,7 +12,7 @@ const GET_CHAT_HISTORY =
           +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
           +"OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) "+
           +"ORDER BY viewChatOrder.createdDate"
-const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1" 
+const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1 WHERE orderId = ? AND senderId = ?" 
 const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
@@ -105,6 +105,7 @@ router.post('/getChatHistory', async (req, res) => {
 //Link http://localhost:3000/chat/makeSeen
 router.post('/makeSeen', async (req, res) => {  
   const { tokenkey, supplierid, customerid, locale } = req.headers
+  const {orderId, senderId} = req.body
   i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
@@ -117,8 +118,7 @@ router.post('/makeSeen', async (req, res) => {
     return
   }  
   connection.query(MAKE_CHAT_SEEN,
-    [], (error, results) => {
-      
+    [orderId, senderId], (error, results) => {      
       if (error) {
         res.json({
           result: "failed",
