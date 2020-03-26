@@ -33,5 +33,9 @@
     "Range around you : ": "Range around you : ",
     "Stadium's address : ": "Stadium's address : ",
     "Order Player":"Order Player",
-    "Order Referee":"Order Referee"
+    "Order Referee":"Order Referee",
+    "Login with Facebook":"Login with Facebook",
+    "Sign in":"Sign in",
+    "Sign up":"Sign up",
+    "Cannot get Facebook' avatar: ":"Cannot get Facebook' avatar", 
 }

@@ -18,7 +18,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import {
   insertCustomerNotificationToken,
   registerCustomer, 
-  loginCustomer
+  loginCustomer,
+  loginFacebookCustomer
 } from '../server/myServices'
 const {AsyncStorage} = NativeModules
 import {saveCustomerToStorage} from '../helpers/Helpers'
@@ -75,6 +76,82 @@ export default class LoginRegister extends MultiLanguageComponent {
       alert(translate("Error login or register Customer: ")+error)
     }
   }
+  _getFacebookAvatar = async (accessToken) => {
+    return new Promise((resolve, reject) => {
+      const avatarRequest = new GraphRequest('/me', {
+        accessToken,
+        parameters: {
+          fields: {
+            string: 'picture.type(large)',
+          },
+        },
+      }, (error, avatarObject) => {
+        if (error) {
+          alert(translate("Cannot get Facebook' avatar: ") + JSON.stringify(error))
+          reject(error)
+        } else {
+          const avatar = avatarObject.picture.data.url
+          this.setState({ avatar })
+          resolve(avatar)
+        }
+      })
+      new GraphRequestManager().addRequest(avatarRequest).start()
+    })
+  }
+  _getFacebookInfo = async (accessToken, userID) => {
+    return new Promise((resolve, reject) => {
+      const infoRequest = new GraphRequest(
+        `/${userID}`,
+        null,
+        async (error, facebookUser) => {
+          // alert(JSON.stringify(facebookUser))
+          if (error) {
+            reject(error)
+          } else {
+            const facebookId = facebookUser.id
+            const { name } = facebookUser
+            const avatar = await this._getFacebookAvatar(accessToken)
+            resolve({ facebookId, name, avatar })
+          }
+        },
+      )
+      new GraphRequestManager().addRequest(infoRequest).start()
+    })
+  }
+  _loginWithFacebook = async () => {
+    const stackNavigation = this.props.navigation
+    //dispatch = call action
+    this.props.dispatch(getStackNavigation(stackNavigation))
+    try {
+
+      const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
+
+      if (loginResult.isCancelled) {
+        console.log("Login cancelled")
+      } else {
+        const tokenObject = await AccessToken.getCurrentAccessToken()
+        const { accessToken, userID } = tokenObject
+        const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)
+        const email = generateFakeString()
+        const { tokenKey, supplierId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)
+
+        if (tokenKey.length > 0) {
+          await saveSupplierToStorage(tokenKey, supplierId, email)
+          const notificationToken = await AsyncStorage.getItem("notificationToken")
+          if (notificationToken != null) {
+            insertSupplierNotificationToken(notificationToken)
+          }
+          //dispatch = call action                                        
+          this.props.navigation.navigate("MyTabNavigator", {})
+        } else {
+          alert(message)
+        }
+      }
+    } catch (error) {
+
+      alert(translate("Cannot login Facebook: ") + JSON.stringify(error))
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation
@@ -90,14 +167,14 @@ export default class LoginRegister extends MultiLanguageComponent {
           name="facebook"
           backgroundColor="#3b5998"
           borderRadius={30}
-          onPress={() => {
-            navigate('Service')
+          onPress={async () => {
+            await this._loginWithFacebook()
           }}
         >
           <Text
             style={styles.textLoginFaceBook}
           >
-            Login with Facebook
+            {translate("Login with Facebook")}
           </Text>
 
         </Icon.Button>
@@ -108,7 +185,7 @@ export default class LoginRegister extends MultiLanguageComponent {
             }}>
 
               <Text style={styles.twoButton}>
-                Sign in
+                {translate("Sign in")}                
               </Text>
             </TouchableOpacity>
             {isLogin === true && <View style={styles.line} />}
@@ -118,7 +195,7 @@ export default class LoginRegister extends MultiLanguageComponent {
               this.setState({ isLogin: false })
             }}>
               <Text style={styles.twoButton}>
-                Sign up
+                {translate("Sign up")}                
               </Text>
             </TouchableOpacity>
             {isLogin === false && <View style={styles.line} />}
