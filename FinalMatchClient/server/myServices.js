@@ -429,7 +429,7 @@ export const makeSeen = async ({orderId, senderId}) => {
         const {result, data, message, time} = responseJson          
         return result.toUpperCase() === "OK"
     } catch (error) {               
-        result false;
+        return false
     }
 }
 
