@@ -300,6 +300,7 @@ export const createNewOrder = async (
 
 export const getOrdersByCustomerId = async () => {    
     try {        
+        debugger
         const {tokenKey, customerId} = await getCustomerFromStorage()              
         const response = await fetch(await urlGetOrdersByCustomerId(), {
             method: 'POST',
@@ -324,6 +325,7 @@ export const getOrdersByCustomerId = async () => {
             return []
         }        
     } catch (error) {         
+        debugger
         console.log(error)               
         return [] 
     }

@@ -11,6 +11,9 @@ import {
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {getOrdersByCustomerId} from '../server/myServices'
+import {
+  firebaseDatabase,  
+} from '../server/googleServices'
 import { urlGetAvatar } from '../server/urlNames'
 
 export default class Orders extends MultiLanguageComponent {
@@ -22,13 +25,15 @@ export default class Orders extends MultiLanguageComponent {
     loading: false, // user list loading
     isRefreshing: false, //for pull to refresh
   }
-  _getOrdersFromServer = async () => {    
+  _getOrdersFromServer = async () => {   
+    debugger 
     this.setState({isRefreshing: true })
     let orders =  await getOrdersByCustomerId()
     this.setState({isRefreshing: false, orders})
   }
     
-  async componentDidMount () {        
+  async componentDidMount () { 
+    debugger       
     await super.componentDidMount()
     this._getOrdersFromServer()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
@@ -39,7 +44,7 @@ export default class Orders extends MultiLanguageComponent {
   }  
 
   render () {
-    const { orders } = this.state
+    const { orders } = this.state    
     const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
