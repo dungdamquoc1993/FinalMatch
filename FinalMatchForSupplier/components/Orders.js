@@ -47,10 +47,13 @@ export default class Orders extends MultiLanguageComponent {
       
       if(super.hasOrder = true) {
         //Goi api load orders
-        let orders = await getOrdersBySupplierId ()
-        this.setState ({orders, supplierId})        
+        this._reloadOrders()
       }          
     })        
+  }
+  _reloadOrders = async () => {
+      let orders = await getOrdersBySupplierId ()
+      this.setState ({orders, supplierId})        
   }
   render () {
     const {orders} = this.state    
@@ -68,7 +71,9 @@ export default class Orders extends MultiLanguageComponent {
           width={'100%'}
           data={orders}
           // data={orders}          
-          renderItem={({item}) => <Item {...item} navigate = {navigate}/>}
+          renderItem={({item}) => <Item {...item} 
+              _reloadOrders={this._reloadOrders}
+              navigate = {navigate}/>}
           keyExtractor={item => `${item.orderId}`}
         />
       </SafeAreaView>
@@ -113,7 +118,8 @@ class Item extends Component {
       customerName,
       customerPhoneNumber,
       customerEmail,
-      navigate
+      navigate,
+      _reloadOrders
     } = this.props
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
     const {orderAddress} = this.state                
@@ -148,11 +154,17 @@ class Item extends Component {
         >
           {orderStatus}
         </Text>                
-        {orderStatus == PENDING && <PendingItem pressConfirm={() => {          
-          updateOrderStatus(orderId, ACCEPTED)
+        {orderStatus == PENDING && <PendingItem pressConfirm={async() => {          
+          let result = await updateOrderStatus(orderId, ACCEPTED)          
+          if(result == true) {
+            _reloadOrders()
+          }          
         }}
         pressCancel={async () => {
-          updateOrderStatus(orderId, CANCELLED)
+          let result = await updateOrderStatus(orderId, CANCELLED)
+          if(result == true) {
+            _reloadOrders()
+          }
         }}
         />}
         {orderStatus == ACCEPTED && <AcceptedItem 
@@ -160,7 +172,10 @@ class Item extends Component {
             navigate("Chat", {...this.props})
           }}
           pressReject={async () => {
-            updateOrderStatus(orderId, CANCELLED)
+            let result = await updateOrderStatus(orderId, CANCELLED)
+            if(result == true) {
+              _reloadOrders()
+            }
           }}
           customerPhoneNumber={customerPhoneNumber}/> }        
         {orderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}

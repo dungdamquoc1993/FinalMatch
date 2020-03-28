@@ -500,20 +500,11 @@ export const updateOrderStatus = async (orderId, status) => {
             }),
         })
         
-        const responseJson = await response.json();
-        
-        const {result, data} = responseJson
-        
-        if (result.toUpperCase() === "OK") {
-            //Logger ??  
-            return data
-        } else {
-            return {}
-        }
-    } catch (error) {
-        alert("Cannot update order's status to"+error)
-        
-        return {}
+        const responseJson = await response.json();        
+        const {result, data} = responseJson        
+        return result.toUpperCase() === "OK"
+    } catch (error) {                
+        return false
     }
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
