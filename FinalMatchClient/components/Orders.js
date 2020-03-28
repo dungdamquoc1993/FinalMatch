@@ -14,8 +14,15 @@ import {getOrdersByCustomerId} from '../server/myServices'
 import {
   firebaseDatabase,  
 } from '../server/googleServices'
+import {
+  OrderStatus,
+  getColorFromStatus
+} from '../helpers/Helpers'
+import {  
+  updateOrderStatus, 
+} from '../server/myServices'
 import { urlGetAvatar } from '../server/urlNames'
-
+const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -59,81 +66,95 @@ export default class Orders extends MultiLanguageComponent {
 }
 class Item extends Component {
   state = {
-    order: false   
-    } 
-render () {
-  const {    
-    orderId,
-    typeRole,
-    orderLatitude,
-    orderLongitude,
-    orderStatus,
-    createdDate,//convert mysql string to Date object
-    dateTimeStart,
-    dateTimeEnd,
-    supplierId,
-    supplierName,
-    supplierPhoneNumber,
-    supplierDateOfBirth,
-    supplierEmail,
-    supplierLatitude,
-    supplierLongitude,
-    supplierAddress,
-    supplierRadius,
-    supplierAvatar = "",
-    playerPrice = 0.0,
-    refereePrice = 0.0,
-    customerId,
-    customerAvatar,
-    customerName,
-    customerPhoneNumber,
-    customerEmail,
-  } = this.props
-  return (
-    <View style={styles.ViewAllInformation}>
-      <View style={styles.ViewDetail}>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-          <Text style={styles.textLabel}>{supplierName}</Text>
-        </View>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
-          <Text style={styles.textLabel}>{supplierPhoneNumber}</Text>
-        </View>
-        {/* <View style={styles.ViewNamedetailArbitration}>
+    order: false
+  }
+  render() {
+    const {
+      orderId,
+      typeRole,
+      orderLatitude,
+      orderLongitude,
+      orderStatus,
+      createdDate,//convert mysql string to Date object
+      dateTimeStart,
+      dateTimeEnd,
+      supplierId,
+      supplierName,
+      supplierPhoneNumber,
+      supplierDateOfBirth,
+      supplierEmail,
+      supplierLatitude,
+      supplierLongitude,
+      supplierAddress,
+      supplierRadius,
+      supplierAvatar = "",
+      playerPrice = 0.0,
+      refereePrice = 0.0,
+      customerId,
+      customerAvatar,
+      customerName,
+      customerPhoneNumber,
+      customerEmail,
+    } = this.props
+    return (
+      <View style={styles.ViewAllInformation}>
+        <View style={styles.ViewDetail}>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLabel}>{translate('Name : ')}</Text>
+            <Text style={styles.textLabel}>{supplierName}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
+            <Text style={styles.textLabel}>{supplierPhoneNumber}</Text>
+          </View>
+          {/* <View style={styles.ViewNamedetailArbitration}>
           <Text style={styles.textLabel}>{translate('Address : ')}</Text>
           <Text style={styles.textLabel}>{supplierAddress}</Text>
         </View> */}
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('Price : ')}</Text>
-          <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ? 
-                                                  refereePrice : playerPrice}</Text>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLabel}>{translate('Price : ')}</Text>
+            <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
+              refereePrice : playerPrice}</Text>
+          </View>
+          <View style={styles.ViewNamedetailArbitration}>
+            <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
+            <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
+          </View>
         </View>
-        <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
-          <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
-        </View>
-      </View>
 
-      <View style={styles.viewButton}>      
-        <Image
-          source={
-            supplierAvatar.length > 0
-              ? { uri: urlGetAvatar(supplierAvatar) }
-              : require('../images/avatar.png')
-          }
-          style={styles.images}
-        />
-        <TouchableOpacity
-          style={styles.btnOrder}
-        >
-           <Text style={styles.textOrder}>{"Chat"}</Text>
-        </TouchableOpacity>
+        <View style={styles.viewButton}>
+          <Image
+            source={
+              supplierAvatar.length > 0
+                ? { uri: urlGetAvatar(supplierAvatar) }
+                : require('../images/avatar.png')
+            }
+            style={styles.images}
+          />
+          <TouchableOpacity
+            style={styles.btnOrder}
+          >
+            <Text style={styles.textOrder}>{"Chat"}</Text>
+          </TouchableOpacity>
+        </View>
+        {orderStatus == ACCEPTED && <AcceptedItem pressReject={()=>{
+
+        }} />}
       </View>
-    </View>
-  )
+    )
+  }
 }
+
+const AcceptedItem = ({pressReject}) => {  
+  return <TouchableOpacity onPress={pressReject}>
+
+  </TouchableOpacity>
 }
+/*
+const CancelledItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
+  return T
+}
+*/
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',

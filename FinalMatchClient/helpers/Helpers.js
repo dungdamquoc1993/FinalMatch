@@ -36,14 +36,37 @@ export const getPosition = (positionObject) => {
 }
 //input: "0100" => 2, input: "0001" => 4, "1000" => 1, "0010" => 3
 export const convertStringPositionToNumber = (stringPosition) => {
-    for(let i = 0; i < stringPosition.length; i++) {
-        if(stringPosition[i] == '1') {
+    for (let i = 0; i < stringPosition.length; i++) {
+        if (stringPosition[i] == '1') {
             return i + 1;
         }
     }
     return 0
 }
-
+// pending, accepted, cancelled, completed, missed
+export const getColorFromStatus = (status) => {
+    switch (status) {
+        case 'pending':
+            return 'orange'
+        case 'accepted':
+            return 'green'
+        case 'cancelled':
+            return 'red'
+        case 'completed':
+            return 'blue'
+        case 'missed':
+            return 'red'
+        default:
+            return 'black'
+    }
+}
+export const OrderStatus = {
+    PENDING: "pending",
+    ACCEPTED: "accepted",
+    CANCELLED: "cancelled",
+    COMPLETED: "completed",
+    MISSED: "missed"
+}
 
 
 

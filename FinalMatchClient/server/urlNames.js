@@ -78,6 +78,9 @@ export const urlGetChatHistory = () => {
 export const urlMakeSeen = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/chat/makeSeen`
 }
+export const urlUpdateOrderStatus = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/updateOrderStatus`
+}
 
 
 

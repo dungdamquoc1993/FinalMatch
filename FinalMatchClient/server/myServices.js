@@ -17,7 +17,8 @@ import {
     urlInsertCustomerNotificationToken,
     urlInsertNewChat,
     urlGetChatHistory,
-    urlMakeSeen
+    urlMakeSeen,
+    urlUpdateOrderStatus
 } from './urlNames'
 import { alert } from '../helpers/Helpers'
 import axios from 'axios'
@@ -328,6 +329,30 @@ export const getOrdersByCustomerId = async () => {
         
         console.log(error)               
         return [] 
+    }
+}
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const { tokenKey, customerId} = await getCustomerFromStorage()        
+        const response = await fetch(urlUpdateOrderStatus(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                locale: i18n.locale,
+                tokenKey, customerId
+            },
+            body: JSON.stringify({
+                orderId, status
+            }),
+        })
+        
+        const responseJson = await response.json();        
+        const {result, data} = responseJson        
+        debugger
+        return result.toUpperCase() === "OK"
+    } catch (error) {                
+        return false
     }
 }
 export const insertCustomerNotificationToken = async (notificationToken) => {
