@@ -1,10 +1,3 @@
-function getSheetFromFile(fileURL, sheetName) {
-  const fileStock = SpreadsheetApp.openByUrl(fileURL);
-  SpreadsheetApp.setActiveSpreadsheet(fileStock);
-  var sheet = fileStock.getSheetByName(sheetName);
-  sheet.activate();
-  return sheet;
-}
 function updateDataInFileStock(dataOfSaleNotes, sheet, myDay) {
   var dataOfFileStock = sheet.getDataRange().getValues();
   var rowIndex = 0;
@@ -21,7 +14,7 @@ function updateDataInFileStock(dataOfSaleNotes, sheet, myDay) {
       if (Object.keys(filteredData).length > 0) {
         var key = tenSanPham + ":" + String(size)
         if (filteredData[key] && day == myDay) {
-          Logger.log({ "rowIndex": rowIndex, "columnIndex": columnIndex, value: filteredData[key] });
+          //Logger.log({ "rowIndex": rowIndex, "columnIndex": columnIndex, value: filteredData[key] });
           var cell = sheet.getRange(rowIndex + 1, columnIndex + 1)
           cell.setValues([[filteredData[key]]])
           cell.setBackground("red");

@@ -30,6 +30,9 @@ function updateSaleRevenues(fileURL) {
   var filteredData = {};
   for (var day = 1; day <= 31; day++) {
     var sheetData = getSheetDataFromFile(fileURL, String(day));
+    if(sheetData == null) {
+      continue;
+    }
     var rowIndex = 0;
     while (rowIndex < sheetData.length) {
       if (sheetData[rowIndex][1].length == 0) {
@@ -60,7 +63,7 @@ function updateSaleRevenues(fileURL) {
     }
   }   
   var sheetIncentive = getSheetFromFile(fileURL, "Incentive");
-  Logger.log("keke11")
+  Logger.log("keke11"+filteredData);
   for(var rowIndex = 0; rowIndex < Object.keys(filteredData).length; rowIndex++){
       var salePhuTrach = Object.keys(filteredData)[rowIndex];
       var tongSoDonHang = filteredData[salePhuTrach].tongSoDonHang;

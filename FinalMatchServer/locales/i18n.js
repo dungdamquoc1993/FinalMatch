@@ -4,7 +4,6 @@ i18n.configure({
     defaultLocale: 'en',
     directory: './locales'
 })
-debugger
 module.exports = {
     i18n
 }
