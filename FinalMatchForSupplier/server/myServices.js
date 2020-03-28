@@ -469,7 +469,7 @@ export const getOrdersBySupplierId = async () => {
                 supplierId
             }),
         })        
-        const responseJson = await response.json();        
+        const responseJson = await response.json();                
         const { result, data, message, time } = responseJson        
         if (result.toUpperCase() === "OK") {
             //Logger ??  
@@ -485,8 +485,7 @@ export const getOrdersBySupplierId = async () => {
 }
 export const updateOrderStatus = async (orderId, status) => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()
-        
+        const { tokenKey, supplierId} = await getSupplierFromStorage()        
         const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
@@ -502,6 +501,7 @@ export const updateOrderStatus = async (orderId, status) => {
         
         const responseJson = await response.json();        
         const {result, data} = responseJson        
+        debugger
         return result.toUpperCase() === "OK"
     } catch (error) {                
         return false

@@ -174,7 +174,8 @@ INTO
     @longitude,
     @dateTimeStart,
     @dateTimeEnd
-FROM Orders;
+FROM Orders
+WHERE Orders.id = orderId AND Orders.status = status;
 
 UPDATE Orders SET Orders.status = status WHERE id = orderId;
 IF status = 'accepted' THEN
@@ -188,10 +189,10 @@ IF status = 'accepted' THEN
     AND y(Orders.point) = @longitude
     AND Orders.dateTimeStart = @dateTimeStart;    
 END IF;
-SELECT * FROM viewOrdersSupplierCustomer WHERE viewOrdersSupplierCustomer.orderId = orderId;
+SELECT * FROM viewOrdersSupplierCustomer 
+WHERE viewOrdersSupplierCustomer.orderId = orderId;
 END;
 DELIMITER ;
-
 
 
 DROP PROCEDURE IF EXISTS getRefereesAroundOrder //

@@ -3,25 +3,50 @@ import * as RNLocalize from "react-native-localize"
 import {setI18nConfig} from '../languages/languageConfigurations'
 import { View } from 'react-native'
 export default class MultiLanguageComponent extends Component {
-    constructor(props) {
-        super(props)
-        setI18nConfig() // set initial config
-    }
-    componentDidMount() {        
-        RNLocalize.addEventListener("change", this.handleLocalizationChange);
+  constructor(props) {
+    super(props)
+    setI18nConfig() // set initial config
+  }
+
+  _checkCustomerIdInFirebase = async (snapshotValue) => {
+    //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
+    for (const key in snapshotValue) {            
+      const [customerID, supplierID] = key.split (':')            
+      const {customerId} = await getCustomerFromStorage()      
+      if (customerId == customerID) {                
+        return true
       }
-    
-      componentWillUnmount() {
-        RNLocalize.removeEventListener("change", this.handleLocalizationChange);
+    }    
+    return false
+  }
+
+  _readDataFromFirebase = () => {
+    firebaseDatabase.ref('/orders').on('value', async snapshot => {
+      let snapshotValue = snapshot.val()
+      this.hasOrder = await this._checkCustomerIdInFirebase(snapshotValue)
+      if (this.hasOrder == true) {
+        
       }
-    
-      handleLocalizationChange = () => {
-        setI18nConfig();
-        this.forceUpdate();
-      }
-      render() {
-          return <View>
-              {this.props.children}
-          </View>
-      }
+    })
+  }
+  async componentDidMount() {
+    await this._readDataFromFirebase()
+    RNLocalize.addEventListener("change", this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener("change", this.handleLocalizationChange)
+  }
+
+
+  handleLocalizationChange = () => {
+    setI18nConfig();
+    this.forceUpdate();
+  }
+
+  render() {
+    return <View>
+      {this.props.children}
+    </View>
+  }
 }

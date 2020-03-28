@@ -27,9 +27,17 @@ export default class Orders extends MultiLanguageComponent {
     let orders =  await getOrdersByCustomerId()
     this.setState({isRefreshing: false, orders})
   }
-  async componentDidMount() {
+    
+  async componentDidMount () {        
+    await super.componentDidMount()
     this._getOrdersFromServer()
-  }
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
+      if(super.hasOrder = true) {
+        await this._getOrdersFromServer()
+      }          
+    })        
+  }  
+
   render () {
     const { orders } = this.state
     const {navigate} = this.props.navigation

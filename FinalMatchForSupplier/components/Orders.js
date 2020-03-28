@@ -38,21 +38,20 @@ export default class Orders extends MultiLanguageComponent {
       orders: [],
     }
   }  
-  async componentDidMount () {    
-    
+  async componentDidMount () {        
     await super.componentDidMount()
-    
-    const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
-    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {      
-      
+    await this._reloadOrders()
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
       if(super.hasOrder = true) {
         //Goi api load orders
-        this._reloadOrders()
+        debugger
+        await this._reloadOrders()
       }          
     })        
   }
   _reloadOrders = async () => {
-      let orders = await getOrdersBySupplierId ()
+      const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
+      let orders = await getOrdersBySupplierId ()      
       this.setState ({orders, supplierId})        
   }
   render () {
@@ -156,6 +155,7 @@ class Item extends Component {
         </Text>                
         {orderStatus == PENDING && <PendingItem pressConfirm={async() => {          
           let result = await updateOrderStatus(orderId, ACCEPTED)          
+          debugger
           if(result == true) {
             _reloadOrders()
           }          
