@@ -191,7 +191,7 @@ class LoginRegister extends Component {
                     <TouchableOpacity onPress={this._login}>
 
                         <Text style={styles.twoButton}>
-                            Login
+                            {translate("Login")}
                         </Text>
                     </TouchableOpacity>
                     {isLogin === true && <View style={styles.line}></View>}
@@ -199,7 +199,7 @@ class LoginRegister extends Component {
                 <View style={styles.viewLogin}>
                     <TouchableOpacity onPress={this._register}>
                         <Text style={styles.twoButton}>
-                            Register
+                            {translate("Register")}
                         </Text>
                     </TouchableOpacity>
                     {isLogin === false && <View style={styles.line}></View>}
@@ -220,7 +220,7 @@ class LoginRegister extends Component {
                     value={password}
                     keyboardType={"default"}
                     secureTextEntry
-                    placeholder={"Password:"} />
+                    placeholder={translate("Password:")} />
                 {isLogin === false && <TextInput style={styles.textInput} 
                     onChangeText = {(retypePassword) => {
                         this.setState({retypePassword})

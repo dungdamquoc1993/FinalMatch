@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import {isIOS} from '../helpers/Helpers'
 import MultiLanguageComponent from './MultiLanguageComponent'
-import { TextInput } from 'react-native-gesture-handler'
 import DatePicker from 'react-native-date-picker'
 
 export default class FinalMatchDatePicker extends MultiLanguageComponent {

@@ -219,7 +219,7 @@ export default class LoginRegister extends MultiLanguageComponent {
             value={password}
             keyboardType={'default'}
             secureTextEntry
-            placeholder={'Password:'}
+            placeholder={translate("Password:")}
           />
           {isLogin === false &&
             <TextInput
@@ -230,7 +230,7 @@ export default class LoginRegister extends MultiLanguageComponent {
               value={this.state.retypePassword}
               keyboardType={'default'}
               secureTextEntry
-              placeholder={'Retype password:'}
+              placeholder={translate("Retype password:")}
             />}
         </View>
         <TouchableOpacity
@@ -242,7 +242,7 @@ export default class LoginRegister extends MultiLanguageComponent {
           <Text
             style={styles.textLogin}
           >
-            {isLogin === true ? 'Sign-in' : 'Sign-up'}
+            {isLogin === true ? translate("Sign in") : translate("Sign up")}
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
