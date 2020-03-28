@@ -34,17 +34,17 @@ export default class Splash extends Component {
     }
     
     componentWillUnmount() {
-        debugger        
+                
         if(this.subsribeEventPressNotification) {
             this.subsribeEventPressNotification.remove()
         }                
     }
     //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
     reloadEventsFromNative() {        
-        debugger
+        
         /*        
         this.nativeEventEmitter = new NativeEventEmitter()
-        debugger
+        
         this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
             EVENT_PRESS_NOTIFICATION,
             (reminder) => {
@@ -55,7 +55,7 @@ export default class Splash extends Component {
     }
     async componentDidMount() {
         const {navigate} = this.props.navigation
-        debugger
+        
         this.reloadEventsFromNative()
         //Add animations here        
         Animated.sequence([
@@ -84,7 +84,7 @@ export default class Splash extends Component {
                 const notificationToken = await AsyncStorage.getItem("notificationToken")
                 if (notificationToken != null) {
                     const { error } = await insertCustomerNotificationToken(notificationToken)
-                    debugger
+                    
                     if (!error) {
                         navigate('Service') //success
                     }

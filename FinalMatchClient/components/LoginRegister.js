@@ -43,7 +43,7 @@ export default class LoginRegister extends MultiLanguageComponent {
   }  
   _loginOrRegister = async () => {
     try {
-      debugger
+      
       const {navigate} = this.props.navigation  
       const { name, email, password,retypePassword, isLogin} = await this.state      
       if (!validateEmail(email) || !validatePasword(password)) {
@@ -58,13 +58,13 @@ export default class LoginRegister extends MultiLanguageComponent {
       }            
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
                                                                   await registerCustomer(name, email, password)            
-      debugger                                                                  
+                                                                        
       if (tokenKey.length > 0) {            
         await saveCustomerToStorage(tokenKey, customerId, email)
         const notificationToken = await AsyncStorage.getItem("notificationToken")        
         if (notificationToken != null) {
           const {error} = await insertCustomerNotificationToken(notificationToken)
-          debugger
+          
           if(!error) {
             navigate('Service') //success
           }          

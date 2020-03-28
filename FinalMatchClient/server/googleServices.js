@@ -60,7 +60,7 @@ export const getLatLongFromAddress = async (address) => {
     try {                
         const response = await fetch(urlGetLatLongFromAddress(address))
         const resJson = await response.json()
-        debugger
+        
         const { result, data, message, time } = resJson                   
         if (result.toUpperCase() === "OK") {            
             if (data.results.length > 0) {                

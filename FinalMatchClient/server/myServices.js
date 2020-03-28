@@ -258,7 +258,7 @@ export const createNewOrder = async (
     typeRole,
     dateTimeStart, //phải là kiểu Date    
     ) => {
-        debugger
+        
     //if order exists, do nothing
     dateTimeStart.setMilliseconds(0);
     dateTimeStart.setSeconds(0)        
@@ -282,11 +282,11 @@ export const createNewOrder = async (
                 dateTimeStart: dateTimeStart.toUTCString()//phải chuyển sang STRING dạng: Tue, 18 Feb 2020 09:48:32 GMT
             }),
         })    
-        debugger            
+                    
         const responseJson = await response.json()        
-        debugger
+        
         const { result,message, data } = responseJson                        
-        debugger
+        
         if(result.toLowerCase() === 'ok') {            
             return data
         } else {                
@@ -300,7 +300,7 @@ export const createNewOrder = async (
 
 export const getOrdersByCustomerId = async () => {    
     try {        
-        debugger
+        
         const {tokenKey, customerId} = await getCustomerFromStorage()              
         const response = await fetch(await urlGetOrdersByCustomerId(), {
             method: 'POST',
@@ -314,18 +314,18 @@ export const getOrdersByCustomerId = async () => {
                 customerId,
             }),
         })    
-        debugger            
+                    
         const responseJson = await response.json()        
-        debugger
+        
         const { result,message, data } = responseJson                        
-        debugger
+        
         if(result.toLowerCase() === 'ok') {            
             return data
         } else {                
             return []
         }        
     } catch (error) {         
-        debugger
+        
         console.log(error)               
         return [] 
     }
@@ -346,20 +346,20 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
                 notificationToken
             }),
         })
-        debugger
+        
         const responseJson = await response.json();
-        debugger
+        
         const { result, data, message, time } = responseJson
-        debugger
+        
         if (result.toUpperCase() === "OK") {
             //Logger ??  
-            debugger
+            
             return { data, message: '', error: null}
         } else {
             return { data, message: 'Cannot update settings', error: 'Cannot update settings'}
         }
     } catch (error) {
-        debugger
+        
         return { data: null, message: 'Cannot update settings', error}
     }
 }

@@ -21,22 +21,18 @@ export default class Orders extends MultiLanguageComponent {
     headerShown: false,
   }
   state = {
-    orders: [],
-    loading: false, // user list loading
-    isRefreshing: false, //for pull to refresh
+    orders: [],     
   }
-  _getOrdersFromServer = async () => {   
-    debugger 
-    this.setState({isRefreshing: true })
+  _getOrdersFromServer = async () => {            
     let orders =  await getOrdersByCustomerId()
-    this.setState({isRefreshing: false, orders})
+    this.setState({orders})
   }
     
-  async componentDidMount () { 
-    debugger       
+  async componentDidMount () {            
     await super.componentDidMount()
     this._getOrdersFromServer()
-    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {    
+      debugger        
       if(super.hasOrder = true) {
         await this._getOrdersFromServer()
       }          
@@ -51,11 +47,7 @@ export default class Orders extends MultiLanguageComponent {
       <Text style={styles.textTitle}>{translate("Create a service")}</Text>
         <FlatList
           width={'100%'}
-          data={orders}
-          refreshing={this.state.isRefreshing}
-          onRefresh = {() => {
-            this._getOrdersFromServer()
-          }}
+          data={orders}                    
           renderItem={({item}) => (
             <Item {...item}/>
           )}
