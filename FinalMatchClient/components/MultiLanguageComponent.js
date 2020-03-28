@@ -15,7 +15,8 @@ export default class MultiLanguageComponent extends Component {
   _checkCustomerIdInFirebase = async (snapshotValue) => {
     //Ex: input: supplierId = 31,snapShotValue =  {"abcx:31": value..., "ttt:32": value...} , output : true
     for (const key in snapshotValue) {            
-      const [customerID, supplierID] = key.split (':')            
+      const [customerID, supplierID] = key.split (':')     
+      debugger       
       const {customerId} = await getCustomerFromStorage()      
       if (customerId == customerID) {                
         return true

@@ -39,7 +39,7 @@ app.use('/notifications', NotificationRoute)
 
 //Chạy api test: node index.js port 3001
 const port = process.argv[3] == 'undefined' ? PORT : parseInt(process.argv[3])
-debugger
+
 app.listen(port, () => {
     console.log(`app listen from : ${port}`)
 })
