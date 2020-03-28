@@ -314,6 +314,7 @@ export const getOrdersByCustomerId = async () => {
                 customerId,
             }),
         })    
+        debugger
                     
         const responseJson = await response.json()        
         
