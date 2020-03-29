@@ -16,6 +16,7 @@
  * yarn add react-native-date-picker
  * import DatePicker from 'react-native-date-picker'
  * yarn add firebase
+ * yarn add react-native-loading-spinner-overlay
  * 
  */
 import {AppRegistry, NativeModules} from 'react-native';

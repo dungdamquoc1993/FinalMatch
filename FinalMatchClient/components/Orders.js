@@ -27,16 +27,20 @@ import {
   COLOR_ITEM_BACKGROUND,
   COLOR_ITEM_BORDER
 } from '../colors/colors'
+import Spinner from 'react-native-loading-spinner-overlay'
+
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
   state = {
-    orders: [],     
+    orders: [], 
+    spinner: false,    
   }
   _getOrdersFromServer = async () => {            
+    this.setState({spinner: true})
     let orders =  await getOrdersByCustomerId()
-    this.setState({orders})
+    this.setState({orders, spinner: false})
   }
     
   async componentDidMount () {            
@@ -55,6 +59,11 @@ export default class Orders extends MultiLanguageComponent {
     const {navigate} = this.props.navigation
     return (
       <SafeAreaView style={styles.container}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{fontWeight: 'bold'}}
+        />
       <Text style={styles.textTitle}>{translate("Create a service")}</Text>
         <FlatList
           width={'100%'}

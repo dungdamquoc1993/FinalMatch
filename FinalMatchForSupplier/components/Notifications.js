@@ -26,15 +26,18 @@ import {
   COLOR_ITEM_BACKGROUND,
   COLOR_ITEM_BORDER
 } from '../colors/colors'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Notifications extends Component {
   state = {
-    notifications: []
+    notifications: [],
+    spinner: false,    
   }
   reloadDataFromServer = async () => {    
+    this.setState({spinner: true})
     const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
     let notifications = await getNotificationsBySupplierId(supplierId)    
-    this.setState({notifications})    
+    this.setState({notifications,spinner: false})    
   }
   async componentDidMount() {
     // this.reloadDataFromServer()    
@@ -43,6 +46,11 @@ export default class Notifications extends Component {
     const {notifications} = this.state
     return (
       <SafeAreaView style={styles.container}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{fontWeight: 'bold'}}
+        />
         <NavigationEvents
           onWillFocus={payload => {            
             this.reloadDataFromServer()

@@ -45,7 +45,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors'
 import { NavigationEvents } from 'react-navigation'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
-
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class Settings extends Component {
 
@@ -88,6 +88,7 @@ export default class Settings extends Component {
     },
     radius: 0.0,
     modalVisible: false,
+    spinner: false,
   }
   _saveSettings = async () => {
     const { supplierId } = this.state
@@ -147,6 +148,7 @@ export default class Settings extends Component {
 
   }
   reloadDataFromServer = async () => {
+    this.setState({spinner: true})
     const { supplierId, email } = await getSupplierFromStorage()
     //call api    
     try {
@@ -175,14 +177,16 @@ export default class Settings extends Component {
         currentLocation: {
           address,
           latitude, longitude
-        }
+        },
+        spinner: false
       })
     } catch (error) {
       alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
+      this.setState({spinner: false})
     }
   }
   async componentDidMount() {
-    // this.reloadDataFromServer()    
+    // this.reloadDataFromServer()           
   }
   async _chooseAvatar() {
     try {
@@ -261,6 +265,11 @@ export default class Settings extends Component {
           onWillFocus={payload => {
             this.reloadDataFromServer()
           }}
+        />
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={{fontWeight: 'bold'}}
         />
         <View style={{          
           height: 120,
