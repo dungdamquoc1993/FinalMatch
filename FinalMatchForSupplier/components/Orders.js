@@ -59,13 +59,24 @@ export default class Orders extends MultiLanguageComponent {
     const {navigate} = this.props.navigation      
     return (
       <SafeAreaView style={styles.container}>
-      <Header
-          title={'Order'}
-          pressBackButton={async () => {
-            //validate ok
-            return true
-          }}
+        <View 
+          style={{          
+            height: 60,
+            width: '100%'
+          }}          
+        >
+          <Header
+            title={'Order'}
+            hideBack = {true}
+            hideNext = {true}
+            pressBackButton={async () => {
+              //validate ok
+              return true
+            }}
         />
+
+        </View>
+      
         <FlatList
           width={'100%'}
           data={orders}

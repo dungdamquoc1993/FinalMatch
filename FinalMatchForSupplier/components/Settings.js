@@ -265,33 +265,44 @@ export default class Settings extends Component {
     } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
-        <Header title={"Account management"} pressBackButton={async () => {
-          if (this.validateInput() == true) {
-            await this._saveSettings()
-            return true
-          }
-          return false
-        }} />
         <NavigationEvents
           onWillFocus={payload => {
             this.reloadDataFromServer()
           }}
         />
-        <View style={styles.avatar}>
-          <TouchableOpacity
-            onPress={() => {
-              this._chooseAvatar()
-            }}
-          >
-            <Image
-              source={
-                avatar.length > 0
-                  ? { uri: urlGetAvatar(avatar) }
-                  : require('../images/defaultAvatar.png')
+        <View style={{          
+          height: 120,
+          width: '100%'
+        }}>
+          <Header
+            title={"Account management"}
+            hideBack={true}
+            hideNext={true}
+            pressBackButton={async () => {
+              if (this.validateInput() == true) {
+                await this._saveSettings()
+                return true
               }
-              style={styles.avatarImage}
-            />
-          </TouchableOpacity>
+              return false
+            }} />
+
+          <View style={styles.avatar}>
+            <TouchableOpacity
+              onPress={() => {
+                this._chooseAvatar()
+              }}
+            >
+              <Image
+                source={
+                  avatar.length > 0
+                    ? { uri: urlGetAvatar(avatar) }
+                    : require('../images/defaultAvatar.png')
+                }
+                style={styles.avatarImage}
+              />
+            </TouchableOpacity>
+          </View>
+
         </View>
         <ScrollView style={styles.scrollView}>
 
@@ -531,7 +542,7 @@ export default class Settings extends Component {
                 })
               }}
             />
-          </Modal> 
+          </Modal>         
       </SafeAreaView>
     )
   }
@@ -544,8 +555,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  avatar: {
-    width: '100%',
+  avatar: {            
     justifyContent: 'center',
     alignItems: 'center',
   },

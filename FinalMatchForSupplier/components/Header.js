@@ -17,7 +17,7 @@ class Header extends Component {
         this.disableBackButton = false
     }
     render() {
-        const {title, hideBack = false, pressBackButton} = this.props        
+        const {title, hideBack = false, hideNext = false, pressBackButton} = this.props        
         return <View style={styles.container}>
                 <FontAwesome5                
                 onPress={async () => {
@@ -43,7 +43,7 @@ class Header extends Component {
                 {title}
             </Text>
             <FontAwesome5 style={{ 
-                opacity : hideBack === false ? 1 : 0,
+                opacity : hideNext === false ? 1 : 0,
                 paddingEnd: 15, 
             }}
                 name={"arrow-circle-left"} size={40} color={'black'} /> 
