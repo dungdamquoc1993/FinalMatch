@@ -19,10 +19,13 @@ import {getSupplierFromStorage,
 } from '../helpers/Helpers'
 const {width, height} = Dimensions.get ('window')
 import {
-  getNotificationsByCustomerId,
   getNotificationsBySupplierId,
 } from '../server/myServices'
 import {translate} from '../languages/languageConfigurations'
+import {
+  COLOR_ITEM_BACKGROUND,
+  COLOR_ITEM_BORDER
+} from '../colors/colors'
 
 export default class Notifications extends Component {
   state = {
@@ -52,14 +55,15 @@ export default class Notifications extends Component {
           }}          
         >
           <Header
-            title={"Notifications"}
+            title={translate("Notifications")}
             hideBack = {true}
             hideNext = {true}            
         />
 
         </View>
         
-        <FlatList          
+        <FlatList      
+          width={'100%'}
           data={notifications}
           renderItem={({ item }) => <Item {...item} />}
           keyExtractor={item => `${item.id}`}
@@ -79,9 +83,30 @@ const Item = (props) => {
   
   return (
     <TouchableOpacity>
-      <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.title}>{body}</Text>
+      <View style={
+        {          
+          paddingHorizontal: 20,
+        }
+      }>
+        <View style={{
+          marginVertical: 10,
+          backgroundColor: COLOR_ITEM_BACKGROUND,
+          borderRadius: 10,
+          borderColor: COLOR_ITEM_BORDER,
+          borderWidth: 1,
+        }}>
+          <Text style={{
+            paddingHorizontal: 10,
+            paddingTop: 5,
+            fontSize: 16,
+            fontWeight: 'bold'
+          }}>{title}</Text>
+          <Text style={{
+            paddingHorizontal: 10,
+            paddingBottom: 5,
+            fontSize: 16,
+          }}>{body}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   )
@@ -92,13 +117,5 @@ const styles = StyleSheet.create ({
     justifyContent: 'flex-start',
     alignItems: 'center',    
     flex: 1,
-  },
-  item: {
-    backgroundColor: '#f0f8ff',    
-    flex: 1
-  },
-  title: {
-    fontSize: 16,
-    width: '100%'
-  },
+  },  
 })

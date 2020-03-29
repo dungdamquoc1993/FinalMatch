@@ -15,8 +15,8 @@ import {
   NativeModules
 } from 'react-native'
 import {
-    COLOR_PINK, MAIN_COLOR, 
-    COLOR_FACEBOOK, COLOR_PINK_MEDIUM} 
+    MAIN_COLOR, 
+    COLOR_FACEBOOK} 
 from '../colors/colors'
 import { connect } from 'react-redux'
 import {getStackNavigation} from '../redux/actions/actions'

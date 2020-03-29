@@ -27,6 +27,11 @@ import {
   updateOrderStatus, 
 } from '../server/myServices'
 import i18n from "i18n-js"
+import {
+  COLOR_ITEM_BACKGROUND,
+  COLOR_ITEM_BORDER
+} from '../colors/colors'
+
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {translate} from '../languages/languageConfigurations'
@@ -136,7 +141,7 @@ class Item extends Component {
             {translate("Name : ")}{customerName}
           </Text>
         <Text style={styles.textInformationOrder}>
-            {translate("Match's place")}{orderAddress}
+            {translate("Match's place")}
           </Text>
         <Text style={styles.textInformationOrder}>
           {orderAddress}
@@ -200,7 +205,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
         flexDirection: 'row',
         width: 100,
         height: 50,
-        backgroundColor: '#A2C8C6',
+        backgroundColor: COLOR_ITEM_BACKGROUND,
         alignItems: 'center',
         justifyContent: 'space-around',
         borderRadius: 8,
@@ -218,7 +223,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
         flexDirection: 'row',
         width: 100,
         height: 50,
-        backgroundColor: '#A2C8C6',
+        backgroundColor: COLOR_ITEM_BACKGROUND,
         alignItems: 'center',
         justifyContent: 'space-around',
         borderRadius: 8,
@@ -244,7 +249,7 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
         flexDirection: 'row',
         width: 100,
         height: 50,
-        backgroundColor: '#A2C8C6',
+        backgroundColor: COLOR_ITEM_BACKGROUND,
         alignItems: 'center',
         justifyContent: 'space-around',
         borderRadius: 8,
@@ -290,7 +295,7 @@ const styles = StyleSheet.create ({
     lineHeight: 100,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
-    borderColor: '#a9a9a9',
+    borderColor: COLOR_ITEM_BORDER,
     borderWidth: 1,
     marginVertical: 10,
     width: '80%',
@@ -303,19 +308,3 @@ const styles = StyleSheet.create ({
   },
 })
 
-/*
-{
-  "id": 1,
-  "typeRole": "referee",
-  "customerId": "47c9165c5bfb03689260a8f230e45589",
-  "supplierId": 31,
-  "point": {
-      "x": 20.99283218383789,
-      "y": 105.80587005615234
-  },
-  "status": "missed",
-  "createdDate": "2020-02-18T10:17:54.000Z",
-  "dateTimeStart": "2020-02-18T09:48:00.000Z",
-  "dateTimeEnd": "2020-02-18T11:48:00.000Z"
-}
-*/

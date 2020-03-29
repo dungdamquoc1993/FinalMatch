@@ -112,14 +112,22 @@ class Stadium extends Component {
         Keyboard.dismiss()        
     }} accessible={false}> 
       <SafeAreaView style={styles.container}>
-        <Header
-          title={translate("Stadium")}
-          pressBackButton={async () => {
-            //validate ok
-            return true
-          }}
-        />
-        <View style={{marginTop: 20}} />
+      <View 
+          style={{          
+            height: 60,
+            width: '100%'
+          }}          
+        >
+          <Header
+            title={translate("Stadium")}
+            pressBackButton={async () => {
+              //validate ok
+              return true
+            }}
+            hideBack = {true}
+            hideNext = {true}            
+          />
+        </View>        
         <View style={styles.personalInformation}>
           <TextInput
             style={styles.textInput}
@@ -177,7 +185,7 @@ class Stadium extends Component {
               </View>
             </View>}
         <Text style={{fontSize: 20, fontWeight: 'bold', marginVertical: 20}}>
-          Loại hình
+          {translate("Charging's type")}
         </Text>
         <View style={styles.positions}>
           <TouchableOpacity
@@ -192,7 +200,7 @@ class Stadium extends Component {
               }}
               style={styles.txtFree}
             >
-              Miễn phí
+              {translate("Free")}
             </Text>
             <FontAwesome5
               name={isFree == true ? 'check-square' : 'square'}
@@ -212,7 +220,7 @@ class Stadium extends Component {
                 this.setState({isFree: false})
               }}
             >
-              Thu phí
+              {translate("Fee")}
             </Text>
             <FontAwesome5
               name={isFree == false ? 'check-square' : 'square'}

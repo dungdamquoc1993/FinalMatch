@@ -23,6 +23,10 @@ import {
 } from '../server/myServices'
 import { urlGetAvatar } from '../server/urlNames'
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+import {
+  COLOR_ITEM_BACKGROUND,
+  COLOR_ITEM_BORDER
+} from '../colors/colors'
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -168,7 +172,7 @@ const styles = StyleSheet.create ({
     justifyContent: 'space-around',
     alignItems: 'stretch',
     borderWidth: 1,
-    borderColor: '#d3d3d3',
+    borderColor: COLOR_ITEM_BORDER,
     borderRadius: 15,
     marginVertical: 10,
     marginHorizontal: 20,

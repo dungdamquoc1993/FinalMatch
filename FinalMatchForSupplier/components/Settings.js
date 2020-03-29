@@ -46,14 +46,6 @@ import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors'
 import { NavigationEvents } from 'react-navigation'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 
-/**
- * yarn add react-native-date-picker
- * 
- * Down project:
- * 1.rm -rf node_modules
- * 2.yarn install
- * 3.react-native link
- */
 
 export default class Settings extends Component {
 
@@ -308,7 +300,7 @@ export default class Settings extends Component {
 
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              Tên
+              {translate("Name : ")}
             </Text>
             <TextInput
               style={styles.textInput}
@@ -321,7 +313,7 @@ export default class Settings extends Component {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              Tuổi
+            {translate("Age")}
             </Text>
             <TouchableOpacity
               style={[styles.textInput, { width: '40%' }]}
@@ -348,7 +340,7 @@ export default class Settings extends Component {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              SĐT
+              {translate("Phone : ")}              
             </Text>
             <TextInput
               style={styles.textInput}
@@ -377,7 +369,7 @@ export default class Settings extends Component {
             </View>
             <View style={styles.radius}>
               <Text style={styles.radiusLabel}>
-                Bán kính làm việc
+                  {translate("Enter radius:")}
               </Text>
               <TextInput
                 style={styles.radiusInput}
@@ -389,7 +381,7 @@ export default class Settings extends Component {
                 }}
               />
               <Text style={{ fontSize: 17, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
-                KM
+                km
               </Text>
             </View>
            
@@ -408,21 +400,23 @@ export default class Settings extends Component {
           >
 
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Cầu thủ</Text>
+              <Text style={styles.textRole}>{translate("Player")}</Text>
               <TextInput style={styles.textInputRole}
                 value={playerName} onChangeText={(playerName) => {
                   this.setState({ playerName })
                 }} />
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Số trận</Text>
+              <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
               placeholder={'0'}
               placeholderTextColor = "black"
               editable={false}
              />
             </View>
-            <Text style={{ marginBottom: 5, fontSize: 20 }}>Position</Text>
+            <Text style={{ marginBottom: 5, fontSize: 16 }}>
+              {translate("Position : ")}
+              </Text>
             <View style={styles.positions}>
               <TouchableOpacity
                 style={styles.eachPosition}
@@ -433,7 +427,7 @@ export default class Settings extends Component {
                 <Text style={{}}>GK</Text>
                 <FontAwesome5
                   name={isGK == true ? 'check-square' : 'square'}
-                  size={35}
+                  size={30}
                   color={'black'}
                 />
               </TouchableOpacity>
@@ -446,7 +440,7 @@ export default class Settings extends Component {
                 <Text>CB</Text>
                 <FontAwesome5
                   name={isCB == true ? 'check-square' : 'square'}
-                  size={35}
+                  size={30}
                   color={'black'}
                 />
               </TouchableOpacity>
@@ -459,7 +453,7 @@ export default class Settings extends Component {
                 <Text style={{}}>MF</Text>
                 <FontAwesome5
                   name={isMF == true ? 'check-square' : 'square'}
-                  size={35}
+                  size={30}
                   color={'black'}
                 />
               </TouchableOpacity>
@@ -472,7 +466,7 @@ export default class Settings extends Component {
                 <Text style={{}}>CF</Text>
                 <FontAwesome5
                   name={isCF == true ? 'check-square' : 'square'}
-                  size={35}
+                  size={30}
                   color={'black'}
                 />
               </TouchableOpacity>
@@ -497,14 +491,14 @@ export default class Settings extends Component {
             }}
           >
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Trọng tài</Text>
+              <Text style={styles.textRole}>{translate("Referee")}</Text>
               <TextInput style={styles.textInputRole}
                 value={refereeName} onChangeText={(refereeName) => {
                   this.setState({ refereeName })
                 }} />
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Số trận</Text>
+              <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
               placeholder={'0'}
               placeholderTextColor = "black"
@@ -512,7 +506,7 @@ export default class Settings extends Component {
              />
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Giá </Text>
+              <Text style={styles.textRole}>{translate("Price : ")}</Text>
               <TextInput style={styles.textInputRole}
                 value={`${refereePrice}`} onChangeText={(refereePrice) => {
                   this.setState({ refereePrice: isNaN(refereePrice) == false ? refereePrice : parseFloat(refereePrice) })
@@ -591,7 +585,7 @@ const styles = StyleSheet.create({
     height: 45,
     lineHeight: 45,
     paddingStart: 30,
-    fontSize: 20,
+    fontSize: 16,
     
   },
 
@@ -627,7 +621,7 @@ const styles = StyleSheet.create({
   radiusLabel: {
     height: 40,
     lineHeight: 40,
-    fontSize: 20,
+    fontSize: 16,
     width:'60%',
     paddingStart:10,
     
@@ -666,7 +660,7 @@ const styles = StyleSheet.create({
     height: 45,
     lineHeight: 40,
     paddingStart: 30,
-    fontSize: 20,
+    fontSize: 16,
     
   },
   positions: {
