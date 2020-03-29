@@ -52,24 +52,8 @@ class ServiceRegister extends Component {
   }
   render () {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={{marginLeft: 0.05 * screenWidth, marginTop: 10}}>
-          <Text
-            style={{
-              width: '100%',
-              fontSize: 25,
-              fontFamily: 'arial',
-              color: MAIN_COLOR,
-              fontWeight: 'bold',              
-              textAlign:'left'
-            }}
-          >
-            Finalmatch
-          </Text>
-        </View>
-        <View style={{marginLeft: 0.15 * screenWidth}}>
-          <Header title={translate("Register a service")} hideBack={true} />
-        </View>
+      <SafeAreaView style={styles.container}>        
+        <Header title={translate("Register a service")} hideBack={true} />
         <View style={{alignItems: 'center', marginBottom: 20}}>
           <TouchableOpacity
             style={styles.button}
@@ -78,7 +62,7 @@ class ServiceRegister extends Component {
             }}
           >
             <Text style={styles.txt}>
-              Cầu Thủ
+              {translate("Player")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -88,7 +72,7 @@ class ServiceRegister extends Component {
             }}
           >
             <Text style={styles.txt}>
-              Trọng Tài{' '}
+            {translate("Referee")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -98,7 +82,7 @@ class ServiceRegister extends Component {
             }}
           >
             <Text style={styles.txt}>
-              Sân Bóng
+              {translate("Stadium")}
             </Text>
           </TouchableOpacity>
         </View>

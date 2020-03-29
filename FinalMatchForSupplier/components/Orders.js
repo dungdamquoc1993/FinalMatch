@@ -129,7 +129,7 @@ class Item extends Component {
             {translate("Name : ")}{customerName}
           </Text>
         <Text style={styles.textInformationOrder}>
-            {translate("Match's place")}
+            {translate("Match's place")}{orderAddress}
           </Text>
         <Text style={styles.textInformationOrder}>
           {orderAddress}

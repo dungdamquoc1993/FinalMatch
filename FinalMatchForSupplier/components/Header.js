@@ -33,14 +33,20 @@ class Header extends Component {
                         },1000)
                     }                    
                 }}
-                style = {{opacity : hideBack === false ? 1 : 0 }}
-                name={"arrow-circle-left"} size={50} 
+                style = {{
+                    opacity : hideBack === false ? 1 : 0,
+                    paddingStart: 15, 
+                }}
+                name={"arrow-circle-left"} size={40} 
                 color={MAIN_COLOR} />
             <Text style={styles.title}>
                 {title}
             </Text>
-            <FontAwesome5 style={{ opacity: 0 }}
-                name={"arrow-circle-left"} size={30} color={'black'} /> 
+            <FontAwesome5 style={{ 
+                opacity : hideBack === false ? 1 : 0,
+                paddingEnd: 15, 
+            }}
+                name={"arrow-circle-left"} size={40} color={'black'} /> 
         </View>
     }
 }
@@ -51,18 +57,16 @@ const mapStateToProps = state => ({
 })
 const styles = StyleSheet.create({
     container: {
-        height: 80,
-        width: '100%',
+        height: 60,        
+        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center'
     },    
     title: {
         alignSelf: "center", 
-        lineHeight: 50, 
-        fontSize: 20,
-        fontFamily: 'arial',
-        textAlign:'center',
+        lineHeight: 50,         
+        fontSize: 20,                
         fontWeight: 'bold',
     }
 })

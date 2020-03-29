@@ -20,14 +20,14 @@ const TabNavigator = createBottomTabNavigator(
     {
         ServiceRegister: { screen: ServiceRegister },
         Notifications: { screen: Notifications },
-        Order: { screen: Orders },
+        Orders: { screen: Orders },
         Settings: { screen: Settings }
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state
-                let iconName = ""
+                let iconName = ""                
                 switch (routeName) {
                     case 'ServiceRegister':
                         iconName = require('../images/document.png')
@@ -45,7 +45,7 @@ const TabNavigator = createBottomTabNavigator(
                         iconName = ""
                         break
                 }
-                return <Image source={iconName} style={{width:30,height:30}} />
+                return <Image source={iconName} style={{width:25,height:25}} />
             },
         }),
         tabBarOptions: {

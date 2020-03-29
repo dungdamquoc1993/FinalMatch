@@ -15,7 +15,7 @@
     "Enter name: ": "Enter name: ",
     "Enter telephone number: ": "Enter telephone number: ",
     "Player position": "Player position",
-    "Match's place": "Địa điểm thi đấu",
+    "Match's place": "Match's place: ",
     "Match's timing": "Match's timing",
     "Send a request": "Send a request",
     "Create a service": "Create a service",
@@ -38,6 +38,9 @@
     "Stadium's address : ": "Stadium's address : ",
     "Cannot login Facebook: ":"Cannot login Facebook: ",
     "Login to your account": "Login to your account",
+    "Player":"Player",
+    "Referee":"Referee",
+    "Stadium":"Stadium",
     "Login":"Login",
     "Register":"Register",
     "Register new user": "Register new user",
@@ -75,5 +78,5 @@
     "Chat": "Chat",
     "Rate app": "Rate app",
     "Pressed cancel":"Pressed cancel",
-    "Missed": "Missed"
+    "Missed": "Missed",
 }
