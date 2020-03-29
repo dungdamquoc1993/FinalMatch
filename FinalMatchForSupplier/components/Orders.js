@@ -68,11 +68,7 @@ export default class Orders extends MultiLanguageComponent {
           <Header
             title={'Order'}
             hideBack = {true}
-            hideNext = {true}
-            pressBackButton={async () => {
-              //validate ok
-              return true
-            }}
+            hideNext = {true}            
         />
 
         </View>

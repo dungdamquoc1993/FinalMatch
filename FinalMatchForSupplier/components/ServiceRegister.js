@@ -118,8 +118,9 @@ const styles = StyleSheet.create ({
     margin: 30,
     fontSize: 30,
     width: 0.8 * screenWidth,
-    height: 0.15 * screenHeight,
+    height: 80,    
     borderRadius: 40,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 })
