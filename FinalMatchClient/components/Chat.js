@@ -18,37 +18,70 @@ import {
     getAddressFromLatLong
 } from '../server/googleServices'
 import { translate } from '../languages/languageConfigurations'
+import { getCustomerFromStorage } from '../helpers/Helpers'
 export default class Chat extends Component {
-    constructor(props) {
-        super(props)        
-    }
+    
     state = {
         messengers: [],
         flatList: React.createRef()
     }    
     componentDidUpdate() {
-        this.state.flatList.current.scrollToIndex({index: this.state.messengers.length - 1})
+        const {messengers, flatList} = this.state 
+        if(messengers.length > 0) {
+            flatList.current.scrollToIndex({index: messengers.length - 1})
+        }
+        
     }
     async componentDidMount() {
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
-            let messengers = await getChatHistory()
+            let customerId = await getCustomerFromStorage()
+            let messengers = await getChatHistory({customerOrSupplierId: customerId})
+            alert(JSON.stringify(messengers))
             that.setState({messengers})                      
-        })                
+        })                                
     }
     
     render() {       
-        const {messengers} = this.state 
+        const {
+            orderId,
+            typeRole,
+            orderLatitude,
+            orderLongitude,
+            orderStatus,
+            createdDate,//convert mysql string to Date object
+            dateTimeStart,
+            dateTimeEnd,
+            supplierId,
+            supplierName,
+            supplierPhoneNumber,
+            supplierDateOfBirth,
+            supplierEmail,
+            supplierLatitude,
+            supplierLongitude,
+            supplierAddress,
+            supplierRadius,
+            supplierAvatar = "",
+            playerPrice = 0.0,
+            refereePrice = 0.0,
+            customerId,
+            customerAvatar,
+            customerName,
+            customerPhoneNumber,
+            customerEmail,
+            navigate
+        } = this.props.navigation.state.params
+        const {messengers, flatList} = this.state 
         return <View style={styles.container}>
             <FlatList
-                data={this.state.messengers} 
+                data={messengers} 
                 style={styles.flatList}
-                ref={this.state.flatList}
+                ref={flatList}
                 onScrollToIndexFailed={(error) => {
-                    this.state.flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
+                    flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
                     setTimeout(() => {
-                        if (this.state.messengers.length !== 0 && this.state.flatList.current !== null) {
-                            this.state.flatList.current.scrollToIndex({ index: error.index, animated: true })
+                        if (messengers.length > 0 && this.state.flatList.current !== null) {
+                            flatList.current.scrollToIndex({ index: error.index, animated: true })
                         }
                     }, 100)
                 }}

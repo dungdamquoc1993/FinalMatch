@@ -65,7 +65,7 @@ export default class Orders extends MultiLanguageComponent {
       <SafeAreaView style={styles.container}>
         <Spinner
           visible={this.state.spinner}
-          textContent={'Loading...'}
+          textContent={translate("Loading...")}
           textStyle={{fontWeight: 'bold'}}
         />
       <Text style={styles.textTitle}>{translate("Create a service")}</Text>
@@ -73,7 +73,7 @@ export default class Orders extends MultiLanguageComponent {
           width={'100%'}
           data={orders}                    
           renderItem={({item}) => (
-            <Item {...item}/>
+            <Item {...item} navigate = {navigate}/>
           )}
           keyExtractor={item => `${item.orderId}`}
         />
@@ -82,6 +82,8 @@ export default class Orders extends MultiLanguageComponent {
   }
 }
 class Item extends Component {
+  componentDidMount() {        
+  }
   state = {
     order: false
   }
@@ -112,6 +114,7 @@ class Item extends Component {
       customerName,
       customerPhoneNumber,
       customerEmail,
+      navigate
     } = this.props
     return (
       <View style={styles.ViewAllInformation}>
@@ -159,8 +162,13 @@ class Item extends Component {
           />
           <TouchableOpacity
             style={styles.btnOrder}
-          >
-            <Text style={styles.textOrder}>{"Chat"}</Text>
+            onPress = {() => {
+              //alert(JSON.stringify(Object.keys(this.props)))
+              navigate("Chat", {...this.props})
+            }}>
+            <Text style={styles.textOrder}>
+              {"Chat"}
+              </Text>
           </TouchableOpacity>
         </View>        
       </View>
