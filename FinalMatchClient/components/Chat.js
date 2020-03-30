@@ -152,13 +152,12 @@ class _BottomView extends Component {
             orderId,
             supplierId, 
             customerId
-        } = this.props
-        
+        } = this.props        
         const {typedText} = this.state
         await insertNewChat({
             orderId, 
             sms: typedText, 
-            senderId: supplierId
+            senderId: customerId
         })
     }
     render() {

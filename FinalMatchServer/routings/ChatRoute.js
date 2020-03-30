@@ -17,8 +17,7 @@ const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
   const { tokenkey, supplierid, customerid, locale } = req.headers    
-  i18n.setLocale(locale)
-  debugger
+  i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -33,6 +32,7 @@ router.post('/insertNewChat', async (req, res) => {
   debugger
   connection.query(INSERT_NEW_CHAT,
     [orderId, sms, senderId], async (error, results) => {      
+      debugger
       if (error) {
         res.json({
           result: "failed",
