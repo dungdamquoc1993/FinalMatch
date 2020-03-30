@@ -277,7 +277,7 @@ export default class Settings extends Component {
         }}>
           <Header
             title={"Account management"}
-            hideBack={true}
+            hideBack={false}
             hideNext={true}
             pressBackButton={async () => {
               if (this.validateInput() == true) {
