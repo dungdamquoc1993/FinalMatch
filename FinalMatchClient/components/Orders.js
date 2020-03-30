@@ -16,7 +16,9 @@ import {
 } from '../server/googleServices'
 import {
   OrderStatus,
-  getColorFromStatus
+  getColorFromStatus,
+  getCustomerFromStorage,
+  alertWithOKButton
 } from '../helpers/Helpers'
 import {  
   updateOrderStatus, 
@@ -25,7 +27,9 @@ import { urlGetAvatar } from '../server/urlNames'
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 import {
   COLOR_ITEM_BACKGROUND,
-  COLOR_ITEM_BORDER
+  COLOR_ITEM_BORDER,
+  MAIN_COLOR,
+  COLOR_CANCEL_SOMETHING
 } from '../colors/colors'
 import Spinner from 'react-native-loading-spinner-overlay'
 
@@ -133,6 +137,15 @@ class Item extends Component {
             <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
             <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
           </View>
+          {orderStatus == ACCEPTED && <AcceptedItem 
+              pressReject={async ()=>{    
+                alertWithOKButton(
+                  translate("Are you sure you want to cancel this order ?"),
+                  async () => {
+                    await updateOrderStatus(orderId, CANCELLED)
+                  })                        
+              }} 
+          />}
         </View>
 
         <View style={styles.viewButton}>
@@ -149,10 +162,7 @@ class Item extends Component {
           >
             <Text style={styles.textOrder}>{"Chat"}</Text>
           </TouchableOpacity>
-        </View>
-        {orderStatus == ACCEPTED && <AcceptedItem pressReject={()=>{
-
-        }} />}
+        </View>        
       </View>
     )
   }
@@ -160,7 +170,13 @@ class Item extends Component {
 
 const AcceptedItem = ({pressReject}) => {  
   return <TouchableOpacity onPress={pressReject}>
-
+    <Text  style={{
+      fontSize: 17,
+      padding: 5,
+      borderRadius: 6,
+      color: 'white',
+      backgroundColor: COLOR_CANCEL_SOMETHING
+    }}>{translate("Cancel order")}</Text>
   </TouchableOpacity>
 }
 /*

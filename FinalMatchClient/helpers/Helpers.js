@@ -43,6 +43,13 @@ export const convertStringPositionToNumber = (stringPosition) => {
     }
     return 0
 }
+export const alertWithOKButton = (content, callback) => {
+    const buttons = [        
+        { text: 'OK', onPress: () => callback!= null ? callback() : {} },
+    ]
+    Alert.alert("FinalMatch",content,buttons,{cancelable: false})
+}
+
 // pending, accepted, cancelled, completed, missed
 export const getColorFromStatus = (status) => {
     switch (status) {

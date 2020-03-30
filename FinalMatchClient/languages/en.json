@@ -28,6 +28,8 @@
     "Address : ": "Address : ",
     "Player's price: ": "Player's price: ",
     "Referee's price: ": "Referee's price: ",
+    "Are you sure you want to cancel this order ?":"Are you sure you want to cancel this order ?",
+    "Cancel order":"Cancel order",
     "Competition address": "Competition address",
     "Cannot get stadium list:": "Cannot get stadium list:",
     "Search Stadium": "Search Stadium",
@@ -43,6 +45,6 @@
     "Cannot get address from lat, lon": "Cannot get address from lat, lon: ",
     "Cannot get lat, lon from address": "Cannot get lat, lon from address",
     "Cannot get Places From Address:":"Cannot get Places From Address:",
-    "Location permission denied by user.":"Location permission denied by user.",
+    "Location permission denied by user.":"Location permission denied by user."
 
 }

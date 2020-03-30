@@ -28,6 +28,8 @@
     "Address : ": "Địa chỉ : ",
     "Player's price: ": "Định giá người chơi: ",
     "Referee's price: ": "Định giá trọng tài: ",
+    "Are you sure you want to cancel this order ?":"Bạn có muốn huỷ đơn hàng này?",
+    "Cancel order":"Huỷ đơn hàng",
     "Competition address": "Địa chỉ thi đấu",
     "Cannot get stadium list:": "Không lấy được danh sách sân bóng:",
     "Search Stadium": "Tìm kiếm sân bóng",
@@ -43,5 +45,5 @@
     "Cannot get address from lat, lon": "Không lấy được địa chỉ từ lat, lon: ",
     "Cannot get lat, lon from address": "Không lấy được lat, lon từ địa chỉ",
     "Cannot get Places From Address:":"Không lấy được các địa điểm quanh địa chỉ:",
-    "Location permission denied by user.":"Người dùng từ chối cho phép lấy địa chỉ",
+    "Location permission denied by user.":"Người dùng từ chối cho phép lấy địa chỉ"
 }
