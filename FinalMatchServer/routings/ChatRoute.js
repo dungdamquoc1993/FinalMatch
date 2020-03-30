@@ -28,7 +28,8 @@ router.post('/insertNewChat', async (req, res) => {
     })
     return
   }
-  const {orderId, sms, senderId} = req.body
+  const { sms, senderId} = req.body
+  let orderId = parseInt(req.body.orderId)
   debugger
   connection.query(INSERT_NEW_CHAT,
     [orderId, sms, senderId], async (error, results) => {      
