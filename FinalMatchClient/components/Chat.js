@@ -36,8 +36,7 @@ export default class Chat extends Component {
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
             let customerId = await getCustomerFromStorage()
-            let messengers = await getChatHistory({customerOrSupplierId: customerId})
-            alert(JSON.stringify(messengers))
+            let messengers = await getChatHistory({customerOrSupplierId: customerId})            
             that.setState({messengers})                      
         })                                
     }
@@ -91,11 +90,11 @@ export default class Chat extends Component {
                 extraData={this.state.messengers}
                 renderItem={(item) => 
                      <_ChatItem {...item}                      
-                                {...this.props}
+                                {...this.props.navigation.state.params}
                                 isLastItem = {item.index == messengers.length - 1}
                                 />
                 } />
-            <_BottomView {...this.props} />
+            <_BottomView {...this.props.navigation.state.params} />
         </View>
     }
 }
@@ -103,22 +102,32 @@ class _ChatItem extends Component {
     
     render() {
         const {
-            chatId,
             orderId,
-            customerId,
-            supplierAvatar,
-            supplierId,
-            supplierName,
-            sms,
-            senderId,
-            createdDate,
-            seen,
             typeRole,
             orderLatitude,
             orderLongitude,
             orderStatus,
+            createdDate,//convert mysql string to Date object
             dateTimeStart,
             dateTimeEnd,
+            supplierId,
+            supplierName,
+            supplierPhoneNumber,
+            supplierDateOfBirth,
+            supplierEmail,
+            supplierLatitude,
+            supplierLongitude,
+            supplierAddress,
+            supplierRadius,
+            supplierAvatar = "",
+            playerPrice = 0.0,
+            refereePrice = 0.0,
+            customerId,
+            customerAvatar,
+            customerName,
+            customerPhoneNumber,
+            customerEmail,
+            navigate
         } = this.props                
         const {isSender} = senderId == supplierId
         const styles = stylesChatItem(isSender)
@@ -138,20 +147,49 @@ class _BottomView extends Component {
     state = {
         typedText: ''
     }
-    pressSend = async () => {
+    pressSend = async () => {                
         const {
             orderId,
             supplierId, 
             customerId
         } = this.props
+        
         const {typedText} = this.state
-        insertNewChat({
+        await insertNewChat({
             orderId, 
             sms: typedText, 
             senderId: supplierId
         })
     }
     render() {
+        const {
+            orderId,
+            typeRole,
+            orderLatitude,
+            orderLongitude,
+            orderStatus,
+            createdDate,//convert mysql string to Date object
+            dateTimeStart,
+            dateTimeEnd,
+            supplierId,
+            supplierName,
+            supplierPhoneNumber,
+            supplierDateOfBirth,
+            supplierEmail,
+            supplierLatitude,
+            supplierLongitude,
+            supplierAddress,
+            supplierRadius,
+            supplierAvatar = "",
+            playerPrice = 0.0,
+            refereePrice = 0.0,
+            customerId,
+            customerAvatar,
+            customerName,
+            customerPhoneNumber,
+            customerEmail,
+            navigate
+        } = this.props
         const {typedText} = this.state        
         return <View style={stylesBottomView.container}>
             <TextInput placeholder={translate("Enter your sms:")} 
@@ -161,8 +199,9 @@ class _BottomView extends Component {
                 }}
                 value={typedText}
                 style={stylesBottomView.textInput}/>
-            <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
-                pressSend()
+            <TouchableHighlight style={stylesBottomView.btnSend} onPress = {async () => {
+                await this.pressSend()
+                this.setState({typedText: ''})
             }}>
                 <Text>Send</Text>
             </TouchableHighlight>

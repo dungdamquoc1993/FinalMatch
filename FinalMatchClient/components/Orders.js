@@ -50,8 +50,7 @@ export default class Orders extends MultiLanguageComponent {
   async componentDidMount () {            
     await super.componentDidMount()
     this._getOrdersFromServer()
-    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {    
-      debugger        
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {          
       if(super.hasOrder = true) {
         await this._getOrdersFromServer()
       }          
@@ -160,7 +159,7 @@ class Item extends Component {
             }
             style={styles.images}
           />
-          <TouchableOpacity
+          {orderStatus == ACCEPTED && <TouchableOpacity
             style={styles.btnOrder}
             onPress = {() => {
               //alert(JSON.stringify(Object.keys(this.props)))
@@ -169,7 +168,7 @@ class Item extends Component {
             <Text style={styles.textOrder}>
               {"Chat"}
               </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>        
       </View>
     )

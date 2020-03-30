@@ -18,6 +18,7 @@ const INSERT_NEW_CHAT = "CALL insertNewChat(orderId, sms, senderId)"
 router.post('/insertNewChat', async (req, res) => {  
   const { tokenkey, supplierid, customerid, locale } = req.headers    
   i18n.setLocale(locale)
+  debugger
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -29,6 +30,7 @@ router.post('/insertNewChat', async (req, res) => {
     return
   }
   const {orderId, sms, senderId} = req.body
+  debugger
   connection.query(INSERT_NEW_CHAT,
     [orderId, sms, senderId], async (error, results) => {      
       if (error) {

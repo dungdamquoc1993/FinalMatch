@@ -391,7 +391,9 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
+        debugger
         const { tokenKey, supplierId, customerId } = await getCustomerFromStorage()        
+        debugger
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
@@ -404,11 +406,14 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
                 orderId, sms, senderId
             }),
         })
-        
+        debugger
         const responseJson = await response.json();        
+        debugger
         const {result, data} = responseJson
+        debugger
         return result.toUpperCase() === "OK" ? data : []
     } catch (error) {
+        debugger
         alert("Cannot insert new chat. Error: "+error)        
         return []
     }
