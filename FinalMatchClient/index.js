@@ -17,7 +17,12 @@
  * import DatePicker from 'react-native-date-picker'
  * yarn add firebase
  * yarn add react-native-loading-spinner-overlay
- * 
+
+yarn start --port 8082
+Thay RCT_METRO_PORT 8081 thanh RCT_METRO_PORT 8082
+
+react-native run-android --deviceId="HT76K0204662"
+
  */
 import {AppRegistry, NativeModules} from 'react-native';
 //import App from './App';

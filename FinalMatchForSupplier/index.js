@@ -21,6 +21,12 @@
  3. Reset Metro's cache: yarn start --reset-cache
  4. Remove the cache: rm -rf /tmp/metro-*
 
+
+yarn start --port 8082
+Thay RCT_METRO_PORT 8081 thanh RCT_METRO_PORT 8082
+
+react-native run-android --deviceId="HT76K0204662"
+
  */
 
 import {AppRegistry} from 'react-native';
