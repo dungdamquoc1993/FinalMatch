@@ -17,6 +17,7 @@ import {getSupplierFromStorage,
   alert,
   isIOS
 } from '../helpers/Helpers'
+import i18n from "i18n-js"
 const {width, height} = Dimensions.get ('window')
 import {
   getNotificationsBySupplierId,
@@ -48,7 +49,7 @@ export default class Notifications extends Component {
       <SafeAreaView style={styles.container}>
         <Spinner
           visible={this.state.spinner}
-          textContent={'Loading...'}
+          textContent={translate("Loading...")}
           textStyle={{fontWeight: 'bold'}}
         />
         <NavigationEvents
@@ -81,11 +82,14 @@ export default class Notifications extends Component {
   }
 }
 const Item = (props) => {  
-  const { title,
-    body,
-    supplierId,
-    customerId,
-    orderId,
+  const { 
+    supplierId, 
+    customerId, 
+    titleEnglish, 
+    bodyEnglish, 
+    titleVietnamese, 
+    bodyVietnamese, 
+    orderId, 
     createdDate,
   } = props
   
@@ -108,12 +112,12 @@ const Item = (props) => {
             paddingTop: 5,
             fontSize: 16,
             fontWeight: 'bold'
-          }}>{title}</Text>
+          }}>{i18n.locale == 'en'? titleEnglish : titleVietnamese}</Text>
           <Text style={{
             paddingHorizontal: 10,
             paddingBottom: 5,
             fontSize: 16,
-          }}>{body}</Text>
+          }}>{i18n.locale == 'en'? bodyEnglish : bodyVietnamese}</Text>
         </View>
       </View>
     </TouchableOpacity>

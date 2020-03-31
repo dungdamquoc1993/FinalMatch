@@ -111,13 +111,17 @@ CREATE TABLE IF NOT EXISTS SupplierNotificationTokens (
 );
 CREATE TABLE IF NOT EXISTS Notification (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(300),
-    body VARCHAR(500),
     supplierId INTEGER,
     customerId VARCHAR(400),
+    titleEnglish VARCHAR(300),
+    bodyEnglish VARCHAR(500),
+    titleVietnamese VARCHAR(300),
+    bodyVietnamese VARCHAR(500),    
     orderId INTEGER,        
     createdDate DATETIME DEFAULT NOW()    
 );
+  
+
   --PENDING: "pending", 
   --ACCEPTED: "accepted", 
   --CANCELLED:"cancelled", 

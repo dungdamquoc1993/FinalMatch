@@ -31,7 +31,16 @@ const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
   "WHERE customerId = ? AND orderStatus in ('completed', 'accepted') " +
   "ORDER BY createdDate DESC"
-const INSERT_NOTIFICATION = "INSERT INTO Notification(title, body, supplierId, customerId, orderId) VALUES(?, ?, ?, ?, ?)"   
+const INSERT_NOTIFICATION = "INSERT INTO Notification("+
+      "supplierId, "+
+      "customerId, "+
+      "titleEnglish, "+
+      "bodyEnglish, "+
+      "titleVietnamese, "+
+      "bodyVietnamese, "+
+      "orderId) "+
+      "VALUES(?, ?, ?, ?, ?, ?, ?)"   
+
 
 //Link http://150.95.113.87:3000/orders/getOrdersBySupplierId
 router.post('/getOrdersBySupplierId', async (req, res) => {
@@ -281,10 +290,26 @@ router.post('/createNewOrder', async (req, res) => {
       }
     })
 })
-const insertNotification = ({ supplierId, customerId, title, body, orderId }) => {
+const insertNotification = ({ 
+  supplierId, 
+  customerId, 
+  titleEnglish, 
+  bodyEnglish, 
+  titleVietnamese, 
+  bodyVietnamese, 
+  orderId 
+}) => {
   return new Promise((resolve, reject) => {    
     connection.query(INSERT_NOTIFICATION,
-      [title, body, supplierId, customerId, orderId]
+      [
+        supplierId, 
+        customerId, 
+        titleEnglish, 
+        bodyEnglish, 
+        titleVietnamese, 
+        bodyVietnamese, 
+        orderId
+      ]
       , async (error, results) => {
         
         if (error) {
@@ -360,8 +385,8 @@ router.post('/updateOrderStatus', async (req, res) => {
           let notificationTokens = await getNotificationTokens({supplierId: 0, customerId})
           
           const {supplierName, customerName} = results[0][0]                                                      
-          const title = i18n.__("Update an order")
-          const body = i18n.__("%s update an order", `${supplierName}`)
+          let title = i18n.__("Update an order")
+          let body = i18n.__("%s update an order", `${supplierName}`)
           
           let failedTokens = await sendFirebaseCloudMessage({title, 
                                     body, 
@@ -370,7 +395,21 @@ router.post('/updateOrderStatus', async (req, res) => {
                                   })         
           if(failedTokens.length <= notificationTokens.length) {
             //success
-            await insertNotification({supplierId, customerId, title, body, orderId})
+            i18n.setLocale("en")  
+            titleEnglish = i18n.__("Update an order")
+            bodyEnglish = i18n.__("%s update an order", `${supplierName}`)
+            i18n.setLocale("vi")  
+            titleVietnamese = i18n.__("Update an order")
+            bodyVietnamese = i18n.__("%s update an order", `${supplierName}`)
+            await insertNotification({
+              supplierId, 
+              customerId, 
+              titleEnglish, 
+              bodyEnglish, 
+              titleVietnamese, 
+              bodyVietnamese, 
+              orderId
+            })
           }                                  
           res.json({
             result: "ok",
