@@ -152,7 +152,9 @@ class _ChatItem extends Component {
                 <View style={styles.text}>
                     <Text>{sms}</Text>
                 </View>                
-                <Text>{typeRole.toLowerCase() == "referee" ? refereeName : playerName}</Text>
+                {isSender == false ? <Text>{customerName}</Text> :
+                    <Text>{typeRole.toLowerCase() == "referee" ? refereeName : playerName}</Text>
+                }                               
             </View>                        
             {isLastItem == true && seen == true && <Text>{translate("Seen")}</Text>}
         </View>
