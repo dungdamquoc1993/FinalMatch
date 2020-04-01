@@ -64,7 +64,7 @@ export default class Orders extends MultiLanguageComponent {
       <SafeAreaView style={styles.container}>
         <Spinner
           visible={this.state.spinner}
-          textContent={translate("Loading...")}
+          textContent={translate("Loading")}
           textStyle={{fontWeight: 'bold'}}
         />
       <Text style={styles.textTitle}>{translate("Create a service")}</Text>

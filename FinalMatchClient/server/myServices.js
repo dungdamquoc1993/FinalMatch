@@ -419,23 +419,26 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
     }
 }
 
-export const getChatHistory = async ({customerOrSupplierId}) => {
+export const getChatHistory = async () => {
     try {
-        const { tokenKey, supplierId, customerId } = await getCustomerFromStorage()
-        const response = await fetch(urlInsertNewChat(), {
+        const { tokenKey, customerId } = await getCustomerFromStorage()
+        let url = await urlGetChatHistory()
+        
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 locale: i18n.locale,
-                tokenKey, supplierId, customerId
+                tokenKey, customerId
             },
             body: JSON.stringify({
-                customerOrSupplierId
+                customerOrSupplierId: customerId
             }),
         })
         
         const responseJson = await response.json();        
+        
         const {result, data} = responseJson
         return result.toUpperCase() === "OK" ? data : []
     } catch (error) {

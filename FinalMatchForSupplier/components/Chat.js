@@ -100,8 +100,12 @@ export default class Chat extends Component {
     }
 }
 class _ChatItem extends Component {    
-    componentDidMount() {
-        
+    state ={
+        isSender: false
+    }
+    async componentDidMount() {
+        const {customerId} = await getCustomerFromStorage()
+        return this.props.item.senderId == customerId;
     }
     render() {
         const {
@@ -139,7 +143,7 @@ class _ChatItem extends Component {
             customerEmail,  
         } = this.props.item     
         const {isLastItem} = this.props          
-        const {isSender} = senderId == supplierId
+        const {isSender} = this.state
         debugger
         const styles = stylesChatItem(isSender)
         return <View>
@@ -214,7 +218,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },    
 })
-const stylesChatItem = (isSender) => isSender == true ? StyleSheet.create({
+const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
     chatItem: {
         flexDirection: 'row',
         height: 60,
