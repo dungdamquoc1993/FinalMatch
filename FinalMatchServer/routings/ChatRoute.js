@@ -10,6 +10,7 @@ const {
   checkTokenCustomer,
   getNotificationTokens,
   checkToken} = require('./helpers')
+const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const GET_CHAT_HISTORY = 
           "SELECT * FROM viewChatOrder "+
           +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
