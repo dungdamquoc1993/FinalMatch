@@ -36,6 +36,7 @@ export default class Chat extends Component {
     async componentDidMount() {        
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
+            debugger
             let customerId = await getCustomerFromStorage()
             let messengers = await getChatHistory({customerOrSupplierId: customerId})            
             that.setState({messengers})                      
