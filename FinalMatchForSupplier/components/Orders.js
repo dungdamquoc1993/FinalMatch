@@ -184,6 +184,7 @@ class Item extends Component {
           />}
           {orderStatus == ACCEPTED && <AcceptedItem
             pressChat={() => {
+              debugger
               navigate("Chat", { ...this.props })
             }}
             pressReject={async () => {

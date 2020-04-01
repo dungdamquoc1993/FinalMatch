@@ -135,8 +135,11 @@ Y(Supplier.point) as supplierLongitude,
 Supplier.address as supplierAddress,
 Supplier.radius as supplierRadius,
 Supplier.avatar as supplierAvatar,
+PlayerService.playerName as playerName,
 PlayerService.price as playerPrice,
+RefereeService.refereeName as refereeName,
 RefereeService.price as refereePrice,
+
 
 Customer.customerId as customerId,
 Customer.avatar as customerAvatar,
@@ -153,23 +156,16 @@ LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeS
 CREATE VIEW viewChatOrder AS 
 SELECT 
 Chat.id as chatId,
-Chat.orderId as orderId,
 Chat.sms as sms,
 Chat.senderId as senderId,
-Chat.createdDate as createdDate,
+Chat.createdDate as chatCreatedDate,
 Chat.seen as seen,
 
-Orders.customerId as customerId,
-Orders.supplierId as supplierId,
-Orders.typeRole as typeRole,
-X(Orders.point) as orderLatitude,
-Y(Orders.point) as orderLongitude,
-Orders.status as orderStatus,
-Orders.dateTimeStart as dateTimeStart, 
-Orders.dateTimeEnd as dateTimeEnd
+0.viewOrdersSupplierCustomer.*
 
 FROM Chat
-LEFT JOIN Orders ON Chat.orderId = Orders.id;
+LEFT JOIN viewOrdersSupplierCustomer 
+ON Chat.orderId = viewOrdersSupplierCustomer.orderId;
 
 
 
