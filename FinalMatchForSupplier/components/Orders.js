@@ -29,8 +29,11 @@ import {
 import i18n from "i18n-js"
 import {
   COLOR_ITEM_BACKGROUND,
-  COLOR_ITEM_BORDER
+  COLOR_ITEM_BORDER,
+  MAIN_COLOR,
+  COLOR_CANCEL_SOMETHING
 } from '../colors/colors'
+
 
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
@@ -48,8 +51,7 @@ export default class Orders extends MultiLanguageComponent {
     await this._reloadOrders()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
       if(super.hasOrder = true) {
-        //Goi api load orders
-        debugger
+        //Goi api load orders        
         await this._reloadOrders()
       }          
     })        
@@ -78,7 +80,7 @@ export default class Orders extends MultiLanguageComponent {
 
         </View>
       
-        <FlatList
+        <FlatList          
           width={'100%'}
           data={orders}
           // data={orders}          
@@ -135,65 +137,68 @@ class Item extends Component {
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
     const {orderAddress} = this.state                
     return (
-      <View style={styles.viewOrder}>
-        {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
-        <Text style={styles.textInformationOrder}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View style={styles.viewOrder}>
+          {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
+          <Text style={styles.textInformationOrder}>
             {translate("Name : ")}{customerName}
           </Text>
-        <Text style={styles.textInformationOrder}>
+          <Text style={styles.textInformationOrder}>
             {translate("Match's place")}
           </Text>
-        <Text style={styles.textInformationOrder}>
-          {orderAddress}
+          <Text style={styles.textInformationOrder}>
+            {orderAddress}
           </Text>
-        <Text style={styles.textInformationOrder}>
-          {translate("Match's timing")}
-        </Text>
-        <Text style={styles.textInformationOrder}>{
-          strDatetimeStart          
-        }</Text>
-        <Text style={styles.textInformationOrder}>
-          {translate("Order's status")}
-        </Text>
-        <Text
-          style={{
-            color: getColorFromStatus (
-              orderStatus
-            ),
-            fontSize: 17,
-          }}
-        >
-          {orderStatus}
-        </Text>                
-        {orderStatus == PENDING && <PendingItem pressConfirm={async() => {          
-          let result = await updateOrderStatus(orderId, ACCEPTED)          
-          debugger
-          if(result == true) {
-            _reloadOrders()
-          }          
-        }}
-        pressCancel={async () => {
-          let result = await updateOrderStatus(orderId, CANCELLED)
-          if(result == true) {
-            _reloadOrders()
-          }
-        }}
-        />}
-        {orderStatus == ACCEPTED && <AcceptedItem 
-          pressChat ={() => {
-            navigate("Chat", {...this.props})
-          }}
-          pressReject={async () => {
-            let result = await updateOrderStatus(orderId, CANCELLED)
-            if(result == true) {
+          <Text style={styles.textInformationOrder}>
+            {translate("Match's timing")}
+          </Text>
+          <Text style={styles.textInformationOrder}>{
+            strDatetimeStart
+          }</Text>
+          <Text style={styles.textInformationOrder}>
+            {translate("Order's status")}
+          </Text>
+          <Text
+            style={{
+              color: getColorFromStatus(
+                orderStatus
+              ),
+              fontSize: 17,
+            }}
+          >
+            {orderStatus}
+          </Text>
+          {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
+            let result = await updateOrderStatus(orderId, ACCEPTED)
+            debugger
+            if (result == true) {
               _reloadOrders()
             }
           }}
-          customerPhoneNumber={customerPhoneNumber}/> }        
-        {orderStatus == COMPLETED && <CompletedItem pressRate={()=>{}} />}
-        {orderStatus == CANCELLED && <CancelledItem />}
-        {orderStatus == MISSED && <MissedItem />}
+            pressCancel={async () => {
+              let result = await updateOrderStatus(orderId, CANCELLED)
+              if (result == true) {
+                _reloadOrders()
+              }
+            }}
+          />}
+          {orderStatus == ACCEPTED && <AcceptedItem
+            pressChat={() => {
+              navigate("Chat", { ...this.props })
+            }}
+            pressReject={async () => {
+              let result = await updateOrderStatus(orderId, CANCELLED)
+              if (result == true) {
+                _reloadOrders()
+              }
+            }}
+            customerPhoneNumber={customerPhoneNumber} />}
+          {orderStatus == COMPLETED && <CompletedItem pressRate={() => { }} />}
+          {orderStatus == CANCELLED && <CancelledItem />}
+          {orderStatus == MISSED && <MissedItem />}
+        </View>
       </View>
+      
       
     )
   }
@@ -240,27 +245,37 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
 }
 
 const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
-  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
+  return (<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressCall}>
     <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
     </TouchableOpacity>
     <TouchableOpacity
       style={{
-        flexDirection: 'row',
-        width: 100,
-        height: 50,
-        backgroundColor: COLOR_ITEM_BACKGROUND,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        borderRadius: 8,
+        width: 90,
+        height: 40,
+        marginBottom: 5,
+        borderRadius: 6,
+        backgroundColor: '#dcdcdc',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
       onPress={pressChat}
     >
-      <Text style={{ height: 50, lineHeight: 50, fontSize: 17 }}>{translate("Chat")}</Text>
+      <Text style={{ height: 50, lineHeight: 50, fontSize: 16 }}>{translate("Chat")}</Text>
       
     </TouchableOpacity>       
     <TouchableOpacity onPress={pressReject}>      
-      <Text>{translate("Reject")}</Text>
+      <Text style={{
+        fontSize: 17,
+        padding: 5,
+        paddingLeft: 10,
+        borderRadius: 6,
+        color: 'white',
+        width: "50%",
+        backgroundColor: COLOR_CANCEL_SOMETHING,        
+      }}>
+        {translate("Reject")}
+      </Text>
     </TouchableOpacity>       
   </View>)
 }
@@ -287,21 +302,20 @@ const MissedItem = ({}) => {
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
   },
   viewOrder: {
-    height: 300,
-    lineHeight: 100,
+    height: 300,    
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
     borderColor: COLOR_ITEM_BORDER,
     borderWidth: 1,
     marginVertical: 10,
-    width: '80%',
-    marginHorizontal: '10%',
+    width: '80%',    
     padding: 30,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between',    
   },
   textInformationOrder: {
     fontSize: 17,

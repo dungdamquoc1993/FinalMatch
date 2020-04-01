@@ -166,7 +166,7 @@ class Item extends Component {
               navigate("Chat", {...this.props})
             }}>
             <Text style={styles.textOrder}>
-              {"Chat"}
+              {translate("Chat")}
               </Text>
           </TouchableOpacity>}
         </View>        

@@ -36,8 +36,7 @@ export default class Chat extends Component {
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
             let supplierId = await getSupplierFromStorage()
-            let messengers = await getChatHistory({customerOrSupplierId: supplierId})
-            alert(JSON.stringify(messengers))
+            let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
             that.setState({messengers})                      
         })                                
     }
@@ -95,7 +94,7 @@ export default class Chat extends Component {
                                 isLastItem = {item.index == messengers.length - 1}
                                 />
                 } />
-            <_BottomView {...this.props} />
+            <_BottomView {...this.props.navigation.state.params} />
         </View>
     }
 }
@@ -139,6 +138,7 @@ class _BottomView extends Component {
         typedText: ''
     }
     pressSend = async () => {
+        debugger
         const {
             orderId,
             supplierId, 
@@ -153,6 +153,11 @@ class _BottomView extends Component {
     }
     render() {
         const {typedText} = this.state        
+        const {
+            orderId,
+            supplierId, 
+            customerId
+        } = this.props
         return <View style={stylesBottomView.container}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
@@ -162,9 +167,9 @@ class _BottomView extends Component {
                 value={typedText}
                 style={stylesBottomView.textInput}/>
             <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
-                pressSend()
+                this.pressSend()
             }}>
-                <Text>Send</Text>
+                <Text>{translate("Send")}</Text>
             </TouchableHighlight>
             
         </View>
