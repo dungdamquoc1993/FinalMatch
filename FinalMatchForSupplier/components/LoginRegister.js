@@ -161,7 +161,7 @@ class LoginRegister extends Component {
                 alert(message)
             }
         } catch(error) {
-            alert(translate("Error login or register customer: ") + `${JSON.stringify(error)}`)
+            alert(translate("Error login or register customer: ") + `${error}`)
         }
         
     }

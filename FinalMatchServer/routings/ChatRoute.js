@@ -96,7 +96,7 @@ router.post('/getChatHistory', async (req, res) => {
       } else {
         res.json({
           result: "ok",
-          count: result != null ? results.length : 0,
+          count: results != null ? results.length : 0,
           data: results != null ? results : {},
           message: i18n.__("Get chat's history successfully"),
           time: Date.now()
