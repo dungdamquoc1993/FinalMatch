@@ -6,7 +6,10 @@ const {
   firebaseDatabase 
 } = require('../database/database')
 
-const {checkTokenCustomer, checkToken} = require('./helpers')
+const {
+  checkTokenCustomer,
+  getNotificationTokens,
+  checkToken} = require('./helpers')
 const GET_CHAT_HISTORY = 
           "SELECT * FROM viewChatOrder "+
           +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
