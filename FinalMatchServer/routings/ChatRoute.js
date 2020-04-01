@@ -54,7 +54,10 @@ router.post('/insertNewChat', async (req, res) => {
           await firebaseDatabase.ref(key).remove()   
           await firebaseDatabase.ref().update(updates)    
           //Update order, báo cho customerid biết
-          let notificationTokens = await getNotificationTokens({supplierId, customerId})
+          let notificationTokens = await getNotificationTokens({
+            supplierId: supplierid, 
+            customerId: customerid
+          })
           sendFirebaseCloudMessage({title: i18n.__("New Message"),
                                     body: i18n.__("You got new message"),
                                     payload: results[0][0],
