@@ -107,7 +107,9 @@ class _ChatItem extends Component {
     }  
     async componentDidMount() {
         const {customerId} = await getCustomerFromStorage()
-        return this.props.item.senderId == customerId;
+        this.setState({
+            isSender: this.props.item.senderId == customerId
+        })
     }
     render() {
         const {
