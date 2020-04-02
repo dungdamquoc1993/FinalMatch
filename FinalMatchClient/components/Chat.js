@@ -5,7 +5,8 @@ import {
     Text,
     Image,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
+    Keyboard
 }
     from 'react-native'
 import {
@@ -172,19 +173,19 @@ class _BottomView extends Component {
     state = {
         typedText: ''
     }
-    pressSend = async () => {
-        debugger
+    pressSend = async () => {        
         const {
             orderId,
             supplierId, 
             customerId
         } = this.props
         const {typedText} = this.state
-        insertNewChat({
+        await insertNewChat({
             orderId, 
             sms: typedText, 
             senderId: supplierId
         })
+        Keyboard.dismiss()
     }
     render() {
         const {typedText} = this.state        

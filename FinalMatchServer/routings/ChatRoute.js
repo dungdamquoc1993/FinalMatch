@@ -66,7 +66,7 @@ router.post('/insertNewChat', async (req, res) => {
                                   })                                                  
         res.json({
           result: "ok",
-          count: result != null ? results.length : 0,
+          count: results != null ? results.length : 0,
           data: results != null ? results : {},
           message: i18n.__("Insert new message successfully"),
           time: Date.now()
