@@ -5,7 +5,9 @@ import {
     Text,
     Image,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableOpacity,
+    Keyboard
 }
     from 'react-native'
 import {
@@ -14,6 +16,9 @@ import {
     makeSeen,
 } from '../server/myServices'
 import {
+    COLOR_BUTTON, COLOR_ITEM_BACKGROUND, COLOR_CANCEL_SOMETHING, COLOR_ITEM_BORDER
+} from '../colors/colors'
+import {
     firebaseDatabase,
     getAddressFromLatLong
 } from '../server/googleServices'
@@ -21,7 +26,9 @@ import { translate } from '../languages/languageConfigurations'
 import { getSupplierFromStorage } from '../helpers/Helpers'
 import { urlGetAvatar } from '../server/urlNames'
 export default class Chat extends Component {
-    
+    static navigationOptions = {
+        headerShown: false,        
+    }
     state = {
         messengers: [],
         flatList: React.createRef()
@@ -36,6 +43,7 @@ export default class Chat extends Component {
     async componentDidMount() {        
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
+            debugger
             let supplierId = await getSupplierFromStorage()
             let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
             that.setState({messengers})                      
@@ -72,7 +80,18 @@ export default class Chat extends Component {
             navigate
         } = this.props.navigation.state.params
         const {messengers, flatList} = this.state 
-        return <View style={styles.container}>
+        return <View style={{
+                flex: 1,        
+                justifyContent: 'center',                
+                alignItems: 'center',       
+            }}>
+            <ChatHeader pressBackButton = {() => {
+                this.props.navigation.goBack()
+            }} 
+                customerAvatar = {messengers.length > 0 ? messengers[0].customerAvatar : ""}
+                name = {messengers.length > 0 ? 
+                            messengers[0].customerName : ""}
+            />
             <FlatList
                 data={messengers} 
                 style={styles.flatList}
@@ -99,10 +118,11 @@ export default class Chat extends Component {
         </View>
     }
 }
-class _ChatItem extends Component {    
-    state ={
+class _ChatItem extends Component {  
+    
+    state = {
         isSender: false
-    }
+    }  
     async componentDidMount() {
         const {supplierId} = await getSupplierFromStorage()
         this.setState({
@@ -149,40 +169,82 @@ class _ChatItem extends Component {
         debugger
         const styles = stylesChatItem(isSender)
         return <View>
-            <View style={styles.chatItem}>
+            <View style={styles.chatItem}>                
                 <Image style={styles.profile} source={
-                  supplierAvatar.length > 0
-                    ? { uri: urlGetAvatar(supplierAvatar) }
+                  customerAvatar.length > 0
+                    ? { uri: urlGetAvatar(supplierId) }
                     : require('../images/defaultAvatar.png')
                 } />
                 <View style={styles.text}>
                     <Text>{sms}</Text>
-                </View>                
-                {isSender == false ? <Text>{customerName}</Text> :
+                </View> 
+                {/* {isSender == true ? <Text>{customerName}</Text> :
                     <Text>{typeRole.toLowerCase() == "referee" ? refereeName : playerName}</Text>
-                }                               
+                }                                */}
             </View>                        
             {isLastItem == true && seen == true && <Text>{translate("Seen")}</Text>}
         </View>
     }
 }
+const ChatHeader = ({pressBackButton, customerAvatar, name}) => {
+    return <View style={{
+        height: 50,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',        
+        backgroundColor: COLOR_ITEM_BACKGROUND,
+        marginBottom:1
+      }}>
+          <TouchableOpacity            
+                onPress={async () => {
+                await pressBackButton ();
+            }}
+          >
+            <Image
+              source={require ('../images/back.png')}
+              style={{width: 25, height: 25, marginLeft: 10}}
+            />
+          </TouchableOpacity>        
+          <Image style={{width: 40, height: 40, 
+                borderRadius: 20,
+                marginLeft: 10}}
+                source={
+                    customerAvatar.length > 0
+                    ? { uri: urlGetAvatar(customerAvatar) }
+                    : require('../images/defaultAvatar.png')
+                } />
+           <View style={{
+                            height: 50, 
+                            padding: 5,
+                            justifyContent: 'center',
+                            flexDirection: 'column', 
+                            alignItems: 'center'}}>
+                <Text>{name}</Text>
+           </View> 
+    </View>
+}
 class _BottomView extends Component {
     state = {
         typedText: ''
     }
-    pressSend = async () => {
-        debugger
+    pressSend = async () => {        
         const {
             orderId,
             supplierId, 
             customerId
         } = this.props
         const {typedText} = this.state
-        insertNewChat({
+        if(typedText.trim() == "") {
+            Keyboard.dismiss()
+            return
+        }
+        await insertNewChat({
             orderId, 
             sms: typedText, 
-            senderId: supplierId
+            senderId: customerId
         })
+        Keyboard.dismiss()
     }
     render() {
         const {typedText} = this.state        
@@ -191,15 +253,36 @@ class _BottomView extends Component {
             supplierId, 
             customerId
         } = this.props
-        return <View style={stylesBottomView.container}>
+        return <View style={{
+                width: '100%',
+                flexDirection: 'row',
+                justifyContent:'center',
+                alignItems: 'center',
+                marginHorizontal: 10,
+                height:50,                         
+            }}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
                 onTouchStart={() => {
                     makeSeen({orderId, senderId: supplierId})
                 }}
                 value={typedText}
-                style={stylesBottomView.textInput}/>
-            <TouchableHighlight style={stylesBottomView.btnSend} onPress = {() => {
+                style={{
+                    width: '80%',                
+                    height:50,                         
+                    padding: 10,        
+                    backgroundColor: 'white',
+                    borderWidth: 1,
+                    borderColor: COLOR_ITEM_BORDER
+                }}/>
+            <TouchableHighlight style={{        
+                width: '20%',
+                height: '100%',
+                padding: 10,        
+                alignItems: 'center',
+                justifyContent: 'center',        
+                backgroundColor: COLOR_ITEM_BACKGROUND
+            }} onPress = {() => {
                 this.pressSend()
             }}>
                 <Text>{translate("Send")}</Text>
@@ -208,16 +291,11 @@ class _BottomView extends Component {
         </View>
     }
 }
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,        
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(41,42,47)',
-    },
-    flatList: {
-        flex: 1,
-        width: '100%'
+    flatList: {        
+        width: '100%',
+        backgroundColor:'white',
     },    
 })
 const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
@@ -239,7 +317,7 @@ const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
         alignItems:'center',
         height: 40,
         lineHeight: 40,
-        backgroundColor: 'rgb(146,224, 149)',
+        backgroundColor: COLOR_ITEM_BACKGROUND,
         borderRadius:20, 
         paddingHorizontal: 15      
     },
@@ -270,7 +348,7 @@ StyleSheet.create({
         alignItems:'center',
         height: 40,
         lineHeight: 40,
-        backgroundColor: 'pink',
+        backgroundColor: COLOR_ITEM_BACKGROUND,
         borderRadius:20, 
         paddingHorizontal: 15      
     },
@@ -280,28 +358,5 @@ StyleSheet.create({
         opacity: 0.5,
         textAlign: 'right',
         marginRight: 70
-    }
-})
-const stylesBottomView = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent:'center',
-        alignItems: 'center',
-        height:50,         
-        width: '95%',
-        
-    },
-    textInput: {
-        width: '80%',                
-        padding: 10,
-        backgroundColor: '#3cb371' 
-    },
-    btnSend: {        
-        width: '20%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ffa500'
-        
     }
 })
