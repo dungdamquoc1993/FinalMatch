@@ -1,6 +1,8 @@
-import {Platform } from 'react-native'
-import {Alert} from 'react-native'
-import { NativeEventEmitter, NativeModules } from 'react-native'
+import React, {Component} from 'react'
+import {
+    NativeModules,
+    Platform, Alert, 
+    useState, Keyboard} from 'react-native'
 const {AsyncStorage} = NativeModules
 
 export const saveCustomerToStorage = async (tokenKey, customerId, email) => {
@@ -74,9 +76,6 @@ export const OrderStatus = {
     COMPLETED: "completed",
     MISSED: "missed"
 }
-
-
-
 
 
 

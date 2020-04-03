@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     Keyboard
 }
-    from 'react-native'
+from 'react-native'
 import {
     insertNewChat,
     getChatHistory,
@@ -299,7 +299,7 @@ class _BottomView extends Component {
 const styles = StyleSheet.create({
     flatList: {        
         width: '100%',
-        backgroundColor:'white',
+        backgroundColor:'white',        
     },    
 })
 const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({

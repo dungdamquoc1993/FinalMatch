@@ -1,6 +1,9 @@
-import {Platform } from 'react-native'
-import {Alert} from 'react-native'
-import { NativeEventEmitter, NativeModules } from 'react-native'
+import React, {Component} from 'react'
+import {
+    NativeModules,
+    Platform, Alert,     
+    Keyboard} 
+from 'react-native'
 const {AsyncStorage} = NativeModules
 
 export const daysBetween2Dates = (bigDay, smallDay) => {   
@@ -128,7 +131,6 @@ export const OrderStatus  = {
     COMPLETED: "completed", 
     MISSED: "missed" 
 }
-
 
 
 

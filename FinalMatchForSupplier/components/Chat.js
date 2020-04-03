@@ -4,12 +4,12 @@ import {
     StyleSheet,
     Text,
     Image,
+    KeyboardAvoidingView,
     FlatList,
     TouchableHighlight,
     TouchableOpacity,
     Keyboard
-}
-    from 'react-native'
+}from 'react-native'
 import {
     insertNewChat,
     getChatHistory,
@@ -31,13 +31,17 @@ export default class Chat extends Component {
     }
     state = {
         messengers: [],
-        flatList: React.createRef()
-    }    
-    componentDidUpdate() {
+        flatList: React.createRef(),        
+    } 
+    _scrollFlatListToEnd = () => {
+        debugger
         const {messengers, flatList} = this.state 
         if(messengers.length > 0) {
             flatList.current.scrollToIndex({index: messengers.length - 1})
         }
+    }    
+    componentDidUpdate() {
+        this._scrollFlatListToEnd()
         
     }
     async componentDidMount() {        
@@ -48,6 +52,9 @@ export default class Chat extends Component {
             let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
             that.setState({messengers})                      
         })                                
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
+            this._scrollFlatListToEnd()     
+        })                
     }
     
     render() {       
@@ -79,8 +86,9 @@ export default class Chat extends Component {
             customerEmail,
             navigate
         } = this.props.navigation.state.params
-        const {messengers, flatList} = this.state 
-        return <View style={{
+        const {messengers, flatList} = this.state         
+        debugger
+        return <KeyboardAvoidingView style={{
                 flex: 1,        
                 justifyContent: 'center',                
                 alignItems: 'center',       
@@ -93,7 +101,7 @@ export default class Chat extends Component {
                             messengers[0].customerName : ""}
             />
             <FlatList
-                data={messengers} 
+                data={messengers}                 
                 style={styles.flatList}
                 ref={flatList}
                 onScrollToIndexFailed={(error) => {
@@ -114,8 +122,10 @@ export default class Chat extends Component {
                     />
                     
                 } />
-            <_BottomView {...this.props.navigation.state.params} />
-        </View>
+            <_BottomView 
+                scrollFlatListToEnd = {this._scrollFlatListToEnd}
+                {...this.props.navigation.state.params} />
+        </KeyboardAvoidingView>
     }
 }
 class _ChatItem extends Component {  
@@ -165,8 +175,7 @@ class _ChatItem extends Component {
             customerEmail,  
         } = this.props.item     
         const {isLastItem} = this.props          
-        const {isSender} = this.state
-        debugger
+        const {isSender} = this.state        
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>                
@@ -257,6 +266,7 @@ class _BottomView extends Component {
             supplierId, 
             customerId
         } = this.props
+        const {scrollFlatListToEnd} = this.props
         return <View style={{
                 width: '100%',
                 flexDirection: 'row',
@@ -267,8 +277,9 @@ class _BottomView extends Component {
             }}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
-                onTouchStart={() => {
+                onTouchStart={() => {                    
                     makeSeen({orderId, senderId: supplierId})
+                    scrollFlatListToEnd()
                 }}
                 value={typedText}
                 style={{
