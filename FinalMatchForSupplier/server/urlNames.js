@@ -4,7 +4,7 @@ const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 //const SERVER_NAME = '192.168.1.149' //Giap Nhat
 // const SERVER_NAME = '192.168.1.88' //mrHoang
 const SERVER_NAME = '150.95.113.87' //Real Server
-const SERVER_PORT = '3001'
+const SERVER_PORT = '3000'
 
 export const urlRegisterSupplier = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/register`
