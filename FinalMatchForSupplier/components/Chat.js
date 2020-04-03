@@ -239,12 +239,16 @@ class _BottomView extends Component {
             Keyboard.dismiss()
             return
         }
-        await insertNewChat({
+        let result = await insertNewChat({
             orderId, 
             sms: typedText, 
-            senderId: customerId
+            senderId: supplierId
         })
-        Keyboard.dismiss()
+        if(result == true) {
+            this.setState({typedText: ''})
+            Keyboard.dismiss()
+        }
+        
     }
     render() {
         const {typedText} = this.state        

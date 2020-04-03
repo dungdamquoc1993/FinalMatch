@@ -409,13 +409,11 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
         debugger
         const responseJson = await response.json();        
         debugger
-        const {result, data} = responseJson
-        debugger
-        return result.toUpperCase() === "OK" ? data : []
-    } catch (error) {
-        debugger
+        const {result, data} = responseJson        
+        return result.toUpperCase() === "OK"
+    } catch (error) {        
         alert("Cannot insert new chat. Error: "+error)        
-        return []
+        return false
     }
 }
 
