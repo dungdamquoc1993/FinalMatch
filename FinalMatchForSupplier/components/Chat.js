@@ -36,7 +36,7 @@ export default class Chat extends Component {
     _scrollFlatListToEnd = () => {
         debugger
         const {messengers, flatList} = this.state 
-        if(messengers.length > 0) {
+        if(messengers.length > 0 && flatList.current != null) {
             flatList.current.scrollToIndex({index: messengers.length - 1})
         }
     }    
@@ -106,9 +106,7 @@ export default class Chat extends Component {
                 onScrollToIndexFailed={(error) => {
                     flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
                     setTimeout(() => {
-                        if (messengers.length > 0 && this.state.flatList.current !== null) {
-                            flatList.current.scrollToIndex({ index: error.index, animated: true })
-                        }
+                        this._scrollFlatListToEnd();
                     }, 100)
                 }}
                 keyExtractor={(item, index) => {
