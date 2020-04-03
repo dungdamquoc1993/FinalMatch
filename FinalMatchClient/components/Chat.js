@@ -6,6 +6,7 @@ import {
     Image,
     FlatList,
     TouchableHighlight,
+    KeyboardAvoidingView,
     TouchableOpacity,
     Keyboard
 }
@@ -33,21 +34,26 @@ export default class Chat extends Component {
         messengers: [],
         flatList: React.createRef()
     }    
-    componentDidUpdate() {
+    _scrollFlatListToEnd = () => {
+        debugger
         const {messengers, flatList} = this.state 
         if(messengers.length > 0) {
             flatList.current.scrollToIndex({index: messengers.length - 1})
         }
-        
+    }
+    componentDidUpdate() {
+        this._scrollFlatListToEnd()        
     }
     async componentDidMount() {        
         const that = this
-        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {      
-            debugger
+        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                  
             let customerId = await getCustomerFromStorage()
             let messengers = await getChatHistory({customerOrSupplierId: customerId})            
             that.setState({messengers})                      
         })                                
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
+            this._scrollFlatListToEnd()     
+        })                
     }
     
     render() {       
@@ -80,7 +86,7 @@ export default class Chat extends Component {
             navigate
         } = this.props.navigation.state.params
         const {messengers, flatList} = this.state 
-        return <View style={{
+        return <KeyboardAvoidingView style={{
                 flex: 1,        
                 justifyContent: 'center',                
                 alignItems: 'center',       
@@ -114,8 +120,10 @@ export default class Chat extends Component {
                     />
                     
                 } />
-            <_BottomView {...this.props.navigation.state.params} />
-        </View>
+            <_BottomView 
+                scrollFlatListToEnd = {this._scrollFlatListToEnd}
+                {...this.props.navigation.state.params} />
+        </KeyboardAvoidingView>
     }
 }
 class _ChatItem extends Component {  
@@ -269,6 +277,7 @@ class _BottomView extends Component {
                 onChangeText = {(typedText) => this.setState({typedText})}
                 onTouchStart={() => {
                     makeSeen({orderId, senderId: customerId})
+                    scrollFlatListToEnd()
                 }}
                 value={typedText}
                 style={{
