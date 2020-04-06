@@ -112,12 +112,10 @@ router.get('/urlGetSupplierById', async (req, res) => {
         })
         return
       }
-      if (results != null && results.length > 0) {
-        
-        const {name, phoneNumber, latitude, longitude, radius, address} = results[0]
+      if (results != null && results.length > 0) {                
           res.json({
             result: "ok",
-            data: {name, phoneNumber, latitude, longitude, radius, address},
+            data: results[0],
             message: i18n.__("Get Supplier successfully"),
             time: Date.now()
           })             
