@@ -377,7 +377,7 @@ router.post('/updateSettings', async (req, res) => {
     playerName,
     position,
     refereeName} = req.body    
-  
+  debugger;
   //validate, check token ?  
   connection.query(POST_UPDATE_SETTINGS, 
         [ supplierid,
