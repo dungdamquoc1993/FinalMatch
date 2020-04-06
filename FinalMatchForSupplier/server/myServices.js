@@ -244,30 +244,13 @@ export const checkRefereeServiceExist = async (supplierId) => {
 }
 
 export const getSupplierById = async (supplierId) => {
-    try {     
-               
+    try {                    
         const response = await fetch(await urlGetSupplierById(supplierId))               
-        const responseJson = await response.json();
-        
-        const {result, data, message, time} = responseJson   
-                     
-        let { phoneNumber = '', 
-                    latitude = '', 
-                    longitude = '', 
-                    radius = 0, address= ''} = data
-        phoneNumber = phoneNumber || ''
-        latitude = latitude || 0.0
-        longitude = longitude || 0.0
-        radius = radius || 0.0
-        address = address || ''
-        if (result.toUpperCase() === "OK") {                 
-            //Logger ??              
-            return { data: {phoneNumber, latitude, longitude, radius, address}, message: ''}
-        } else {            
-            return { data: {phoneNumber, latitude, longitude, radius, address}, message}
-        }
+        const responseJson = await response.json();        
+        const {result, data, message, time} = responseJson                                
+        return result.toUpperCase() === "OK" ? { data, message: ''} : { data, message}        
     } catch (error) {        
-        return { data, message: error}
+        return { data: {}, message: error}
     }
 }
 

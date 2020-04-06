@@ -62,10 +62,13 @@ export class RefereeService extends Component {
       const { supplierId, tokenKey, email } = await getSupplierFromStorage()
       const { data, message } = await getSupplierById(supplierId)
       const { phoneNumber, latitude,
+        dateOfBirth,
         longitude, radius, address } = data      
       debugger
-      this.setState({ phoneNumber, currentLocation: { latitude, longitude, address }, radius })
-      // stringDateOfBirth: convertDateToStringDDMMYYYY(date)
+      this.setState({ 
+        phoneNumber, currentLocation: { latitude, longitude, address }, radius,
+        stringDateOfBirth: convertDateToStringDDMMYYYY(new Date(dateOfBirth))
+      })       
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
     }
