@@ -380,9 +380,9 @@ router.post('/updateSettings', async (req, res) => {
   debugger;
   //validate, check token ?  
   connection.query(POST_UPDATE_SETTINGS, 
-        [ supplierid,
-          playerPrice,
-          refereePrice == '' ? 0 : refereePrice,
+        [ supplierid,          
+          typeof playerPrice == 'string' ? 0.0 : playerPrice,
+          typeof refereePrice == 'string' ? 0.0 : refereePrice,
           name,
           avatar,
           dateOfBirth,
