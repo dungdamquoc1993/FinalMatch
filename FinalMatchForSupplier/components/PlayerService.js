@@ -76,7 +76,10 @@ class PlayerService extends Component {
     const position = getPosition(this.state)
     const {latitude,longitude, address} = this.state.currentLocation
     const {supplierId, email} = await getSupplierFromStorage()          
-        
+    if(price > 150000) {
+      alert(translate("Price must be < 150K"))
+      return
+    }
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alert(translate("You must press Location and choose radius"))
       return
