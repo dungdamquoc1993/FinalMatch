@@ -13,18 +13,19 @@ import Notifications from './Notifications'
 import Orders from './Orders'
 import Settings from './Settings'
 import {Image} from 'react-native'
-import {translate} from '../languages/languageConfigurations'
+import {translate, setI18nConfig} from '../languages/languageConfigurations'
 //mau sac
 import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
-
+setI18nConfig() // set initial config
 const TabOptions = {
 
 }
+debugger
 TabOptions[translate("Services")] = { screen: ServiceRegister }
 TabOptions[translate("Notifications")] = { screen: Notifications }
 TabOptions[translate("Orders")] = { screen: Orders }
 TabOptions[translate("Settings")] = { screen: Settings }
-
+debugger
 const TabNavigator = createBottomTabNavigator(
     TabOptions,
     {

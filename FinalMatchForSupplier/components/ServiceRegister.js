@@ -22,6 +22,7 @@ import {
 import {
   getSupplierFromStorage,
   saveSupplierToStorage,
+  isIOS,
 } from '../helpers/Helpers'
 const screenWidth = Math.round (Dimensions.get ('window').width)
 const screenHeight = Math.round (Dimensions.get ('window').height)
@@ -52,9 +53,15 @@ class ServiceRegister extends Component {
   }
   render () {
     return (
-      <SafeAreaView style={styles.container}>        
-        <Header title={translate("Register a service")} hideBack={true} />
-        <View style={{alignItems: 'center', marginBottom: 20}}>
+      <SafeAreaView style={{
+          flex: 1,          
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>        
+        <Header           
+          title={translate("Register a service")} hideBack={true} hideNext={true} />
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -98,14 +105,8 @@ const mapStateToProps = state => ({
 })
 export default connect (mapStateToProps) (ServiceRegister)
 const styles = StyleSheet.create ({
-  container: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    // alignItems: 'center',
-    flex: 1,
-  },
   txt: {
-    lineHeight: 0.08 * screenHeight,
+    lineHeight: isIOS() ? null: 0.08 * screenHeight,
     fontSize: 25,    
     color: 'white',
     fontWeight: 'bold'
