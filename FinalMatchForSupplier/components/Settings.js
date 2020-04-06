@@ -233,7 +233,7 @@ export default class Settings extends Component {
   }
   _navigateToServiceRegister = () => {
     let params = {}
-    this.props.navigation.navigate('ServiceRegister', params)
+    this.props.navigation.navigate(translate("Services"), params)
   }
   render() {
     const {

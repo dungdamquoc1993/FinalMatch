@@ -32,9 +32,9 @@ class ServiceRegister extends Component {
     const {data, message} = await checkPlayerServiceExist (supplierId)
     const {numberOfPlayerServices} = data
     if (parseInt (numberOfPlayerServices) == 0) {
-      this.props.stackNavigation.navigate ('PlayerService', {})
+      this.props.stackNavigation.navigate('PlayerService', {})
     } else {
-      this.props.navigation.navigate ('Settings', {})
+      this.props.navigation.navigate(translate("Settings"), {})
     }
   }
   _navigateToRefereeService = async () => {
@@ -42,13 +42,13 @@ class ServiceRegister extends Component {
     const {data, message} = await checkRefereeServiceExist (supplierId)
     const {numberOfRefereeServices} = data
     if (parseInt (numberOfRefereeServices) == 0) {
-      this.props.stackNavigation.navigate ('RefereeService', {})
+      this.props.stackNavigation.navigate('RefereeService', {})
     } else {
-      this.props.navigation.navigate ('Settings', {})
+      this.props.navigation.navigate(translate("Settings"), {})
     }
   }
   _navigateToStadium = () => {
-    this.props.stackNavigation.navigate ('Stadium', {})
+    this.props.stackNavigation.navigate('Stadium', {})
   }
   render () {
     return (

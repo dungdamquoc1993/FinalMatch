@@ -25,7 +25,7 @@ export default class MultiLanguageComponent extends Component {
   }
   navigateToOrder= () => {
     const {navigate} = this.props.navigation      
-    navigate("Order")
+    navigate(translate("Orders"))
   }
   _pushNotifications(snapshotValue) {    
     

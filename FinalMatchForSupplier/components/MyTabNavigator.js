@@ -13,32 +13,36 @@ import Notifications from './Notifications'
 import Orders from './Orders'
 import Settings from './Settings'
 import {Image} from 'react-native'
+import {translate} from '../languages/languageConfigurations'
 //mau sac
 import {COLOR_GREEN, COLOR_GRAY} from '../colors/colors'
 
+const TabOptions = {
+
+}
+TabOptions[translate("Services")] = { screen: ServiceRegister }
+TabOptions[translate("Notifications")] = { screen: Notifications }
+TabOptions[translate("Orders")] = { screen: Orders }
+TabOptions[translate("Settings")] = { screen: Settings }
+
 const TabNavigator = createBottomTabNavigator(
-    {
-        ServiceRegister: { screen: ServiceRegister },
-        Notifications: { screen: Notifications },
-        Orders: { screen: Orders },
-        Settings: { screen: Settings }
-    },
+    TabOptions,
     {
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state
                 let iconName = ""                
                 switch (routeName) {
-                    case 'ServiceRegister':
+                    case translate("Services"):
                         iconName = require('../images/document.png')
                         break
-                    case 'Notifications':
+                    case translate("Notifications"):
                         iconName = require('../images/notification.png')
                         break
-                    case 'Orders':
+                    case translate("Orders"):
                         iconName = require('../images/order.png')
                         break
-                    case 'Settings':
+                    case translate("Settings"):
                         iconName = require('../images/football-player.png')
                         break
                     default:

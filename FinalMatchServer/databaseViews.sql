@@ -161,7 +161,7 @@ Chat.senderId as senderId,
 Chat.createdDate as chatCreatedDate,
 Chat.seen as seen,
 
-0.viewOrdersSupplierCustomer.*
+viewOrdersSupplierCustomer.*
 
 FROM Chat
 LEFT JOIN viewOrdersSupplierCustomer 

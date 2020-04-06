@@ -560,7 +560,7 @@ delimiter //
 CREATE PROCEDURE insertNewChat(
                     orderId INTEGER,
                     sms TEXT,
-                    senderId VARCHAR(400))
+                    senderId VARCHAR(400))  
 BEGIN    
 	DECLARE numberOfCChat INT DEFAULT 0;
     SELECT COUNT(*) INTO numberOfCChat 
