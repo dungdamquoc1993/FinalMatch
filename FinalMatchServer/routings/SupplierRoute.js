@@ -10,8 +10,8 @@ const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupp
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_FACEBOOK = "SELECT loginFacebook(?, ?, ?, ?) as tokenKeySupplierId"
 
-const GET_SUPPLIER_PLAYER_SERVICE = "SELECT name, phoneNumber, X(point) as latitude, Y(point) as longitude,"+
-                                    "radius, address FROM Supplier WHERE id = ?"
+const GET_SUPPLIER_PLAYER_SERVICE = "SELECT *, X(point) as latitude, Y(point) as longitude"+
+                                    " FROM Supplier WHERE id = ?"
 const POST_UPDATE_AVATAR_FOR_SUPPLIER = "UPDATE Supplier SET Supplier.avatar = ? WHERE Supplier.id = ?"    
 const GET_SUPPLIER_SERVICES_ORDERS = "SELECT * FROM viewSupplierServicesOrders WHERE supplierId = ?" 
 const POST_UPDATE_SETTINGS = "CALL updateSettings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"

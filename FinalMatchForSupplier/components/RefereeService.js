@@ -55,7 +55,7 @@ export class RefereeService extends Component {
       latitude: 0.00,
       longitude: 0.00,
     },
-    radius: 0
+    radius: 0.0
   }
   componentDidMount = async () => {
     try {      
@@ -63,7 +63,9 @@ export class RefereeService extends Component {
       const { data, message } = await getSupplierById(supplierId)
       const { phoneNumber, latitude,
         longitude, radius, address } = data      
+      debugger
       this.setState({ phoneNumber, currentLocation: { latitude, longitude, address }, radius })
+      // stringDateOfBirth: convertDateToStringDDMMYYYY(date)
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
     }
@@ -221,9 +223,10 @@ export class RefereeService extends Component {
               <TextInput
               style={styles.textInputRadius}
               placeholder={translate("Enter radius:")}
+              value = {`${radius}`}
               keyboardType={'numeric'}
               onChangeText={radius => {
-                this.setState ({radius})
+                this.setState ({radius: typeof radius == 'string' ? parseFloat(radius) : radius})
               }}
               />
           <Text style={styles.textKM}>
@@ -361,8 +364,8 @@ const styles = StyleSheet.create({
     borderColor: '#a9a9a9',
     borderWidth: 1,
     paddingStart: 15,
-    fontSize: 17,
-    lineHeight:isIOS?25:50,
+    fontSize: 17,    
+    lineHeight:isIOS() == true ? null : 50,
   }, 
   textLabelRadius: {
     width: '50%',

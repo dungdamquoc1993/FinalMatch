@@ -20,12 +20,11 @@ setI18nConfig() // set initial config
 const TabOptions = {
 
 }
-debugger
 TabOptions[translate("Services")] = { screen: ServiceRegister }
 TabOptions[translate("Notifications")] = { screen: Notifications }
 TabOptions[translate("Orders")] = { screen: Orders }
 TabOptions[translate("Settings")] = { screen: Settings }
-debugger
+
 const TabNavigator = createBottomTabNavigator(
     TabOptions,
     {
