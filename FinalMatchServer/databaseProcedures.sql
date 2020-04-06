@@ -493,7 +493,8 @@ CREATE PROCEDURE updateSettings(supplierId INT,
                                 position VARCHAR(10),
                                 refereeName VARCHAR(300) CHARACTER SET utf8mb4
                                 ) 
-BEGIN    
+BEGIN
+	DECLARE numberOfServices INT DEFAULT 0;
     UPDATE Supplier SET Supplier.name = name, 
             Supplier.avatar = avatar, 
             Supplier.dateOfBirth = dateOfBirth, 
@@ -503,17 +504,21 @@ BEGIN
             Supplier.radius = radius
     WHERE Supplier.id = supplierId;
     
-    UPDATE PlayerService SET 
+    SELECT COUNT(*) INTO numberOfServices FROM PlayerService WHERE PlayerService.supplierId = supplierId;
+    IF numberOfServices > 0 THEN
+        UPDATE PlayerService SET 
             PlayerService.playerName = playerName,
             PlayerService.price = playerPrice,            
             PlayerService.position = position
-    WHERE PlayerService.supplierId = supplierId;
-
-    UPDATE RefereeService SET 
+        WHERE PlayerService.supplierId = supplierId;    
+    END IF;
+    SELECT COUNT(*) INTO numberOfServices FROM RefereeService WHERE RefereeService.supplierId = supplierId;
+    IF numberOfServices > 0 THEN
+        UPDATE RefereeService SET 
             RefereeService.refereeName = refereeName,
             RefereeService.price = refereePrice                        
-    WHERE RefereeService.supplierId = supplierId;
-
+        WHERE RefereeService.supplierId = supplierId;
+    END IF;
 END;//
 delimiter;
 

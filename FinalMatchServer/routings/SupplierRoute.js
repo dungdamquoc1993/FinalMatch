@@ -382,7 +382,7 @@ router.post('/updateSettings', async (req, res) => {
   connection.query(POST_UPDATE_SETTINGS, 
         [ supplierid,
           playerPrice,
-          refereePrice,
+          refereePrice == '' ? 0 : refereePrice,
           name,
           avatar,
           dateOfBirth,
