@@ -153,7 +153,7 @@ export class RefereeService extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView style={styles.container}>
-        <Header title={"Refere Service"} pressBackButton={async () => {
+        <Header title={translate("Referee Service")} hideNext = {true} pressBackButton={async () => {
           //validate ok
           return true
         }}/>
@@ -192,7 +192,7 @@ export class RefereeService extends Component {
         </View>
           <View style={styles.dateTime}>
             <TouchableOpacity
-              style={[styles.textInput, { width: '70%' }]}
+              style={[styles.textInput, { width: '70%', justifyContent: 'center' }]}
               onPress={() => {
                 this.setState({ modalVisible: true })
               }}
@@ -201,7 +201,7 @@ export class RefereeService extends Component {
                 style={{
                   fontSize: 17,
                   height: 40,
-                  lineHeight: 40,
+                  lineHeight: isIOS == true ? 0 : 40,
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingStart: 15,
     fontSize: 17,
-    lineHeight:isIOS?25:50,
+    lineHeight: isIOS() == true ? 0 : 50,
   },
   btnSubmit: {
     height: 50,

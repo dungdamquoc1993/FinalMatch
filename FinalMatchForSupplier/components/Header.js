@@ -18,7 +18,12 @@ class Header extends Component {
     }
     render() {
         const {title, hideBack = false, hideNext = false, pressBackButton} = this.props        
-        return <View style={styles.container}>
+        return <View style={{
+                height: 60,                  
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
                 <FontAwesome5                
                 onPress={async () => {
                     if(this.disableBackButton == true){
@@ -46,7 +51,7 @@ class Header extends Component {
                 opacity : hideNext === false ? 1 : 0,
                 paddingEnd: 15, 
             }}
-                name={"arrow-circle-left"} size={40} color={'black'} /> 
+                name={"arrow-circle-right"} size={40} color={'black'} /> 
         </View>
     }
 }
@@ -55,14 +60,10 @@ const mapStateToProps = state => ({
     stackNavigation: state.navigationReducers.stackNavigation,
     tabNavigation: state.navigationReducers.tabNavigation
 })
-const styles = StyleSheet.create({
-    container: {
-        height: 60,                  
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },    
+const styles = StyleSheet.create({     
     title: {
+        flex: 1,        
+        textAlign: 'center',
         alignSelf: "center", 
         lineHeight: 50,         
         fontSize: 20,                

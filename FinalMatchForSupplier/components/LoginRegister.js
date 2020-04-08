@@ -121,9 +121,8 @@ class LoginRegister extends Component {
                     alert(message)
                 }
             }
-        } catch(error) {  
-                      
-            alert(translate("Cannot login Facebook: ") + JSON.stringify(error))
+        } catch(error) {              
+            alert(translate("Cannot login Facebook: ") + `${error}`)
         }        
     }
     _login = async () => {

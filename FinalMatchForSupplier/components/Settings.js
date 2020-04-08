@@ -331,12 +331,12 @@ export default class Settings extends Component {
               }}
             >
               <Text
-                style={{
+                style={{                  
                   fontSize: 17,
+                  textAlign:'left',
                   height: 40,
                   lineHeight: 40,
-                  paddingStart: 5,
-                  textAlign:'center',
+                  paddingStart: 5,                  
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
