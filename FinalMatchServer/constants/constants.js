@@ -1,5 +1,5 @@
 const HOSTNAME = 'localhost'
-const PORT = 3001
+const PORT = 3000
 const DB_PORT = 3306
 const DB_NAME = "FinalMatch"
 const MAXMUM_FILE_SIZE = 50 //50MB
