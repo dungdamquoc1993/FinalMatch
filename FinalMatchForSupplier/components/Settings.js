@@ -303,7 +303,6 @@ export default class Settings extends Component {
               />
             </TouchableOpacity>
           </View>
-
         </View>
         <ScrollView style={styles.scrollView}>
 
@@ -332,7 +331,7 @@ export default class Settings extends Component {
             >
               <Text
                 style={{                  
-                  fontSize: 17,
+                  fontSize: 15,
                   textAlign:'left',
                   height: 40,
                   lineHeight: 40,
@@ -371,17 +370,42 @@ export default class Settings extends Component {
                 style={styles.buttonGetLocation}
               >
                 {(address.length > 0 || district.length > 0 || province.length > 0) &&
-                  <Text style={{ marginRight: 7, fontSize: 17, }}>{address} - {district} - {province}</Text>}
+                  <Text style={{ marginRight: 7, fontSize: 15, }}>{address} - {district} - {province}</Text>}
                 <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
               </TouchableOpacity>
 
             </View>
-            <View style={styles.radius}>
-              <Text style={styles.radiusLabel}>
+            <View style={{
+              flexDirection: 'row',              
+              justifyContent: 'flex-start',
+              alignItems: 'center',              
+              width: '100%', 
+              height: 50,
+              padding: 5,
+              margin: 2,
+            }}>
+              <Text style={{
+                height: 40,
+                lineHeight: 40,
+                fontSize: 16,                
+                paddingHorizontal:10,
+                
+              }}>
                   {translate("Enter radius:")}
               </Text>
               <TextInput
-                style={styles.radiusInput}
+                style={{
+                  height: 45,
+                  backgroundColor: '#f5f5f5',                  
+                  borderRadius: 25,
+                  borderColor: '#a9a9a9',
+                  borderWidth: 1,
+                  textAlign: 'center',
+                  color: 'black',
+                  width: '30%',
+                  fontSize: 15,
+                  
+                }}
                 placeholder={translate("Radius")}
                 keyboardType={'numeric'}
                 value={`${radius}`}
@@ -389,7 +413,7 @@ export default class Settings extends Component {
                   this.setState({ radius })
                 }}
               />
-              <Text style={{ fontSize: 17, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
+              <Text style={{ fontSize: 15, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
                 km
               </Text>
             </View>
@@ -565,7 +589,7 @@ const styles = StyleSheet.create({
   avatarImage: {
     width: 80,
     height: 80,
-    borderRadius: 40,
+    borderRadius: 40,    
   },
   scrollView: {
     width: '100%',
@@ -588,14 +612,14 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
   },
   textLabel: {
-    width: '30%',
-    height: 45,
+    width: 100,
+    height: 45,  
     lineHeight: 45,
-    paddingStart: 30,
-    fontSize: 16,
-    
+    paddingStart: 15,
+    fontSize: 15,    
   },
 
   textInput: {
@@ -608,16 +632,8 @@ const styles = StyleSheet.create({
     marginEnd: 30,
     paddingHorizontal: 10,
     color: 'black',
-    fontSize: 17,
+    fontSize: 15,
     
-  },
-  radius: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    height: 50,
-    padding: 5,
-    margin: 2,
   },
   serviceArea: {
     flexDirection: 'column',
@@ -626,26 +642,6 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  radiusLabel: {
-    height: 40,
-    lineHeight: 40,
-    fontSize: 16,
-    width:'60%',
-    paddingStart:10,
-    
-  },
-  radiusInput: {
-    height: 45,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 25,
-    borderColor: '#a9a9a9',
-    borderWidth: 1,
-    textAlign: 'center',
-    color: 'black',
-    width: '30%',
-    fontSize: 17,
-    
   },
   age: {
     width: '30%',
@@ -661,7 +657,7 @@ const styles = StyleSheet.create({
     borderColor: '#a9a9a9',
     borderWidth: 1,
     marginEnd: 30,
-    fontSize: 17,
+    fontSize: 15,
     textAlign: 'center'
   },
   textRole: {

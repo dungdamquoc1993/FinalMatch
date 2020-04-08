@@ -101,10 +101,11 @@ router.post('/updateCustomerInformation', async (req, res) => {
     return
   }
   const { name = '', phoneNumber = '' } = req.body  
+  debugger
   connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
     [name, phoneNumber, customerid]
     , (error, results) => {
-      
+      debugger
       if (error) {
         res.json({
           result: "failed",
