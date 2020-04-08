@@ -240,7 +240,9 @@ export default class OrderPlayer extends MultiLanguageComponent {
           <View style={styles.personalInformation}>
 
             <TouchableOpacity
-              onPress={() => {
+              onPress={async () => {
+                const {name, phoneNumber} = this.state
+                await updateCustomerInformation(name, phoneNumber)      
                 navigate ('SearchPlace', {
                   updatePlace: (place, latitude, longitude) => {
                     this.setState ({place, point: {latitude, longitude}})
@@ -259,7 +261,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                   color: place.trim () === '' ? '#a9a9a9' : 'black',
                 }}
               >
-                {place.trim () === '' ? "Match's place" : place}
+                {place.trim () === '' ? translate("Match's place") : place}
               </Text>
             </TouchableOpacity>
 
@@ -267,7 +269,9 @@ export default class OrderPlayer extends MultiLanguageComponent {
           <View style={styles.personalInformation}>
             <TouchableOpacity
               style={styles.textInput}
-              onPress={() => {
+              onPress={async () => {
+                const {name, phoneNumber} = this.state
+                await updateCustomerInformation(name, phoneNumber)      
                 this.setState ({modalVisible: true})
               }}
             >

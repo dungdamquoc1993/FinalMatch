@@ -120,7 +120,9 @@ export default class OrderReferee extends MultiLanguageComponent {
         <View style={{borderBottomWidth:1,backgroundColor:'#a9a9a9',width:'80%',marginVertical:25}} />
         <View style={styles.personalInformation}>
             <TouchableOpacity
-              onPress={() => {                
+              onPress={async () => {    
+                const {name, phoneNumber} = this.state
+                await updateCustomerInformation(name, phoneNumber)      
                 navigate ('SearchPlace', {
                   updatePlace: (place, latitude, longitude) => {
                     this.setState ({place, point: {latitude, longitude}})
@@ -146,7 +148,9 @@ export default class OrderReferee extends MultiLanguageComponent {
           <View style={styles.personalInformation}>
             <TouchableOpacity
               style={styles.textInput}
-              onPress={() => {
+              onPress={async () => {
+                const {name, phoneNumber} = this.state
+                await updateCustomerInformation(name, phoneNumber)      
                 this.setState ({modalVisible: true})
               }}
             >

@@ -122,7 +122,8 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
 export const updateCustomerInformation = async (name, phoneNumber) => {
     try {        
         const {tokenKey, customerId} = await getCustomerFromStorage()            
-        const response = await fetch(await urlUpdateCustomerInformation(), {
+        let url = await urlUpdateCustomerInformation()
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
