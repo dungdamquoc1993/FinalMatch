@@ -8,7 +8,8 @@ import {
     FlatList,
     TouchableHighlight,
     TouchableOpacity,
-    Keyboard
+    Keyboard,
+    SafeAreaView
 }from 'react-native'
 import {
     insertNewChat,
@@ -88,40 +89,45 @@ export default class Chat extends Component {
         const {messengers, flatList} = this.state         
         debugger
         return <KeyboardAvoidingView style={{
-                flex: 1,        
-                justifyContent: 'center',                
-                alignItems: 'center',       
-            }}>
-            <ChatHeader pressBackButton = {() => {
-                this.props.navigation.goBack()
-            }} 
-                customerAvatar = {messengers.length > 0 ? messengers[0].customerAvatar : ""}
-                name = {messengers.length > 0 ? 
-                            messengers[0].customerName : ""}
-            />
-            <FlatList
-                data={messengers}                 
-                style={styles.flatList}
-                ref={flatList}
-                onScrollToIndexFailed={(error) => {
-                    flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
-                    setTimeout(() => {
-                        this._scrollFlatListToEnd();
-                    }, 100)
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <SafeAreaView>
+                <ChatHeader pressBackButton={() => {
+                    this.props.navigation.goBack()
                 }}
-                keyExtractor={(item, index) => {
-                    return `${index}`
-                }}
-                extraData={this.state.messengers}
-                renderItem={(item) => 
-                    <_ChatItem {...item}                                                      
-                        isLastItem = {item.index == messengers.length - 1}
-                    />
-                    
-                } />
-            <_BottomView 
-                scrollFlatListToEnd = {this._scrollFlatListToEnd}
-                {...this.props.navigation.state.params} />
+                    customerAvatar={messengers.length > 0 ? messengers[0].customerAvatar : ""}
+                    name={messengers.length > 0 ?
+                        messengers[0].customerName : ""}
+                />
+                <FlatList
+                    data={messengers}
+                    style={{
+                        backgroundColor: 'white',
+                    }}
+                    ref={flatList}
+                    onScrollToIndexFailed={(error) => {
+                        flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
+                        setTimeout(() => {
+                            this._scrollFlatListToEnd();
+                        }, 100)
+                    }}
+                    keyExtractor={(item, index) => {
+                        return `${index}`
+                    }}
+                    extraData={this.state.messengers}
+                    renderItem={(item) =>
+                        <_ChatItem {...item}
+                            isLastItem={item.index == messengers.length - 1}
+                        />
+
+                    } />
+                <_BottomView
+                    scrollFlatListToEnd={this._scrollFlatListToEnd}
+                    {...this.props.navigation.state.params} />
+
+            </SafeAreaView>
         </KeyboardAvoidingView>
     }
 }
@@ -195,7 +201,8 @@ class _ChatItem extends Component {
 const ChatHeader = ({pressBackButton, customerAvatar, name}) => {
     return <View style={{
         height: 50,
-        width: '100%',
+        width: '100%',        
+        paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',        
@@ -304,12 +311,6 @@ class _BottomView extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    flatList: {        
-        width: '100%',
-        backgroundColor:'white',
-    },    
-})
 const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
     chatItem: {
         flexDirection: 'row',
