@@ -151,15 +151,16 @@ class PlayerService extends Component {
           />
         </View>
         <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={translate("Phone : ")}
-            keyboardType={'phone-pad'}
-            value={phoneNumber}
-            onChangeText={phoneNumber => {
-              this.setState ({phoneNumber})
-            }}
-          />          
+          <TextInputMask
+                style={styles.textInput}
+                placeholder={translate("Phone : ")}
+                keyboardType={'number-pad'}
+                onChangeText={(formattedValue, originValue) => {                  
+                  this.setState ({phoneNumber: originValue})
+                }}
+                mask={"[999]-[9999]-[9999]"}
+                value={`${phoneNumber}`}
+              />                    
         </View>
         <View style={styles.personalInformation}>
               <TextInputMask
@@ -169,7 +170,7 @@ class PlayerService extends Component {
                 onChangeText={(formattedValue, originValue) => {
                   this.setState ({price: isNaN(originValue) == false ? originValue : parseFloat(originValue)})
                 }}
-                mask={"[000] [000] VND"}
+                mask={"VND [999] [999]"}                
                 value={`${price}`}
               />          
         </View>

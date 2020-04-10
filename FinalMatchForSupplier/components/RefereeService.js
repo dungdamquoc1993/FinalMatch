@@ -176,15 +176,16 @@ export class RefereeService extends Component {
           />
         </View>
         <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            value={phoneNumber}
-            onChangeText={(phoneNumber) => {
-              this.setState({phoneNumber})
-            }}
-            placeholder={'Số điện thoại của Bạn '}
-            keyboardType={'number-pad'}
-          />
+            <TextInputMask
+                style={styles.textInput}
+                placeholder={translate("Phone : ")}
+                keyboardType={'number-pad'}
+                onChangeText={(formattedValue, originValue) => {                  
+                  this.setState ({phoneNumber: originValue})
+                }}
+                mask={"[999]-[9999]-[9999]"}
+                value={`${phoneNumber}`}
+              />                    
         </View>
         <View style={styles.personalInformation}>
         <TextInputMask
@@ -194,7 +195,7 @@ export class RefereeService extends Component {
                 onChangeText={(formattedValue, originValue) => {
                   this.setState ({price: isNaN(originValue) == false ? originValue : parseFloat(originValue)})
                 }}
-                mask={"[000] [000] VND"}
+                mask={"VND [999] [999]"}                
                 value={`${price}`}
               />          
           

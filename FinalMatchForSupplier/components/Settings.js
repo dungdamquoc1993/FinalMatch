@@ -362,16 +362,17 @@ export default class Settings extends Component {
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
               {translate("Phone : ")}              
-            </Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder={translate("Phone : ")}
-              keyboardType={'phone-pad'}
-              value={phoneNumber}
-              onChangeText={phoneNumber => {
-                this.setState({ phoneNumber })
-              }}
-            />
+            </Text>            
+            <TextInputMask
+                style={styles.textInput}
+                placeholder={translate("Phone : ")}
+                keyboardType={'number-pad'}
+                onChangeText={(formattedValue, originValue) => {                  
+                  this.setState ({phoneNumber: originValue})
+                }}
+                mask={"[999]-[9999]-[9999]"}
+                value={`${phoneNumber}`}
+              />                    
           </View>
           {/* Quan ly dich vu */}
           <View style={styles.serviceArea}>
