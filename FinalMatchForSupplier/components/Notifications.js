@@ -28,8 +28,9 @@ import {
   COLOR_ITEM_BORDER
 } from '../colors/colors'
 import Spinner from 'react-native-loading-spinner-overlay'
+import MultiLanguageComponent from './MultiLanguageComponent'
 
-export default class Notifications extends Component {
+export default class Notifications extends MultiLanguageComponent {
   state = {
     notifications: [],
     spinner: false,    
