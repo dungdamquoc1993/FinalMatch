@@ -13,6 +13,7 @@ import {
   Modal,
   Image
 } from 'react-native'
+import TextInputMask from 'react-native-text-input-mask'
 import {translate} from '../languages/languageConfigurations'
 import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert ,isIOS} from '../helpers/Helpers'
 import { insertRefereeService, getSupplierById } from '../server/myServices'
@@ -110,6 +111,12 @@ export class RefereeService extends Component {
       alertWithOKButton(translate("You must press Location and choose radius"))
       return
     }
+    if(price >= 300000) {
+      this.setState({price: 300000})
+    } else if(price <= 50000) {
+      this.setState({price: 50000})
+    }
+
     try {                
       const {message} = await insertRefereeService(refereeName,
         price,
@@ -180,15 +187,17 @@ export class RefereeService extends Component {
           />
         </View>
         <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={translate("Your service's price(less than 300K):")}
-            keyboardType={'number-pad'}
-            value={price}
-            onChangeText={price => {
-              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)})
-            }}
-          />          
+        <TextInputMask
+                style={styles.textInput}
+                placeholder={translate("Your service's price(less than 300K):")}
+                keyboardType={'number-pad'}    
+                onChangeText={(formattedValue, originValue) => {
+                  this.setState ({price: isNaN(originValue) == false ? originValue : parseFloat(originValue)})
+                }}
+                mask={"[000] [000] VND"}
+                value={`${price}`}
+              />          
+          
         </View>
           <View style={styles.dateTime}>
             <TouchableOpacity

@@ -14,6 +14,7 @@ import {
   Image,
   KeyboardAvoidingView
 } from 'react-native'
+import TextInputMask from 'react-native-text-input-mask'
 import {translate} from '../languages/languageConfigurations'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -76,9 +77,10 @@ class PlayerService extends Component {
     const position = getPosition(this.state)
     const {latitude,longitude, address} = this.state.currentLocation
     const {supplierId, email} = await getSupplierFromStorage()          
-    if(price > 150000) {
-      alert(translate("Price must be < 150K"))
-      return
+    if(price >= 150000) {
+      this.setState({price: 150000})
+    } else if(price <= 20000) {
+      this.setState({price: 20000})
     }
     if(latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alert(translate("You must press Location and choose radius"))
@@ -160,15 +162,16 @@ class PlayerService extends Component {
           />          
         </View>
         <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={translate("Player's price: ")}
-            keyboardType={'number-pad'}
-            value={price}
-            onChangeText={price => {
-              this.setState ({price: isNaN(price) == false ? price : parseFloat(price)})
-            }}
-          />          
+              <TextInputMask
+                style={styles.textInput}
+                placeholder={translate("Player's price: ")}
+                keyboardType={'number-pad'}    
+                onChangeText={(formattedValue, originValue) => {
+                  this.setState ({price: isNaN(originValue) == false ? originValue : parseFloat(originValue)})
+                }}
+                mask={"[000] [000] VND"}
+                value={`${price}`}
+              />          
         </View>
         <TouchableOpacity onPress={() => {
           this._pressLocation()

@@ -28,6 +28,7 @@ import {
   convertDateToStringYYYYMMDD,
   convertDateToStringDDMMYYYY
 } from '../helpers/Helpers'
+import TextInputMask from 'react-native-text-input-mask'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
@@ -92,6 +93,17 @@ export default class Settings extends Component {
   }
   _saveSettings = async () => {
     const { supplierId } = this.state
+    if(playerPrice >= 20000) {
+      this.setState({playerPrice: 20000})
+    } else if(playerPrice <= 150000) {
+      this.setState({playerPrice: 150000})
+    }
+    if(refereePrice >= 50000) {
+      this.setState({refereePrice: 50000})
+    } else if(refereePrice <= 300000) {
+      this.setState({refereePrice: 300000})
+    }
+
     const {
       name,
       playerPrice,
@@ -325,7 +337,8 @@ export default class Settings extends Component {
             </Text>
             <TouchableOpacity
               style={[styles.textInput, { width: '40%' }]}
-              onPress={() => {
+              onPress={async() => {
+                await this._saveSettings()
                 this.setState({ modalVisible: true })
               }}
             >
@@ -364,7 +377,8 @@ export default class Settings extends Component {
           <View style={styles.serviceArea}>
             <View style={{ height: 50,width:'80%' }}>
               <TouchableOpacity
-                onPress={() => {
+                onPress={async () => {
+                  await this._saveSettings()
                   this._pressLocation()
                 }}
                 style={styles.buttonGetLocation}
@@ -505,11 +519,15 @@ export default class Settings extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.personalInformation}>
-              <Text style={styles.textRole}>Giá</Text>
-              <TextInput style={styles.textInputRole}
-                value={`${playerPrice}`} onChangeText={(playerPrice) => {
-                  this.setState({ playerPrice: isNaN(playerPrice) == false ? playerPrice : parseFloat(playerPrice) })
-                }} />
+              <Text style={styles.textRole}>{translate("Price : ")}</Text>
+              <TextInputMask
+                style={styles.textInputRole}                                
+                onChangeText={(formattedValue, originValue) => {
+                  this.setState({ playerPrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) })
+                }}
+                mask={"[000] [000] VND"}
+                value={`${playerPrice}`} 
+              />                        
             </View>
           </View>}
           
@@ -540,10 +558,14 @@ export default class Settings extends Component {
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Price : ")}</Text>
-              <TextInput style={styles.textInputRole}
-                value={`${refereePrice}`} onChangeText={(refereePrice) => {
-                  this.setState({ refereePrice: isNaN(refereePrice) == false ? refereePrice : parseFloat(refereePrice) })
-                }} />
+              <TextInputMask
+                style={styles.textInputRole}                                
+                onChangeText={(formattedValue, originValue) => {
+                  this.setState({ refereePrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) })
+                }}
+                mask={"[000] [000] VND"}
+                value={`${refereePrice}`} 
+              />                        
             </View>
 
           </View>}

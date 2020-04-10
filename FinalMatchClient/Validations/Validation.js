@@ -9,3 +9,4 @@ export const validatePasword = (password) => {
 export const validateLocation = (latitude, longitude) => {    
     return Math.abs(latitude) > 0 || Math.abs(longitude) > 0
 }
+
