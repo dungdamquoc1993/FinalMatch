@@ -15,7 +15,8 @@ import Modal from 'react-native-modal'
 import {
   getSupplierFromStorage, 
   getColorFromStatus,
-  OrderStatus
+  OrderStatus,
+  isIOS
 } from '../helpers/Helpers'
 
 import {
@@ -108,7 +109,7 @@ class Item extends Component {
   _fakeDataToTestUI = () => {
     const {index} = this.props
     if(index == 0) {
-      return PENDING
+      return ACCEPTED      
     } else if(index == 1) {
       return CANCELLED
     } else if(index == 2) {
@@ -116,7 +117,7 @@ class Item extends Component {
     } else if(index == 3) {
       return MISSED
     } else if(index == 4) {
-      return ACCEPTED
+      return PENDING
     } else {
       return PENDING;
     }
@@ -158,12 +159,12 @@ class Item extends Component {
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <View style={{          
           backgroundColor: '#f5f5f5',
-          borderRadius: 25,
+          borderRadius: 15,
           borderColor: COLOR_ITEM_BORDER,
           borderWidth: 1,
           marginVertical: 10,
           width: '80%',    
-          padding: 20,
+          padding: 10,
           justifyContent: 'space-between',    
         }}>
           {/* <Text style={styles.textOrderItem}>OOOO:{orderId}</Text> */}
@@ -221,8 +222,7 @@ class Item extends Component {
               }
             }}
             customerPhoneNumber={customerPhoneNumber} />}
-          {orderStatus == COMPLETED && <CompletedItem pressRate={() => { }} />}          
-          {orderStatus == MISSED && <MissedItem />}
+          {orderStatus == COMPLETED && <CompletedItem pressRate={() => { }} />}                    
         </View>
       </View>
       
@@ -231,12 +231,17 @@ class Item extends Component {
   }
 }
 const PendingItem = ({pressConfirm, pressCancel}) => {  
-  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+  return (
+  <View style={{ 
+    flexDirection: 'row', 
+    justifyContent: 'space-around',
+    marginTop: 10,
+    }}>    
     <TouchableOpacity
-      style={{
+      style={{        
         flexDirection: 'row',
         width: 100,
-        height: 50,
+        height: 40,
         backgroundColor: COLOR_ORDER_STATUS_ACCEPTED,
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -246,9 +251,9 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
       onPress={pressConfirm}
     >
       <Text style={{ 
-        height: 50, 
+        height: 40, 
         color: 'white',
-        lineHeight: 50, 
+        lineHeight: 40, 
         paddingLeft: 10,
         fontSize: 16 }}>{translate("Accept")}</Text>
       <Image
@@ -264,7 +269,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
       style={{
         flexDirection: 'row',
         width: 100,
-        height: 50,
+        height: 40,
         backgroundColor: COLOR_ORDER_STATUS_CANCELLED,
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -273,8 +278,8 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
       onPress={pressCancel}      
     >
       <Text style={{ 
-        height: 50, 
-        lineHeight: 50, 
+        height: 40, 
+        lineHeight: 40, 
         fontSize: 16,
         color: 'white',
         paddingLeft: 10,
@@ -292,22 +297,36 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
   return (<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressCall}>
       <Text style={styles.textOrderItem}>phone:{customerPhoneNumber}</Text>        
-    </TouchableOpacity>
+    </TouchableOpacity>    
     <TouchableOpacity
-      style={{
-        width: 90,
+      style={{        
+        marginTop: 10,        
+        flexDirection: 'row',
+        width: 100,
         height: 40,
-        marginBottom: 5,
-        borderRadius: 6,
-        backgroundColor: '#dcdcdc',
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: COLOR_ORDER_STATUS_ACCEPTED,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        borderRadius: 8,
+        paddingRight: 10,
       }}
       onPress={pressChat}
     >
-      <Text style={{ height: 50, lineHeight: 50, fontSize: 16 }}>{translate("Chat")}</Text>
-      
-    </TouchableOpacity>       
+      <Text style={{ 
+        height: 40, 
+        color: 'white',
+        lineHeight: 40, 
+        paddingLeft: 10,
+        fontSize: 16 }}>{translate("Chat")}</Text>
+      <Image
+        source={require('../images/chat-icon.png')}
+        style={{ 
+          height: 25, 
+          width: 25,
+          tintColor: 'white',
+        }}
+      />
+    </TouchableOpacity> 
     {hasCancelButton == false ? <TouchableOpacity 
       style={{
         width: '100%',
@@ -323,15 +342,24 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
           style={{ height: 30, width: 30 }}
         />
     </TouchableOpacity> : 
-    <TouchableOpacity onPress={pressReject}>      
+    <TouchableOpacity 
+      style={{        
+        marginTop: 10,                
+        width: 100,
+        height: 40,
+        backgroundColor: COLOR_ORDER_STATUS_CANCELLED,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
+        paddingRight: 10,
+      }}
+      onPress={pressReject}>      
       <Text style={{
-        fontSize: 17,
-        padding: 5,
-        paddingLeft: 10,
-        borderRadius: 6,
+        fontSize: 16,                
+        paddingHorizontal: 20,
+        borderRadius: 8,
         color: 'white',
-        width: "50%",
-        backgroundColor: COLOR_CANCEL_SOMETHING,        
+        width: 100,        
       }}>
         {translate("Reject")}
       </Text>
@@ -349,12 +377,6 @@ const CompletedItem = ({pressRate}) => {
 const CancelledItem = ({}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
     <Text style={styles.textOrderItem}>{translate("Pressed cancel")}</Text>            
-  </View>)
-}
-
-const MissedItem = ({}) => {  
-  return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
-    <Text style={styles.textOrderItem}>{translate("Missed")}</Text>            
   </View>)
 }
 
