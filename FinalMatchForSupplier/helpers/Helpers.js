@@ -5,13 +5,7 @@ import {
     Keyboard} 
 from 'react-native'
 const {AsyncStorage} = NativeModules
-import {
-	COLOR_ORDER_STATUS_PENDING,
-	COLOR_ORDER_STATUS_ACCEPTED,
-	COLOR_ORDER_STATUS_CANCELLED,
-	COLOR_ORDER_STATUS_COMPLETE,
-	COLOR_ORDER_STATUS_MISSED,	
-} from '../colors/colors'
+
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
         return 0
@@ -121,9 +115,16 @@ export const OrderStatus  = {
     MISSED: "missed" 
 }
 // pending, accepted, cancelled, completed, missed
-export const getColorFromStatus = (orderStatus) => {
-    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus
-    switch(orderStatus) {
+export const getColorFromStatus = (orderStatus) => {  
+    const {
+        COLOR_ORDER_STATUS_PENDING,
+        COLOR_ORDER_STATUS_ACCEPTED,
+        COLOR_ORDER_STATUS_CANCELLED,
+        COLOR_ORDER_STATUS_COMPLETED,
+        COLOR_ORDER_STATUS_MISSED,	
+    } = require('../colors/colors')
+    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus        
+    switch(orderStatus) {        
         case PENDING:
             return COLOR_ORDER_STATUS_PENDING
         case ACCEPTED:
@@ -131,7 +132,7 @@ export const getColorFromStatus = (orderStatus) => {
         case CANCELLED:
             return COLOR_ORDER_STATUS_CANCELLED
         case COMPLETED:
-            return COLOR_ORDER_STATUS_COMPLETE
+            return COLOR_ORDER_STATUS_COMPLETED
         case MISSED:
             return COLOR_ORDER_STATUS_MISSED
         default:

@@ -107,14 +107,13 @@ export default connect (mapStateToProps) (ServiceRegister)
 const styles = StyleSheet.create ({
   txt: {
     lineHeight: isIOS() ? null: 0.08 * screenHeight,
-    fontSize: 25,    
-    color: 'white',
-    fontWeight: 'bold'
+    fontSize: 22,    
+    color: 'white',    
   },
   button: {
     backgroundColor: MAIN_COLOR,
-    borderWidth: 8,
-    borderColor: COLOR_BUTTON,
+    borderWidth: 4,
+    borderColor: 'orange',
     padding: 10,
     margin: 30,
     fontSize: 30,
