@@ -5,7 +5,13 @@ import {
     Keyboard} 
 from 'react-native'
 const {AsyncStorage} = NativeModules
-
+import {
+	COLOR_ORDER_STATUS_PENDING,
+	COLOR_ORDER_STATUS_ACCEPTED,
+	COLOR_ORDER_STATUS_CANCELLED,
+	COLOR_ORDER_STATUS_COMPLETE,
+	COLOR_ORDER_STATUS_MISSED,	
+} from '../colors/colors'
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
         return 0
@@ -107,23 +113,6 @@ export const setPosition = (position = '0000') => {
 export const generateFakeString = () => {
     return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`
 }
-// pending, accepted, cancelled, completed, missed
-export const getColorFromStatus = (status) => {
-    switch(status) {
-        case 'pending':
-            return 'orange'
-        case 'accepted':
-            return 'green'
-        case 'cancelled':
-            return 'red'
-        case 'completed':
-            return 'blue'
-        case 'missed':
-            return 'red'
-        default:
-            return 'black'
-    }
-}
 export const OrderStatus  = {
     PENDING : "pending", 
     ACCEPTED : "accepted",
@@ -131,6 +120,25 @@ export const OrderStatus  = {
     COMPLETED: "completed", 
     MISSED: "missed" 
 }
+// pending, accepted, cancelled, completed, missed
+export const getColorFromStatus = (orderStatus) => {
+    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus
+    switch(orderStatus) {
+        case PENDING:
+            return COLOR_ORDER_STATUS_PENDING
+        case ACCEPTED:
+            return COLOR_ORDER_STATUS_ACCEPTED
+        case CANCELLED:
+            return COLOR_ORDER_STATUS_CANCELLED
+        case COMPLETED:
+            return COLOR_ORDER_STATUS_COMPLETE
+        case MISSED:
+            return COLOR_ORDER_STATUS_MISSED
+        default:
+            return COLOR_ORDER_STATUS_PENDING
+    }
+}
+
 
 
 

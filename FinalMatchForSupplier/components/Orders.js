@@ -138,36 +138,41 @@ class Item extends Component {
     const {orderAddress} = this.state                
     return (
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <View style={styles.viewOrder}>
-          {/* <Text style={styles.textInformationOrder}>OOOO:{orderId}</Text> */}
-          <Text style={styles.textInformationOrder}>
+        <View style={{
+          height: 300,    
+          backgroundColor: '#f5f5f5',
+          borderRadius: 25,
+          borderColor: COLOR_ITEM_BORDER,
+          borderWidth: 1,
+          marginVertical: 10,
+          width: '80%',    
+          padding: 30,
+          justifyContent: 'space-between',    
+        }}>
+          {/* <Text style={styles.textOrderItem}>OOOO:{orderId}</Text> */}
+          <Text style={{            
+            fontSize: 15, 
+            color: 'white',
+            backgroundColor: getColorFromStatus(orderStatus), 
+            fontWeight: 'bold', 
+            textAlign: 'right'}}>
+              {translate(orderStatus)}
+          </Text>
+          <Text style={styles.textOrderItem}>
             {translate("Name : ")}{customerName}
           </Text>
-          <Text style={styles.textInformationOrder}>
+          <Text style={styles.textOrderItem}>
             {translate("Match's place")}
           </Text>
-          <Text style={styles.textInformationOrder}>
+          <Text style={styles.textOrderItem}>
             {orderAddress}
           </Text>
-          <Text style={styles.textInformationOrder}>
+          <Text style={styles.textOrderItem}>
             {translate("Match's timing")}
           </Text>
-          <Text style={styles.textInformationOrder}>{
+          <Text style={styles.textOrderItem}>{
             strDatetimeStart
-          }</Text>
-          <Text style={styles.textInformationOrder}>
-            {translate("Order's status")}
-          </Text>
-          <Text
-            style={{
-              color: getColorFromStatus(
-                orderStatus
-              ),
-              fontSize: 17,
-            }}
-          >
-            {orderStatus}
-          </Text>
+          }</Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
             let result = await updateOrderStatus(orderId, ACCEPTED)
             debugger
@@ -248,7 +253,7 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
 const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
   return (<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressCall}>
-    <Text style={styles.textInformationOrder}>phone:{customerPhoneNumber}</Text>        
+    <Text style={styles.textOrderItem}>phone:{customerPhoneNumber}</Text>        
     </TouchableOpacity>
     <TouchableOpacity
       style={{
@@ -284,19 +289,19 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
 const CompletedItem = ({pressRate}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
     <TouchableOpacity onPress={pressRate}>      
-      <Text style={styles.textInformationOrder}>{translate("Rate app")}</Text>        
+      <Text style={styles.textOrderItem}>{translate("Rate app")}</Text>        
     </TouchableOpacity>    
   </View>)
 }
 const CancelledItem = ({}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
-    <Text style={styles.textInformationOrder}>{translate("Pressed cancel")}</Text>            
+    <Text style={styles.textOrderItem}>{translate("Pressed cancel")}</Text>            
   </View>)
 }
 
 const MissedItem = ({}) => {  
   return (<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>      
-    <Text style={styles.textInformationOrder}>{translate("Missed")}</Text>            
+    <Text style={styles.textOrderItem}>{translate("Missed")}</Text>            
   </View>)
 }
 
@@ -306,20 +311,9 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-  },
-  viewOrder: {
-    height: 300,    
-    backgroundColor: '#f5f5f5',
-    borderRadius: 25,
-    borderColor: COLOR_ITEM_BORDER,
-    borderWidth: 1,
-    marginVertical: 10,
-    width: '80%',    
-    padding: 30,
-    justifyContent: 'space-between',    
-  },
-  textInformationOrder: {
-    fontSize: 17,
+  },  
+  textOrderItem: {
+    fontSize: 15,
   },
 })
 
