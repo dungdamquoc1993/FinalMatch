@@ -76,7 +76,7 @@ export default class Orders extends MultiLanguageComponent {
           }}          
         >
           <Header
-            title={'Order'}
+            title={translate('Orders')}
             hideBack = {true}
             hideNext = {true}            
         />
@@ -152,7 +152,7 @@ class Item extends Component {
       navigate,
       _reloadOrders
     } = this.props
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
     let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state                
     return (
@@ -197,8 +197,7 @@ class Item extends Component {
             strDatetimeStart
           }</Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
-            let result = await updateOrderStatus(orderId, ACCEPTED)
-            debugger
+            let result = await updateOrderStatus(orderId, ACCEPTED)            
             if (result == true) {
               _reloadOrders()
             }
@@ -211,8 +210,7 @@ class Item extends Component {
             }}
           />}
           {orderStatus == ACCEPTED && <AcceptedItem
-            pressChat={() => {
-              debugger
+            pressChat={() => {              
               navigate("Chat", { ...this.props })
             }}
             pressReject={async () => {
@@ -302,7 +300,7 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
       style={{        
         marginTop: 10,        
         flexDirection: 'row',
-        width: 100,
+        width: i18n.locale == 'en' ? 100 : 130,
         height: 40,
         backgroundColor: COLOR_ORDER_STATUS_ACCEPTED,
         alignItems: 'center',
@@ -345,7 +343,7 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
     <TouchableOpacity 
       style={{        
         marginTop: 10,                
-        width: 100,
+        width: i18n.locale == 'en' ? 100 : 130,
         height: 40,
         backgroundColor: COLOR_ORDER_STATUS_CANCELLED,
         alignItems: 'center',
@@ -356,12 +354,11 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
       onPress={pressReject}>      
       <Text style={{
         fontSize: 16,                
-        paddingHorizontal: 20,
+        paddingLeft: 10,
         borderRadius: 8,
-        color: 'white',
-        width: 100,        
+        color: 'white',            
       }}>
-        {translate("Reject")}
+        {translate("Cancel")}
       </Text>
     </TouchableOpacity>}     
   </View>)
