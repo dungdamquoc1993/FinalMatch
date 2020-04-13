@@ -128,7 +128,7 @@ class Item extends Component {
       typeRole,
       orderLatitude,
       orderLongitude,      
-      // orderStatus,
+      orderStatus,
       createdDate,//convert mysql string to Date object
       dateTimeStart,
       dateTimeEnd,
@@ -153,7 +153,7 @@ class Item extends Component {
       _reloadOrders
     } = this.props
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
-    let orderStatus = this._fakeDataToTestUI()
+    // let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state                
     return (
       <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -222,9 +222,7 @@ class Item extends Component {
             customerPhoneNumber={customerPhoneNumber} />}
           {orderStatus == COMPLETED && <CompletedItem pressRate={() => { }} />}                    
         </View>
-      </View>
-      
-      
+      </View>      
     )
   }
 }

@@ -284,11 +284,11 @@ export const createNewOrder = async (
                 dateTimeStart: dateTimeStart.toUTCString()//phải chuyển sang STRING dạng: Tue, 18 Feb 2020 09:48:32 GMT
             }),
         })    
-                    
+        debugger
         const responseJson = await response.json()        
-        
+        debugger
         const { result,message, data } = responseJson                        
-        
+        debugger
         if(result.toLowerCase() === 'ok') {            
             return data
         } else {                
@@ -296,6 +296,7 @@ export const createNewOrder = async (
         }        
     } catch (error) {         
         console.log(error)               
+        debugger
         return {}
     }
 }

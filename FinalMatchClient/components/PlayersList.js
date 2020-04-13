@@ -25,7 +25,8 @@ export default class PlayersList extends MultiLanguageComponent {
     headerShown: false,
   }
   state = {    
-    players:[]
+    players:[],
+    matchTiming: new Date()
   }
   _getPlayersList = async () => {
     const {
@@ -40,11 +41,11 @@ export default class PlayersList extends MultiLanguageComponent {
       latitude, 
       longitude,
       matchTiming})
-    let players = await getPlayersAroundOrder(radius, latitude, longitude, position)
-    this.setState({players})
+    let players = await getPlayersAroundOrder(radius, latitude, longitude, position)    
+    this.setState({players, matchTiming})
   }
   render () {
-    const {players} = this.state
+    const {players, matchTiming} = this.state    
     const {navigate} = this.props.navigation      
     return (
       <SafeAreaView style={styles.container}>        
@@ -64,7 +65,7 @@ export default class PlayersList extends MultiLanguageComponent {
           width={'100%'}
           data={players}
           renderItem={({item}) => (
-            <Item {...item} navigate = {navigate}/>
+            <Item {...item} navigate = {navigate} matchTiming={matchTiming}/>
           )}
           keyExtractor={item => item.playerId}
         />
@@ -110,7 +111,8 @@ class Item extends Component {
       position,
       distance,
       positionAt,
-      navigate
+      navigate,
+      matchTiming,
     } = this.props 
     const {order} = this.state             
     return (
@@ -154,9 +156,17 @@ class Item extends Component {
             onPress={async () => {
               if(order == true) {
                 return
-              }
-            
-              const {customerId} = await getCustomerFromStorage()                            
+              }            
+              const {customerId} = await getCustomerFromStorage()       
+              debugger
+              await createNewOrder(
+                playerServiceSupplierId, 
+                latitude,
+                longitude,
+                customerId, 
+                'player',             
+                matchTiming //phải là kiểu Date, matchTiming chính là dateTimeStart     
+            )                     
               this.setState ({order: true})
             }}
           >
