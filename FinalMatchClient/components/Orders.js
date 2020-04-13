@@ -67,7 +67,7 @@ export default class Orders extends MultiLanguageComponent {
           textContent={translate("Loading")}
           textStyle={{fontWeight: 'bold'}}
         />
-      <Text style={styles.textTitle}>{translate("Create a service")}</Text>
+      <Text style={styles.textTitle}>{translate("Orders")}</Text>
         <FlatList
           width={'100%'}
           data={orders}                    

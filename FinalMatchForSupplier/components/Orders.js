@@ -18,7 +18,6 @@ import {
   OrderStatus,
   isIOS
 } from '../helpers/Helpers'
-
 import {
   firebaseDatabase,
   getAddressFromLatLong
@@ -154,21 +153,20 @@ class Item extends Component {
     } = this.props
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
     let orderStatus = this._fakeDataToTestUI()
-    const {orderAddress} = this.state                
+    const {orderAddress} = this.state             
     return (
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <View style={{          
-          backgroundColor: '#f5f5f5',
-          borderRadius: 15,
-          borderColor: COLOR_ITEM_BORDER,
-          borderWidth: 1,
-          marginVertical: 10,
-          width: '80%',    
-          padding: 10,
-          justifyContent: 'space-between',    
-        }}>
-          {/* <Text style={styles.textOrderItem}>OOOO:{orderId}</Text> */}
-          <View style = {{flexDirection: 'row', justifyContent: 'flex-end'}}>
+      <View style = {{flex: 1}}>
+        <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{            
+              fontSize: 15,               
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              borderRadius: 10,
+              fontWeight: 'bold', 
+              marginHorizontal: 15,
+              textAlign: 'left'}}>
+                {typeRole.toLowerCase() == 'player'?`${translate("Player:")} ${supplierId}` : translate("Referee")}
+            </Text>
             <Text style={{            
               fontSize: 15, 
               color: 'white',            
@@ -177,19 +175,30 @@ class Item extends Component {
               paddingVertical: 5,
               borderRadius: 10,
               fontWeight: 'bold', 
+              marginHorizontal: 15,
               textAlign: 'right'}}>
                 {translate(orderStatus)}
             </Text>
-          </View>
+          </View>      
+      <View style={{ 
+        justifyContent: "center", alignItems: "center" }}>
+        <View style={{          
+          backgroundColor: '#f5f5f5',
+          borderRadius: 15,
+          borderColor: COLOR_ITEM_BORDER,
+          borderWidth: 1,
+          marginBottom: 20,
+          marginTop: 5,          
+          padding: 10,
+          width: Math.round(Dimensions.get('window').width) - 30,          
+          justifyContent: 'space-between',    
+        }}>                    
           <Text style={styles.textOrderItem}>
             {translate("Name : ")}{customerName}
           </Text>
           <Text style={styles.textOrderItem}>
-            {translate("Match's place")}
-          </Text>
-          <Text style={styles.textOrderItem}>
-            {orderAddress}
-          </Text>
+            {`${translate("Match's place")}: ${orderAddress}`}
+          </Text>          
           <Text style={styles.textOrderItem}>
             {translate("Match's timing")}
           </Text>
@@ -222,7 +231,8 @@ class Item extends Component {
             customerPhoneNumber={customerPhoneNumber} />}
           {orderStatus == COMPLETED && <CompletedItem pressRate={() => { }} />}                    
         </View>
-      </View>      
+      </View>  
+      </View>    
     )
   }
 }
