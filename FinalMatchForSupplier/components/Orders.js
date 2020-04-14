@@ -35,7 +35,7 @@ import {
   COLOR_ORDER_STATUS_ACCEPTED,
   COLOR_ORDER_STATUS_CANCELLED
 } from '../colors/colors'
-
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
@@ -222,6 +222,9 @@ class Item extends Component {
             pressChat={() => {              
               navigate("Chat", { ...this.props })
             }}
+            pressCall={() => {              
+              
+            }}
             pressReject={async () => {
               let result = await updateOrderStatus(orderId, CANCELLED)
               if (result == true) {
@@ -301,12 +304,27 @@ const PendingItem = ({pressConfirm, pressCancel}) => {
 const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
   const [hasCancelButton, setHasCancelButton] = useState(false);
   return (<View style={{ flexDirection: 'column', justifyContent: 'space-evenly' }}>      
-    <TouchableOpacity onPress={pressCall}>
-      <Text style={styles.textOrderItem}>phone:{customerPhoneNumber}</Text>        
+    <TouchableOpacity onPress={pressCall} style={{        
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent:'flex-end'}}>
+      <Icon.Button         
+        iconStyle={{marginStart: -5}}
+        size = {17}                
+        name="phone" 
+        borderRadius={30}         
+        backgroundColor={"transparent"} 
+        color = {'black'}/>
+      <Text  style={{fontSize: 15, marginStart: -12}}>
+        {customerPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}
+      </Text>        
     </TouchableOpacity>    
+    <View style={{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent:'flex-end'}}>    
     <TouchableOpacity
-      style={{        
-        marginTop: 10,        
+      style={{                     
         flexDirection: 'row',
         width: i18n.locale == 'en' ? 100 : 130,
         height: 40,
@@ -316,8 +334,7 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
         borderRadius: 8,
         paddingRight: 10,
       }}
-      onPress={pressChat}
-    >
+      onPress={pressChat}>
       <Text style={{ 
         height: 40, 
         color: 'white',
@@ -333,42 +350,48 @@ const AcceptedItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) 
         }}
       />
     </TouchableOpacity> 
-    {hasCancelButton == false ? <TouchableOpacity 
-      style={{
-        width: '100%',
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-      onPress = {() => {
-        setHasCancelButton(true)
-      }}>
-      <Image
-          source={require('../images/expand-icon.png')}
-          style={{ height: 30, width: 30 }}
-        />
-    </TouchableOpacity> : 
-    <TouchableOpacity 
-      style={{        
-        marginTop: 10,                
-        width: i18n.locale == 'en' ? 100 : 130,
-        height: 40,
-        backgroundColor: COLOR_ORDER_STATUS_CANCELLED,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 8,
-        paddingRight: 10,
-      }}
-      onPress={pressReject}>      
-      <Text style={{
-        fontSize: 16,                
-        paddingLeft: 10,
-        borderRadius: 8,
-        color: 'white',            
-      }}>
-        {translate("Cancel")}
-      </Text>
-    </TouchableOpacity>}     
+    </View>
+    <View style={{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent:'center'}}>    
+        {hasCancelButton == false ? <TouchableOpacity 
+          style={{
+            width: '100%',
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+          onPress = {() => {
+            setHasCancelButton(true)
+          }}>
+          <Image
+              source={require('../images/expand-icon.png')}
+              style={{ height: 30, width: 30 }}
+            />
+        </TouchableOpacity> : 
+        <TouchableOpacity 
+          style={{        
+            marginTop: 10,                
+            width: i18n.locale == 'en' ? 100 : 130,
+            height: 40,
+            backgroundColor: COLOR_ORDER_STATUS_CANCELLED,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 8,
+            paddingRight: 10,
+          }}
+          onPress={pressReject}>      
+          <Text style={{
+            fontSize: 16,                
+            paddingLeft: 10,
+            borderRadius: 8,
+            color: 'white',            
+          }}>
+            {translate("Cancel")}
+          </Text>
+        </TouchableOpacity>}     
+      </View>
   </View>)
 }
 
