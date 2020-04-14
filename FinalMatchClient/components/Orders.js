@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  Dimensions,
   FlatList,
 } from 'react-native'
 import {translate} from '../languages/languageConfigurations'
@@ -107,6 +108,7 @@ class Item extends Component {
       supplierRadius,
       supplierAvatar = "",
       playerPrice = 0.0,
+      playerPosition = "",
       refereePrice = 0.0,
       customerId,
       customerAvatar,
@@ -115,61 +117,99 @@ class Item extends Component {
       customerEmail,
       navigate
     } = this.props
+    
     return (
-      <View style={styles.ViewAllInformation}>
-        <View style={styles.ViewDetail}>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-            <Text style={styles.textLabel}>{supplierName}</Text>
-          </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLabel}>{translate('Phone : ')}</Text>
-            <Text style={styles.textLabel}>{supplierPhoneNumber}</Text>
-          </View>
-          {/* <View style={styles.ViewNamedetailArbitration}>
-          <Text style={styles.textLabel}>{translate('Address : ')}</Text>
-          <Text style={styles.textLabel}>{supplierAddress}</Text>
-        </View> */}
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLabel}>{translate('Price : ')}</Text>
-            <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
-              refereePrice : playerPrice}</Text>
-          </View>
-          <View style={styles.ViewNamedetailArbitration}>
-            <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
-            <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
-          </View>
-          {orderStatus == ACCEPTED && <AcceptedItem 
-              pressReject={async ()=>{    
-                alertWithOKButton(
-                  translate("Are you sure you want to cancel this order ?"),
-                  async () => {
-                    await updateOrderStatus(orderId, CANCELLED)
-                  })                        
-              }} 
-          />}
-        </View>
-
-        <View style={styles.viewButton}>
-          <Image
-            source={
-              supplierAvatar.length > 0
-                ? { uri: urlGetAvatar(supplierAvatar) }
-                : require('../images/avatar.png')
-            }
-            style={styles.images}
-          />
-          {orderStatus == ACCEPTED && <TouchableOpacity
-            style={styles.btnOrder}
-            onPress = {() => {
-              //alert(JSON.stringify(Object.keys(this.props)))
-              navigate("Chat", {...this.props})
+      <View style = {{flex: 1}}>
+        <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{            
+              fontSize: 15,               
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              borderRadius: 10,
+              fontWeight: 'bold', 
+              marginHorizontal: 15,
+              textAlign: 'left'}}>
+                {typeRole.toLowerCase() == 'player'?
+                  `${translate("Player:")} ${convertStringPositionsToPositionName(playerPosition)}` 
+                  : translate("Referee")}
+            </Text>
+            <Text style={{            
+              fontSize: 15, 
+              color: 'white',            
+              backgroundColor: getColorFromStatus(orderStatus),             
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              borderRadius: 10,
+              fontWeight: 'bold', 
+              marginHorizontal: 15,
+              textAlign: 'right'}}>
+                {translate(orderStatus)}
+            </Text>
+          </View>   
+        <View style={{
+            flexDirection: 'row',
+            paddingVertical:10,
+            justifyContent: 'space-around',
+            alignItems: 'stretch',
+            borderWidth: 1,
+            borderColor: COLOR_ITEM_BORDER,
+            borderRadius: 15,
+            marginBottom: 20,
+            marginTop: 5,            
+            marginHorizontal: 10,            
+          }}>
+          <View style={{
+              flexDirection: 'column',              
+              justifyContent: 'center',
             }}>
-            <Text style={styles.textOrder}>
-              {translate("Chat")}
-              </Text>
-          </TouchableOpacity>}
-        </View>        
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate('Name : ')}</Text>
+              <Text style={styles.textLabel}>{supplierName}</Text>
+            </View>
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}</Text>              
+            </View>            
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate('Price : ')}</Text>
+              <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
+                refereePrice : playerPrice}</Text>
+            </View>
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
+              <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
+            </View>
+            {orderStatus == ACCEPTED && <AcceptedItem 
+                pressReject={async ()=>{    
+                  alertWithOKButton(
+                    translate("Are you sure you want to cancel this order ?"),
+                    async () => {
+                      await updateOrderStatus(orderId, CANCELLED)
+                    })                        
+                }} 
+            />}
+          </View>
+
+          <View style={styles.viewButton}>
+            <Image
+              source={
+                supplierAvatar.length > 0
+                  ? { uri: urlGetAvatar(supplierAvatar) }
+                  : require('../images/avatar.png')
+              }
+              style={styles.images}
+            />
+            {orderStatus == ACCEPTED && <TouchableOpacity
+              style={styles.btnOrder}
+              onPress = {() => {
+                //alert(JSON.stringify(Object.keys(this.props)))
+                navigate("Chat", {...this.props})
+              }}>
+              <Text style={styles.textOrder}>
+                {translate("Chat")}
+                </Text>
+            </TouchableOpacity>}
+          </View>        
+        </View>
       </View>
     )
   }
@@ -197,25 +237,8 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'space-around',
     flex: 1,
-  },
-  ViewAllInformation: {
-    flexDirection: 'row',
-    paddingVertical:10,
-    justifyContent: 'space-around',
-    alignItems: 'stretch',
-    borderWidth: 1,
-    borderColor: COLOR_ITEM_BORDER,
-    borderRadius: 15,
-    marginVertical: 10,
-    marginHorizontal: 20,
-  },
-  ViewDetail: {
-    flexDirection: 'column',
-    width: '60%',
-    paddingEnd: '10%',
-    justifyContent: 'center',
-  },
-  ViewNamedetailArbitration: {
+  },  
+  inlineText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical:7

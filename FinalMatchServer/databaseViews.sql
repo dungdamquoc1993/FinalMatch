@@ -137,6 +137,7 @@ Supplier.radius as supplierRadius,
 Supplier.avatar as supplierAvatar,
 PlayerService.playerName as playerName,
 PlayerService.price as playerPrice,
+PlayerService.position as playerPosition,
 RefereeService.refereeName as refereeName,
 RefereeService.price as refereePrice,
 

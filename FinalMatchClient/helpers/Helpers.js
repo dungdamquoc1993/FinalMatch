@@ -36,6 +36,22 @@ export const getPosition = (positionObject) => {
     const {isGK = false, isCB = false, isMF = false, isCF = false} = positionObject
     return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
 }
+
+//input "0100" => "CB", "1000" => "GK",...
+export const convertStringPositionsToPositionName = (stringPosition) => {
+    if(stringPosition[0] == "1") {
+        return "GK"
+    } else if(stringPosition[1] == "1") {
+        return "CB"
+    } else 
+    if(stringPosition[2] == "1") {
+        return "MF"
+    } else if(stringPosition[3] == "1") {
+        return "CF"
+    } 
+    return "GK"
+}
+
 //input: "0100" => 2, input: "0001" => 4, "1000" => 1, "0010" => 3
 export const convertStringPositionToNumber = (stringPosition) => {
     for (let i = 0; i < stringPosition.length; i++) {
@@ -53,20 +69,28 @@ export const alertWithOKButton = (content, callback) => {
 }
 
 // pending, accepted, cancelled, completed, missed
-export const getColorFromStatus = (status) => {
-    switch (status) {
-        case 'pending':
-            return 'orange'
-        case 'accepted':
-            return 'green'
-        case 'cancelled':
-            return 'red'
-        case 'completed':
-            return 'blue'
-        case 'missed':
-            return 'red'
+export const getColorFromStatus = (orderStatus) => {  
+    const {
+        COLOR_ORDER_STATUS_PENDING,
+        COLOR_ORDER_STATUS_ACCEPTED,
+        COLOR_ORDER_STATUS_CANCELLED,
+        COLOR_ORDER_STATUS_COMPLETED,
+        COLOR_ORDER_STATUS_MISSED,	
+    } = require('../colors/colors')
+    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus        
+    switch(orderStatus) {        
+        case PENDING:
+            return COLOR_ORDER_STATUS_PENDING
+        case ACCEPTED:
+            return COLOR_ORDER_STATUS_ACCEPTED
+        case CANCELLED:
+            return COLOR_ORDER_STATUS_CANCELLED
+        case COMPLETED:
+            return COLOR_ORDER_STATUS_COMPLETED
+        case MISSED:
+            return COLOR_ORDER_STATUS_MISSED
         default:
-            return 'black'
+            return COLOR_ORDER_STATUS_PENDING
     }
 }
 export const OrderStatus = {

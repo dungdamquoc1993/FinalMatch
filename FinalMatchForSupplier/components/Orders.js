@@ -9,6 +9,7 @@ import {
   FlatList,
   Dimensions,
   Image,
+  Linking
 } from 'react-native'
 import Header from './Header'
 import Modal from 'react-native-modal'
@@ -142,6 +143,7 @@ class Item extends Component {
       supplierRadius,
       supplierAvatar = "",
       playerPrice = 0.0,
+      playerPosition = "",
       refereePrice = 0.0,
       customerId,
       customerAvatar,
@@ -151,7 +153,8 @@ class Item extends Component {
       navigate,
       _reloadOrders
     } = this.props
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
+    //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")    
     let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state             
     return (
@@ -165,7 +168,9 @@ class Item extends Component {
               fontWeight: 'bold', 
               marginHorizontal: 15,
               textAlign: 'left'}}>
-                {typeRole.toLowerCase() == 'player'?`${translate("Player:")} ${supplierId}` : translate("Referee")}
+                {typeRole.toLowerCase() == 'player'?
+                  `${translate("Player:")} ${convertStringPositionsToPositionName(playerPosition)}` 
+                  : translate("Referee")}
             </Text>
             <Text style={{            
               fontSize: 15, 
@@ -200,11 +205,8 @@ class Item extends Component {
             {`${translate("Match's place")}: ${orderAddress}`}
           </Text>          
           <Text style={styles.textOrderItem}>
-            {translate("Match's timing")}
-          </Text>
-          <Text style={styles.textOrderItem}>{
-            strDatetimeStart
-          }</Text>          
+            {translate("Match's timing")}: {strDatetimeStart}
+          </Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
             let result = await updateOrderStatus(orderId, ACCEPTED)            
             if (result == true) {
@@ -223,7 +225,7 @@ class Item extends Component {
               navigate("Chat", { ...this.props })
             }}
             pressCall={() => {              
-              
+              Linking.openURL(`tel:${customerPhoneNumber}`)
             }}
             pressReject={async () => {
               let result = await updateOrderStatus(orderId, CANCELLED)

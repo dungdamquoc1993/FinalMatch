@@ -114,6 +114,21 @@ export const OrderStatus  = {
     COMPLETED: "completed", 
     MISSED: "missed" 
 }
+//input "0100" => "CB", "1000" => "GK",...
+export const convertStringPositionsToPositionName = (stringPosition) => {
+    if(stringPosition[0] == "1") {
+        return "GK"
+    } else if(stringPosition[1] == "1") {
+        return "CB"
+    } else 
+    if(stringPosition[2] == "1") {
+        return "MF"
+    } else if(stringPosition[3] == "1") {
+        return "CF"
+    } 
+    return "GK"
+}
+
 // pending, accepted, cancelled, completed, missed
 export const getColorFromStatus = (orderStatus) => {  
     const {
