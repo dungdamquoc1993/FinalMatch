@@ -103,7 +103,7 @@ class Item extends Component {
   }
   async componentDidMount() {
     const {orderLatitude,orderLongitude} = this.props //orderLatitude,orderLongitude co ngay khi vao constructor
-    const {address} = await getAddressFromLatLong(orderLatitude, orderLongitude)    
+    const address = await getAddressFromLatLong(orderLatitude, orderLongitude)    
     this.setState({orderAddress: address})
   }
   _fakeDataToTestUI = () => {

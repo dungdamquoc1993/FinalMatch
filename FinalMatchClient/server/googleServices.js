@@ -31,31 +31,25 @@ export const firebaseDatabase = firebaseApp.database();
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    
-             
+            
         const response = await fetch(urlGetAddressFromLatLong(latitude, longitude))
         const resJson = await response.json();
         const { result, data, message, time } = resJson    
-         
-        if (result.toUpperCase() === "OK") {
-             
+        if (result.toUpperCase() === "OK") {            
             if (data.results.length > 0) {
-                let result2 = data.results[0]
-                const address = result2["address_components"][0]["long_name"]
-                const district = result2["address_components"][1]["long_name"]
-                const province = result2["address_components"][2]["long_name"]
-                return { address, district, province }
+                
+                return data.results[0].formatted_address || 
+                    data.results[1].formatted_address || data.results[2].formatted_address
             }
-            return { address: '', district: '', province:''}
-        } else {
-            return { address: '', district: '', province:''}
-        }           
-                     
-    } catch (error) {
-        
-        console.error(translate("Cannot get address from lat, lon")+`${error}`)
-        return { address: '', district: '', province:''}
+            return ""
+        }                        
+        return ""
+    } catch (error) {        
+        console.error(`Cannot get Address From Lat Long. Error: ${error}`)
+        return ""
     }
 }
+
 export const getLatLongFromAddress = async (address) => {
     try {                
         const response = await fetch(urlGetLatLongFromAddress(address))

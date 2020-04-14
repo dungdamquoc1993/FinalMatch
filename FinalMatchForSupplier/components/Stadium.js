@@ -82,11 +82,7 @@ class Stadium extends Component {
       Geolocation.getCurrentPosition (
         async position => {
           const {latitude, longitude} = position.coords
-          const {
-            address = '',
-            district = '',
-            province = '',
-          } = await getAddressFromLatLong (latitude, longitude)
+          const address = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
             currentLocation: {address, district, province, latitude, longitude},
           })
