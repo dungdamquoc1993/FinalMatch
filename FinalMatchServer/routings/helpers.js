@@ -2,7 +2,7 @@ const {i18n} = require('../locales/i18n')
 const {connection} = require('../database/database')
 const POST_CHECK_TOKEN = "SELECT checkToken(?, ?) as checkTokenResult"
 const POST_CHECK_TOKEN_CUSTOMER = "SELECT checkTokenCustomer(?, ?) as checkTokenCustomerResult"
-const SQL_CHECK_COMPLETED_MATCH = "UPDATE Orders SET status = 'completed' WHERE dateTimeEnd < NOW()"
+const SQL_CHECK_COMPLETED_AND_EXPIRED_MATCH = "call checkCompletedAndExpiredMatch()"
 const GET_NOTIFICATION_TOKENS_CUSTOMER = "SELECT * FROM CustomerNotificationTokens WHERE customerId = ?"
 const GET_NOTIFICATION_TOKENS_SUPPLIER = "SELECT * FROM SupplierNotificationTokens WHERE supplierId = ?"
 
@@ -90,9 +90,9 @@ const removeNullProperties = (jsObject) => {
     } 
     return clonedObject
 }
-const checkCompletedMatch = () => {
-    return new Promise((resolve, reject) => {        
-        connection.query(SQL_CHECK_COMPLETED_MATCH, [], (error, results) => {            
+const checkCompletedOrExpiredMatch = () => {
+    return new Promise((resolve, reject) => {                
+        connection.query(SQL_CHECK_COMPLETED_AND_EXPIRED_MATCH, [], (error, results) => {            
             
             if (error) {                
                 resolve(false)
@@ -108,6 +108,6 @@ module.exports = {
     checkTokenCustomer,
     convertDateToDayMonthYear,
     removeNullProperties,
-    checkCompletedMatch,
+    checkCompletedOrExpiredMatch,
     getNotificationTokens
 }

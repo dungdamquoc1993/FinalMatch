@@ -127,7 +127,7 @@ export default class Stadium extends MultiLanguageComponent {
         <SafeAreaView style={styles.container}>
           <Header
             title={translate ("Search Stadium")}
-            hideBack={true}
+            hideBack = {false}            
             pressBackButton={() => {
               this.props.navigation.navigate ('Service')
             }}

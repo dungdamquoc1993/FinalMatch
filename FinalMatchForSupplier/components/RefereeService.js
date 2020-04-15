@@ -64,22 +64,14 @@ export class RefereeService extends Component {
       const { data, message } = await getSupplierById(supplierId)
       const { phoneNumber, latitude,
         dateOfBirth,
-        longitude, radius, address } = data      
-      debugger
+        longitude, radius, address } = data            
       this.setState({ 
         phoneNumber, currentLocation: { latitude, longitude, address }, radius,
-        stringDateOfBirth: convertDateToStringDDMMYYYY(new Date(dateOfBirth))
+        stringDateOfBirth: convertDateToStringDDMMYYYY(new Date(dateOfBirth)),
+        age: daysBetween2Dates(new Date(), new Date(dateOfBirth)),
       })       
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
-    }
-  }
-
-  _displayAge(age) {
-    if (age > 0) {
-      return age > 1 ? `${age} `+translate("ages") : `${age} `+translate("age")
-    } else {
-      return ''
     }
   }
   _pressLocation = async () => {
@@ -219,7 +211,7 @@ export class RefereeService extends Component {
               </Text>              
           </TouchableOpacity>
             <Text style={styles.age}>
-              {this._displayAge(age)}
+              {daysBetween2Dates(new Date(), this.state.dateOfBirth)}
             </Text>
           </View>        
         <TouchableOpacity onPress={() => {

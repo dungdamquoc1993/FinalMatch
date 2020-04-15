@@ -76,8 +76,9 @@ export const getColorFromStatus = (orderStatus) => {
         COLOR_ORDER_STATUS_CANCELLED,
         COLOR_ORDER_STATUS_COMPLETED,
         COLOR_ORDER_STATUS_MISSED,	
+        COLOR_ORDER_STATUS_EXPIRED
     } = require('../colors/colors')
-    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus        
+    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED} = OrderStatus        
     switch(orderStatus) {        
         case PENDING:
             return COLOR_ORDER_STATUS_PENDING
@@ -89,6 +90,8 @@ export const getColorFromStatus = (orderStatus) => {
             return COLOR_ORDER_STATUS_COMPLETED
         case MISSED:
             return COLOR_ORDER_STATUS_MISSED
+        case EXPIRED:
+            return COLOR_ORDER_STATUS_EXPIRED            
         default:
             return COLOR_ORDER_STATUS_PENDING
     }
@@ -98,7 +101,8 @@ export const OrderStatus = {
     ACCEPTED: "accepted",
     CANCELLED: "cancelled",
     COMPLETED: "completed",
-    MISSED: "missed"
+    MISSED: "missed",
+    EXPIRED: 'expired',
 }
 
 

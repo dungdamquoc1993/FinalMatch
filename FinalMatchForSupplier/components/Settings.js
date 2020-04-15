@@ -47,8 +47,9 @@ import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors'
 import { NavigationEvents } from 'react-navigation'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
+import MultiLanguageComponent from './MultiLanguageComponent'
 
-export default class Settings extends Component {
+export default class Settings extends MultiLanguageComponent {
 
   state = {
     supplierId: 0,
@@ -184,6 +185,7 @@ export default class Settings extends Component {
         avatar, position, phoneNumber, radius, playerName, refereeName, supplierId,
         playerId, refereeId,
         stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),
+        age: daysBetween2Dates(new Date(), selectedDate),
         selectedDate,
         dateOfBirth: selectedDate,
         currentLocation: {
@@ -212,14 +214,7 @@ export default class Settings extends Component {
       alert(translate("Cannot upload avatar: ")+`${JSON.stringify(error)}`)
     }
   }
-  _displayAge(age) {
-    if (age > 0) {
-      return age > 1 ? `${age} `+translate("ages") : `${age} `+translate("age")      
-    } else {
-      return ''
-    }
-  }
-  
+
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
@@ -351,7 +346,8 @@ export default class Settings extends Component {
               </Text>
             </TouchableOpacity>
             <Text style={styles.age}>
-              {this._displayAge(age)}
+              {daysBetween2Dates(new Date(), this.state.dateOfBirth)}
+
             </Text>
           </View>
           <View style={styles.personalInformation}>

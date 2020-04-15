@@ -34,11 +34,12 @@ import {
   MAIN_COLOR,
   COLOR_CANCEL_SOMETHING,
   COLOR_ORDER_STATUS_ACCEPTED,
-  COLOR_ORDER_STATUS_CANCELLED
+  COLOR_ORDER_STATUS_CANCELLED,
+  COLOR_ORDER_STATUS_EXPIRED
 } from '../colors/colors'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED, EXPIRED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {translate} from '../languages/languageConfigurations'
 export default class Orders extends MultiLanguageComponent {
@@ -128,7 +129,7 @@ class Item extends Component {
       typeRole,
       orderLatitude,
       orderLongitude,      
-      // orderStatus,
+      orderStatus,
       createdDate,//convert mysql string to Date object
       dateTimeStart,
       dateTimeEnd,
@@ -155,7 +156,7 @@ class Item extends Component {
     } = this.props
     //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")    
-    let orderStatus = this._fakeDataToTestUI()
+    //let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state             
     return (
       <View style = {{flex: 1}}>

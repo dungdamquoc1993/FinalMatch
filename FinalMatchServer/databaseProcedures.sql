@@ -584,6 +584,21 @@ BEGIN
         AND CONVERT(viewChatOrder.senderId, CHAR) = CONVERT(senderId, CHAR);
 END;//
 
+
+DROP PROCEDURE IF EXISTS checkCompletedAndExpiredMatch;
+delimiter //
+CREATE PROCEDURE checkCompletedAndExpiredMatch()  
+BEGIN    
+    UPDATE Orders SET status = 'completed' WHERE dateTimeEnd < NOW() AND status = 'accepted';
+    UPDATE Orders SET status = 'expired' WHERE dateTimeStart < NOW() AND status = 'pending';
+END;//
+
+
+
+
+
+
+
 delimiter;
 https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 

@@ -120,7 +120,7 @@ class Stadium extends Component {
               //validate ok
               return true
             }}
-            hideBack = {true}
+            hideBack = {false}
             hideNext = {true}            
           />
         </View>        

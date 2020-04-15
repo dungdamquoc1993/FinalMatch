@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import * as RNLocalize from "react-native-localize"
-import { setI18nConfig } from '../languages/languageConfigurations'
+
 import { View } from 'react-native'
+import { setI18nConfig } from '../languages/languageConfigurations'
 import i18n from "i18n-js"
 import {
   firebaseDatabase,

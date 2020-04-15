@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   Dimensions,
+  Linking,
   FlatList,
 } from 'react-native'
 import {translate} from '../languages/languageConfigurations'
@@ -167,6 +168,11 @@ class Item extends Component {
               <Text style={styles.textLabel}>{supplierName}</Text>
             </View>
             <View style={styles.inlineText}>
+              <TouchableOpacity onPress = {() => {
+                Linking.openURL(`tel:${customerPhoneNumber}`)
+              }}>
+
+              </TouchableOpacity>
               <Text style={styles.textLabel}>{translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}</Text>              
             </View>            
             <View style={styles.inlineText}>

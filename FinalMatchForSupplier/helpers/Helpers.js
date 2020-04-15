@@ -6,14 +6,26 @@ import {
 from 'react-native'
 const {AsyncStorage} = NativeModules
 
+import { setI18nConfig } from '../languages/languageConfigurations'
+import i18n from "i18n-js"
+import {translate} from '../languages/languageConfigurations'
+
 export const daysBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
         return 0
     }
+    setI18nConfig() // set initial config
     let times =   bigDay.getTime() - smallDay.getTime()
-    let days = Math.floor(times / (1000 * 3600 * 24 * 365))
-    return days
-}
+    let years = Math.floor(times / (1000 * 3600 * 24 * 365))
+    let days = Math.floor((times - years * (1000 * 3600 * 24*365))/(1000 * 3600 * 24))
+    let result = ""
+    result += `${years} `+translate("ages") 
+    if(days > 0) {
+        result += days > 1 ? ` ${days} `+translate("days") : `${days} `+translate("day")
+    }
+    return result
+}  
+
 export function convertDayMonthYearToString(day, month, year) {
     const strDay = day < 10 ? `0${day}` : `${day}`
     month += 1
@@ -112,7 +124,8 @@ export const OrderStatus  = {
     ACCEPTED : "accepted",
     CANCELLED: "cancelled", 
     COMPLETED: "completed", 
-    MISSED: "missed" 
+    MISSED: "missed" ,
+    EXPIRED: 'expired',
 }
 //input "0100" => "CB", "1000" => "GK",...
 export const convertStringPositionsToPositionName = (stringPosition) => {
@@ -136,9 +149,10 @@ export const getColorFromStatus = (orderStatus) => {
         COLOR_ORDER_STATUS_ACCEPTED,
         COLOR_ORDER_STATUS_CANCELLED,
         COLOR_ORDER_STATUS_COMPLETED,
-        COLOR_ORDER_STATUS_MISSED,	
+        COLOR_ORDER_STATUS_MISSED,
+        COLOR_ORDER_STATUS_EXPIRED	
     } = require('../colors/colors')
-    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED} = OrderStatus        
+    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED} = OrderStatus        
     switch(orderStatus) {        
         case PENDING:
             return COLOR_ORDER_STATUS_PENDING
@@ -150,6 +164,8 @@ export const getColorFromStatus = (orderStatus) => {
             return COLOR_ORDER_STATUS_COMPLETED
         case MISSED:
             return COLOR_ORDER_STATUS_MISSED
+        case EXPIRED:
+            return COLOR_ORDER_STATUS_EXPIRED
         default:
             return COLOR_ORDER_STATUS_PENDING
     }

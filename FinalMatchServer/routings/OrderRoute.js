@@ -4,7 +4,7 @@ var router = express.Router()
 const {
   checkTokenCustomer,
   checkToken,
-  checkCompletedMatch,
+  checkCompletedOrExpiredMatch,
   getNotificationTokens
 } = require('./helpers')
 const OrderStatus = {
@@ -56,7 +56,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
     })    
     return
   }
-  await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
+  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID,
     [supplierid], (error, results) => {      
       if (error) {
@@ -92,7 +92,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
     })
     return
   }
-  await checkCompletedMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
+  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID,
     [customerid], (error, results) => {
       
