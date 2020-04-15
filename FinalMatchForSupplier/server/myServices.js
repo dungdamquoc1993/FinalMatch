@@ -256,8 +256,11 @@ export const getSupplierById = async (supplierId) => {
 
 export const getSupplierServicesOrders = async (supplierId) => {
     try {                    
+        debugger
         const response = await fetch(await urlGetSupplierServicesOrders(supplierId))               
+        debugger
         const responseJson = await response.json();                
+        debugger
         const {result, data, message, time} = responseJson                                   
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              
@@ -266,6 +269,7 @@ export const getSupplierServicesOrders = async (supplierId) => {
             return { data, message}
         }
     } catch (error) {               
+        debugger
         return { data, message: error}
     }
 }
@@ -443,7 +447,7 @@ export const insertStadium = async (type,
 }
 export const getOrdersBySupplierId = async () => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()        
+        const { tokenKey, supplierId} = await getSupplierFromStorage()                
         const response = await fetch(urlGetOrdersBySupplierId(), {
             method: 'POST',
             headers: {
@@ -455,18 +459,12 @@ export const getOrdersBySupplierId = async () => {
             body: JSON.stringify({
                 supplierId
             }),
-        })        
-        const responseJson = await response.json();                
+        })              
+        const responseJson = await response.json();                        
         const { result, data, message, time } = responseJson        
-        if (result.toUpperCase() === "OK") {
-            //Logger ??  
-            return data
-        } else {
-            return []
-        }
+        return result.toUpperCase() === "OK" ?  data : []        
     } catch (error) {
-        alert("Cannot get orders from supplierId"+error)
-        
+        alert("Cannot get orders from supplierId"+error)        
         return []
     }
 }

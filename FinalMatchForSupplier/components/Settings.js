@@ -52,6 +52,7 @@ import MultiLanguageComponent from './MultiLanguageComponent'
 export default class Settings extends MultiLanguageComponent {
 
   state = {
+    dataChanged: false,
     supplierId: 0,
     playerPrice: 3000,
     refereePrice: 100000,
@@ -93,6 +94,9 @@ export default class Settings extends MultiLanguageComponent {
     spinner: false,
   }
   _saveSettings = async () => {
+    if(this.state.dataChanged == false) {
+      return
+    }
     const { supplierId } = this.state
     if(playerPrice >= 20000) {
       this.setState({playerPrice: 20000})
@@ -166,6 +170,7 @@ export default class Settings extends MultiLanguageComponent {
     //call api    
     try {
       const { data, message } = await getSupplierServicesOrders(supplierId)
+      debugger
       const { name,
         playerPrice,
         refereePrice,
