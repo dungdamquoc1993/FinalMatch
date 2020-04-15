@@ -169,8 +169,9 @@ export default class Settings extends MultiLanguageComponent {
     const { supplierId, email } = await getSupplierFromStorage()
     //call api    
     try {
-      const { data, message } = await getSupplierServicesOrders(supplierId)
       debugger
+      const { data, message } = await getSupplierServicesOrders(supplierId)
+      
       const { name,
         playerPrice,
         refereePrice,
