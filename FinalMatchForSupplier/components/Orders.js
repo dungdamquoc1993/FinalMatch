@@ -12,7 +12,7 @@ import {
   Linking
 } from 'react-native'
 import Header from './Header'
-import Modal from 'react-native-modal'
+import { NavigationEvents } from 'react-navigation'
 import {
   getSupplierFromStorage, 
   getColorFromStatus,
@@ -63,6 +63,7 @@ export default class Orders extends MultiLanguageComponent {
   _reloadOrders = async () => {
       const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
       let orders = await getOrdersBySupplierId ()      
+      debugger
       this.setState ({orders, supplierId})        
   }
   render () {
@@ -76,6 +77,11 @@ export default class Orders extends MultiLanguageComponent {
             width: '100%'
           }}          
         >
+          <NavigationEvents
+            onWillFocus={payload => {
+              this._reloadOrders()
+            }}
+          />
           <Header
             title={translate('Orders')}
             hideBack = {true}
