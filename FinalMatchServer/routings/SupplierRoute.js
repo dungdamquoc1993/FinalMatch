@@ -47,7 +47,8 @@ router.post('/register', async (req, res) => {
 
 //Link http://localhost:3000/suppliers/login
 router.post('/login', async (req, res) => {
-  const {email, password,userType = "default"} = req.body     
+  const {email, password,userType = "default"} = req.body    
+  debugger 
   i18n.setLocale(req.headers.locale)   
   
   connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {
