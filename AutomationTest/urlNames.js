@@ -1,168 +1,143 @@
-import i18n from "i18n-js"
+const i18n = require("i18n-js") 
 const GoogleAPIKey = 'AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0'
 const SERVER_NAME = '150.95.113.87' //Real Server
-const SERVER_PORT = '3000'
+const SERVER_PORT = '3001'
 
-export const urlRegisterCustomer = () => {
+const urlRegisterCustomer = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/register`
 }           
-export const urlLoginCustomer = () => {
+const urlLoginCustomer = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/login`
 }
 
-export const urlLoginFacebookCustomer = () => {    
+const urlLoginFacebookCustomer = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/loginFacebook`
 }
-export const urlTokenCheckCustomer = () => {    
+const urlTokenCheckCustomer = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheckCustomer`
 }
 
-export const urlUpdateCustomerInformation = () => {    
+const urlUpdateCustomerInformation = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/updateCustomerInformation`
 }
 
-export const urlGetCustomerInformation = (customerId) => {    
+const urlGetCustomerInformation = (customerId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/customers/urlGetCustomerInformation?customerId=${customerId}&locale=${i18n.locale}`
 }
-export const urlGetAddressFromLatLong = (latitude, longitude) => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}&locale=${i18n.locale}`
-}
 
-export const urlGetLatLongFromAddress = (address) => {    
+const urlGetLatLongFromAddress = (address) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getLatLongFromAddress?address=${address}&locale=${i18n.locale}`
 }
 
-export const urlGetStadiumsAroundPoint = () => {    
+const urlGetStadiumsAroundPoint = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/getStadiumsAroundPoint`
 }
-export const urlGetPlacesFromAddress = (address) => {        
+const urlGetPlacesFromAddress = (address) => {        
     return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}&locale=${i18n.locale}`
 }
 
-export const urlgetRefereesAroundOrder = () => {    
+const urlgetRefereesAroundOrder = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getRefereesAroundOrder`
 }
 
-export const urlgetPlayersAroundOrder = () => {    
+const urlgetPlayersAroundOrder = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getPlayersAroundOrder`
 }
 
-export const urlGetAvatar = (fileName) => {    
+//Get Avatar
+const urlGetAvatar = (fileName) => {    
     if(fileName.toLowerCase().includes("https://")) {
         return fileName
     }    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}&locale=${i18n.locale}`
 }
 
-export const urlCreateNewOrder = () => {        
+const urlCreateNewOrder = () => {        
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/createNewOrder`    
 }
 
-export const urlGetOrdersByCustomerId = () => {        
+const urlGetOrdersByCustomerId = () => {        
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersByCustomerId`    
 }
 
-export const urlInsertCustomerNotificationToken = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertCustomerNotificationToken`
-}
-
-export const urlInsertSupplierNotificationToken = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertSupplierNotificationToken`
-}
-export const urlInsertNewChat = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/insertNewChat`
-}
-export const urlGetChatHistory = () => {    
+const urlGetChatHistory = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/getChatHistory`
 }
-export const urlMakeSeen = () => {    
+const urlMakeSeen = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/chat/makeSeen`
 }
-export const urlUpdateOrderStatus = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/orders/updateOrderStatus`
-}
 
-export const urlRegisterSupplier = () => {
+const urlRegisterSupplier = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/register`
 }           
-export const urlLoginSupplier = () => {
+const urlLoginSupplier = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/login`
 }
-export const urlInsertPlayerService = () => {
+const urlInsertPlayerService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/insertPlayerService`
 }
-export const urlInsertRefereeService = () => {
+const urlInsertRefereeService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/insertRefereeService`
 }
-export const urlCheckRefereeServiceExist = (supplierId) => {
+const urlCheckRefereeServiceExist = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 
-export const urlGetSupplierById = (supplierId) => {
+const urlGetSupplierById = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}&locale=${i18n.locale}`
 }
-export const urlCheckPlayerServiceExist = (supplierId) => {    
+const urlCheckPlayerServiceExist = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/checkPlayerServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
 }
-export const urlTokenCheck = () => {    
+const urlTokenCheck = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/tokenCheck`
 }
-export const urlGetAddressFromLatLong = (latitude, longitude) => {    
+const urlGetAddressFromLatLong = (latitude, longitude) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/googleServiceRoute/getAddressFromLatLong?latitude=${latitude}&longitude=${longitude}&locale=${i18n.locale}`
 }
 
-export const urlGetSupplierServicesOrders = (supplierId) => {    
+const urlGetSupplierServicesOrders = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getSupplierServicesOrders?supplierId=${supplierId}&locale=${i18n.locale}`
 }
-export const urlUploadAvatar = () => {    
+const urlUploadAvatar = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/uploadAvatar`
 }
-//Get Avatar
-export const urlGetAvatar = (fileName) => {    
-    if(fileName.toLowerCase().includes("https://")) {
-        return fileName
-    }    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}&locale=${i18n.locale}`
-}
 
-export const urlUpdateSettings = () => {    
+const urlUpdateSettings = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
 }
-export const urlInsertStadium = () => {    
+const urlInsertStadium = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/stadium/insertStadium`
 }
-export const urlLoginFacebook = () => {    
+const urlLoginFacebook = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginFacebook`
 }
-export const urlGetOrdersBySupplierId = () => {    
+const urlGetOrdersBySupplierId = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersBySupplierId`
 }
-export const urlUpdateOrderStatus = () => {    
+const urlUpdateOrderStatus = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/updateOrderStatus`
 }
 
-export const urlInsertCustomerNotificationToken = () => {    
+const urlInsertCustomerNotificationToken = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertCustomerNotificationToken`
 }
 
-export const urlInsertSupplierNotificationToken = () => {    
+const urlInsertSupplierNotificationToken = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/token/insertSupplierNotificationToken`
 }
-export const urlInsertNewChat = () => {    
+const urlInsertNewChat = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/chat/insertNewChat`
 }
-export const urlGetChatHistory = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/getChatHistory`
-}
-export const urlMakeSeen = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/chat/makeSeen`
-}
 
-export const urlGetNotificationsBySupplierId = (supplierId) => {    
+
+const urlGetNotificationsBySupplierId = (supplierId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsBySupplierId?supplierId=${supplierId}&locale=${i18n.locale}`
 }
-export const urlGetNotificationsByCustomerId = (customerId) => {    
+const urlGetNotificationsByCustomerId = (customerId) => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId?customerId=${customerId}&locale=${i18n.locale}`
 }
 
-
+module.exports = {
+    urlLoginSupplier
+}
