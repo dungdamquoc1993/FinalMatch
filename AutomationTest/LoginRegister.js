@@ -13,14 +13,12 @@ async function testLoginSupplier({email, password}) {
                 'Content-Type': 'application/json',
                 locale: 'en',
             },
-            data: qs.stringify({email, password}),
+            data: JSON.stringify({email, password}),
             url,
-        }
-        debugger
-        const response = await axios(options)
-        debugger
-        const responseObject = response.json()          
-        debugger        
+        }        
+        const response = await axios(options)        
+        const responseObject = response.data
+        const { result, data, message, time } = responseObject                
     } catch (error) {
         debugger
         console.error(error);
