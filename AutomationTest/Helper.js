@@ -1,4 +1,6 @@
 const axios = require('axios')
+const process = require('process')
+
 async function sendPost(url, paramObject) {
     try {        
         const options = {
@@ -10,24 +12,20 @@ async function sendPost(url, paramObject) {
             },
             data: JSON.stringify(paramObject),
             url,
-        }   
-        debugger     
+        }           
         const response = await axios(options)        
         const responseObject = response.data
-        const { result, data, message, time } = responseObject                
-        debugger
+        const { result, data, message, time } = responseObject                        
         if(result.toUpperCase() == 'OK') {
             print(url, '')
+            return {testResult: true, data}
         } else {
             print(url, message)
-        }
-
-        return result.toUpperCase() == 'OK'
-    } catch (error) {
-        debugger
-        print(url, error)
-        console.error(error);
-        return false
+            return {testResult: false, data: null}
+        }        
+    } catch (error) {        
+        print(url, error.message)        
+        return {testResult: false, data: null}
     }
 }
 async function sendGet(url, paramObject) {
@@ -38,15 +36,14 @@ async function sendGet(url, paramObject) {
         const { result, data, message, time } = responseObject                
         if(result.toUpperCase() == 'OK') {
             print(url, '')
+            return {testResult: true, data}
         } else {
             print(url, message)
+            return {testResult: false, data: null}
         }
-        return result.toUpperCase() == 'OK'
     } catch (error) {
-        debugger
-        print(url, error)
-        console.error(error);
-        return false
+        print(url, error)        
+        return {testResult: false, data: null}
     }
 }
 
@@ -58,8 +55,15 @@ function print(name, errorString) {
         console.log('\x1b[36m%s\x1b[0m',`test PASSED : ${name}`)
     }
 }
+function assert(boolResult) {
+    if(boolResult == false) {
+        process.exit()
+    }
+}
 module.exports = {
-    sendGet, sendPost
+    sendGet, 
+    sendPost,
+    assert
 }
 
 
