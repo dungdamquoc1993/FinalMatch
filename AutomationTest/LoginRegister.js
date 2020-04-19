@@ -1,13 +1,15 @@
 
 const {
-	urlLoginSupplier, 
-	urlRegisterSupplier,
-	assert
+	urlLoginSupplier, 		
+	urlLoginCustomer,
+	urlRegisterCustomer,
+	urlRegisterSupplier
 } = require('./urlNames')
-const {sendGet, sendPost} = require('./Helper')
+const {assert, sendGet, sendPost} = require('./Helper')
 
+var data = null
 async function testCase01() {    
-	/* Chạy các câu lệnh này trước khi chạy test case:	*/
+	/* Chạy các câu lệnh này trước khi chạy test case:	
 	set @x = 'supplier01@gmail.com';
 	DELETE FROM Notification WHERE supplierId in (SELECT Supplier.id as supplierId FROM Supplier WHERE email=@x);
 	DELETE FROM PlayerService WHERE supplierId in (SELECT Supplier.id as supplierId FROM Supplier WHERE email=@x);
@@ -26,15 +28,17 @@ async function testCase01() {
 	DELETE FROM Customer WHERE email=@x
 
 	*/	
-    const {data} = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    const {data} = await sendPost(await urlLoginSupplier(),{ email:'supplier02@gmail.com', password: '123456' })
-    // assert.equal(data != null, true)
+
+    data = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' }).data
+    assert.equal(data != null, true)
+    data = await sendPost(await urlRegisterCustomer(),{ email:'customer01@gmail.com', password: '123456' }).data
+    assert.equal(data != null, true)
     // debugger
 }
 
 async function testCase02() {    
-    const {data} = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    const {data} = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+    data = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+    data = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
     // assert.equal(data != null, true)
     // debugger
 }

@@ -139,5 +139,8 @@ const urlGetNotificationsByCustomerId = (customerId) => {
 }
 
 module.exports = {
-    urlLoginSupplier
+    urlLoginSupplier,       
+    urlLoginCustomer,
+    urlRegisterCustomer,
+    urlRegisterSupplier,
 }
