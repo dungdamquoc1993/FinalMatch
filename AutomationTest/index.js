@@ -1,3 +1,3 @@
 const LoginRegister = require('./LoginRegister')
-debugger
 LoginRegister.testCase01()
+LoginRegister.testCase02()

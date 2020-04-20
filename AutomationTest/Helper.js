@@ -63,7 +63,8 @@ function assert(boolResult) {
 module.exports = {
     sendGet, 
     sendPost,
-    assert
+    assert,
+    print,
 }
 
 
