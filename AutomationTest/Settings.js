@@ -15,14 +15,13 @@ const {
 var data = null
 async function testCase01() {    
 	try {
-		//Test yupdateSetting		
+		//Test case update setting	
 		console.log('Running testCase01')
 		data = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })		
-		assert(data.data != null, true)
-		debugger
+		assert(data.data != null, true)		
 		let tokenKey = data.data.tokenKeySupplierId.split(';')[0]
-		let supplierId = data.data.tokenKeySupplierId.split(';')[0]		
-		debugger
+		let supplierId = data.data.tokenKeySupplierId.split(';')[1]		
+		//Vừa login xong, vào luôn màn hình setting, sửa tên, sửa ngày sinh, sau đó save luôn
 		data = await sendPost(await urlUpdateSettings(),{
 				name: 'supplier01',
                 playerPrice: "",
@@ -37,15 +36,12 @@ async function testCase01() {
                 playerName: "",
                 position: "0000",
                 refereeName: "",
-
                 tokenKey, supplierId,
-
 		})    	
-    	debugger
+    	
     	assert(data.data != null, true)    	
     	// debugger
-	}catch(error){
-		debugger
+	}catch(error){		
 		print("Exception", error)
 	}    
 }

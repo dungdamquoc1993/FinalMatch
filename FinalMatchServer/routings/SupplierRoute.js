@@ -376,11 +376,10 @@ router.post('/updateSettings', async (req, res) => {
     radius,
     playerName,
     position,
-    refereeName} = req.body    
-  debugger;
+    refereeName} = req.body      
   //validate, check token ?  
-  connection.query(POST_UPDATE_SETTINGS, 
-        [ supplierid,          
+  let params = [ 
+          supplierid,          
           typeof playerPrice == 'string' ? 0.0 : playerPrice,
           typeof refereePrice == 'string' ? 0.0 : refereePrice,
           name,
@@ -394,6 +393,8 @@ router.post('/updateSettings', async (req, res) => {
           playerName,
           position,
           refereeName]
+  debugger
+  connection.query(POST_UPDATE_SETTINGS, params
     , (error, results) => {
           
           if(error) {
