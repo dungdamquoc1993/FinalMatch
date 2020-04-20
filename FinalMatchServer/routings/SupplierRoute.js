@@ -412,4 +412,68 @@ router.post('/updateSettings', async (req, res) => {
   })    
 })
 
+//Link http://localhost:3000/suppliers/deleteSuppliers
+//api nội bộ, ko public
+router.post('/deleteSuppliers', async (req, res) => {    
+  let { emails, key } = req.body      
+  //validate, check token ?    
+  if(key !== 'nu nhi tinh'){
+    res.json({
+      result: "failed", 
+      data: {}, 
+      message: error.sqlMessage,
+      time: Date.now()})
+  }
+  connection.query("CALL deleteSuppliers(?);", [emails]
+    , (error, results) => {          
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {
+              if(results) {                  
+                  res.json({
+                    result: "ok", 
+                    data:  {}, 
+                    message: i18n.__("Delete Suppliers successfully"),
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
+
+//Link http://localhost:3000/suppliers/deleteCustomers
+//api nội bộ, ko public
+router.post('/deleteCustomers', async (req, res) => {    
+  let { emails, key } = req.body      
+  //validate, check token ?    
+  if(key !== 'nu nhi tinh'){
+    res.json({
+      result: "failed", 
+      data: {}, 
+      message: error.sqlMessage,
+      time: Date.now()})
+  }
+  connection.query("CALL deleteCustomers(?);", [emails]
+    , (error, results) => {          
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {
+              if(results) {                  
+                  res.json({
+                    result: "ok", 
+                    data:  {}, 
+                    message: i18n.__("Delete Customers successfully"),
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
+
 module.exports = router

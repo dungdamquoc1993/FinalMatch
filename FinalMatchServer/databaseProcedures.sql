@@ -597,15 +597,39 @@ END;//
 
 
 
+DROP PROCEDURE IF EXISTS deleteSuppliers;
+delimiter //
+CREATE PROCEDURE deleteSuppliers(IN emails VARCHAR(1000))  
+BEGIN    
+    DELETE FROM Notification WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM PlayerService WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM RefereeService WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM Stadium WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM SupplierNotificationTokens WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM Orders WHERE supplierId in (SELECT Supplier.id FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM Chat WHERE senderId in (SELECT CONVERT(Supplier.id, CHAR) FROM Supplier WHERE FIND_IN_SET(email, emails));
+    DELETE FROM Supplier WHERE FIND_IN_SET(email, emails);
+END;//
+CALL deleteSuppliers('supplier01@gmail.com,supplier02@gmail.com');
+
+DROP PROCEDURE IF EXISTS deleteCustomers;
+delimiter //
+CREATE PROCEDURE deleteCustomers(IN emails VARCHAR(1000))  
+BEGIN    
+    DELETE FROM Notification WHERE customerId in (SELECT customerId FROM Customer WHERE FIND_IN_SET(email, emails));        
+    DELETE FROM CustomerNotificationTokens WHERE customerId in (SELECT customerId FROM Customer WHERE FIND_IN_SET(email, emails));  
+    DELETE FROM Chat WHERE senderId in (SELECT CONVERT(customerId, CHAR) FROM Customer WHERE FIND_IN_SET(email, emails));
+    DELETE FROM Orders WHERE customerId in (SELECT customerId FROM Customer WHERE FIND_IN_SET(email, emails));      
+    DELETE FROM Customer WHERE FIND_IN_SET(email, emails);
+END;//
+CALL deleteCustomers('customer01@gmail.com,customer02@gmail.com');
 
 
-
-
-delimiter;
+--address to latitude, longitude
 https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
 
-
+SELECT * FROM Supplier WHERE email IN ('supplier01@gmail.com','supplier02@gmail.com');//
 
 
 

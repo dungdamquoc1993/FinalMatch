@@ -138,10 +138,20 @@ const urlGetNotificationsByCustomerId = (customerId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/notifications/getNotificationsByCustomerId?customerId=${customerId}&locale=${i18n.locale}`
 }
 
+const urlDeleteSuppliers = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/deleteSuppliers`
+}
+
+const urlDeleteCustomers = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/deleteCustomers`
+}
+
 module.exports = {
     urlLoginSupplier,       
     urlLoginCustomer,
     urlRegisterCustomer,
     urlRegisterSupplier,
     urlUpdateSettings,
+    urlDeleteSuppliers,
+    urlDeleteCustomers,
 }
