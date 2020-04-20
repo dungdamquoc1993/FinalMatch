@@ -37,8 +37,8 @@ export default class LoginRegister extends MultiLanguageComponent {
     userType: "default", 
     avatar: '', 
     phoneNumber: '',
-    email: 'hoang1@gmail.com',
-    password: '12345',
+    email: 'customer01@gmail.com',
+    password: '123456',
     retypePassword: '123456'
   }  
   _loginOrRegister = async () => {
