@@ -386,7 +386,7 @@ router.post('/updateSettings', async (req, res) => {
           name,
           avatar,
           dateOfBirth,
-          phoneNumber,
+          phoneNumber.trim().length == 0 ? null : phoneNumber
           address,
           typeof latitude != 'number' && isNaN(parseFloat(latitude)) ? 0.0 : latitude,
           typeof longitude != 'number' && isNaN(parseFloat(longitude)) ? 0.0 : longitude,

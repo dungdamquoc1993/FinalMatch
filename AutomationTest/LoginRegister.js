@@ -69,7 +69,27 @@ async function testCase02() {
 	}    
 }
 
+async function testCase03() {    
+	try {
+
+		//DELETE FROM Supplier WHERE email in ('supplier03@gmail.com', 'supplier04@gmail.com');
+		console.log('Running testCase03, dang ky lien 2 supplier lien tuc')
+		data = await sendPost(await urlRegisterSupplier(),{ email:'supplier03@gmail.com', password: '123456' })
+    	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+    	debugger
+    	assert(data.data != null, true)
+    	data = await sendPost(await urlRegisterSupplier(),{ email:'supplier04@gmail.com', password: '123456' })
+    	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+    	debugger
+    	assert(data.data != null, true)    	
+	}catch(error){
+		print("Exception", error)
+	}    
+}
+
+
 module.exports = {
     testCase01,
-    testCase02
+    testCase02,
+    testCase03
 }
