@@ -1,7 +1,7 @@
 /**
  * yarn add express http request express mysql express-fileupload
  */
-const { HOSTNAME, PORT, MAXMUM_FILE_SIZE} = require('./constants/constants')
+const { HOSTNAME, MAXMUM_FILE_SIZE} = require('./constants/constants')
 const {app} = require('./server')
 const {i18n} = require('./locales/i18n')
 const bodyParser = require('body-parser')
@@ -36,8 +36,7 @@ app.use('/chat', ChatRoute)
 app.use('/temp', TempRoute)
 app.use('/notifications', NotificationRoute)
 
-debugger
-PORT = require('readline-sync').question("Enter PORT : ");
-app.listen(PORT, () => {
+
+app.listen(require('readline-sync').question("Enter PORT : "), () => {
     console.log(`app listen from : ${PORT}`)
 })
