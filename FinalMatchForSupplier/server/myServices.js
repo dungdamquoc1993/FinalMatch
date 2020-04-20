@@ -256,11 +256,11 @@ export const getSupplierById = async (supplierId) => {
 
 export const getSupplierServicesOrders = async (supplierId) => {
     try {                    
-        debugger
+        
         const response = await fetch(await urlGetSupplierServicesOrders(supplierId))               
-        debugger
+        
         const responseJson = await response.json();                
-        debugger
+        
         const {result, data, message, time} = responseJson                                   
         if (result.toUpperCase() === "OK") {                 
             //Logger ??              
@@ -338,6 +338,7 @@ export const updateSettings = async (supplierId,
                         
     try {                            
         const {tokenKey, email} = await getSupplierFromStorage()                     
+        debugger
         const response = await fetch(urlUpdateSettings(), {
             method: 'POST',
             headers: {
@@ -360,7 +361,8 @@ export const updateSettings = async (supplierId,
                 playerName,
                 position,
                 refereeName}),
-        })                               
+        })      
+        debugger                         
         const responseJson = await response.json();                
         const {result, data, message, time} = responseJson
         if (result.toUpperCase() === "OK") {                 
@@ -370,6 +372,7 @@ export const updateSettings = async (supplierId,
             return { data, message: 'Cannot update settings'}
         }
     } catch (error) {        
+        debugger
         return error
     }
 }

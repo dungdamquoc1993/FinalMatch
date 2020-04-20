@@ -94,6 +94,7 @@ export default class Settings extends MultiLanguageComponent {
     spinner: false,
   }
   _saveSettings = async () => {
+    debugger
     if(this.state.dataChanged == false) {
       return
     }
@@ -169,7 +170,7 @@ export default class Settings extends MultiLanguageComponent {
     const { supplierId, email } = await getSupplierFromStorage()
     //call api    
     try {
-      debugger
+      
       const { data, message } = await getSupplierServicesOrders(supplierId)
       
       const { name,
@@ -183,7 +184,9 @@ export default class Settings extends MultiLanguageComponent {
       const { day, month, year } = dateOfBirthObject
       let selectedDate = new Date(year, month, day)
       const { isGK, isCB, isMF, isCF } = setPosition(position)
+      debugger
       this.setState({
+        spinner: false,
         name,
         playerPrice,
         refereePrice,
@@ -198,9 +201,10 @@ export default class Settings extends MultiLanguageComponent {
           address,
           latitude, longitude
         },
-        spinner: false
+        
       })
     } catch (error) {
+      debugger
       alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
       this.setState({spinner: false})
     }

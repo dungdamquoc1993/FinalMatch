@@ -143,4 +143,5 @@ module.exports = {
     urlLoginCustomer,
     urlRegisterCustomer,
     urlRegisterSupplier,
+    urlUpdateSettings,
 }

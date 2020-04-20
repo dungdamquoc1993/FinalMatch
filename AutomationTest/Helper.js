@@ -2,14 +2,21 @@ const axios = require('axios')
 const process = require('process')
 
 async function sendPost(url, paramObject) {
-    try {        
+    try {    
+        let headerObject = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            locale: 'en',            
+        }            
+        if(paramObject.tokenKey !== undefined) {
+            headerObject.tokenKey = paramObject.tokenKey            
+        }
+        if(paramObject.supplierId !== undefined) {            
+            headerObject.supplierId = paramObject.supplierId
+        }
         const options = {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                locale: 'en',
-            },
+            headers: headerObject,
             data: JSON.stringify(paramObject),
             url,
         }           
@@ -30,7 +37,6 @@ async function sendPost(url, paramObject) {
 }
 async function sendGet(url, paramObject) {
     try {
-        debugger                
         const response = await axios.get(url, {params: paramObject})        
         const responseObject = response.data
         const { result, data, message, time } = responseObject                
@@ -48,7 +54,7 @@ async function sendGet(url, paramObject) {
 }
 
 function print(name, errorString) {
-    debugger
+    
     if(errorString.length > 0) {
         console.log('\x1b[31m%s\x1b[0m',`test FAILED : ${name}. Detail error: ${errorString}`)
     } else {
