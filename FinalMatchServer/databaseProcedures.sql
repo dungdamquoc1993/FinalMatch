@@ -476,6 +476,7 @@ BEGIN
 END;//
 delimiter;
 
+
 DROP PROCEDURE IF EXISTS updateSettings;
 delimiter //
 CREATE PROCEDURE updateSettings(supplierId INT,
@@ -519,6 +520,7 @@ BEGIN
             RefereeService.price = refereePrice                        
         WHERE RefereeService.supplierId = supplierId;
     END IF;
+    SELECT * FROM Supplier WHERE Supplier.id = supplierId;
 END;//
 delimiter;
 

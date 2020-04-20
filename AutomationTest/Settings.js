@@ -37,8 +37,24 @@ async function testCase01() {
                 position: "0000",
                 refereeName: "",
                 tokenKey, supplierId,
-		})    	
-    	
+		})    	    	
+    	assert(data.data != null, true)    	
+    	data = await sendPost(await urlUpdateSettings(),{
+				name: 'supplier01',
+                playerPrice: "",
+                refereePrice: "",
+                avatar: "",
+                dateOfBirth: '2002-12-25',
+                phoneNumber: "11223344",
+                address:"",
+                latitude: "",
+                longitude: "",
+                radius: 15,
+                playerName: "",
+                position: "0001",
+                refereeName: "",
+                tokenKey, supplierId,
+		})    	    	
     	assert(data.data != null, true)    	
     	// debugger
 	}catch(error){		

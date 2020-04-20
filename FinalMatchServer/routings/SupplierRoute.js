@@ -350,8 +350,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 //Link http://localhost:3000/suppliers/updateSettings
 router.post('/updateSettings', async (req, res) => {  
   const {tokenkey, supplierid, locale} = req.headers  
-  i18n.setLocale(locale)
-  debugger
+  i18n.setLocale(locale)  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   
   if(checkTokenResult == false) {
@@ -363,7 +362,7 @@ router.post('/updateSettings', async (req, res) => {
       return
   }
   
-  const {
+  let {
     name,
     playerPrice,
     refereePrice,
@@ -378,7 +377,6 @@ router.post('/updateSettings', async (req, res) => {
     position,
     refereeName} = req.body      
   //validate, check token ?  
-
   let params = [ 
           supplierid,          
           typeof playerPrice == 'string' ? 0.0 : playerPrice,
@@ -397,7 +395,7 @@ router.post('/updateSettings', async (req, res) => {
   debugger
   connection.query(POST_UPDATE_SETTINGS, params
     , (error, results) => {
-          
+          debugger
           if(error) {
               res.json({
                 result: "failed", 
