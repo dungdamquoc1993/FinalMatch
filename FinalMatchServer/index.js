@@ -36,7 +36,7 @@ app.use('/chat', ChatRoute)
 app.use('/temp', TempRoute)
 app.use('/notifications', NotificationRoute)
 
-
-app.listen(require('readline-sync').question("Enter PORT : "), () => {
+let PORT = require('readline-sync').question("Enter PORT : ")
+app.listen(PORT, () => {
     console.log(`app listen from : ${PORT}`)
 })
