@@ -351,6 +351,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 router.post('/updateSettings', async (req, res) => {  
   const {tokenkey, supplierid, locale} = req.headers  
   i18n.setLocale(locale)
+  debugger
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   
   if(checkTokenResult == false) {
