@@ -215,7 +215,10 @@ export default class Settings extends MultiLanguageComponent {
       })
       const { supplierId } = this.state
       const { data, message = '' } = await postUploadPhoto(photos, supplierId)
-      this.setState({ avatar: typeof data == "object" ? data[0] : data })
+      this.setState({ 
+        avatar: typeof data == "object" ? data[0] : data,
+        dataChanged: true, 
+      })
     } catch (error) {
       alert(translate("Cannot upload avatar: ")+`${JSON.stringify(error)}`)
     }
@@ -230,6 +233,7 @@ export default class Settings extends MultiLanguageComponent {
           const address = await getAddressFromLatLong(latitude, longitude)
           this.setState({
             currentLocation: { address, district, province, latitude, longitude },
+            dataChanged: true,
           })
         },
         error => {
@@ -323,7 +327,7 @@ export default class Settings extends MultiLanguageComponent {
               placeholder={translate("Enter name: ")}
               value={name}
               onChangeText={name => {
-                this.setState({ name })
+                this.setState({ name, dataChanged: true, })
               }}
             />
           </View>
@@ -365,7 +369,7 @@ export default class Settings extends MultiLanguageComponent {
                 placeholder={translate("Phone : ")}
                 keyboardType={'number-pad'}
                 onChangeText={(formattedValue, originValue) => {                  
-                  this.setState ({phoneNumber: originValue})
+                  this.setState ({phoneNumber: originValue, dataChanged: true,})
                 }}
                 mask={"[999]-[9999]-[9999]"}
                 value={`${phoneNumber}`}
@@ -381,8 +385,8 @@ export default class Settings extends MultiLanguageComponent {
                 }}
                 style={styles.buttonGetLocation}
               >
-                {(address.length > 0 || district.length > 0 || province.length > 0) &&
-                  <Text style={{ marginRight: 7, fontSize: 15, }}>{address} - {district} - {province}</Text>}
+                {address.length > 0 &&
+                  <Text style={{ marginRight: 7, fontSize: 15, }}>{address}</Text>}
                 <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
               </TouchableOpacity>
 
@@ -422,7 +426,7 @@ export default class Settings extends MultiLanguageComponent {
                 keyboardType={'numeric'}
                 value={`${radius}`}
                 onChangeText={radius => {
-                  this.setState({ radius })
+                  this.setState({ radius, dataChanged: true, })
                 }}
               />
               <Text style={{ fontSize: 15, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
@@ -448,7 +452,7 @@ export default class Settings extends MultiLanguageComponent {
               <Text style={styles.textRole}>{translate("Player")}</Text>
               <TextInput style={styles.textInputRole}
                 value={playerName} onChangeText={(playerName) => {
-                  this.setState({ playerName })
+                  this.setState({ playerName, dataChanged: true, })
                 }} />
             </View>
             <View style={styles.personalInformation}>
@@ -466,7 +470,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isGK: !this.state.isGK })
+                  this.setState({ isGK: !this.state.isGK, dataChanged: true, })
                 }}
               >
                 <Text style={{}}>GK</Text>
@@ -479,7 +483,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isCB: !this.state.isCB })
+                  this.setState({ isCB: !this.state.isCB, dataChanged: true, })
                 }}
               >
                 <Text>CB</Text>
@@ -492,7 +496,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isMF: !this.state.isMF })
+                  this.setState({ isMF: !this.state.isMF,dataChanged: true, })
                 }}
               >
                 <Text style={{}}>MF</Text>
@@ -505,7 +509,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isCF: !this.state.isCF })
+                  this.setState({ isCF: !this.state.isCF,dataChanged: true, })
                 }}
               >
                 <Text style={{}}>CF</Text>
@@ -521,7 +525,10 @@ export default class Settings extends MultiLanguageComponent {
               <TextInputMask
                 style={styles.textInputRole}                                
                 onChangeText={(formattedValue, originValue) => {
-                  this.setState({ playerPrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) })
+                  this.setState({ 
+                    playerPrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) ,
+                    dataChanged: true,
+                  })
                 }}
                 mask={"[000] [000] VND"}
                 value={`${playerPrice}`} 
@@ -543,7 +550,7 @@ export default class Settings extends MultiLanguageComponent {
               <Text style={styles.textRole}>{translate("Referee")}</Text>
               <TextInput style={styles.textInputRole}
                 value={refereeName} onChangeText={(refereeName) => {
-                  this.setState({ refereeName })
+                  this.setState({ refereeName,dataChanged: true, })
                 }} />
             </View>
             <View style={styles.personalInformation}>
@@ -559,7 +566,10 @@ export default class Settings extends MultiLanguageComponent {
               <TextInputMask
                 style={styles.textInputRole}                                
                 onChangeText={(formattedValue, originValue) => {
-                  this.setState({ refereePrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) })
+                  this.setState({ 
+                    refereePrice: isNaN(originValue) == false ? originValue : parseFloat(originValue),
+                    dataChanged: true,
+                    })
                 }}
                 mask={"[000] [000] VND"}
                 value={`${refereePrice}`} 
@@ -585,7 +595,8 @@ export default class Settings extends MultiLanguageComponent {
                   dateOfBirth: date,                  
                   stringDateOfBirth: convertDateToStringDDMMYYYY(date),
                   age: daysBetween2Dates(new Date(), date),
-                  modalVisible: false
+                  modalVisible: false,
+                  dataChanged: true,
                 })
               }}
             />

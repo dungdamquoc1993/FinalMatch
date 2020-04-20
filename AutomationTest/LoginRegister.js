@@ -15,6 +15,7 @@ const {
 var data = null
 async function testCase01() {    
 	/* Chạy các câu lệnh này trước khi chạy test case:	
+	//setup()
 	use FinalMatch;
 	set @x = 'supplier01@gmail.com';
 	DELETE FROM Notification WHERE supplierId in (SELECT Supplier.id as supplierId FROM Supplier WHERE email=@x);
@@ -42,6 +43,8 @@ async function testCase01() {
     	assert(data.data != null, true)
     	data = await sendPost(await urlRegisterCustomer(),{ email:'customer01@gmail.com', password: '123456', name: 'customer01' })
     	assert(data.data != null, true)
+    	//automation test = client bang terminal + tu fild du lieu
+    	//test suite
     	// debugger
 	}catch(error){
 		print("Exception", error)
@@ -52,6 +55,7 @@ async function testCase01() {
 
 async function testCase02() {    
 	try {
+
 		console.log('Running testCase02')
 		data = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
     	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
