@@ -55,7 +55,7 @@ async function testCase01() {
                 refereeName: "",
                 tokenKey, supplierId,
 		})    	    	
-    	assert(data.data != null, true)    	
+    	assert(data.data.phoneNumber == '11223344', true)    	
     	// debugger
 	}catch(error){		
 		print("Exception", error)

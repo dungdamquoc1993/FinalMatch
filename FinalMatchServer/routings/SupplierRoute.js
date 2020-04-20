@@ -391,11 +391,9 @@ router.post('/updateSettings', async (req, res) => {
           radius,
           playerName,
           position,
-          refereeName]
-  debugger
+          refereeName]  
   connection.query(POST_UPDATE_SETTINGS, params
-    , (error, results) => {
-          debugger
+    , (error, results) => {          
           if(error) {
               res.json({
                 result: "failed", 
@@ -406,7 +404,7 @@ router.post('/updateSettings', async (req, res) => {
               if(results) {                  
                   res.json({
                     result: "ok", 
-                    data: {}, 
+                    data:  (results.length > 0 && results[0].length > 0) ? results[0][0] : {}, 
                     message: i18n.__("Update settings  successfully"),
                     time: Date.now()})
               }                
