@@ -24,16 +24,9 @@ async function sendPost(url, paramObject) {
         const response = await axios(options)        
         const responseObject = response.data
         const { result, data, message, time } = responseObject                        
-        if(result.toUpperCase() == 'OK') {
-            print(url, '')
-            return {testResult: true, data}
-        } else {
-            print(url, message)
-            return {testResult: false, data: null}
-        }        
+        return { url, result, data, message }            
     } catch (error) {        
-        print(url, error.message)        
-        return {testResult: false, data: null}
+        return { url, result, data: null, message: error.message }                
     }
 }
 async function sendGet(url, paramObject) {
@@ -41,37 +34,23 @@ async function sendGet(url, paramObject) {
         const response = await axios.get(url, {params: paramObject})        
         const responseObject = response.data
         const { result, data, message, time } = responseObject                
-        if(result.toUpperCase() == 'OK') {
-            print(url, '')
-            return {testResult: true, data}
-        } else {
-            print(url, message)
-            return {testResult: false, data: null}
-        }
+        
     } catch (error) {
-        print(url, error)        
-        return {testResult: false, data: null}
     }
 }
 
-function print(name, errorString) {
-    
-    if(errorString.length > 0) {
-        console.log('\x1b[31m%s\x1b[0m',`test FAILED : ${name}. Detail error: ${errorString}`)
-    } else {
-        console.log('\x1b[36m%s\x1b[0m',`test PASSED : ${name}`)
-    }
-}
-function assert(boolResult) {
+function assert(boolResult, name, errorString) {
     if(boolResult == false) {
+        console.log('\x1b[31m%s\x1b[0m',`test FAILED : ${name}. Detail error: ${errorString}`)
         process.exit()
+    } else {
+        console.log('\x1b[36m%s\x1b[0m',`test PASSED : ${name}`)   
     }
 }
 module.exports = {
     sendGet, 
     sendPost,
     assert,
-    print,
 }
 
 

@@ -6,13 +6,13 @@ const {
 	urlRegisterSupplier
 } = require('./urlNames')
 const {
-	assert, 
-	print,
+	assert, 	
 	sendGet, 
 	sendPost
 } = require('./Helper')
 
-var data = null
+var data = {}
+var url = ""
 async function testCase01() {    
 	/* Chạy các câu lệnh này trước khi chạy test case:	
 	//setup()
@@ -37,17 +37,19 @@ async function testCase01() {
 	*/	
 	try {
 		console.log('Running testCase01')
-		data = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+		url = await urlRegisterSupplier()
+		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })
     	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
     	debugger
-    	assert(data.data != null, true)
-    	data = await sendPost(await urlRegisterCustomer(),{ email:'customer01@gmail.com', password: '123456', name: 'customer01' })
-    	assert(data.data != null, true)
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
+    	url = await urlRegisterCustomer()
+    	data = await sendPost(url,{ email:'customer01@gmail.com', password: '123456', name: 'customer01' })
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
     	//automation test = client bang terminal + tu fild du lieu
     	//test suite
     	// debugger
 	}catch(error){
-		print("Exception", error)
+		assert(false, url, error)
 	}
 
     
@@ -57,15 +59,16 @@ async function testCase02() {
 	try {
 
 		console.log('Running testCase02')
-		data = await sendPost(await urlLoginSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
+		url = await urlLoginSupplier()
+		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })    	
     	debugger
-    	assert(data.data != null, true)
-    	data = await sendPost(await urlLoginCustomer(),{ email:'customer01@gmail.com', password: '123456'})
-    	assert(data.data != null, true)
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
+    	url = await urlLoginCustomer()
+    	data = await sendPost(url,{ email:'customer01@gmail.com', password: '123456'})
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
     	// debugger
 	}catch(error){
-		print("Exception", error)
+		assert(false, url, error)
 	}    
 }
 
@@ -74,16 +77,16 @@ async function testCase03() {
 
 		//DELETE FROM Supplier WHERE email in ('supplier03@gmail.com', 'supplier04@gmail.com');
 		console.log('Running testCase03, dang ky lien 2 supplier lien tuc')
-		data = await sendPost(await urlRegisterSupplier(),{ email:'supplier03@gmail.com', password: '123456' })
+		url = await urlRegisterSupplier()
+		data = await sendPost(url,{ email:'supplier03@gmail.com', password: '123456' })
     	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
     	debugger
-    	assert(data.data != null, true)
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
     	data = await sendPost(await urlRegisterSupplier(),{ email:'supplier04@gmail.com', password: '123456' })
     	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    	debugger
-    	assert(data.data != null, true)    	
+    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
 	}catch(error){
-		print("Exception", error)
+		assert(false, url, error)
 	}    
 }
 
