@@ -378,6 +378,7 @@ router.post('/updateSettings', async (req, res) => {
     position,
     refereeName} = req.body      
   //validate, check token ?  
+
   let params = [ 
           supplierid,          
           typeof playerPrice == 'string' ? 0.0 : playerPrice,
@@ -387,8 +388,8 @@ router.post('/updateSettings', async (req, res) => {
           dateOfBirth,
           phoneNumber,
           address,
-          latitude,
-          longitude,
+          latitude: (typeof latitude != 'number' && isNaN(parseFloat(latitude))) ? 0.0 : latitude,
+          longitude: (typeof longitude != 'number' && isNaN(parseFloat(longitude))) ? 0.0 : longitude,
           radius,
           playerName,
           position,
