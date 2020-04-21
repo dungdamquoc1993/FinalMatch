@@ -14,7 +14,7 @@ async function sendPost(url, paramObject) {
         if(paramObject.supplierId !== undefined) {            
             headerObject.supplierId = paramObject.supplierId
         }
-        debugger
+        
         const options = {
             method: 'POST',
             headers: headerObject,

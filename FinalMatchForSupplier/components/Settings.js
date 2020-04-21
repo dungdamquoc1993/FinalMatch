@@ -284,7 +284,7 @@ export default class Settings extends MultiLanguageComponent {
         />
         <Spinner
           visible={this.state.spinner}
-          textContent={'Loading...'}
+          textContent={translate('Loading...')}
           textStyle={{fontWeight: 'bold'}}
         />
         <View style={{          

@@ -23,13 +23,13 @@ async function testCase01() {
 	CALL deleteCustomers('customer01@gmail.com');
 	*/	
 	try {
-		await sendPost(await urlDeleteSuppliers,{ email:'supplier01@gmail.com', key: 'nu nhi tinh' })
-		await sendPost(await urlDeleteCustomers,{ email:'customer01@gmail.com', key: 'nu nhi tinh' })
+		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier01@gmail.com', key: 'nu nhi tinh' })
+		await sendPost(await urlDeleteCustomers(),{ emails:'customer01@gmail.com', key: 'nu nhi tinh' })
 		console.log('Running testCase01')
 		url = await urlRegisterSupplier()
 		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })
     	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    	debugger
+    	
     	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
 
     	url = await urlRegisterCustomer()
@@ -60,10 +60,8 @@ async function testCase02() {
 
 async function testCase03() {    
 	try {
-		/* Chạy các câu lệnh này trước khi chạy test case:		
-		use FinalMatch;
-		CALL deleteSuppliers('supplier03@gmail.com,supplier04@gmail.com');
-		*/		
+		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier03@gmail.com', key: 'nu nhi tinh' })
+		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier04@gmail.com', key: 'nu nhi tinh' })
 		console.log('Running testCase03, dang ky lien 2 supplier lien tuc')
 		url = await urlRegisterSupplier()
 		data = await sendPost(url,{ email:'supplier03@gmail.com', password: '123456' })    	

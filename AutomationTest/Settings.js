@@ -15,7 +15,7 @@ var data = null
 async function testCase01() {    
 	try {
 		//Test case update setting	
-		console.log('Running testCase01')				
+		console.log('Running Settings.testCase01')				
     	url = await urlLoginSupplier()
 		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })		
 		assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
@@ -23,7 +23,8 @@ async function testCase01() {
 		let tokenKey = data.data.tokenKeySupplierId.split(';')[0]
 		let supplierId = data.data.tokenKeySupplierId.split(';')[1]		
 		//Vừa login xong, vào luôn màn hình setting, sửa tên, sửa ngày sinh, sau đó save luôn
-		data = await sendPost(await urlUpdateSettings(),{
+        url = await urlUpdateSettings();
+		data = await sendPost(url,{
 				name: 'supplier01',
                 playerPrice: "",
                 refereePrice: "",
@@ -38,9 +39,12 @@ async function testCase01() {
                 position: "0000",
                 refereeName: "",
                 tokenKey, supplierId,
-		})    	    	
-    	assert(data.data != null, true)    	
-    	data = await sendPost(await urlUpdateSettings(),{
+		})    	    	        
+        assert(data.result 
+            && data.result.toUpperCase() == 'OK',            
+            url, data.message)     
+        url = await urlUpdateSettings();                	
+    	data = await sendPost(url,{
 				name: 'supplier01',
                 playerPrice: "",
                 refereePrice: "",
@@ -56,9 +60,11 @@ async function testCase01() {
                 refereeName: "",
                 tokenKey, supplierId,
 		})    	    	
-		debugger
-    	assert(data.data.phoneNumber == '11223344', true)    	
-    	// debugger
+    	assert(data.result 
+            && data.result.toUpperCase() == 'OK'
+            && data.data.phoneNumber == '112233445',            
+            url, data.message)                  
+    	
 	}catch(error){		
 		print("Exception", error)
 	}    

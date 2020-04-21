@@ -1,6 +1,14 @@
 const LoginRegister = require('./LoginRegister')
 const Settings = require('./Settings')
-LoginRegister.testCase01()
-LoginRegister.testCase02()
-//LoginRegister.testCase03()
-// Settings.testCase01()
+async function runAllTests() {
+	try {
+		await LoginRegister.testCase01()
+		await LoginRegister.testCase02()
+		await LoginRegister.testCase03()
+		await Settings.testCase01()
+	}catch(error) {
+
+	}
+}
+runAllTests()
+

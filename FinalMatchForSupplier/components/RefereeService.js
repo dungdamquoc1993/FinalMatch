@@ -15,6 +15,7 @@ import {
 } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
 import {translate} from '../languages/languageConfigurations'
+import MultiLanguageComponent from './MultiLanguageComponent'
 import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert ,isIOS} from '../helpers/Helpers'
 import { insertRefereeService, getSupplierById } from '../server/myServices'
 import Header from './Header'
@@ -24,6 +25,7 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 import {
   daysBetween2Dates,  
@@ -37,7 +39,7 @@ import {
   checkLocationPermission,
 } from '../server/googleServices'
 
-export class RefereeService extends Component {
+export class RefereeService extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
   }
@@ -50,13 +52,12 @@ export class RefereeService extends Component {
     stringDateOfBirth: '',    
     modalVisible: false,
     currentLocation: {
-      address: '',
-      district: '',
-      province: '',
+      address: '',      
       latitude: 0.00,
       longitude: 0.00,
     },
-    radius: 0.0
+    radius: 0.0,
+    spinner: false,
   }
   componentDidMount = async () => {
     try {      
@@ -74,21 +75,20 @@ export class RefereeService extends Component {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
     }
   }
-  _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission()
-
+  _pressLocation = async () => {    
+    const hasLocationPermission = await checkLocationPermission()    
     if (hasLocationPermission) {
+      this.setState({spinner: true})
       Geolocation.getCurrentPosition(
         async (position) => {
 
           const { latitude, longitude } = position.coords
-
           const address = await getAddressFromLatLong(latitude, longitude)
-
-          this.setState({ currentLocation: { address, district, province, latitude, longitude } })
+          this.setState({ currentLocation: {address, latitude, longitude},spinner: false  })
         },
         (error) => {
           console.log(error.code, error.message)
+          this.setState({spinner: false})
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
       )
@@ -145,17 +145,23 @@ export class RefereeService extends Component {
     } = this.state
     const {
       address = '',
-      district = '',
-      province = '',
+      latitude = 0.00,
+      longitude = 0.00,
     } = this.state.currentLocation
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView style={styles.container}>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={translate('Loading...')}
+          textStyle={{fontWeight: 'bold'}}
+        />
         <Header title={translate("Referee Service")} hideNext = {true} pressBackButton={async () => {
           //validate ok
           return true
         }}/>
+
         <View style={{marginTop:20}}/>
         <View style={styles.personalInformation}>
           <TextInput
@@ -201,7 +207,7 @@ export class RefereeService extends Component {
             >
               <Text
                 style={{
-                  fontSize: 17,
+                  fontSize: 16,
                   height: 40,
                   lineHeight: isIOS == true ? 0 : 40,
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
@@ -222,8 +228,13 @@ export class RefereeService extends Component {
           <Text style={styles.textGetLocation}> Get Location</Text>
           <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
         </TouchableOpacity>
-        {(address.length > 0 || district.length > 0 || province.length > 0)
-          && <Text style={{ fontSize:16}}>{address} - {district} - {province}</Text>}
+        {address.length > 0
+          && <Text numberOfLines={2} 
+            style={{ 
+              fontSize:16, 
+              marginBottom: 10,
+              paddingHorizontal: 25,
+            }}>{address}</Text>}
           <View style={styles.radiusInput}>
               <TextInput
               style={styles.textInputRadius}
@@ -310,8 +321,9 @@ const styles = StyleSheet.create({
     borderColor: '#a9a9a9',
     borderWidth: 1,
     paddingStart: 15,
-    fontSize: 17,
-    lineHeight: isIOS() == true ? 0 : 50,
+    paddingVertical: isIOS() ? null : 2,
+    fontSize: 16,            
+    lineHeight: isIOS() ? 0 : 50,
   },
   btnSubmit: {
     height: 50,
@@ -320,7 +332,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 6,
     paddingHorizontal: 10,
-    fontSize: 17,
+    fontSize: 16,
     backgroundColor: '#00CCFF',
     justifyContent: 'center',
     borderRadius: 25,
@@ -344,7 +356,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginVertical: 30,
+    marginVertical: 20,
   },
   textGetLocation: {
     marginRight: 10,
@@ -369,7 +381,8 @@ const styles = StyleSheet.create({
     borderColor: '#a9a9a9',
     borderWidth: 1,
     paddingStart: 15,
-    fontSize: 17,    
+    paddingVertical: isIOS() ? null : 2,
+    fontSize: 16,    
     lineHeight:isIOS() == true ? null : 50,
   }, 
   textLabelRadius: {
