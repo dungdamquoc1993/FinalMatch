@@ -49,6 +49,9 @@ import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
 import MultiLanguageComponent from './MultiLanguageComponent'
 
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
+
 export default class Settings extends MultiLanguageComponent {
 
   state = {
@@ -84,10 +87,9 @@ export default class Settings extends MultiLanguageComponent {
     isMF: false,
     isCF: false,
     currentLocation: {
-      address: '',
-      province: '',
-      latitude: 0.0,
-      longitude: 0.0,
+      address: '',      
+      latitude: 0.00,
+      longitude: 0.00,
     },
     radius: 0.0,
     modalVisible: false,
@@ -120,7 +122,7 @@ export default class Settings extends MultiLanguageComponent {
       radius,
       playerName,
       refereeName } = this.state
-    const { address, latitude, longitude, district, province } = this.state.currentLocation
+    const { address, latitude, longitude } = this.state.currentLocation
     let position = getPosition({
       isGK: this.state.isGK,
       isCB: this.state.isCB,
@@ -166,13 +168,11 @@ export default class Settings extends MultiLanguageComponent {
 
   }
   reloadDataFromServer = async () => {
-    this.setState({spinner: true})
-    const { supplierId, email } = await getSupplierFromStorage()
-    //call api    
+    debugger
+    this.setState({spinner: true})        
     try {
-      
-      const { data, message } = await getSupplierServicesOrders(supplierId)
-      
+      const { supplierId, email } = await getSupplierFromStorage()      
+      const { data, message } = await getSupplierServicesOrders(supplierId)      
       const { name,
         playerPrice,
         refereePrice,
@@ -180,11 +180,11 @@ export default class Settings extends MultiLanguageComponent {
         dateOfBirthObject, radius, address, playerName = '',
         refereeName = '', playerId, refereeId,
         latitude, longitude
-      } = data
-      const { day, month, year } = dateOfBirthObject
+      } = data      
+      const { day, month, year } = dateOfBirthObject      
       let selectedDate = new Date(year, month, day)
       const { isGK, isCB, isMF, isCF } = setPosition(position)
-      debugger
+            
       this.setState({
         spinner: false,
         name,
@@ -193,18 +193,17 @@ export default class Settings extends MultiLanguageComponent {
         isGK, isCB, isMF, isCF,
         avatar, position, phoneNumber, radius, playerName, refereeName, supplierId,
         playerId, refereeId,
-        stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),
+        stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),        
         age: daysBetween2Dates(new Date(), selectedDate),
         selectedDate,
         dateOfBirth: selectedDate,
         currentLocation: {
           address,
-          latitude, longitude
-        },
-        
+          latitude, 
+          longitude
+        },        
       })
-    } catch (error) {
-      debugger
+    } catch (error) {      
       alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
       this.setState({spinner: false})
     }
@@ -231,12 +230,14 @@ export default class Settings extends MultiLanguageComponent {
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
+      this.setState({spinner: true})
       Geolocation.getCurrentPosition(
         async position => {
           const { latitude, longitude } = position.coords
           const address = await getAddressFromLatLong(latitude, longitude)
           this.setState({
-            currentLocation: { address, district, province, latitude, longitude },
+            currentLocation: { address, latitude, longitude },
+            spinner: false,
             dataChanged: true,
           })
         },
@@ -272,8 +273,8 @@ export default class Settings extends MultiLanguageComponent {
 
     const {
       address = '',
-      district = '',
-      province = '',
+      latitude = 0.00,
+      longitude = 0.00,
     } = this.state.currentLocation
     return (
       <SafeAreaView style={styles.container}>
@@ -284,7 +285,7 @@ export default class Settings extends MultiLanguageComponent {
         />
         <Spinner
           visible={this.state.spinner}
-          textContent={translate('Loading...')}
+          textContent={translate('Loading')}
           textStyle={{fontWeight: 'bold'}}
         />
         <View style={{          
@@ -380,21 +381,27 @@ export default class Settings extends MultiLanguageComponent {
               />                    
           </View>
           {/* Quan ly dich vu */}
-          <View style={styles.serviceArea}>
-            <View style={{ height: 50,width:'80%' }}>
-              <TouchableOpacity
+          <TouchableOpacity 
                 onPress={async () => {
                   await this._saveSettings()
                   this._pressLocation()
                 }}
-                style={styles.buttonGetLocation}
-              >
-                {address.length > 0 &&
-                  <Text style={{ marginRight: 7, fontSize: 15, }}>{address}</Text>}
-                <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
-              </TouchableOpacity>
+                style={{ height: 70,                                    
+                    flexDirection: 'column', 
+                    width: windowWidth - 30,        
+                    justifyContent: 'flex-start',   
+                    paddingStart: 10,  
+                    alignSelf: 'center',                        
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+              <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />              
+              <Text numberOfLines={2} 
+                  style={{ 
+                    fontSize:16,                                         
+                  }}>{address}</Text>                
 
-            </View>
+            </TouchableOpacity>
             <View style={{
               flexDirection: 'row',              
               justifyContent: 'flex-start',
@@ -436,9 +443,7 @@ export default class Settings extends MultiLanguageComponent {
               <Text style={{ fontSize: 15, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
                 km
               </Text>
-            </View>
-           
-          </View>         
+            </View>        
           {/* get location  */}
           {/* ban kinh */}
           {playerId > 0 && <View

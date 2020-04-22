@@ -20,8 +20,8 @@ export const daysBetween2Dates = (bigDay, smallDay) => {
     let days = Math.floor((times - years * (1000 * 3600 * 24*365))/(1000 * 3600 * 24))
     let result = ""
     result += `${years} `+translate("ages") 
-    if(days > 0) {
-        result += days > 1 ? ` ${days} `+translate("days") : `${days} `+translate("day")
+    if(days > 0) {        
+        result += days > 1 ? ` ${days} `+translate("days") : `${days} `+translate("day")                
     }
     return result
 }  
@@ -54,13 +54,9 @@ export function convertDateToStringYYYYMMDD(date) {
 }
 
 export function convertDateToStringDDMMYYYY(date) {    
-    let strDate = date.toLocaleString()
-    let month = strDate.split('/')[0].toString()
-    let day = strDate.split('/')[1].toString()
-    let year = strDate.split('/')[2].split(',')[0]
-    day = day.length < 2 ? `0${day}` : day
-    month = month.length < 2 ? `0${month}` : month
-    return `${day}/${month}/${year}`
+    // alert("kaka")      
+    function pad(s) { return (s < 10) ? '0' + s : s; }    
+    return [pad(date.getDate()), pad(date.getMonth()+1), date.getFullYear()].join('/')        
 }
 
 export const isIOS = () => {

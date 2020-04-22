@@ -9,6 +9,7 @@ import {
 export default class MultiLanguageComponent extends Component {
   constructor(props) {
     super(props)
+       
     setI18nConfig() // set initial config
   }
 

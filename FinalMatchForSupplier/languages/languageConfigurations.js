@@ -30,4 +30,5 @@ export const setI18nConfig = () => {
     // set i18n-js config
     i18n.translations = { [languageTag]: translationGetters[languageTag]() };
     i18n.locale = languageTag;
+       
 };

@@ -26,6 +26,10 @@ import { NavigationActions } from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { NavigationEvents } from 'react-navigation'
+
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 import {
   daysBetween2Dates,  
@@ -40,6 +44,11 @@ import {
 } from '../server/googleServices'
 
 export class RefereeService extends MultiLanguageComponent {
+  constructor(props) {   
+    
+    super(props)
+  }
+
   static navigationOptions = {
     headerShown: false,
   }
@@ -59,13 +68,14 @@ export class RefereeService extends MultiLanguageComponent {
     radius: 0.0,
     spinner: false,
   }
-  componentDidMount = async () => {
+
+  reloadDataFromServer = async () => {    
     try {      
       const { supplierId, tokenKey, email } = await getSupplierFromStorage()
       const { data, message } = await getSupplierById(supplierId)
       const { phoneNumber, latitude,
         dateOfBirth,
-        longitude, radius, address } = data            
+        longitude, radius, address } = data             
       this.setState({ 
         phoneNumber, currentLocation: { latitude, longitude, address }, radius,
         stringDateOfBirth: convertDateToStringDDMMYYYY(new Date(dateOfBirth)),
@@ -150,11 +160,16 @@ export class RefereeService extends MultiLanguageComponent {
     } = this.state.currentLocation
 
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>        
         <SafeAreaView style={styles.container}>
+          <NavigationEvents
+          onWillFocus={payload => {
+            this.reloadDataFromServer()
+          }}
+          />
         <Spinner
           visible={this.state.spinner}
-          textContent={translate('Loading...')}
+          textContent={translate('Loading')}
           textStyle={{fontWeight: 'bold'}}
         />
         <Header title={translate("Referee Service")} hideNext = {true} pressBackButton={async () => {
@@ -198,9 +213,18 @@ export class RefereeService extends MultiLanguageComponent {
               />          
           
         </View>
-          <View style={styles.dateTime}>
+          <View style={{
+                flexDirection: 'row',
+                height: 60,   
+                width: windowWidth - 30,             
+                justifyContent: 'flex-start',
+                alignItems: 'center',                
+              }}>
             <TouchableOpacity
-              style={[styles.textInput, { width: '70%', justifyContent: 'center' }]}
+              style={[styles.textInput, { 
+                width: 200,                 
+                justifyContent: 'center', 
+              }]}
               onPress={() => {
                 this.setState({ modalVisible: true })
               }}
@@ -208,7 +232,7 @@ export class RefereeService extends MultiLanguageComponent {
               <Text
                 style={{
                   fontSize: 16,
-                  height: 40,
+                  height: 40,                  
                   lineHeight: isIOS == true ? 0 : 40,
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
@@ -216,8 +240,12 @@ export class RefereeService extends MultiLanguageComponent {
                 {stringDateOfBirth === '' ? translate("Date of birth: dd/mm/yyyy") : stringDateOfBirth}
               </Text>              
           </TouchableOpacity>
-            <Text style={styles.age}>
-              {daysBetween2Dates(new Date(), this.state.dateOfBirth)}
+            <Text style={{              
+              height: 40,              
+              lineHeight: 40,
+              paddingStart: 10
+            }}>
+              {this.state.age}
             </Text>
           </View>        
         <TouchableOpacity onPress={() => {
@@ -235,9 +263,27 @@ export class RefereeService extends MultiLanguageComponent {
               marginBottom: 10,
               paddingHorizontal: 25,
             }}>{address}</Text>}
-          <View style={styles.radiusInput}>
+          <View style={{
+              flexDirection: 'row',
+              height: 50,
+              width: windowWidth - 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical:10,
+              
+            }}>
               <TextInput
-              style={styles.textInputRadius}
+              style={{    
+                height: 50,
+                backgroundColor: '#f5f5f5',
+                borderRadius: 25,
+                borderColor: '#a9a9a9',
+                borderWidth: 1,
+                paddingStart: 10,
+                paddingVertical: isIOS() ? null : 2,
+                fontSize: 16,    
+                lineHeight:isIOS() == true ? null : 50,
+              }}
               placeholder={translate("Enter radius:")}
               value = {`${radius}`}
               keyboardType={'numeric'}
@@ -245,7 +291,14 @@ export class RefereeService extends MultiLanguageComponent {
                 this.setState ({radius: typeof radius == 'string' ? parseFloat(radius) : radius})
               }}
               />
-          <Text style={styles.textKM}>
+          <Text style={{
+              width: '20%',
+              height: 50,
+              lineHeight: 50,
+              fontSize:16,
+              paddingStart: 10,
+              textAlign:'left'
+            }}>
             KM
           </Text>
 
@@ -301,24 +354,19 @@ const styles = StyleSheet.create({
   personalInformation: {
     flexDirection: 'row',
     height: 60,
-    width: '100%',
+    width: '100%',    
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical:5,
   },
-  dateTime: {
-    flexDirection: 'row',
-    height: 60,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  
   textInput: {
-    width: '90%',
+    width: windowWidth - 30,
     height: 50,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
     borderColor: '#a9a9a9',
+
     borderWidth: 1,
     paddingStart: 15,
     paddingVertical: isIOS() ? null : 2,
@@ -341,16 +389,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',
-  },
-  radiusInput: {
-    flexDirection: 'row',
-    height: 50,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical:10,
-    
-  },
+  },  
 
   buttonGetLocation: {
     justifyContent: 'center',
@@ -367,36 +406,13 @@ const styles = StyleSheet.create({
     width: 90,
     marginLeft: 8,
     marginBottom: 20,
-  },age:{
-    width: '20%',
-    height: 40,
-    lineHeight: 40,
-    paddingStart: 5
-  }, 
-  textInputRadius: {
-    width: '60%',
-    height: 50,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 25,
-    borderColor: '#a9a9a9',
-    borderWidth: 1,
-    paddingStart: 15,
-    paddingVertical: isIOS() ? null : 2,
-    fontSize: 16,    
-    lineHeight:isIOS() == true ? null : 50,
-  }, 
+  },
+ 
   textLabelRadius: {
     width: '50%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
     fontSize:20
-  },  
-  textKM:{
-    width: '20%',
-    height: 50,
-    lineHeight: 50,
-    fontSize:17,
-    textAlign:'center'
-  }
+  },    
 })

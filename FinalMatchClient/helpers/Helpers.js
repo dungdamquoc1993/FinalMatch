@@ -23,6 +23,11 @@ export const getCustomerFromStorage = async () => {
     return {tokenKey, customerId, email, notificationToken}
 }
 
+export function convertDateToStringDDMMYYYY(date) {    
+    // alert("kaka")      
+    function pad(s) { return (s < 10) ? '0' + s : s; }    
+    return [pad(date.getDate()), pad(date.getMonth()+1), date.getFullYear()].join('/')        
+}
 export const isIOS = () => {
     return Platform.OS === "ios"
 }

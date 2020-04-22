@@ -16,12 +16,7 @@ const {
 
 var data = {}
 var url = ""
-async function testCase01() {    
-	/* Chạy các câu lệnh này trước khi chạy test case:		
-	use FinalMatch;
-	CALL deleteSuppliers('supplier01@gmail.com');
-	CALL deleteCustomers('customer01@gmail.com');
-	*/	
+async function testCase01() {    	
 	try {
 		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier01@gmail.com', key: 'nu nhi tinh' })
 		await sendPost(await urlDeleteCustomers(),{ emails:'customer01@gmail.com', key: 'nu nhi tinh' })
