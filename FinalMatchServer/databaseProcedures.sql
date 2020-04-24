@@ -625,6 +625,16 @@ END;//
 CALL deleteCustomers('customer01@gmail.com,customer02@gmail.com');
 
 
+DROP PROCEDURE IF EXISTS transactionRollback;
+delimiter //
+CREATE PROCEDURE transactionRollback()
+BEGIN
+    DECLARE exit handler for sqlexception
+    BEGIN
+        ROLLBACK;
+    END;
+END;//
+
 --address to latitude, longitude
 https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyBrpg01q7yGyZK7acZuTRUw-HIrtFT-Zu0
 
