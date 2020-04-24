@@ -350,6 +350,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 //Link http://localhost:3000/suppliers/updateSettings
 router.post('/updateSettings', async (req, res) => {  
   const {tokenkey, supplierid, locale} = req.headers  
+  debugger
   i18n.setLocale(locale)  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   
@@ -376,7 +377,7 @@ router.post('/updateSettings', async (req, res) => {
     playerName,
     position,
     refereeName} = req.body      
-    debugger
+
   //validate, check token ?  
   let params = [ 
           supplierid,          
