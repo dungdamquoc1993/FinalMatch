@@ -381,15 +381,15 @@ router.post('/updateSettings', async (req, res) => {
   //validate, check token ?  
   let params = [ 
           supplierid,          
-          !isNaN(playerPrice) ? parseFloat(playerPrice) : 0,
-          !isNaN(refereePrice) ? parseFloat(refereePrice) : 0,
+          isNaN(parseFloat(playerPrice)) ? 0.0 : parseFloat(playerPrice), 
+          isNaN(parseFloat(refereePrice)) ? 0.0 : parseFloat(refereePrice) 
           name,
           avatar,
           dateOfBirth,
           phoneNumber.trim().length == 0 ? null : phoneNumber,
           address,
-          typeof latitude != 'number' && isNaN(parseFloat(latitude)) ? 0.0 : latitude,
-          typeof longitude != 'number' && isNaN(parseFloat(longitude)) ? 0.0 : longitude,
+          isNaN(parseFloat(latitude)) ? 0.0 : parseFloat(latitude), 
+          isNaN(parseFloat(longitude)) ? 0.0 : parseFloat(longitude), 
           radius,
           playerName,
           position,
