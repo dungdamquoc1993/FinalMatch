@@ -394,8 +394,10 @@ router.post('/updateSettings', async (req, res) => {
           playerName,
           position,
           refereeName]  
+  debugger
   connection.query(POST_UPDATE_SETTINGS, params
     , (error, results) => {          
+          debugger
           if(error) {
               res.json({
                 result: "failed", 
