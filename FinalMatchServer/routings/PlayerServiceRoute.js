@@ -66,8 +66,7 @@ router.post('/insertPlayerService', async (req, res) => {
       time: Date.now()})
       return
   }
-  const {playerName = '',
-      price = 100000,
+  const {playerName = '',      
       position = '0000',
       supplierId = 0,
       latitude = '',
@@ -75,7 +74,12 @@ router.post('/insertPlayerService', async (req, res) => {
       address = '',
       radius = 10} = req.body  
   //validate, check token ?  
-  
+  let price = isNaN(parseInt(price)) ? 0 : parseInt(price)
+  if(price >= 150000) {
+    price = 150000
+  } else if(price <= 20000) {
+    price = 20000
+  }
   let params = [ 
         playerName.normalize(),
         isNaN(parseFloat(price)) ? 0.0 : parseFloat(price), 
