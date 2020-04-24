@@ -472,7 +472,7 @@ BEGIN
                     Supplier.dateOfBirth = dateOfBirth,
                     Supplier.point = POINT(latitude, longitude)                    
     WHERE Supplier.id = supplierId;
-    SELECT * FROM RefereeService WHERE RefereeService.supplierId = supplierId;
+    SELECT * FROM viewSupplierRefereeService WHERE viewSupplierRefereeService.supplierId = supplierId;
 END;//
 delimiter;
 

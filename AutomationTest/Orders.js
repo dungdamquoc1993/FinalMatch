@@ -52,8 +52,15 @@ async function testCase01() {
 			address: "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
 			radius: "12"
 		})    	    	
-		
-		assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)				
+		debugger
+		assert(
+			data.result && data.result.toUpperCase() == 'OK' &&
+			data.data.refereeName == "supplier01 trọng tài 1" &&
+			data.data.latitude == 21.0018068 &&
+			data.data.longitude == 105.8508639 &&
+			data.data.address == "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
+			data.data.radius == "12"
+			, url, data.message)				
 		print('Finish Orders.testCase01')
 
 	}catch(error){

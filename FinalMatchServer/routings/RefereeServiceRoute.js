@@ -97,11 +97,10 @@ router.post('/insertRefereeService', async (req, res) => {
                 message: error.sqlMessage,
                 time: Date.now()})
           } else {
-              if(results != null && results.length > 0) {
-                  const {refereeName, supplierId } = results[0][0]
+              if(results != null && results.length > 0) {                  
                   res.json({
                     result: "ok", 
-                    data: {refereeName, supplierId }, 
+                    data: results[0][0], 
                     message: i18n.__("Insert Referee Service  successfully"),
                     time: Date.now()})
               }                
