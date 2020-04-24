@@ -11,20 +11,22 @@ const {
 const {
 	assert, 	
 	sendGet, 
-	sendPost
+	sendPost,
+	print,
 } = require('./Helper')
 
 var data = {}
 var url = ""
 async function testCase01() {    	
 	try {
+		print('LoginRegister.testCase01')
+		print('1. Xoá hết các customer/supplier test')
+		print('2. Tạo ra 1 customer và 1 supplier')
 		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier01@gmail.com', key: 'nu nhi tinh' })
 		await sendPost(await urlDeleteCustomers(),{ emails:'customer01@gmail.com', key: 'nu nhi tinh' })
-		console.log('Running testCase01')
+		
 		url = await urlRegisterSupplier()
-		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })
-    	// let x = await sendPost(await urlRegisterSupplier(),{ email:'supplier01@gmail.com', password: '123456' })
-    	
+		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })    	    	
     	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
 
     	url = await urlRegisterCustomer()
@@ -39,8 +41,8 @@ async function testCase01() {
 
 async function testCase02() {    
 	try {
-
-		console.log('Running testCase02')
+		print('LoginRegister.testCase02')		
+		print('1. Login 1 customer và 1 supplier')
 		url = await urlLoginSupplier()
 		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })    	    	
     	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
@@ -53,26 +55,7 @@ async function testCase02() {
 	}    
 }
 
-async function testCase03() {    
-	try {
-		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier03@gmail.com', key: 'nu nhi tinh' })
-		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier04@gmail.com', key: 'nu nhi tinh' })
-		console.log('Running testCase03, dang ky lien 2 supplier lien tuc')
-		url = await urlRegisterSupplier()
-		data = await sendPost(url,{ email:'supplier03@gmail.com', password: '123456' })    	
-    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
-
-    	url = await urlRegisterSupplier()
-    	data = await sendPost(url, { email:'supplier04@gmail.com', password: '123456' })    	
-    	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
-	}catch(error){
-		assert(false, url, error)
-	}    
-}
-
-
 module.exports = {
     testCase01,
     testCase02,
-    testCase03
 }

@@ -47,10 +47,14 @@ function assert(boolResult, name, errorString) {
         console.log('\x1b[36m%s\x1b[0m',`test PASSED : ${name}`)   
     }
 }
+function print(message) {
+    console.log(message)
+}
 module.exports = {
     sendGet, 
     sendPost,
     assert,
+    print,
 }
 
 

@@ -119,7 +119,8 @@ export class RefereeService extends MultiLanguageComponent {
       this.setState({price: 50000})
     }
 
-    try {                
+    try {      
+      debugger          
       const {message} = await insertRefereeService(refereeName,
         price,
         phoneNumber,

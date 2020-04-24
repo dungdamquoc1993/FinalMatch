@@ -87,6 +87,7 @@ class PlayerService extends Component {
       return
     }    
     try {      
+      debugger
       await insertPlayerService(playerName,
         price,
         position,
