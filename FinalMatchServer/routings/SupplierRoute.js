@@ -382,7 +382,7 @@ router.post('/updateSettings', async (req, res) => {
   let params = [ 
           supplierid,          
           isNaN(parseFloat(playerPrice)) ? 0.0 : parseFloat(playerPrice), 
-          isNaN(parseFloat(refereePrice)) ? 0.0 : parseFloat(refereePrice) 
+          isNaN(parseFloat(refereePrice)) ? 0.0 : parseFloat(refereePrice),
           name,
           avatar,
           dateOfBirth,
