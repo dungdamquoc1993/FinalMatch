@@ -15,7 +15,10 @@ var data = null
 async function testCase01() {    
 	try {
 		//Test case update setting	
-		console.log('Running Settings.testCase01')				
+		console.log('Running Settings.testCase01')		
+        console.log('1. Login supplier01')      
+        console.log('2. Thay đổi setting vài lần')      
+
     	url = await urlLoginSupplier()
 		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })		
 		assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
@@ -64,7 +67,7 @@ async function testCase01() {
             && data.result.toUpperCase() == 'OK'
             && data.data.phoneNumber == '112233445',            
             url, data.message)                  
-    	
+    	console.log('Finished Settings.testCase01')         
 	}catch(error){		
 		print("Exception", error)
 	}    

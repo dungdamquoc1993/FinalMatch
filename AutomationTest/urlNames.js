@@ -154,4 +154,6 @@ module.exports = {
     urlUpdateSettings,
     urlDeleteSuppliers,
     urlDeleteCustomers,
+    urlInsertRefereeService,
+
 }
