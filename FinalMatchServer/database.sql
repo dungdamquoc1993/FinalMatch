@@ -23,7 +23,6 @@ CREATE TABLE IF NOT EXISTS Supplier (
     isActive INTEGER DEFAULT 1,
     tokenKey VARCHAR(500) DEFAULT '',
     avatar VARCHAR(500) DEFAULT ''
-
 );
 
 CREATE TABLE IF NOT EXISTS PlayerService (       

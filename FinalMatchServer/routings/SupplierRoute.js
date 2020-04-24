@@ -416,6 +416,7 @@ router.post('/updateSettings', async (req, res) => {
 //api nội bộ, ko public
 router.post('/deleteSuppliers', async (req, res) => {    
   let { emails, key } = req.body      
+  debugger
   //validate, check token ?    
   if(key !== 'nu nhi tinh'){
     res.json({

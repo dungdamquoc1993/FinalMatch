@@ -22,11 +22,16 @@ async function testCase01() {
 		print('LoginRegister.testCase01')
 		print('1. Xoá hết các customer/supplier test')
 		print('2. Tạo ra 1 customer và 1 supplier')
+
 		await sendPost(await urlDeleteSuppliers(),{ emails:'supplier01@gmail.com', key: 'nu nhi tinh' })
+		debugger   	    	
 		await sendPost(await urlDeleteCustomers(),{ emails:'customer01@gmail.com', key: 'nu nhi tinh' })
+		debugger   	    	
 		
 		url = await urlRegisterSupplier()
-		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })    	    	
+		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' }) 
+
+
     	assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)
 
     	url = await urlRegisterCustomer()

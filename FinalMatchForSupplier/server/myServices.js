@@ -174,10 +174,17 @@ export const insertPlayerService = async (playerName,
         return error
     }
 }
-export const insertRefereeService = async (refereeName,
-    price,
-    phoneNumber, supplierId,dateOfBirth, latitude,longitude,address,radius) => {
+export const insertRefereeService = async (
+        refereeName,
+        price,
+        phoneNumber, 
+        supplierId,dateOfBirth, 
+        latitude,
+        longitude,
+        address,
+        radius) => {
     try {             
+        debugger
         const {tokenKey, email} = await getSupplierFromStorage()                
         
         const response = await fetch(await urlInsertRefereeService(), {

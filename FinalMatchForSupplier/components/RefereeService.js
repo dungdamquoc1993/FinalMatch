@@ -11,7 +11,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
-  Image
+  Image,
+  KeyboardAvoidingView
 } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
 import {translate} from '../languages/languageConfigurations'
@@ -65,7 +66,7 @@ export class RefereeService extends MultiLanguageComponent {
       latitude: 0.00,
       longitude: 0.00,
     },
-    radius: 0.0,
+    radius: '',
     spinner: false,
   }
 
@@ -73,13 +74,21 @@ export class RefereeService extends MultiLanguageComponent {
     try {      
       const { supplierId, tokenKey, email } = await getSupplierFromStorage()
       const { data, message } = await getSupplierById(supplierId)
-      const { phoneNumber, latitude,
-        dateOfBirth,
-        longitude, radius, address } = data             
+      const { 
+        phoneNumber,         
+        latitude,
+        longitude, 
+        radius, 
+        address
+      } = data  
+      let dateOfBirth = new Date(data.dateOfBirth)            
       this.setState({ 
-        phoneNumber, currentLocation: { latitude, longitude, address }, radius,
-        stringDateOfBirth: convertDateToStringDDMMYYYY(new Date(dateOfBirth)),
-        age: daysBetween2Dates(new Date(), new Date(dateOfBirth)),
+        phoneNumber, 
+        currentLocation: { latitude, longitude, address }, 
+        radius,    
+        dateOfBirth,    
+        stringDateOfBirth: convertDateToStringDDMMYYYY(dateOfBirth),
+        age: daysBetween2Dates(new Date(), dateOfBirth),
       })       
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
@@ -105,6 +114,7 @@ export class RefereeService extends MultiLanguageComponent {
     }
   }
   _insertRefereeService = async () => {    
+    debugger
     const {refereeName, price,radius, phoneNumber, dateOfBirth} = this.state    
     const {address,latitude, longitude} = this.state.currentLocation
     const { supplierId, email } = await getSupplierFromStorage()      
@@ -119,9 +129,9 @@ export class RefereeService extends MultiLanguageComponent {
       this.setState({price: 50000})
     }
 
-    try {      
-      debugger          
-      const {message} = await insertRefereeService(refereeName,
+    try {            
+      const {message} = await insertRefereeService(
+        refereeName,
         price,
         phoneNumber,
         supplierId,
@@ -138,7 +148,7 @@ export class RefereeService extends MultiLanguageComponent {
         alertWithOKButton(message, null)
       }
     } catch (error) {
-      alertWithOKButton(translate("Cannot get data from Server") + error)
+      alertWithOKButton(translate("Cannot insert Referee Service") + error)
     }
 
   }
@@ -161,6 +171,10 @@ export class RefereeService extends MultiLanguageComponent {
     } = this.state.currentLocation
 
     return (
+     <KeyboardAvoidingView
+       behavior={isIOS() ? "padding" : "height"}
+       style={{flex: 1}}
+     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>        
         <SafeAreaView style={styles.container}>
           <NavigationEvents
@@ -286,10 +300,10 @@ export class RefereeService extends MultiLanguageComponent {
                 lineHeight:isIOS() == true ? null : 50,
               }}
               placeholder={translate("Enter radius:")}
-              value = {`${radius}`}
+              value = {radius}
               keyboardType={'numeric'}
               onChangeText={radius => {
-                this.setState ({radius: typeof radius == 'string' ? parseFloat(radius) : radius})
+                this.setState ({radius})
               }}
               />
           <Text style={{
@@ -333,7 +347,7 @@ export class RefereeService extends MultiLanguageComponent {
           </Modal> 
       </SafeAreaView>
       </TouchableWithoutFeedback>
-      
+     </KeyboardAvoidingView>
     )
   }
 }

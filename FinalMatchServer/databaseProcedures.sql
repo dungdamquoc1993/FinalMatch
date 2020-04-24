@@ -4,7 +4,7 @@ CREATE PROCEDURE insertStadium( type INTEGER,
                                 stadiumName VARCHAR(300) CHARACTER SET utf8mb4,
                                 latitude FLOAT, 
                                 longitude FLOAT,
-                                address VARCHAR(500), 
+                                address VARCHAR(500) CHARACTER SET utf8mb4,         
                                 phoneNumber VARCHAR(300), 
                                 supplierId INTEGER) 
 BEGIN    
@@ -427,7 +427,7 @@ CREATE PROCEDURE insertPlayerService(playerName VARCHAR(300) CHARACTER SET utf8m
                                     supplierId INTEGER,
                                     latitude FLOAT, 
                                     longitude FLOAT,
-                                    address TEXT,
+                                    address VARCHAR(500) CHARACTER SET utf8mb4,         
                                     radius FLOAT
                                     ) 
 BEGIN    
@@ -455,7 +455,7 @@ CREATE PROCEDURE insertRefereeService(refereeName VARCHAR(300) CHARACTER SET utf
                                     dateOfBirth DATE,
                                     latitude FLOAT, 
                                     longitude FLOAT,
-                                    address TEXT,
+                                    address VARCHAR(500) CHARACTER SET utf8mb4,         
                                     radius FLOAT
                                     ) 
 BEGIN    
@@ -486,7 +486,7 @@ CREATE PROCEDURE updateSettings(supplierId INT,
                                 avatar VARCHAR(500),
                                 dateOfBirth DATE,
                                 phoneNumber VARCHAR(300),
-                                address TEXT,
+                                address VARCHAR(500) CHARACTER SET utf8mb4,         
                                 latitude FLOAT,
                                 longitude FLOAT,
                                 radius FLOAT,
