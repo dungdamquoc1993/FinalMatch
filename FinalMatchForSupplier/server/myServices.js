@@ -344,7 +344,7 @@ export const updateSettings = async (supplierId,
             latitude,longitude,radius,playerName,position,refereeName) => {
                         
     try {                            
-        const {tokenKey, email} = await getSupplierFromStorage()                     
+        const {tokenKey, email} = await getSupplierFromStorage()                             
         debugger
         const response = await fetch(urlUpdateSettings(), {
             method: 'POST',

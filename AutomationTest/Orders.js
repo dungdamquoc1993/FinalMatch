@@ -5,6 +5,7 @@ const {
 	urlRegisterSupplier,
 	urlDeleteSuppliers,
     urlDeleteCustomers,
+    urlUpdateSettings,
 
     urlInsertRefereeService,
 	urlInsertPlayerService,	
@@ -47,7 +48,7 @@ async function testCase01() {
 			supplierId,
 			tokenKey,
 			dateOfBirth: "2002-12-25",
-			latitude: 21.0018068,
+			latitude: 21.0018068,			
 			longitude: 105.8508639,
 			address: "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
 			radius: "12"
@@ -55,12 +56,35 @@ async function testCase01() {
 		debugger
 		assert(
 			data.result && data.result.toUpperCase() == 'OK' &&
-			data.data.refereeName == "supplier01 trọng tài 1" &&
-			data.data.latitude == 21.0018068 &&
-			data.data.longitude == 105.8508639 &&
+			data.data.refereeName == "supplier01 trọng tài 1" &&			
+			data.data.latitude  > 0 &&
+			data.data.longitude > 0 &&
 			data.data.address == "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
 			data.data.radius == "12"
-			, url, data.message)				
+			, url, data.message)		
+
+		url = await urlUpdateSettings();                    
+        data = await sendPost(url,{
+                name: 'supplier01',
+                playerPrice: "",
+                refereePrice: "299000",
+                avatar: "",
+                dateOfBirth: '2002-12-25',
+                phoneNumber: "112233499",
+                address:"82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
+                latitude: "21.00044822692871",
+                longitude: "105.85177612304688",
+                radius: 15,
+                playerName: "",
+                position: "0000",
+                refereeName: "trọng tài của supplier01",
+                tokenKey, supplierId,
+        })              
+        assert(data.result 
+            && data.result.toUpperCase() == 'OK'
+            && data.data.phoneNumber == '112233499',            
+            url, data.message)                  
+
 		print('Finish Orders.testCase01')
 
 	}catch(error){

@@ -66,7 +66,8 @@ async function testCase01() {
     	assert(data.result 
             && data.result.toUpperCase() == 'OK'
             && data.data.phoneNumber == '112233445',            
-            url, data.message)                  
+            url, data.message)                      
+
     	console.log('Finished Settings.testCase01')         
 	}catch(error){		
 		print("Exception", error)

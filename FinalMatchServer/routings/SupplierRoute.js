@@ -376,6 +376,7 @@ router.post('/updateSettings', async (req, res) => {
     playerName,
     position,
     refereeName} = req.body      
+    debugger
   //validate, check token ?  
   let params = [ 
           supplierid,          
