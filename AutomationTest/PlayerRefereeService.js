@@ -22,7 +22,7 @@ var url = ""
 
 async function testCase01() {    		
 	try {		
-		print('Running Orders.testCase01')
+		print('Running PlayerRefereeService.testCase01')
 		print('1. Đăng nhập supplier01')
 		print('2. Đăng ký 1 RefereeService')
 		print('3. Đăng ký 1 PlayerService')
@@ -52,8 +52,7 @@ async function testCase01() {
 			longitude: 105.8508639,
 			address: "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
 			radius: "12"
-		})    	    	
-		debugger
+		})    	    			
 		assert(
 			data.result && data.result.toUpperCase() == 'OK' &&
 			data.data.refereeName == "supplier01 trọng tài 1" &&			
@@ -85,7 +84,29 @@ async function testCase01() {
             && data.data.phoneNumber == '112233499',            
             url, data.message)                  
 
-		print('Finish Orders.testCase01')
+        url = await urlInsertPlayerService()		
+		data = await sendPost(url,{
+			playerName: "player á ",
+			price: 30000,
+			position: "0110",			
+			latitude: 21.00044822692871,
+			longitude: 105.85177612304688,
+			address: "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
+			radius: "13",
+			tokenKey, 
+			supplierId,
+		})    	    
+		debugger			
+		// assert(
+		// 	data.result && data.result.toUpperCase() == 'OK' &&
+		// 	data.data.refereeName == "supplier01 trọng tài 1" &&			
+		// 	data.data.latitude  > 0 &&
+		// 	data.data.longitude > 0 &&
+		// 	data.data.address == "339 Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
+		// 	data.data.radius == "12"
+		// 	, url, data.message)		
+
+		print('Finish PlayerRefereeService.testCase01')
 
 	}catch(error){
 		assert(false, url, error)

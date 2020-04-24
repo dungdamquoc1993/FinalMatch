@@ -140,11 +140,18 @@ export const tokenCheck = async (tokenKey,supplierId) => {
         return {result:'failed', data: {}, message: error}        
     }
 }
-export const insertPlayerService = async (playerName,
+export const insertPlayerService = async (
+    playerName,
     price, 
-    position,supplierId,latitude,longitude,address,radius) => {
+    position,
+    supplierId,
+    latitude,
+    longitude,
+    address,
+    radius) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()            
+        debugger
         const response = await fetch(urlInsertPlayerService(), {
             method: 'POST',
             headers: {
@@ -170,7 +177,8 @@ export const insertPlayerService = async (playerName,
         } else {            
             return { playerName, position, supplierId, message: 'Cannot insert player service'}
         }
-    } catch (error) {        
+    } catch (error) {       
+        debugger 
         return error
     }
 }

@@ -155,5 +155,6 @@ module.exports = {
     urlDeleteSuppliers,
     urlDeleteCustomers,
     urlInsertRefereeService,
+    urlInsertPlayerService,
 
 }

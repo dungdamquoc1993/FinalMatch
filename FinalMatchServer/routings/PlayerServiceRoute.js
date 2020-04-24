@@ -75,17 +75,20 @@ router.post('/insertPlayerService', async (req, res) => {
       address = '',
       radius = 10} = req.body  
   //validate, check token ?  
-  connection.query(POST_INSERT_PLAYER_SERVICE, 
-        [ playerName.normalize(),
-          price,
+  
+  let params = [ 
+        playerName.normalize(),
+        isNaN(parseFloat(price)) ? 0.0 : parseFloat(price), 
         position,
         supplierId,
-        latitude,
-        longitude,
+        isNaN(parseFloat(latitude)) ? 0.0 : parseFloat(latitude), 
+        isNaN(parseFloat(longitude)) ? 0.0 : parseFloat(longitude), 
         address,
-        radius ]
-    , (error, results) => {
-          
+        isNaN(parseFloat(radius)) ? 0.0 : parseFloat(radius),
+        ]
+  connection.query(POST_INSERT_PLAYER_SERVICE, 
+        params
+    , (error, results) => {          
           if(error) {
               res.json({
                 result: "failed", 
@@ -94,11 +97,10 @@ router.post('/insertPlayerService', async (req, res) => {
                 time: Date.now()})
           } else {
 	      	
-              if(results != null && results.length > 0) {
-                  const {playerName, position, supplierId } = results[0][0]
+              if(results != null && results.length > 0) {                  
                   res.json({
                     result: "ok", 
-                    data: {playerName, position, supplierId }, 
+                    data: results[0][0], 
                     message: i18n.__("Insert Player Service  successfully"),
                     time: Date.now()})
               }                

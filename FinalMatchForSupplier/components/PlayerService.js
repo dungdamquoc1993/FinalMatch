@@ -28,6 +28,9 @@ import {insertPlayerService, getSupplierById} from '../server/myServices'
 import {getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, getPosition, alert,isIOS} from '../helpers/Helpers'
 import {NavigationActions} from 'react-navigation'
 import {MAIN_COLOR} from '../colors/colors'
+import Spinner from 'react-native-loading-spinner-overlay'
+import { NavigationEvents } from 'react-navigation'
+
 class PlayerService extends Component {
   static navigationOptions = {
     headerShown: false,
@@ -36,7 +39,7 @@ class PlayerService extends Component {
   constructor (props) {
     super (props)
     this.state = {
-      playerName: 'người a',
+      playerName: '',
       price: 30000,
       phoneNumber: '',
       isGK: false,
@@ -44,25 +47,33 @@ class PlayerService extends Component {
       isMF: false,
       isCF: false,
       currentLocation: {
-        address: '',
-        district: '',
-        province: '',
-        latitude: 0.0, 
-        longitude: 0.0,  
+        address: '',      
+        latitude: 0.00,
+        longitude: 0.00,
       },
-      radius: 0.0,
+      radius: '',
+      spinner: false,
     }
   }
 
-  componentDidMount = async () => {
+  reloadDataFromServer = async () => {    
     try {
       const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
       
       const { data, message} = await getSupplierById(supplierId)      
-      const { phoneNumber, latitude, 
-                    longitude, radius, address} = data
-      
-      this.setState({phoneNumber, currentLocation: {latitude, longitude, address}, radius})      
+      const { 
+        phoneNumber,         
+        latitude,
+        longitude, 
+        radius, 
+        address
+      } = data  
+      let dateOfBirth = new Date(data.dateOfBirth)            
+      this.setState({ 
+        phoneNumber, 
+        currentLocation: { latitude, longitude, address }, 
+        radius,            
+      })        
     } catch(error) {
       alert(translate("Cannot get supplier's information")+JSON.stringify(error))
       //Quay lai Tab
@@ -75,8 +86,9 @@ class PlayerService extends Component {
     const {playerName, price, radius} = this.state
     
     const position = getPosition(this.state)
-    const {latitude,longitude, address} = this.state.currentLocation
+    const {address,latitude, longitude} = this.state.currentLocation
     const {supplierId, email} = await getSupplierFromStorage()          
+    debugger
     if(price >= 150000) {
       this.setState({price: 150000})
     } else if(price <= 20000) {
@@ -88,7 +100,8 @@ class PlayerService extends Component {
     }    
     try {      
       debugger
-      await insertPlayerService(playerName,
+      await insertPlayerService(
+        playerName,
         price,
         position,
         supplierId,
@@ -107,14 +120,15 @@ class PlayerService extends Component {
   _pressLocation = async () => {
     const hasLocationPermission = await checkLocationPermission ()
     if (hasLocationPermission) {
+      this.setState({spinner: true})
       Geolocation.getCurrentPosition (
-        async position => {
-          const {latitude, longitude} = position.coords
-          const address= await getAddressFromLatLong (latitude, longitude)
-
-          this.setState ({currentLocation: {address, district, province, latitude, longitude}})
+        async position => {          
+          const { latitude, longitude } = position.coords
+          const address = await getAddressFromLatLong(latitude, longitude)
+          this.setState({ currentLocation: {address, latitude, longitude},spinner: false  })
         },
         error => {
+          this.setState({spinner: false})
           console.log (error.code, error.message)
         },
         {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
@@ -124,18 +138,31 @@ class PlayerService extends Component {
   render () {
     const {playerName,price, phoneNumber} = this.state
     const {isGK, isCB, isMF, isCF} = this.state
-    const {address = '', district = '', province = ''} = this.state.currentLocation
+    const {
+      address = '',
+      latitude = 0.00,
+      longitude = 0.00,
+    } = this.state.currentLocation
     const {radius} = this.state
     return (
       <ScrollView>  
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         
       <SafeAreaView style={styles.container}>
-        
+        <NavigationEvents
+        onWillFocus={payload => {
+          this.reloadDataFromServer()
+        }}
+        />
         <Header title={translate("Player Service")} pressBackButton={async () => {
           //validate ok
           return true
         }}/>        
+        <Spinner
+          visible={this.state.spinner}
+          textContent={translate('Loading')}
+          textStyle={{fontWeight: 'bold'}}
+        />
         <View style={{marginTop:30}}/>
         <View style={styles.personalInformation}>
           <TextInput
@@ -179,8 +206,13 @@ class PlayerService extends Component {
           <Text style={styles.textGetLocation}> Get Location</Text>
           <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
         </TouchableOpacity>
-        {(address.length > 0 || district.length > 0 || province.length > 0)
-          && <Text style={{fontSize:16}}>{address} - {district} - {province}</Text>}
+        {address.length > 0
+          && <Text numberOfLines={2} 
+            style={{ 
+              fontSize:16, 
+              marginBottom: 10,
+              paddingHorizontal: 25,
+            }}>{address}</Text>}
         <View style={styles.positions}>
           <TouchableOpacity
             style={styles.eachPosition}

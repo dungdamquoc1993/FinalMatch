@@ -442,7 +442,7 @@ BEGIN
                     Supplier.radius = radius,
                     Supplier.point = POINT(latitude, longitude)                    
     WHERE Supplier.id = supplierId;
-    SELECT * FROM PlayerService WHERE PlayerService.supplierId = supplierId;
+    SELECT * FROM viewSupplierPlayerService WHERE viewSupplierPlayerService.supplierId = supplierId;
 END;//
 delimiter;
 

@@ -78,16 +78,19 @@ router.post('/insertRefereeService', async (req, res) => {
       radius} = req.body    
   
   //validate, check token ?  
+  let params = [ 
+      refereeName, 
+      isNaN(parseFloat(price)) ? 0.0 : parseFloat(price), 
+      phoneNumber,
+      supplierId,
+      dateOfBirth,
+      isNaN(parseFloat(latitude)) ? 0.0 : parseFloat(latitude), 
+      isNaN(parseFloat(longitude)) ? 0.0 : parseFloat(longitude), 
+      address,
+      isNaN(parseFloat(radius)) ? 0.0 : parseFloat(radius), 
+      ]
   connection.query(POST_INSERT_REFEREE_SERVICE, 
-        [ refereeName, 
-          price,
-          phoneNumber,
-          supplierId,
-          dateOfBirth,
-        latitude,
-        longitude,
-        address,
-        radius ]
+        params
     , (error, results) => {
           
           if(error) {
