@@ -381,8 +381,8 @@ router.post('/updateSettings', async (req, res) => {
   //validate, check token ?  
   let params = [ 
           supplierid,          
-          typeof playerPrice == 'string' ? 0.0 : playerPrice,
-          typeof refereePrice == 'string' ? 0.0 : refereePrice,
+          !isNaN(playerPrice) ? parseFloat(playerPrice) : 0,
+          !isNaN(refereePrice) ? parseFloat(refereePrice) : 0,
           name,
           avatar,
           dateOfBirth,
