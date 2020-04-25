@@ -1,6 +1,5 @@
 const LoginRegister = require('./LoginRegister')
 const Settings = require('./Settings')
-debugger
 const PlayerRefereeService = require('./PlayerRefereeService')
 async function runAllTests() {
 	try {
