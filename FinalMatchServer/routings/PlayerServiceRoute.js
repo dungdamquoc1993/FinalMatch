@@ -126,7 +126,7 @@ router.post('/deletePlayerService', async (req, res) => {
       return
   }
   const {id} = req.body    
-  connection.query("DELETE PlayerService WHERE id = ?", 
+  connection.query("DELETE FROM PlayerService WHERE id = ?", 
       [id]        
       ,(error, results) => {          
           if(error) {

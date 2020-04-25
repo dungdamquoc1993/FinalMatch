@@ -124,7 +124,7 @@ router.post('/deleteRefereeService', async (req, res) => {
       return
   }
   const {id} = req.body    
-  connection.query("DELETE RefereeService WHERE id = ?", 
+  connection.query("DELETE FROM RefereeService WHERE id = ?", 
       [id]        
       ,(error, results) => {          
           if(error) {
