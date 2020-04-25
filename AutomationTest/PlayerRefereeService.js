@@ -11,7 +11,7 @@ const {
 	urlInsertPlayerService,	
 	urlDeletePlayerService,
     urlDeleteRefereeService,
-    
+
 } = require('./urlNames')
 const {
 	assert, 	
@@ -96,25 +96,13 @@ async function testCase01() {
 			tokenKey, 
 			supplierId,
 		})    		
-		print('- Xoá PlayerService vừa tạo')
+		print('- Xoá PlayerService vừa tạo')		
 		url = await urlDeletePlayerService()	        
 		data = await sendPost(url,{
-			id: 1000
-		})    		
-		assert(
-			data.result && data.result.toUpperCase() == 'OK' &&
-			data.data.playerName == "player cường" &&			
-			data.data.latitude  == 21.00044822692871 &&
-			data.data.longitude == 105.85177612304688 &&
-			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
-			data.data.radius == "13"
-			,url, data.message)		
-
-		print('- Xoá PlayerService vừa tạo')
-		url = await urlDeletePlayerService()	        
-		data = await sendPost(url,{
-			id: 1000
-		})    		
+			id: data.data.playerId,
+			tokenKey, 
+			supplierId,
+		})    				
 		print('- Thêm player service, giá < 20_000')
         url = await urlInsertPlayerService()		
 		data = await sendPost(url,{
@@ -136,14 +124,16 @@ async function testCase01() {
 			data.data.longitude == 105.85177612304688 &&
 			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
 			data.data.radius == "14"&&
-			data.data.price == 20000
+			data.data.playerPrice == 20000
 			,url, data.message)		
 
-		print('- Xoá PlayerService vừa tạo')
+		print('- Xoá PlayerService vừa tạo')		
 		url = await urlDeletePlayerService()	        
 		data = await sendPost(url,{
-			id: 1000
-		})    		
+			id: data.data.playerId,
+			tokenKey, 
+			supplierId,
+		})    				
 
 		print('- Thêm player service, giá trong khoảng > 150_000')
         url = await urlInsertPlayerService()		
@@ -165,7 +155,7 @@ async function testCase01() {
 			data.data.longitude == 105.85177612304688 &&
 			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
 			data.data.radius == "14"&&
-			data.data.price == 150000
+			data.data.playerPrice == 150000
 			,url, data.message)		
 
 		print('Finish PlayerRefereeService.testCase01')
