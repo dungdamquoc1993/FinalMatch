@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
 //Link http://localhost:3000/suppliers/login
 router.post('/login', async (req, res) => {
   const {email, password,userType = "default"} = req.body    
-  category 
+   
   i18n.setLocale(req.headers.locale)   
   
   connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {
@@ -350,7 +350,7 @@ router.get('/getSupplierServicesOrders', async (req, res) => {
 //Link http://localhost:3000/suppliers/updateSettings
 router.post('/updateSettings', async (req, res) => {  
   const {tokenkey, supplierid, locale} = req.headers  
-  category
+  
   i18n.setLocale(locale)  
   const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))  
   
@@ -394,10 +394,10 @@ router.post('/updateSettings', async (req, res) => {
           playerName,
           position,
           refereeName]  
-  category
+  
   connection.query(POST_UPDATE_SETTINGS, params
     , (error, results) => {          
-          category
+          
           if(error) {
               res.json({
                 result: "failed", 
@@ -419,8 +419,7 @@ router.post('/updateSettings', async (req, res) => {
 //Link http://localhost:3000/suppliers/deleteSuppliers
 //api nội bộ, ko public
 router.post('/deleteSuppliers', async (req, res) => {    
-  let { emails, key } = req.body      
-  category
+  let { emails, key } = req.body        
   //validate, check token ?    
   if(key !== 'nu nhi tinh'){
     res.json({
