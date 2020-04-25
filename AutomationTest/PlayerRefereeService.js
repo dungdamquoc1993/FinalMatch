@@ -83,6 +83,14 @@ async function testCase01() {
             && data.data.phoneNumber == '112233499',            
             url, data.message)                  
 
+        print('- Xoá RefereeService vừa tạo')		
+		url = await urlDeletePlayerService()	        
+		data = await sendPost(url,{
+			id: data.data.playerId,
+			tokenKey, 
+			supplierId,
+		})    				
+
         print('- Thêm player service, giá trong khoảng 20_000 => 150_000')
         url = await urlInsertPlayerService()	        
 		data = await sendPost(url,{
