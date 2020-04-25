@@ -73,8 +73,7 @@ router.post('/insertPlayerService', async (req, res) => {
       longitude = '',
       address = '',
       radius = 10} = req.body  
-  //validate, check token ?  
-  category
+  //validate, check token ?    
   let price = req.body.price
   price = isNaN(parseInt(price)) ? 0 : parseInt(price)
   if(price >= 150000) {
