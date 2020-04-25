@@ -83,8 +83,7 @@ async function testCase01() {
             url, data.message)                  
 
         print('- Thêm player service, giá trong khoảng 20_000 => 150_000')
-        url = await urlInsertPlayerService()	
-        debugger	
+        url = await urlInsertPlayerService()	        
 		data = await sendPost(url,{
 			playerName: "player cường",
 			price: 140000,
@@ -95,39 +94,39 @@ async function testCase01() {
 			radius: "13",
 			tokenKey, 
 			supplierId,
-		})    
-		debugger	    		
-		// assert(
-		// 	data.result && data.result.toUpperCase() == 'OK' &&
-		// 	data.data.playerName == "player cường" &&			
-		// 	data.data.latitude  == 21.00044822692871 &&
-		// 	data.data.longitude == 105.85177612304688 &&
-		// 	data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
-		// 	data.data.radius == "13"
-		// 	,url, data.message)		
+		})    		
+		assert(
+			data.result && data.result.toUpperCase() == 'OK' &&
+			data.data.playerName == "player cường" &&			
+			data.data.latitude  == 21.00044822692871 &&
+			data.data.longitude == 105.85177612304688 &&
+			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
+			data.data.radius == "13"
+			,url, data.message)		
 
-		// print('- Thêm player service, giá < 20_000')
-  //       url = await urlInsertPlayerService()		
-		// data = await sendPost(url,{
-		// 	playerName: "Văn Cường",
-		// 	price: 19000,
-		// 	position: "0110",			
-		// 	latitude: 21.00044822692871,
-		// 	longitude: 105.85177612304688,
-		// 	address: "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
-		// 	radius: "14",
-		// 	tokenKey, 
-		// 	supplierId,
-		// })    	    		
-		// assert(
-		// 	data.result && data.result.toUpperCase() == 'OK' &&
-		// 	data.data.playerName == "Văn Cường" &&			
-		// 	data.data.latitude  == 21.00044822692871 &&
-		// 	data.data.longitude == 105.85177612304688 &&
-		// 	data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
-		// 	data.data.radius == "14"&&
-		// 	data.data.price == 20000
-		// 	,url, data.message)		
+		print('- Thêm player service, giá < 20_000')
+        url = await urlInsertPlayerService()		
+		data = await sendPost(url,{
+			playerName: "Văn Cường",
+			price: 19000,
+			position: "0110",			
+			latitude: 21.00044822692871,
+			longitude: 105.85177612304688,
+			address: "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
+			radius: "14",
+			tokenKey, 
+			supplierId,
+		})    
+		debugger	    			    		
+		assert(
+			data.result && data.result.toUpperCase() == 'OK' &&
+			data.data.playerName == "Văn Cường" &&			
+			data.data.latitude  == 21.00044822692871 &&
+			data.data.longitude == 105.85177612304688 &&
+			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
+			data.data.radius == "14"&&
+			data.data.price == 20000
+			,url, data.message)		
 
 		// print('- Thêm player service, giá trong khoảng > 150_000')
   //       url = await urlInsertPlayerService()		
