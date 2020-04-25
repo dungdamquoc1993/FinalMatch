@@ -76,8 +76,14 @@ const urlLoginSupplier = () => {
 const urlInsertPlayerService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/insertPlayerService`
 }
+const urlDeletePlayerService = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/playerServices/deletePlayerService`
+}
 const urlInsertRefereeService = () => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/insertRefereeService`
+}
+const urlDeleteRefereeService = () => {
+    return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/deleteRefereeService`
 }
 const urlCheckRefereeServiceExist = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
@@ -156,5 +162,7 @@ module.exports = {
     urlDeleteCustomers,
     urlInsertRefereeService,
     urlInsertPlayerService,
+    urlDeletePlayerService,
+    urlDeleteRefereeService,
 
 }

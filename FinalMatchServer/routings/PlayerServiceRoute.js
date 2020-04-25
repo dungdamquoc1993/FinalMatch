@@ -112,5 +112,40 @@ router.post('/insertPlayerService', async (req, res) => {
           }
   })    
 })
+//Api nội bộ
+router.post('/deletePlayerService', async (req, res) => {  
+  const {tokenkey, supplierid, locale} = req.headers
+  i18n.setLocale(locale)
+  const checkTokenResult = await checkToken(tokenkey, parseInt(supplierid))
+  if(checkTokenResult == false) {
+    res.json({
+      result: "false", 
+      data: {}, 
+      message: i18n.__("Token is invalid"),
+      time: Date.now()})
+      return
+  }
+  const {id} = req.body    
+  connection.query("DELETE PlayerService WHERE id = ?", 
+      [id]        
+      ,(error, results) => {          
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {
+          
+              if(results != null && results.length > 0) {                  
+                  res.json({
+                    result: "ok", 
+                    data: results[0][0], 
+                    message: i18n.__("Delete Player Service  successfully"),
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
 
 module.exports = router

@@ -9,6 +9,9 @@ const {
 
     urlInsertRefereeService,
 	urlInsertPlayerService,	
+	urlDeletePlayerService,
+    urlDeleteRefereeService,
+    
 } = require('./urlNames')
 const {
 	assert, 	
@@ -23,10 +26,7 @@ var url = ""
 async function testCase01() {    		
 	try {		
 		print('Running PlayerRefereeService.testCase01')
-		print('- Đăng nhập supplier01')
-		print('- Đăng ký 1 RefereeService')
-		
-		
+		print('- Đăng nhập supplier01')						
 		url = await urlLoginSupplier()
 		data = await sendPost(url,{ email:'supplier01@gmail.com', password: '123456' })    	    	
 		assert(data.result && 
@@ -35,9 +35,10 @@ async function testCase01() {
 			data.data.tokenKeySupplierId &&
 			data.data.tokenKeySupplierId.length > 0
 			, url, data.message)			
+
+		print('- Đăng ký 1 RefereeService')
 		let tokenKey = data.data.tokenKeySupplierId.split(';')[0]
-		let supplierId = data.data.tokenKeySupplierId.split(';')[1]		
-		
+		let supplierId = data.data.tokenKeySupplierId.split(';')[1]				
 		url = await urlInsertRefereeService()		
 		data = await sendPost(url,{
 			refereeName: "supplier01 trọng tài 1", 
@@ -95,6 +96,11 @@ async function testCase01() {
 			tokenKey, 
 			supplierId,
 		})    		
+		print('- Xoá PlayerService vừa tạo')
+		url = await urlDeletePlayerService()	        
+		data = await sendPost(url,{
+			id: 1000
+		})    		
 		assert(
 			data.result && data.result.toUpperCase() == 'OK' &&
 			data.data.playerName == "player cường" &&			
@@ -104,6 +110,11 @@ async function testCase01() {
 			data.data.radius == "13"
 			,url, data.message)		
 
+		print('- Xoá PlayerService vừa tạo')
+		url = await urlDeletePlayerService()	        
+		data = await sendPost(url,{
+			id: 1000
+		})    		
 		print('- Thêm player service, giá < 20_000')
         url = await urlInsertPlayerService()		
 		data = await sendPost(url,{
@@ -128,28 +139,34 @@ async function testCase01() {
 			data.data.price == 20000
 			,url, data.message)		
 
-		// print('- Thêm player service, giá trong khoảng > 150_000')
-  //       url = await urlInsertPlayerService()		
-		// data = await sendPost(url,{
-		// 	playerName: "Dũng Nguyễn",
-		// 	price: 151000,
-		// 	position: "1100",			
-		// 	latitude: 21.00044822692871,
-		// 	longitude: 105.85177612304688,
-		// 	address: "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
-		// 	radius: "14",
-		// 	tokenKey, 
-		// 	supplierId,
-		// })    	    		
-		// assert(
-		// 	data.result && data.result.toUpperCase() == 'OK' &&
-		// 	data.data.playerName == "Dũng Nguyễn" &&			
-		// 	data.data.latitude  == 21.00044822692871 &&
-		// 	data.data.longitude == 105.85177612304688 &&
-		// 	data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
-		// 	data.data.radius == "14"&&
-		// 	data.data.price == 150000
-		// 	,url, data.message)		
+		print('- Xoá PlayerService vừa tạo')
+		url = await urlDeletePlayerService()	        
+		data = await sendPost(url,{
+			id: 1000
+		})    		
+
+		print('- Thêm player service, giá trong khoảng > 150_000')
+        url = await urlInsertPlayerService()		
+		data = await sendPost(url,{
+			playerName: "Dũng Nguyễn",
+			price: 151000,
+			position: "1100",			
+			latitude: 21.00044822692871,
+			longitude: 105.85177612304688,
+			address: "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam",
+			radius: "14",
+			tokenKey, 
+			supplierId,
+		})    	    		
+		assert(
+			data.result && data.result.toUpperCase() == 'OK' &&
+			data.data.playerName == "Dũng Nguyễn" &&			
+			data.data.latitude  == 21.00044822692871 &&
+			data.data.longitude == 105.85177612304688 &&
+			data.data.address == "82 Hồng Mai, Bạch Mai, Hai Bà Trưng, Hà Nội, Vietnam" &&
+			data.data.radius == "14"&&
+			data.data.price == 150000
+			,url, data.message)		
 
 		print('Finish PlayerRefereeService.testCase01')
 
