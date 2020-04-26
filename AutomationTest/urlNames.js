@@ -164,5 +164,6 @@ module.exports = {
     urlInsertPlayerService,
     urlDeletePlayerService,
     urlDeleteRefereeService,
+    urlUpdateCustomerInformation,
 
 }

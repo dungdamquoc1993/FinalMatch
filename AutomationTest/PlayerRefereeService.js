@@ -123,8 +123,7 @@ async function testCase01() {
 			radius: "14",
 			tokenKey, 
 			supplierId,
-		})    
-		debugger	    			    		
+		})    			    			    		
 		assert(
 			data.result && data.result.toUpperCase() == 'OK' &&
 			data.data.playerName == "Văn Cường" &&			

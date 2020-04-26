@@ -242,6 +242,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               onPress={async () => {
                 const {name, phoneNumber} = this.state
+                debugger
                 await updateCustomerInformation(name, phoneNumber)      
                 navigate ('SearchPlace', {
                   updatePlace: (place, latitude, longitude) => {
