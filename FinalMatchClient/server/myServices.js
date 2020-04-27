@@ -135,7 +135,7 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
         })        
         
         const responseJson = await response.json()
-        
+        debugger
         const { result,message } = responseJson                
         
         if(result.toLowerCase() === 'ok') {
@@ -144,7 +144,7 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
             return {message, error: message}
         }        
     } catch (error) {        
-        
+        debugger
         return {
             message: "Error update Customer' information" + JSON.stringify(error),
             error
