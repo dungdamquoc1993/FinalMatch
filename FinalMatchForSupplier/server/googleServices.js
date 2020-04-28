@@ -1,4 +1,7 @@
-import {urlGetAddressFromLatLong} from './urlNames'
+import {
+    urlGetAddressFromLatLong,
+urlGetPlacesFromAddress,
+} from './urlNames'
 import {
     PermissionsAndroid,
     ToastAndroid,
@@ -71,4 +74,30 @@ export const checkLocationPermission = async () => {
     }
 
     return false;
+}
+export const getPlacesFromAddress = async (address) => {
+    try {                
+        const response = await fetch(urlGetPlacesFromAddress(address))
+        const responseJSON = await response.json()        
+        if(responseJSON.status.toUpperCase() === 'OK') {
+            let places = responseJSON.results.map(place => {
+                let formattedAddress = place["formatted_address"];
+                let latitude = 0.0
+                let longitude = 0.0                
+                if (place.geometry && place.geometry.location) {
+                    latitude = place.geometry.location.lat
+                    longitude = place.geometry.location.lng
+                }
+                let name = place["name"] ? place["name"] : ""
+                let placeId = place["place_id"]
+                return { formattedAddress, latitude, longitude, name, placeId }
+            })                
+            return places    
+        } else {
+            return []
+        }        
+    } catch (error) {        
+        console.error(translate("Cannot get Places From Address:")+`${error}`)
+        return []
+    }
 }

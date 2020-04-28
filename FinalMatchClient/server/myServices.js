@@ -20,7 +20,6 @@ import {
     urlMakeSeen,
     urlUpdateOrderStatus
 } from './urlNames'
-import { alert } from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
 const {AsyncStorage} = NativeModules
@@ -121,8 +120,11 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
 
 export const updateCustomerInformation = async (name, phoneNumber) => {
     try {        
-        const {tokenKey, customerId} = await getCustomerFromStorage()            
-        let url = await urlUpdateCustomerInformation()
+        debugger
+        const {tokenKey, customerId} = await getCustomerFromStorage()                    
+        debugger
+        let url =  urlUpdateCustomerInformation()                
+        debugger
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -133,17 +135,18 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
             },
             body: JSON.stringify({ name, phoneNumber }),
         })        
-        
-        const responseJson = await response.json()
         debugger
+        const responseJson = await response.json()        
         const { result,message } = responseJson                
-        
+        alert(JSON.stringify({result, message}))
         if(result.toLowerCase() === 'ok') {
             return {message, error: null}
         } else {
             return {message, error: message}
         }        
-    } catch (error) {        
+    } catch (error) {     
+        debugger        
+        alert("errrrr"+error)   
         debugger
         return {
             message: "Error update Customer' information" + JSON.stringify(error),

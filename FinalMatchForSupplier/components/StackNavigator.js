@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 import {store} from '../redux/stores/store'
 import {KeyboardAvoidingView} from 'react-native'
 import Chat from './Chat'
+import SearchPlace from './SearchPlace'
 
 const StackNavigator = createAppContainer(createStackNavigator({
   Splash: {
@@ -52,6 +53,12 @@ const StackNavigator = createAppContainer(createStackNavigator({
   },
   Chat: {
     screen: Chat,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
+  },  
+  SearchPlace: {
+    screen: SearchPlace,
     navigationOptions: {
       gesturesEnabled: false
     }

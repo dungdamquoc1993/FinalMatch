@@ -49,6 +49,9 @@ export const urlGetAvatar = (fileName) => {
     }    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/getImage?fileName=${fileName}&locale=${i18n.locale}`
 }
+export const urlGetPlacesFromAddress = (address) => {        
+    return `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=${GoogleAPIKey}&locale=${i18n.locale}`
+}
 export const urlUpdateSettings = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/updateSettings`
 }

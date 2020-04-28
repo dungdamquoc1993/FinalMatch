@@ -32,9 +32,7 @@ export default class Stadium extends MultiLanguageComponent {
   state = {
     isFree: false,
     currentLocation: {
-      address: '',
-      district: '',
-      province: '',
+      address: '',      
       latitude: 0.0,
       longitude: 0.0,
       radius: '10', //de number se rat nhieu bug khi go textinput
@@ -79,9 +77,7 @@ export default class Stadium extends MultiLanguageComponent {
           const address = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
             currentLocation: {
-              address,
-              district,
-              province,
+              address,              
               latitude,
               longitude,
               radius: this.state.currentLocation.radius,
@@ -110,9 +106,7 @@ export default class Stadium extends MultiLanguageComponent {
     const {isFree, filteredStadiums} = this.state
     const {currentLocation} = this.state
     const {
-      address,
-      district,
-      province,
+      address,      
       latitude,
       longitude,
       radius,

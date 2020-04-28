@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Modal,
-  Alert,
+  Modal,  
   Keyboard,
 } from 'react-native'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -55,7 +54,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
     //test function
   }
   reloadDataFromServer = async () => {
-    const {customerId, email} = await getCustomerFromStorage ()
+    const {customerId, email} = await getCustomerFromStorage()
     try {
       const {data, message} = await getCustomerInformation (customerId)
       const {name, phoneNumber, tokenKey, userType} = data
@@ -68,8 +67,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
     }
   }
   sendRequest = async () => {
-    try {
-      const {name, phoneNumber} = this.state
+    try {      
+      const {name, phoneNumber} = this.state      
       const {navigate} = this.props.navigation
       const {isGK, isCB, isMF, isCF, point, matchTiming} = this.state
       const {latitude, longitude} = point
@@ -78,7 +77,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
         name,
         phoneNumber
       )
-
+      alert("lala"+JSON.stringify({name, phoneNumber}))
       if (!error) {        
         if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
           alert(translate("You must enter order's name or phone number"))
@@ -242,7 +241,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
             <TouchableOpacity
               onPress={async () => {
                 const {name, phoneNumber} = this.state                                
-                await updateCustomerInformation(name, phoneNumber)                      
+                // await updateCustomerInformation(name, phoneNumber)                      
                 navigate ('SearchPlace', {
                   updatePlace: (place, latitude, longitude) => {
                     this.setState ({place, point: {latitude, longitude}})
@@ -271,7 +270,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
               style={styles.textInput}
               onPress={async () => {
                 const {name, phoneNumber} = this.state
-                await updateCustomerInformation(name, phoneNumber)      
+                // await updateCustomerInformation(name, phoneNumber)      
                 this.setState ({modalVisible: true})
               }}
             >

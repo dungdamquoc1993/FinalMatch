@@ -34,9 +34,7 @@ class Stadium extends Component {
     phoneNumber: '',
     supplierId: 0,
     currentLocation: {
-      address: '',
-      district: '',
-      province: '',
+      address: '',            
       latitude: 0,
       longitude: 0,
     },
@@ -48,12 +46,20 @@ class Stadium extends Component {
   _isOnpressSubmit = async () => {
     //test
     const {supplierId, isFree, stadiumName, phoneNumber} = this.state
+    if(stadiumName.trim().length == 0) {
+      alert(translate("You must enter stadium's name"))
+      return
+    }
+    if(isFree == false) {
+      if(phoneNumber.trim().length == 0) {
+        alert(translate("You must enter phone number"))
+        return
+      }
+    }    
     const {
       address,
       latitude,
-      longitude,
-      district,
-      province,
+      longitude,      
     } = this.state.currentLocation
     try {
       const {message} = await insertStadium (
@@ -84,7 +90,7 @@ class Stadium extends Component {
           const {latitude, longitude} = position.coords
           const address = await getAddressFromLatLong (latitude, longitude)
           this.setState ({
-            currentLocation: {address, district, province, latitude, longitude},
+            currentLocation: {address, latitude, longitude},
           })
         },
         error => {
@@ -99,10 +105,9 @@ class Stadium extends Component {
     const {
       address,
       latitude,
-      longitude,
-      district,
-      province,
+      longitude,      
     } = this.state.currentLocation
+    const {navigate} = this.props.navigation
     return (
       <TouchableWithoutFeedback onPress={() => {        
         Keyboard.dismiss()        
@@ -165,20 +170,23 @@ class Stadium extends Component {
                 />
 
               </View>
-              <View style={styles.personalInformation}>
-                <TextInput
-                  style={styles.textInput}
-                  value={address}
-                  editable={isFree == true ? false : true}
-                  onChangeText={address => {
-                    let updatedState = {...this.state}
-                    updatedState.currentLocation.address = address
-                    this.setState (updatedState)
-                  }}
-                  placeholder={translate("Stadium's address")}
-                />
-
-              </View>
+              <TouchableOpacity
+                onPress={async () => {                  
+                  navigate ('SearchPlace', {
+                    updatePlace: (address, latitude, longitude) => {
+                      this.setState ({currentLocation: {address,latitude, longitude}})
+                    },
+                  })
+                }}
+              >
+                <View style={styles.personalInformation}>
+                  <Text
+                    style={[styles.textInput, { color: address.trim() === '' ? '#a9a9a9' : 'black' }]}
+                  >
+                    {address.trim() === '' ? translate("Stadium's address") : address}
+                  </Text>
+                </View>
+              </TouchableOpacity>              
             </View>}
         <Text style={{fontSize: 20, fontWeight: 'bold', marginVertical: 20}}>
           {translate("Charging's type")}
