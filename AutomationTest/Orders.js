@@ -28,14 +28,12 @@ async function testCase01() {
             data.data.name == 'customer01' &&
             data.data.email == 'customer01@gmail.com'           
             , url, data.message)
-
         tokenKey = data.data.tokenKey
         customerId = data.data.customerId
+
         console.log('2. Mở OrderPlayer, bấm "địa điểm thi đấu" => update order Infomation ')              
-    	url = await urlUpdateCustomerInformation()
-        debugger
-		data = await sendPost(url,{name: 'customer01', phoneNumber: "", tokenKey, customerId})		
-        debugger
+    	url = await urlUpdateCustomerInformation()        
+		data = await sendPost(url,{name: 'customer01', phoneNumber: "", tokenKey, customerId})		        
 		assert(data.result && data.result.toUpperCase() == 'OK', url, data.message)	
 		              
 

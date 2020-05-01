@@ -123,7 +123,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
         />
         <Header
           title={translate("Order a player")}
-          hideBack={true}
+          hideBack={false}
+          hideNext={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('Service')
           }}

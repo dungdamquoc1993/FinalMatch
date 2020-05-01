@@ -118,10 +118,16 @@ export default class Stadium extends MultiLanguageComponent {
         }}
         accessible={false}
       >
-        <SafeAreaView style={styles.container}>
-          <Header
+        <SafeAreaView style={{
+          flex: 1,          
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',    
+        }}>
+          <Header            
             title={translate ("Search Stadium")}
             hideBack = {false}            
+            hideNext = {true}            
             pressBackButton={() => {
               this.props.navigation.navigate ('Service')
             }}
@@ -136,30 +142,35 @@ export default class Stadium extends MultiLanguageComponent {
               }}
             >
 
-              <View style={{flexDirection: 'column', width: '40%'}}>
+              <View style={{
+                flexDirection: 'column', 
+                width: 150, 
+                justifyContent:'center', 
+                alignItems:'center',
+                backgroundColor:'red'
+                }}>
                 <TouchableOpacity
                   onPress={async () => {
-                    await this._pressLocation ()
+                    await this._pressLocation()
                   }}
-                  style={{width: '30%', paddingStart: '22%', marginBottom: 5}}
+                  style={{width: 120}}
                 >
                   <Image
                     source={require ('../images/pin.png')}
-                    style={{height: 50, width: 50}}
+                    style={{height: 40, width: 40}}
                   />
                 </TouchableOpacity>
                 <Text
-                  style={{
-                    paddingStart: '12%',
-                    paddingEnd: '2%',
+                  style={{                    
                     fontSize: 17,
                     marginTop: 5,
+                    textAlign:'center'
                   }}
                   onPress={async () => {
-                    await this._pressLocation ()
+                    await this._pressLocation()
                   }}
                 >
-                  {translate ("Get location : ")}{' '}
+                  {translate ("Get location")}
                 </Text>
 
               </View>
@@ -174,7 +185,7 @@ export default class Stadium extends MultiLanguageComponent {
                 }}
                 onEndEditing={async () => {
                   if (validateLocation (latitude, longitude) == false) {
-                    await this._pressLocation ()
+                    await this._pressLocation()
                   }
                   await this.getStadiumList ()
                   await this.filterStadiums ()
@@ -288,14 +299,7 @@ const StadiumItem = props => {
   )
 }
 
-const styles = StyleSheet.create ({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%'
-  },
+const styles = StyleSheet.create ({  
   FeeAndFree: {
     flexDirection: 'row',
     height: 60,
