@@ -131,40 +131,39 @@ export default class Stadium extends MultiLanguageComponent {
             pressBackButton={() => {
               this.props.navigation.navigate ('Service')
             }}
-          />
-          <View width={'100%'}>
+          />          
             <View
               style={{
                 height: 80,
                 flexDirection: 'row',
                 justifyContent: 'space-evenly',
-                width: '100%',
+                alignItems: 'center',                
               }}
             >
 
               <View style={{
                 flexDirection: 'column', 
-                width: 150, 
+                width: 120, 
                 justifyContent:'center', 
-                alignItems:'center',
-                backgroundColor:'red'
+                alignItems:'center',                
                 }}>
                 <TouchableOpacity
                   onPress={async () => {
                     await this._pressLocation()
                   }}
-                  style={{width: 120}}
+                  style={{width: 100}}
                 >
                   <Image
                     source={require ('../images/pin.png')}
-                    style={{height: 40, width: 40}}
+                    style={{height: 40, width: 40, alignSelf:'center'}}
                   />
                 </TouchableOpacity>
                 <Text
                   style={{                    
-                    fontSize: 17,
+                    fontSize: 15,
                     marginTop: 5,
-                    textAlign:'center'
+                    textAlign:'center',
+                    alignSelf:'center'
                   }}
                   onPress={async () => {
                     await this._pressLocation()
@@ -176,7 +175,15 @@ export default class Stadium extends MultiLanguageComponent {
               </View>
 
               <TextInput
-                style={styles.textInput}
+                style={{                  
+                  height: 50,
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: 25,
+                  borderColor: '#a9a9a9',
+                  borderWidth: 1,                  
+                  fontSize: 15,     
+                  paddingHorizontal: 10,             
+                }}
                 value={radius}
                 onChangeText={radius => {
                   this.setState ({
@@ -194,11 +201,10 @@ export default class Stadium extends MultiLanguageComponent {
                 placeholder={translate ("Range around you : ")}
               />
               <Text
-                style={{
-                  position: 'absolute',
-                  left: '90%',
+                style={{                  
                   lineHeight: 50,
-                  fontSize: 17,
+                  fontSize: 15,
+                  marginStart: 5,
                 }}
               >
                 KM
@@ -207,17 +213,22 @@ export default class Stadium extends MultiLanguageComponent {
             </View>
             <Text
               style={{
-                paddingHorizontal: '25%',
+                paddingHorizontal: 20,
                 width: '100%',
-                fontSize: 20,
-                fontFamily: 'arial',
-                marginTop:20
+                fontSize: 16,                
+                marginTop:10
               }}
             >
               {address}
             </Text>
 
-            <View style={styles.FeeAndFree}>
+            <View style={{
+              flexDirection: 'row',
+              height: 60,
+              width: '100%',
+              justifyContent: 'space-around',
+              marginVertical: 10,
+            }}>
               <TouchableOpacity
                 onPress={async () => {
                   await this.setState ({isFree: false})
@@ -226,11 +237,11 @@ export default class Stadium extends MultiLanguageComponent {
               >
                 <Text
                   style={{
-                    fontSize: 17,
+                    fontSize: 15,
                     marginBottom: 10,                    
                   }}
                 >
-                  Fee
+                  {translate("Fee")}
                 </Text>
                 <FontAwesome5
                   name={isFree == true ? 'square' : 'check-square'}
@@ -246,11 +257,11 @@ export default class Stadium extends MultiLanguageComponent {
               >
                 <Text
                   style={{
-                    fontSize: 17,
+                    fontSize: 15,
                     marginBottom: 10,                    
                   }}
                 >
-                  Free
+                  {translate("Free")}                  
                 </Text>
                 <FontAwesome5
                   name={isFree == true ? 'check-square' : 'square'}
@@ -258,8 +269,7 @@ export default class Stadium extends MultiLanguageComponent {
                   color={'black'}
                 />
               </TouchableOpacity>
-            </View>
-          </View>
+            </View>          
           <FlatList
             data={filteredStadiums}
             keyExtractor={(item, index) => `${item.stadiumId}`}
@@ -288,25 +298,18 @@ const StadiumItem = props => {
           paddingHorizontal: 10,
         }}
       >
-        <Text style={{fontSize: 17, paddingTop: 10}}>
-          Tên sân bóng: {stadiumName}
+        <Text style={{fontSize: 15, paddingTop: 10}}>
+          {translate("Stadium's name:")}{stadiumName}
         </Text>
-        <Text style={{fontSize: 17}}>{translate ("Stadium's address : ")}{address}</Text>
-        <Text style={{fontSize: 17}}>{translate("Phone : ")}{phoneNumber}</Text>
-        <Text style={{fontSize: 17, paddingBottom: 10}}>{distance}</Text>
+        <Text style={{fontSize: 15}}>{translate ("Stadium's address : ")}{address}</Text>
+        <Text style={{fontSize: 15}}>{translate("Phone : ")}{phoneNumber}</Text>
+        <Text style={{fontSize: 15, paddingBottom: 10}}>{distance}</Text>
       </View>
     </TouchableHighlight>
   )
 }
 
-const styles = StyleSheet.create ({  
-  FeeAndFree: {
-    flexDirection: 'row',
-    height: 60,
-    width: '100%',
-    justifyContent: 'space-around',
-    marginVertical: 20,
-  },
+const styles = StyleSheet.create ({    
   viewInformationStadium: {
     height: 150,
     justifyContent: 'space-between',
@@ -325,13 +328,13 @@ const styles = StyleSheet.create ({
   textDifine: {
     width: '50%',
 
-    fontSize: 17,
+    fontSize: 15,
     paddingStart: '15%',
   },
   textInformation: {
     width: '50%',
 
-    fontSize: 17,
+    fontSize: 15,
     paddingEnd: '5%',
   },
   viewDetailStadium: {
@@ -342,16 +345,5 @@ const styles = StyleSheet.create ({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  textInput: {
-    width: '60%',
-    height: 50,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 25,
-    borderColor: '#a9a9a9',
-    borderWidth: 1,
-    paddingStart: 15,
-    fontSize: 17,
-    marginEnd: 10,
-  },
+  },  
 })
