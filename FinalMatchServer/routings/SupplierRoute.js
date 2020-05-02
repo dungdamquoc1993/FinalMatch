@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
               if(results != null && results.length > 0) {
                   res.json({
                     result: "ok", 
-                    data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
+                    data: results[0], 
                     message: i18n.__("Login user successfully"),
                     time: Date.now()})
               }                
@@ -87,7 +87,7 @@ router.post('/loginFacebook', async (req, res) => {
               if(results != null && results.length > 0) {
                   res.json({
                     result: "ok", 
-                    data: {tokenKeySupplierId: results[0].tokenKeySupplierId}, 
+                    data: results[0], 
                     message: i18n.__("Login facebook successfully"),
                     time: Date.now()})
               }                

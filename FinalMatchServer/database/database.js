@@ -1,19 +1,44 @@
 const mysql = require('mysql')
+const mysql2 = require('mysql2')
+
+const { Sequelize } = require('sequelize')
 const { HOSTNAME, DB_PORT, DB_NAME } = require("../constants/constants")
 //const FCM_REGISTRATION_TOKEN = "fUV34vmw_k3UumcU3ffkk3:APA91bGYPLlhEV1pIqRozb9oOR3YkQj6bqMsy8__n_3PSNGeUzzjmlfM7l8J74sy8-Ksx5MRz4JfGTaI9EaOAu3HMdFnlLmbskBuap8dozdSXHnkQJzg0sKcwrBfaqBvDSAv35A496o6"
 const FCM_REGISTRATION_TOKEN = "fSmrwaegQZarMvltkuQw8w:APA91bEpLrNwSboRP1Dh_6oIOqiOITaEw4DSE1blqcqARQ0381DglRY2vfqW_DuLnsJKRRxthpHBzV6DQ_hXbV-tC_Q3L8zRRy1U34c2Z6Plnpoq2E-S7MMeX4NPGWI9-FVKdBUbZ0sr"
 //f-XFAPHJQMm2BpaU_FB4vM:APA91bEetIISax7ofTuLtQF-VzYRxCU7bJvbI4VF4349miH1zFONLZ1iQBXALs6FcUrp5Uh04kkRZwF18A_7JbR4v6P3AyZQ9p4luELr0f9kg5SdmQsK8FaDbhVO46yGuvN8t-pF3vup
 var Firebase = require('firebase')
 //mysql
+const DB_USERNAME = "root"
+const DB_PASSWORD = "CC=2Yw#j5"
 const connection = mysql.createConnection({
     host: HOSTNAME,
-    user: "root",
-    password: "CC=2Yw#j5",
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
     database: DB_NAME,
     port: DB_PORT,
     encoding: 'utf8',    
     charset: 'utf8mb4'
 })
+
+const sequelize = new Sequelize(
+    DB_NAME,
+    DB_USERNAME,
+    DB_PASSWORD,
+    {
+      dialect: 'mysql',
+      dialectModule: mysql2, 
+      host: HOSTNAME,
+      port: DB_PORT
+    }
+  )
+
+sequelize.authenticate()
+.then(() => {
+    console.log('Connection Sequelize successfully.');
+}).catch(err => {
+    console.error('Sequelize connect database failed:', err);
+})
+
 connection.connect((err) => {
     if (err) throw err;
     console.log('Connect MySQL successfully!')
@@ -33,6 +58,7 @@ const firebaseDatabase = firebaseApp.database();
 
 module.exports = {
     connection, 
+    sequelize,
     firebaseDatabase,
 }
 

@@ -125,25 +125,25 @@ router.post('/deletePlayerService', async (req, res) => {
       time: Date.now()})
       return
   }
+  debugger
   const {id} = req.body    
   connection.query("DELETE FROM PlayerService WHERE id = ?", 
       [id]        
       ,(error, results) => {          
+          debugger
           if(error) {
-              res.json({
-                result: "failed", 
-                data: {}, 
-                message: error.sqlMessage,
-                time: Date.now()})
+            res.json({
+              result: "failed", 
+              data: {}, 
+              message: error.sqlMessage,
+              time: Date.now()})
           } else {
-          
-              if(results != null && results.length > 0) {                  
-                  res.json({
-                    result: "ok", 
-                    data: results[0][0], 
-                    message: i18n.__("Delete Player Service  successfully"),
-                    time: Date.now()})
-              }                
+            res.json({
+              result: "ok", 
+              data: {}, 
+              message: i18n.__("Delete Player Service  successfully"),
+              time: Date.now()})
+            
           }
   })    
 })

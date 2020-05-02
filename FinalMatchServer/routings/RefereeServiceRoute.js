@@ -127,22 +127,19 @@ router.post('/deleteRefereeService', async (req, res) => {
   connection.query("DELETE FROM RefereeService WHERE id = ?", 
       [id]        
       ,(error, results) => {          
-          if(error) {
-              res.json({
-                result: "failed", 
-                data: {}, 
-                message: error.sqlMessage,
-                time: Date.now()})
-          } else {
-          
-              if(results != null && results.length > 0) {                  
-                  res.json({
-                    result: "ok", 
-                    data: results[0][0], 
-                    message: i18n.__("Delete Referee Service  successfully"),
-                    time: Date.now()})
-              }                
-          }
+        if(error) {
+          res.json({
+            result: "failed", 
+            data: {}, 
+            message: error.sqlMessage,
+            time: Date.now()})
+        } else {
+          res.json({
+            result: "ok", 
+            data: {}, 
+            message: i18n.__("Delete Referee Service  successfully"),
+            time: Date.now()})              
+        }
   })    
 })
 

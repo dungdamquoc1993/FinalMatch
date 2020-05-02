@@ -86,6 +86,7 @@ router.post('/loginFacebook', async (req, res) => {
 
 //Link http://localhost:3000/customers/updateCustomerInformation
 router.post('/updateCustomerInformation', async (req, res) => {
+  debugger
   //validate, check token ?  
   const { tokenkey, customerid, locale } = req.headers
   i18n.setLocale(locale)
@@ -101,11 +102,11 @@ router.post('/updateCustomerInformation', async (req, res) => {
     return
   }
   const { name = '', phoneNumber = '' } = req.body  
-  category
+  
   connection.query(POST_UPDATE_CUSTOMER_INFORMATION,
     [name, phoneNumber, customerid]
     , (error, results) => {
-      category
+      debugger
       if (error) {
         res.json({
           result: "failed",
