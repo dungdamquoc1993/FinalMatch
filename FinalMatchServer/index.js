@@ -36,15 +36,14 @@ app.use('/chat', ChatRoute)
 app.use('/temp', TempRoute)
 app.use('/notifications', NotificationRoute)
 
-debugger;
-const {sequelize} = require('./database/database')
-const {OrderModel} = require('./models/OrderModel')
+const Orders = require('./models/Orders')
 debugger;
 // let PORT = require('readline-sync').question("Enter PORT : ")
 // PORT = 3000;//in real server
-
+Orders.findAll().then(xx => {
+    console.log(JSON.stringify(xx))
+});
 PORT = 3001;
 app.listen(PORT, () => {
-    console.log(`app listen from : ${PORT}`)
-    testQuery();
+    console.log(`app listen from : ${PORT}`)    
 })
