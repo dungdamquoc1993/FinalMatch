@@ -206,6 +206,33 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
       }
     })
 })
+const checkNewOrder = async ({
+                              customerId, 
+                              supplierId, 
+                              latitude, 
+                              longitude, 
+                              typeRole, 
+                              dateTimeStart, 
+                              sender}) => {
+  if(sender == 'supplier') {
+    let orders = await Orders.findAll({
+      where: {
+        [Op.and]: [
+                    { customerId }, 
+                    { point : {[Op.eq]: { type: 'Point', coordinates: [latitude,longitude] } } },
+                    { supplierId: {[Op.ne]: supplierid} },
+                    { typeRole: selectedOrder.typeRole},
+                    { dateTimeStart: selectedOrder.dateTimeStart}
+                  ]
+      }
+    });
+
+  } else if(sender == 'customer') {
+
+  }
+  
+
+}
 //http://150.95.113.87:3000/orders/createNewOrder
 router.post('/createNewOrder', async (req, res) => {
   const { tokenkey, customerid, locale } = req.headers
@@ -358,7 +385,7 @@ router.post('/updateOrderStatus', async (req, res) => {
       });
       if(newStatus == ACCEPTED) {
         let selectedOrders = orders.filter(eachOrder => eachOrder.orderId == orderId && eachOrder.status == PENDING)
-        if(selectedOrders.length == 0) {
+        if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
             count: results[0].length,
@@ -375,7 +402,8 @@ router.post('/updateOrderStatus', async (req, res) => {
             [Op.and]: [
                         { customerId: customerid }, 
                         { supplierId: {[Op.ne]: supplierid} },
-                        { typeRole: selectedOrder.typeRole}
+                        { typeRole: selectedOrder.typeRole},
+                        { dateTimeStart: selectedOrder.dateTimeStart}
                       ]
           }
         });
