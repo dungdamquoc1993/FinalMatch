@@ -1,6 +1,7 @@
 var express = require('express')
 const {i18n} = require('../locales/i18n')
 var router = express.Router()
+const Orders = require('../models/Orders')
 const {
   checkTokenCustomer,
   checkToken,
@@ -335,7 +336,7 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
     return
   }
-  const { status, orderId } = req.body
+  const { newStatus, orderId, sender } = req.body
   //validate, check token ?  
   const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
   
@@ -348,6 +349,48 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
     return
   }
+  var orders = []
+  try {    
+    //Nếu gửi từ supplier
+    if (sender == 'supplier') {
+      orders = await Orders.findAll({
+        where: { customerId: customerid }
+      });
+      if(newStatus == ACCEPTED) {
+        let selectedOrders = orders.filter(eachOrder => eachOrder.orderId == orderId && eachOrder.status == PENDING)
+        if(selectedOrders.length == 0) {
+          res.json({
+            result: "ok",
+            count: results[0].length,
+            data: results[0][0],
+            message: "No change",
+            time: Date.now()
+          });
+        }
+        let selectedOrder = selectedOrders[0];
+        selectedOrder.status = ACCEPTED;
+        await selectedOrder.save();
+        await Orders.update({ status: MISSED }, {
+          where: {
+            [Op.and]: [
+                        { customerId: customerid }, 
+                        { supplierId: {[Op.ne]: supplierid} },
+                        { typeRole: selectedOrder.typeRole}
+                      ]
+          }
+        });
+        
+      }
+    } else if (sender == 'customer') {
+
+    } else {
+
+    }
+  }catch(error) {
+
+  }
+  
+
   connection.query(POST_UPDATE_ORDER_STATUS,
     [status, orderId]
     , async (error, results) => {

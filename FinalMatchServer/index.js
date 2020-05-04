@@ -37,12 +37,8 @@ app.use('/temp', TempRoute)
 app.use('/notifications', NotificationRoute)
 
 const Orders = require('./models/Orders')
-debugger;
 // let PORT = require('readline-sync').question("Enter PORT : ")
 // PORT = 3000;//in real server
-Orders.findAll().then(xx => {
-    console.log(JSON.stringify(xx))
-});
 PORT = 3001;
 app.listen(PORT, () => {
     console.log(`app listen from : ${PORT}`)    
