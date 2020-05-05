@@ -13,7 +13,8 @@ const OrderStatus = {
   ACCEPTED: "accepted", 
   CANCELLED:"cancelled", 
   COMPLETED: "completed", 
-  MISSED: "missed"
+  MISSED: "missed",
+  EXPIRED: "expired"
 }
 const { 
   connection,   
@@ -206,34 +207,31 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
       }
     })
 })
+
 const checkNewOrder = async ({
                               customerId, 
                               supplierId, 
                               latitude, 
                               longitude, 
                               typeRole, 
-                              dateTimeStart, 
-                              sender}) => {
-  if(sender == 'supplier') {
-    let orders = await Orders.findAll({
-      where: {
-        [Op.and]: [
-                    { customerId }, 
-                    { point : {[Op.eq]: { type: 'Point', coordinates: [latitude,longitude] } } },
-                    { supplierId: {[Op.ne]: supplierid} },
-                    { typeRole: selectedOrder.typeRole},
-                    { dateTimeStart: selectedOrder.dateTimeStart}
-                  ]
-      }
-    });
-
-  } else if(sender == 'customer') {
-
-  }
+                              dateTimeStart
+                              }) => {
+  let orders = await Orders.findAll({
+    where: {
+      [Op.and]: [
+        { customerId },
+        { point: { [Op.eq]: { type: 'Point', coordinates: [latitude, longitude] } } },
+        { supplierId: { [Op.ne]: supplierid } },
+        { typeRole: selectedOrder.typeRole },
+        { dateTimeStart: selectedOrder.dateTimeStart }
+      ]
+    }
+  });
   
 
 }
 //http://150.95.113.87:3000/orders/createNewOrder
+
 router.post('/createNewOrder', async (req, res) => {
   const { tokenkey, customerid, locale } = req.headers
   i18n.setLocale(locale)
@@ -379,12 +377,32 @@ router.post('/updateOrderStatus', async (req, res) => {
   var orders = []
   try {    
     //Nếu gửi từ supplier
-    if (sender == 'supplier') {
+    /**
+ * c1 - s1 => c1 o1 s1 R 12h 05-05-2021, pending 
+ * c2 - s1 => c2 o11 s1 R 12h 05-05-2021, peding
+ * c3 - s1 => c3 0111 s1 R 12h 06-05-2021, peding
+ * 
+ * c1 - s2 => c1 o2 s2 P 12h 06-05-2021, peding
+ * c2 - s2 => c2 o22 s2 R 12h 06-05-2021, peding
+ * 
+ * c1 - s3 => c1 o3 s3 R 12h 06-05-2021, peding
+ * c2 - s3 => c2 o33 s3 R 12h 06-05-2021, peding
+ * 
+ * o1 => accept => 
+ * if o1.typeRole = o3.typeRole = R => o3 = missed
+ * else if o1.typeRole = o3.typeRole = P => o3 = pending 
+ * o1 => accept => 
+ * if(o1.datetimeStart = o11.datetimeStart) => 011 = missed
+ * 
+ */
+    let selectedOrder;
+    let selectedOrders = []
+    if (sender == 'supplier') {      
       orders = await Orders.findAll({
-        where: { customerId: customerid }
+        where: { supplierId: supplierid }
       });
       if(newStatus == ACCEPTED) {
-        let selectedOrders = orders.filter(eachOrder => eachOrder.orderId == orderId && eachOrder.status == PENDING)
+        selectedOrders = orders.filter(eachOrder => eachOrder.orderId == orderId && eachOrder.status == PENDING)
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
@@ -393,21 +411,100 @@ router.post('/updateOrderStatus', async (req, res) => {
             message: "No change",
             time: Date.now()
           });
+          return
         }
-        let selectedOrder = selectedOrders[0];
+        selectedOrder = selectedOrders[0];
         selectedOrder.status = ACCEPTED;
         await selectedOrder.save();
         await Orders.update({ status: MISSED }, {
-          where: {
-            [Op.and]: [
-                        { customerId: customerid }, 
-                        { supplierId: {[Op.ne]: supplierid} },
-                        { typeRole: selectedOrder.typeRole},
-                        { dateTimeStart: selectedOrder.dateTimeStart}
-                      ]
-          }
+          where: 
+            {            
+              [Op.and]: [
+                          { supplierId: {[Op.eq]: supplierid} },
+                          { orderId: {[Op.ne]: orderId} },
+                          { status : {[Op.notIn]: [CANCELLED, COMPLETED, EXPIRED, MISSED, ACCEPTED]}}, 
+                          { dateTimeStart: 
+                              {
+                                [Op.and]: 
+                                  [
+                                    {
+                                      [Op.between]: 
+                                        [
+                                          selectedOrder.dateTimeStart.setDate(selectedOrder.dateTimeStart.getHour() - 2), 
+                                          selectedOrder.dateTimeEnd
+                                        ]
+                                    },
+                                    {
+                                      typeRole: 'referee'
+                                    }
+                                  ]
+                              }
+                          },                                                
+                        ]
+            }
         });
         
+      } else if(newStatus == CANCELLED){
+        selectedOrders = orders.filter(
+                                    eachOrder => eachOrder.orderId == orderId && 
+                                    [PENDING, ACCEPTED].includes(eachOrder.status))
+        if(selectedOrders == null || selectedOrders.length == 0) {
+          res.json({
+            result: "ok",
+            count: results[0].length,
+            data: results[0][0],
+            message: "No change",
+            time: Date.now()
+          });
+          return
+        }
+        selectedOrder = selectedOrders[0];
+        selectedOrder.status = CANCELLED;
+        await selectedOrder.save();
+        let myCustomerIds = await viewSupplierServicesOrders.findAll({
+          where: {
+            orderId: selectedOrder.orderId
+          }
+        })
+        await Orders.update({ status: PENDING }, {
+          where: 
+            {            
+              [Op.and]: [
+                          { supplierId: {[Op.eq]: supplierid} },
+                          { orderId: {[Op.ne]: orderId} },
+                          { status : {[Op.in]: [MISSED]}}, 
+                          { dateTimeStart: 
+                              {
+                                [Op.and]: 
+                                  [
+                                    {
+                                      [Op.between]: 
+                                        [
+                                          selectedOrder.dateTimeStart.setDate(selectedOrder.dateTimeStart.getHour() - 2), 
+                                          selectedOrder.dateTimeEnd
+                                        ]
+                                    },
+                                    {
+                                      [Op.or]: 
+                                        [
+                                          {
+                                            typeRole: 'referee'
+                                          },
+                                          {
+                                            [Op.and]: 
+                                              [
+                                                {typeRole: 'player'},
+                                                {customerId: {[Op.in]: myCustomerIds}}
+                                              ]
+                                          } 
+                                        ]
+                                    }
+                                  ]
+                              }
+                          },                                                
+                        ]
+            }
+        });
       }
     } else if (sender == 'customer') {
 

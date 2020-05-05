@@ -8,17 +8,17 @@ DELETE FROM Orders WHERE supplierId IN (111,222,333);
 
 
 SET @@time_zone = '+00:00';
-CALL createNewOrder('x1',111,888,999,'referee','2021-05-01 16:40:00');
+CALL createNewOrder('x1',111,888,999,'player','2021-05-01 16:40:00');
 CALL createNewOrder('x1',222,888,999,'player','2021-05-01 16:40:00');
-CALL createNewOrder('x1',333,888,999,'referee','2021-05-01 16:40:00');
+CALL createNewOrder('x1',333,888,999,'player','2021-05-01 16:40:00');
 
-CALL createNewOrder('x1',333,888,999,'referee','2021-05-01 18:42:00');
 
-CALL createNewOrder('x2',111,888,999,'referee','2021-05-01 16:40:00');//o4
+CALL createNewOrder('x2',111,888,999,'referee','2021-05-01 16:40:00');
 
 SELECT * FROM Orders WHERE customerId IN ('x1','x2','x3') OR supplierId IN (111,222,333);
+DELETE FROM Orders WHERE id=82;
 
-
+SELECT * FROM Orders;
 DROP PROCEDURE IF EXISTS createNewOrder;
 --dateTimeStart trong Nodejs phai chuyen het giay va miligiay ve 0, chu y GMT
 DELIMITER //
@@ -32,14 +32,19 @@ CREATE PROCEDURE createNewOrder(
 )
 BEGIN
 DECLARE numberOfOrders INT DEFAULT 0;
+SET @dateTimeEnd = DATE_ADD(dateTimeStart, INTERVAL 2 HOUR);
 SELECT count(*) INTO numberOfOrders FROM Orders  
 WHERE Orders.point = POINT(latitude,longitude) 
-        AND Orders.dateTimeStart BETWEEN DATE_SUB(dateTimeStart, INTERVAL 2 HOUR) AND dateTimeEnd 
-        AND Orders.status IN ('accepted')
-        AND Orders.typeRole = typeRole;        
+        AND 
+        	(
+        		(Orders.dateTimeStart BETWEEN DATE_SUB(dateTimeStart, INTERVAL 2 HOUR) AND @dateTimeEnd AND Orders.status IN ('accepted')) 
+        		AND
+        		(Orders.customerId = customerId AND Orders.status = 'accepted') 
+        	);
+        	       	
 IF numberOfOrders = 0 THEN    
     INSERT INTO Orders(customerId, supplierId, point, typeRole, dateTimeStart, dateTimeEnd)
-    VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateTimeStart, DATE_ADD(dateTimeStart, INTERVAL 2 HOUR));
+    VALUES(customerId, supplierId, POINT(latitude,longitude), typeRole, dateTimeStart, @dateTimeEnd);
 END IF;
 SELECT * FROM viewOrdersSupplierCustomer WHERE orderLatitude = latitude 
         AND orderLongitude = longitude
@@ -77,4 +82,10 @@ BEGIN
 END; //                                 
 delimiter ;
 
-CALL updateOrderStatusFromSupplier('accepted', 61);
+CALL updateOrderStatusFromSupplier('accepted', 72);
+DESCRIBE Orders ;
+
+
+
+
+
