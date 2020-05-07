@@ -2,6 +2,7 @@ var express = require('express')
 const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const Orders = require('../models/Orders')
+const { Op } = require("sequelize")
 const {
   checkTokenCustomer,
   checkToken,
@@ -350,8 +351,9 @@ const insertNotification = ({
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
-  const { newStatus, orderId, sender } = req.body
-  debugger
+  const { newStatus, orderId, sender } = req.body  
+  i18n.setLocale(locale)    
+  /**tam thoi comment, ko xoaaaaaa 
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -381,22 +383,10 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
     return
   }
-  i18n.setLocale(locale)  
-  if (await checkToken(tokenkey, supplierid) == false &&
-    await checkTokenCustomer(tokenkey, customerid) == false) {    
-    res.json({
-      result: "failed",
-      data: {},
-      message: i18n.__("Token is invalid"),
-      time: Date.now()
-    })
-    return
-  }
-  
+  */
   //validate, check token ?  
-  const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
-  
-  if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(status.trim().toLowerCase())) {
+  const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED,EXPIRED } = OrderStatus  
+  if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(newStatus.trim().toLowerCase())) {    
     res.json({
       result: "failed",
       data: {},
@@ -404,14 +394,19 @@ router.post('/updateOrderStatus', async (req, res) => {
       time: Date.now()
     })
     return
-  }
+  }  
   var orders = []
   try {    
     //Nếu gửi từ supplier
     /**
  * c1 - s1 => c1 o1 s1 R 12h 05-05-2021, pending 
+ * CALL createNewOrder('c1',111,888,999,'referee','2021-05-05 12:00:00');
+ * 
  * c2 - s1 => c2 o11 s1 R 12h 05-05-2021, peding
+ * CALL createNewOrder('c2',111,888,999,'referee','2021-05-05 12:00:00');
+ * 
  * c3 - s1 => c3 0111 s1 R 12h 06-05-2021, peding
+ * CALL createNewOrder('c3',111,888,999,'referee','2021-05-06 12:00:00');
  * 
  * c1 - s2 => c1 o2 s2 P 12h 06-05-2021, peding
  * c2 - s2 => c2 o22 s2 R 12h 06-05-2021, peding
@@ -428,57 +423,63 @@ router.post('/updateOrderStatus', async (req, res) => {
  */
     let selectedOrder;
     let selectedOrders = []
-    if (sender == 'supplier') {      
+    if (sender == 'supplier') {            
       orders = await Orders.findAll({
         where: { supplierId: supplierid }
       });
       if(newStatus == ACCEPTED) {
-        selectedOrders = orders.filter(eachOrder => eachOrder.orderId == orderId && eachOrder.status == PENDING)
+        selectedOrders = orders.filter(eachOrder => eachOrder.id == orderId && eachOrder.status == PENDING)
+        debugger
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
-            count: results[0].length,
-            data: results[0][0],
+            count: 0,
+            data: {},
             message: "No change",
             time: Date.now()
           });
           return
         }
         selectedOrder = selectedOrders[0];
+        debugger
         selectedOrder.status = ACCEPTED;
         await selectedOrder.save();
+        let dateTimeStartMinus2Hours = new Date(selectedOrder.dateTimeStart.getTime())
+        dateTimeStartMinus2Hours.setHours(selectedOrder.dateTimeStart.getHours() - 2)
         await Orders.update({ status: MISSED }, {
           where: 
             {            
               [Op.and]: [
                           { supplierId: {[Op.eq]: supplierid} },
-                          { orderId: {[Op.ne]: orderId} },
+                          { id: {[Op.ne]: orderId} },
                           { status : {[Op.notIn]: [CANCELLED, COMPLETED, EXPIRED, MISSED, ACCEPTED]}}, 
-                          { dateTimeStart: 
-                              {
-                                [Op.and]: 
-                                  [
+                          {
+                            [Op.and]: 
+                              [
+                                  {
+                                    dateTimeStart: 
                                     {
                                       [Op.between]: 
                                         [
-                                          selectedOrder.dateTimeStart.setDate(selectedOrder.dateTimeStart.getHour() - 2), 
+                                          dateTimeStartMinus2Hours, 
                                           selectedOrder.dateTimeEnd
                                         ]
-                                    },
-                                    {
-                                      typeRole: 'referee'
                                     }
-                                  ]
-                              }
-                          },                                                
+                                  },
+                                  {
+                                    typeRole: 'referee'
+                                  } 
+
+                              ]
+                          }                          
                         ]
             }
-        });
-        
-      } else if(newStatus == CANCELLED){
+        });                                     
+      } else if(newStatus == CANCELLED){        
         selectedOrders = orders.filter(
-                                    eachOrder => eachOrder.orderId == orderId && 
+                                    eachOrder => eachOrder.id == orderId && 
                                     [PENDING, ACCEPTED].includes(eachOrder.status))
+        debugger                                    
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
@@ -492,136 +493,107 @@ router.post('/updateOrderStatus', async (req, res) => {
         selectedOrder = selectedOrders[0];
         selectedOrder.status = CANCELLED;
         await selectedOrder.save();        
+        let dateTimeStartMinus2Hours = new Date(selectedOrder.dateTimeStart.getTime())
+        dateTimeStartMinus2Hours.setHours(selectedOrder.dateTimeStart.getHours() - 2)
+        
         await Orders.update({ status: PENDING }, {
           where: 
-            {            
-              [Op.and]: [
-                          { supplierId: {[Op.eq]: supplierid} },
-                          { orderId: {[Op.ne]: orderId} },
-                          { status : {[Op.in]: [MISSED]}}, 
-                          { dateTimeStart: 
+        {            
+          [Op.and]: [
+                      { supplierId: {[Op.eq]: supplierid} },
+                      { id: {[Op.ne]: orderId} },
+                      { status : {[Op.in]: [MISSED]}}, 
+                      {
+                        [Op.and]: 
+                          [
                               {
-                                [Op.and]: 
-                                  [
-                                    {
-                                      [Op.between]: 
-                                        [
-                                          selectedOrder.dateTimeStart.setDate(selectedOrder.dateTimeStart.getHour() - 2), 
-                                          selectedOrder.dateTimeEnd
-                                        ]
-                                    },
-                                    {
-                                      [Op.or]: 
-                                        [
-                                          {
-                                            typeRole: 'referee'
-                                          },
-                                          {
-                                            [Op.and]: 
-                                              [
-                                                {typeRole: 'player'},                                                
-                                              ]
-                                          } 
-                                        ]
-                                    }
-                                  ]
-                              }
-                          },                                                
-                        ]
-            }
-        });
-      }
+                                dateTimeStart: 
+                                {
+                                  [Op.between]: 
+                                    [
+                                      dateTimeStartMinus2Hours, 
+                                      selectedOrder.dateTimeEnd
+                                    ]
+                                }
+                              },                              
+                          ]
+                      }                          
+                    ]
+        }
+       });
+               
+       debugger
+      }      
     } else if (sender == 'customer') {
 
     } else {
-
+      res.json({
+        result: "failed",
+        count: 0,
+        data: {},
+        message: 'sender must be customer or supplier',
+        time: Date.now()
+      })
+      return
     }
-  }catch(error) {
+    debugger
+    let updates = {}
+    let key = `/orders/${customerId}:${supplierId}`
+    updates[key] = {
+      ...selectedOrder || {}
+    }
+    await firebaseDatabase.ref(key).remove()
+    await firebaseDatabase.ref().update(updates)
 
-  }
-  
+    //Update order, báo cho customerid biết
+    let notificationTokens = await getNotificationTokens({ supplierId: 0, customerId })
 
-  connection.query(POST_UPDATE_ORDER_STATUS,
-    [status, orderId]
-    , async (error, results) => {
-      
-      if (error) {
-        res.json({
-          result: "failed",
-          data: {},
-          message: error.sqlMessage,
-          time: Date.now()
-        })
-      } else {
+    const { supplierName, customerName } = results[0][0]
+    let title = i18n.__("Update an order")
+    let body = i18n.__("%s update an order", `${supplierName}`)
 
-        if (results != null && results.length > 0) {          
-          if (!results[0][0]) {
-            res.json({
-              result: "failed",
-              count: 0,
-              data: {},
-              message: i18n.__("Cannot find order with id: %s to update", `${orderId}`),
-              time: Date.now()
-            })
-            return
-          }
-          const { supplierId, customerId } = results[0][0]
-          let updates = {}
-          let key = `/orders/${customerId}:${supplierId}`
-          updates[key] = {
-            ...results[0][0] || {}
-          }          
-          await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates)    
-          
-          //Update order, báo cho customerid biết
-          let notificationTokens = await getNotificationTokens({supplierId: 0, customerId})
-          
-          const {supplierName, customerName} = results[0][0]                                                      
-          let title = i18n.__("Update an order")
-          let body = i18n.__("%s update an order", `${supplierName}`)
-          
-          let failedTokens = await sendFirebaseCloudMessage({title, 
-                                    body, 
-                                    payload: body,
-                                    notificationTokens
-                                  })         
-          if(failedTokens.length <= notificationTokens.length) {
-            //success
-            i18n.setLocale("en")  
-            titleEnglish = i18n.__("Update an order")
-            bodyEnglish = i18n.__("%s update an order", `${supplierName}`)
-            i18n.setLocale("vi")  
-            titleVietnamese = i18n.__("Update an order")
-            bodyVietnamese = i18n.__("%s update an order", `${supplierName}`)
-            await insertNotification({
-              supplierId, 
-              customerId, 
-              titleEnglish, 
-              bodyEnglish, 
-              titleVietnamese, 
-              bodyVietnamese, 
-              orderId
-            })
-          }                                  
-          res.json({
-            result: "ok",
-            count: results[0].length,
-            data: results[0][0],
-            message: i18n.__("Update order status successfully"),
-            time: Date.now()
-          })
-        } else {
-          res.json({
-            result: "failed",
-            count: 0,
-            data: {},
-            message: i18n.__("Cannot find order with id: %s to update", `${orderId}`),
-            time: Date.now()
-          })
-        }
-      }
+    let failedTokens = await sendFirebaseCloudMessage({
+      title,
+      body,
+      payload: body,
+      notificationTokens
     })
+    if (failedTokens.length <= notificationTokens.length) {
+      //success
+      i18n.setLocale("en")
+      titleEnglish = i18n.__("Update an order")
+      bodyEnglish = i18n.__("%s update an order", `${supplierName}`)
+      i18n.setLocale("vi")
+      titleVietnamese = i18n.__("Update an order")
+      bodyVietnamese = i18n.__("%s update an order", `${supplierName}`)
+      await insertNotification({
+        supplierId,
+        customerId,
+        titleEnglish,
+        bodyEnglish,
+        titleVietnamese,
+        bodyVietnamese,
+        orderId
+      })
+      res.json({
+        result: "ok",
+        count: selectedOrders.length,
+        data: results[0][0],
+        message: i18n.__("Update order status successfully"),
+        time: Date.now()
+      })
+      return
+    }
+  } catch(error) {
+    debugger
+    res.json({
+      result: "failed",
+      count: 0,
+      data: {},
+      message: i18n.__("Cannot find order with id: %s to update", `${orderId}`),
+      time: Date.now()
+    })
+  }  
 })
 
 
