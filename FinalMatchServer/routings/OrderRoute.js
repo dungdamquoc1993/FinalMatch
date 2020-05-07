@@ -350,18 +350,49 @@ const insertNotification = ({
 router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
+  const { newStatus, orderId, sender } = req.body
+  debugger
+  if(sender == 'supplier') {
+    if (await checkToken(tokenkey, supplierid) == false) {
+      res.json({
+        result: "failed",
+        data: {},
+        message: "Supplier's token is incorrect",
+        time: Date.now()
+      })
+      return
+    }
+  } else if(sender == 'customer') {
+    if (await checkTokenCustomer(tokenkey, customerid) == false) {
+      res.json({
+        result: "failed",
+        data: {},
+        message: "Customer's token is incorrect",
+        time: Date.now()
+      })
+      return
+    }    
+  } else {
+    res.json({
+      result: "failed",
+      data: {},
+      message: "sender must be 'supplier' or 'customer'",
+      time: Date.now()
+    })
+    return
+  }
   i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
-      result: "false",
+      result: "failed",
       data: {},
       message: i18n.__("Token is invalid"),
       time: Date.now()
     })
     return
   }
-  const { newStatus, orderId, sender } = req.body
+  
   //validate, check token ?  
   const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
   
@@ -460,12 +491,7 @@ router.post('/updateOrderStatus', async (req, res) => {
         }
         selectedOrder = selectedOrders[0];
         selectedOrder.status = CANCELLED;
-        await selectedOrder.save();
-        let myCustomerIds = await viewSupplierServicesOrders.findAll({
-          where: {
-            orderId: selectedOrder.orderId
-          }
-        })
+        await selectedOrder.save();        
         await Orders.update({ status: PENDING }, {
           where: 
             {            
@@ -493,8 +519,7 @@ router.post('/updateOrderStatus', async (req, res) => {
                                           {
                                             [Op.and]: 
                                               [
-                                                {typeRole: 'player'},
-                                                {customerId: {[Op.in]: myCustomerIds}}
+                                                {typeRole: 'player'},                                                
                                               ]
                                           } 
                                         ]
