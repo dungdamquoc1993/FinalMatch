@@ -17,7 +17,8 @@ import {
   getSupplierFromStorage, 
   getColorFromStatus,
   OrderStatus,
-  isIOS
+  isIOS,  
+  convertStringPositionsToPositionName,
 } from '../helpers/Helpers'
 import {
   firebaseDatabase,
@@ -215,13 +216,13 @@ class Item extends Component {
             {translate("Match's timing")}: {strDatetimeStart}
           </Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
-            let result = await updateOrderStatus(orderId, ACCEPTED)            
+            let result = await updateOrderStatus(orderId, ACCEPTED, 'supplier')            
             if (result == true) {
               _reloadOrders()
             }
           }}
             pressCancel={async () => {
-              let result = await updateOrderStatus(orderId, CANCELLED)
+              let result = await updateOrderStatus(orderId, CANCELLED, 'supplier')
               if (result == true) {
                 _reloadOrders()
               }
@@ -235,7 +236,7 @@ class Item extends Component {
               Linking.openURL(`tel:${customerPhoneNumber}`)
             }}
             pressReject={async () => {
-              let result = await updateOrderStatus(orderId, CANCELLED)
+              let result = await updateOrderStatus(orderId, CANCELLED,'supplier')
               if (result == true) {
                 _reloadOrders()
               }

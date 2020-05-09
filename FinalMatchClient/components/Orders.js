@@ -189,7 +189,7 @@ class Item extends Component {
                   alertWithOKButton(
                     translate("Are you sure you want to cancel this order ?"),
                     async () => {
-                      await updateOrderStatus(orderId, CANCELLED)
+                      await updateOrderStatus(orderId, CANCELLED, 'customer')
                     })                        
                 }} 
             />}
