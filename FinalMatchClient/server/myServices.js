@@ -307,7 +307,7 @@ export const createNewOrder = async (
 export const getOrdersByCustomerId = async () => {    
     try {        
         
-        const {tokenKey, customerId} = await getCustomerFromStorage()              
+        const {tokenKey, customerId} = await getCustomerFromStorage()           
         const response = await fetch(await urlGetOrdersByCustomerId(), {
             method: 'POST',
             headers: {
@@ -323,7 +323,7 @@ export const getOrdersByCustomerId = async () => {
         debugger
                     
         const responseJson = await response.json()        
-        
+        alert("dddd"+JSON.stringify(responseJson))           
         const { result,message, data } = responseJson                        
         
         if(result.toLowerCase() === 'ok') {            

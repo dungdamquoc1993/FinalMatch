@@ -19,7 +19,8 @@ import {
 import {
   OrderStatus,
   getColorFromStatus,
-  getCustomerFromStorage,
+  getCustomerFromStorage,  
+  convertStringPositionsToPositionName,
   alertWithOKButton
 } from '../helpers/Helpers'
 import {  
@@ -46,6 +47,7 @@ export default class Orders extends MultiLanguageComponent {
   _getOrdersFromServer = async () => {            
     this.setState({spinner: true})
     let orders =  await getOrdersByCustomerId()
+    
     this.setState({orders, spinner: false})
   }
     
