@@ -2,6 +2,8 @@ var express = require('express')
 const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const Orders = require('../models/Orders')
+const ViewOrdersSupplierCustomer = require('../models/viewOrdersSupplierCustomer')
+
 const { Op } = require("sequelize")
 const {
   checkTokenCustomer,
@@ -17,6 +19,7 @@ const OrderStatus = {
   MISSED: "missed",
   EXPIRED: "expired"
 }
+const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED,EXPIRED } = OrderStatus  
 const { 
   connection,   
   firebaseDatabase 
@@ -209,34 +212,13 @@ router.post('/getPlayersAroundOrder', async (req, res) => {
     })
 })
 
-const checkNewOrder = async ({
-                              customerId, 
-                              supplierId, 
-                              latitude, 
-                              longitude, 
-                              typeRole, 
-                              dateTimeStart
-                              }) => {
-  let orders = await Orders.findAll({
-    where: {
-      [Op.and]: [
-        { customerId },
-        { point: { [Op.eq]: { type: 'Point', coordinates: [latitude, longitude] } } },
-        { supplierId: { [Op.ne]: supplierid } },
-        { typeRole: selectedOrder.typeRole },
-        { dateTimeStart: selectedOrder.dateTimeStart }
-      ]
-    }
-  });
-  
-
-}
 //http://150.95.113.87:3000/orders/createNewOrder
 
 router.post('/createNewOrder', async (req, res) => {
   const { tokenkey, customerid, locale } = req.headers
   i18n.setLocale(locale)
   const checkTokenResult = await checkTokenCustomer(tokenkey, customerid)
+  /* tam thoi vut di, ko xoa
   if (checkTokenResult == false) {
     res.json({
       result: "false",
@@ -246,6 +228,7 @@ router.post('/createNewOrder', async (req, res) => {
     })
     return
   }
+  */
   const {
     customerId,
     supplierId,
@@ -265,7 +248,49 @@ router.post('/createNewOrder', async (req, res) => {
       time: Date.now()
     })
     return
+  }  
+  let dateTimeStartMinus2Hours = new Date(dateTimeStart.getTime())
+  dateTimeStartMinus2Hours.setHours(dateTimeStart.getHours() - 2)
+  
+  let dateTimeEnd = new Date(dateTimeStart.getTime())
+  dateTimeEnd.setHours(dateTimeStart.getHours() + 2)
+
+  debugger
+  let selectedOrders = await Orders.findAll({
+    where:
+    {
+      [Op.and]: [        
+        { status: { [Op.in]: [ACCEPTED] } },
+        {
+          [Op.and]:
+            [
+              {
+                dateTimeStart:
+                {
+                  [Op.between]:
+                    [
+                      dateTimeStartMinus2Hours,
+                      dateTimeEnd
+                    ]
+                }
+              },
+            ]
+        }
+      ]
+    }
+  });
+  debugger
+  if(selectedOrders  && selectedOrders.length > 0) {
+    res.json({
+      result: "ok",
+      count: 0,
+      data: {},
+      message: "No change",
+      time: Date.now()
+    });
+    return
   }
+  debugger
   connection.query(POST_CREATE_NEW_ORDER,
     [customerId,
       supplierId,
@@ -352,8 +377,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
   const { newStatus, orderId, sender } = req.body  
-  i18n.setLocale(locale)    
-  /**tam thoi comment, ko xoaaaaaa 
+  i18n.setLocale(locale)      
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -382,10 +406,8 @@ router.post('/updateOrderStatus', async (req, res) => {
       time: Date.now()
     })
     return
-  }
-  */
-  //validate, check token ?  
-  const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED,EXPIRED } = OrderStatus  
+  }  
+  //validate, check token ?    
   if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(newStatus.trim().toLowerCase())) {    
     res.json({
       result: "failed",
