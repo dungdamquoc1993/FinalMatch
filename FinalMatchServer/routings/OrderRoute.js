@@ -483,13 +483,14 @@ router.post('/updateOrderStatus', async (req, res) => {
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
-            count: results[0].length,
-            data: results[0][0],
+            count: 0,
+            data: {},
             message: "No change",
             time: Date.now()
           });
           return
         }
+        debugger
         selectedOrder = selectedOrders[0];
         selectedOrder.status = CANCELLED;
         await selectedOrder.save();        
@@ -521,11 +522,32 @@ router.post('/updateOrderStatus', async (req, res) => {
                     ]
         }
        });
-               
-       debugger
+
       }      
     } else if (sender == 'customer') {
-
+      debugger
+      orders = await Orders.findAll({
+        where: { customerId: customerid }
+      });
+      debugger
+      selectedOrders = orders.filter(
+        eachOrder => eachOrder.id == orderId &&
+          [PENDING, ACCEPTED].includes(eachOrder.status))
+      debugger
+      if (selectedOrders == null || selectedOrders.length == 0) {
+        res.json({
+          result: "ok",
+          count: 0,
+          data: {},
+          message: "No change",
+          time: Date.now()
+        });
+        return
+      }
+      debugger
+      selectedOrder = selectedOrders[0];
+      selectedOrder.status = CANCELLED;
+      await selectedOrder.save();     
     } else {
       res.json({
         result: "failed",
@@ -536,9 +558,25 @@ router.post('/updateOrderStatus', async (req, res) => {
       })
       return
     }
+    
+    selectedOrder = ViewOrdersSupplierCustomer.findOne({
+      where: {
+        orderId
+      }
+    })
+    if(selectedOrder == null) {
+      res.json({
+        result: "ok",
+        count: 0,
+        data: {},
+        message: "No change",
+        time: Date.now()
+      });
+      return
+    }
     debugger
     let updates = {}
-    let key = `/orders/${customerId}:${supplierId}`
+    let key = `/orders/${selectedOrder.customerId}:${selectedOrder.supplierId}`
     updates[key] = {
       ...selectedOrder || {}
     }
@@ -546,11 +584,12 @@ router.post('/updateOrderStatus', async (req, res) => {
     await firebaseDatabase.ref().update(updates)
 
     //Update order, báo cho customerid biết
-    let notificationTokens = await getNotificationTokens({ supplierId: 0, customerId })
-
-    const { supplierName, customerName } = results[0][0]
+    let notificationTokens = await getNotificationTokens({ 
+      supplierId: 0, 
+      customerId: selectedOrder.customerId 
+    })
     let title = i18n.__("Update an order")
-    let body = i18n.__("%s update an order", `${supplierName}`)
+    let body = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
 
     let failedTokens = await sendFirebaseCloudMessage({
       title,
@@ -562,13 +601,13 @@ router.post('/updateOrderStatus', async (req, res) => {
       //success
       i18n.setLocale("en")
       titleEnglish = i18n.__("Update an order")
-      bodyEnglish = i18n.__("%s update an order", `${supplierName}`)
+      bodyEnglish = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
       i18n.setLocale("vi")
       titleVietnamese = i18n.__("Update an order")
-      bodyVietnamese = i18n.__("%s update an order", `${supplierName}`)
+      bodyVietnamese = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
       await insertNotification({
-        supplierId,
-        customerId,
+        supplierId: selectedOrder.supplierId,
+        customerId: selectedOrder.customerId,
         titleEnglish,
         bodyEnglish,
         titleVietnamese,
@@ -577,8 +616,8 @@ router.post('/updateOrderStatus', async (req, res) => {
       })
       res.json({
         result: "ok",
-        count: selectedOrders.length,
-        data: results[0][0],
+        count: 0,
+        data: selectedOrder,
         message: i18n.__("Update order status successfully"),
         time: Date.now()
       })
