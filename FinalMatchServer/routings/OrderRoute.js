@@ -35,7 +35,7 @@ const POST_GET_ORDERS_BY_SUPPLIER_ID =
   "ORDER BY createdDate DESC"
 const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
-  "WHERE customerId = ? AND orderStatus in ('completed', 'accepted') " +
+  "WHERE customerId = ? " +
   "ORDER BY createdDate DESC"
 const INSERT_NOTIFICATION = "INSERT INTO Notification("+
       "supplierId, "+
@@ -88,6 +88,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
 //Link http://150.95.113.87:3000/orders/getOrdersByCustomerId
 router.post('/getOrdersByCustomerId', async (req, res) => {
   const { tokenkey, customerid, locale } = req.headers
+  debugger
   i18n.setLocale(locale)
   if (await checkTokenCustomer(tokenkey, customerid) == false) {
     res.json({
@@ -98,10 +99,11 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
     })
     return
   }
+  debugger
   await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID,
     [customerid], (error, results) => {
-      
+      debugger
       if (error) {
         res.json({
           result: "failed",
