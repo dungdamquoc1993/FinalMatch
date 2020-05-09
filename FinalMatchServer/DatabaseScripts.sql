@@ -12,7 +12,12 @@ CALL createNewOrder('x1',111,888,999,'player','2021-05-01 16:40:00');
 CALL createNewOrder('x1',222,888,999,'player','2021-05-01 16:40:00');
 CALL createNewOrder('x1',333,888,999,'player','2021-05-01 16:40:00');
 
+CALL createNewOrder('c1',111,888,999,'referee','2021-05-05 12:00:00');
+CALL createNewOrder('c2',111,888,999,'referee','2021-05-05 12:00:00');
+CALL createNewOrder('c3',111,888,999,'referee','2021-05-06 12:00:00');
 
+
+SELECT  * FROM Supplier s ;
 CALL createNewOrder('x2',111,888,999,'referee','2021-05-01 16:40:00');
 
 SELECT * FROM Orders WHERE customerId IN ('x1','x2','x3') OR supplierId IN (111,222,333);
