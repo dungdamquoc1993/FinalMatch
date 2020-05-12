@@ -21,7 +21,8 @@ import {
   getColorFromStatus,
   getCustomerFromStorage,  
   convertStringPositionsToPositionName,
-  alertWithOKButton
+  alertWithOKButton,
+  print
 } from '../helpers/Helpers'
 import {  
   updateOrderStatus, 
@@ -46,14 +47,14 @@ export default class Orders extends MultiLanguageComponent {
   }
   _getOrdersFromServer = async () => {            
     this.setState({spinner: true})
-    let orders =  await getOrdersByCustomerId()
-    
+    let orders =  await getOrdersByCustomerId()   
+    debugger 
     this.setState({orders, spinner: false})
   }
     
   async componentDidMount () {            
-    await super.componentDidMount()
-    this._getOrdersFromServer()
+    super.componentDidMount()
+    await this._getOrdersFromServer()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {          
       if(super.hasOrder = true) {
         await this._getOrdersFromServer()
@@ -102,7 +103,7 @@ class Item extends Component {
       dateTimeEnd,
       supplierId,
       supplierName,
-      supplierPhoneNumber,
+      supplierPhoneNumber = "", 
       supplierDateOfBirth,
       supplierEmail,
       supplierLatitude,
@@ -120,7 +121,7 @@ class Item extends Component {
       customerEmail,
       navigate
     } = this.props
-    
+    debugger
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>

@@ -322,8 +322,7 @@ export const getOrdersByCustomerId = async () => {
         })    
         debugger
                     
-        const responseJson = await response.json()        
-        alert("dddd"+JSON.stringify(responseJson))           
+        const responseJson = await response.json()                     
         const { result,message, data } = responseJson                        
         
         if(result.toLowerCase() === 'ok') {            
