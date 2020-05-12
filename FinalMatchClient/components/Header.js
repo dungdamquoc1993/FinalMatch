@@ -23,7 +23,6 @@ export default class Header extends Component {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'green'
       }}>
       
         <TouchableOpacity

@@ -47,7 +47,8 @@ export default class Orders extends MultiLanguageComponent {
   }
   _getOrdersFromServer = async () => {            
     this.setState({spinner: true})
-    let orders =  await getOrdersByCustomerId()    
+    let orders =  await getOrdersByCustomerId()   
+    debugger 
     this.setState({orders, spinner: false})
   }
     
@@ -102,7 +103,7 @@ class Item extends Component {
       dateTimeEnd,
       supplierId,
       supplierName,
-      supplierPhoneNumber,
+      supplierPhoneNumber = "", 
       supplierDateOfBirth,
       supplierEmail,
       supplierLatitude,
@@ -120,7 +121,7 @@ class Item extends Component {
       customerEmail,
       navigate
     } = this.props
-    
+    debugger
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>

@@ -80,12 +80,8 @@ export const getLatLongFromAddress = async (address) => {
     }
 }
 export const getPlacesFromAddress = async (address) => {
-    try {                
-        debugger
-        let urlString = urlGetPlacesFromAddress(address)
-        debugger
-        const response = await fetch(urlString)        
-        debugger
+    try {                        
+        const response = await fetch(urlGetPlacesFromAddress(address))        
         const responseJSON = await response.json()                
         if(responseJSON.status.toUpperCase() === 'OK') {
             let places = responseJSON.results.map(place => {
