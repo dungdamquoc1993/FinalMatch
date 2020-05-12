@@ -11,11 +11,7 @@ const {
   getNotificationTokens,
   checkToken} = require('./helpers')
 const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
-const GET_CHAT_HISTORY = 
-          "SELECT * FROM viewChatOrder "+
-          +"WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) "+
-          +"OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) "+
-          +"ORDER BY viewChatOrder.createdDate"
+const GET_CHAT_HISTORY = "SELECT * FROM viewChatOrder WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) ORDER BY viewChatOrder.createdDate"
 const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1 WHERE orderId = ? AND senderId = ?" 
 const INSERT_NEW_CHAT = "CALL insertNewChat(?, ?, ?)"
 //Link http://localhost:3000/chat/insertNewChat
@@ -89,10 +85,10 @@ router.post('/getChatHistory', async (req, res) => {
     })
     return
   }
-  const {customerOrSupplierId} = req.body
+  const {customerOrSupplierId} = req.body   
   connection.query(GET_CHAT_HISTORY,
-    [customerOrSupplierId], (error, results) => {
-      
+    [customerOrSupplierId, customerOrSupplierId], (error, results) => {
+      debugger
       if (error) {
         res.json({
           result: "failed",

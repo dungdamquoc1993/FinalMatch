@@ -379,7 +379,8 @@ router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
   const { newStatus, orderId, sender } = req.body  
-  i18n.setLocale(locale)      
+  i18n.setLocale(locale)   
+  debugger   
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -584,6 +585,7 @@ router.post('/updateOrderStatus', async (req, res) => {
     }
     
     selectedOrder = ViewOrdersSupplierCustomer.findOne({
+      attributes: { exclude: ['id'] },
       where: {
         orderId
       }
