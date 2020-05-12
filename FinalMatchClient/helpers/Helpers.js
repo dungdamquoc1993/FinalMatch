@@ -113,6 +113,14 @@ export const print = (object) => {
     alert(JSON.stringify(object))
     console.log(JSON.stringify(object))
 }
-
+export const removeNullProperties = (jsObject) => {
+    let clonedObject = {...jsObject}    
+    for (key in clonedObject) {        
+        if(clonedObject[key] == null) {
+            clonedObject[key] = ''
+        }
+    } 
+    return clonedObject
+}
 
 

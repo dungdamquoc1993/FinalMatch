@@ -22,7 +22,8 @@ import {
   getCustomerFromStorage,  
   convertStringPositionsToPositionName,
   alertWithOKButton,
-  print
+  print,
+  removeNullProperties
 } from '../helpers/Helpers'
 import {  
   updateOrderStatus, 
@@ -103,7 +104,7 @@ class Item extends Component {
       dateTimeEnd,
       supplierId,
       supplierName,
-      supplierPhoneNumber = "", 
+      supplierPhoneNumber, 
       supplierDateOfBirth,
       supplierEmail,
       supplierLatitude,
@@ -120,7 +121,7 @@ class Item extends Component {
       customerPhoneNumber,
       customerEmail,
       navigate
-    } = this.props
+    } = removeNullProperties(this.props)
     debugger
     return (
       <View style = {{flex: 1}}>

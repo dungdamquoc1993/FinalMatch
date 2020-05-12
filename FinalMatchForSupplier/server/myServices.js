@@ -486,9 +486,10 @@ export const getOrdersBySupplierId = async () => {
         return []
     }
 }
-export const updateOrderStatus = async (orderId, status, sender) => {
+export const updateOrderStatus = async (orderId, newStatus, sender) => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()        
+        const { tokenKey, supplierId} = await getSupplierFromStorage()  
+        debugger      
         const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
@@ -498,7 +499,7 @@ export const updateOrderStatus = async (orderId, status, sender) => {
                 tokenKey, supplierId
             },
             body: JSON.stringify({
-                orderId, status, sender
+                orderId, newStatus, sender
             }),
         })
         

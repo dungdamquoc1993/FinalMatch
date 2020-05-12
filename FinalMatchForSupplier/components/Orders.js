@@ -19,6 +19,7 @@ import {
   OrderStatus,
   isIOS,  
   convertStringPositionsToPositionName,
+  print
 } from '../helpers/Helpers'
 import {
   firebaseDatabase,
@@ -216,7 +217,8 @@ class Item extends Component {
             {translate("Match's timing")}: {strDatetimeStart}
           </Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
-            let result = await updateOrderStatus(orderId, ACCEPTED, 'supplier')            
+          debugger
+          let result = await updateOrderStatus(orderId, ACCEPTED, 'supplier')            
             if (result == true) {
               _reloadOrders()
             }

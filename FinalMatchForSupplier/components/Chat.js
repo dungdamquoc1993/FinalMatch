@@ -23,6 +23,9 @@ import {
     firebaseDatabase,
     getAddressFromLatLong
 } from '../server/googleServices'
+import {
+    print
+} from '../helpers/Helpers'
 import { translate } from '../languages/languageConfigurations'
 import { getSupplierFromStorage } from '../helpers/Helpers'
 import { urlGetAvatar } from '../server/urlNames'
@@ -49,6 +52,7 @@ export default class Chat extends Component {
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                  
             let supplierId = await getSupplierFromStorage()
+            print(supplierId)
             let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
             that.setState({messengers})                      
         })                                

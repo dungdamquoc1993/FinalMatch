@@ -17,6 +17,7 @@ CALL createNewOrder('c2',111,888,999,'referee','2021-05-05 12:00:00');
 CALL createNewOrder('c3',111,888,999,'referee','2021-05-06 12:00:00');
 
 
+select * from viewChatOrder;
 SELECT  * FROM Supplier s ;
 CALL createNewOrder('x2',111,888,999,'referee','2021-05-01 16:40:00');
 
@@ -90,7 +91,12 @@ delimiter ;
 CALL updateOrderStatusFromSupplier('accepted', 72);
 DESCRIBE Orders ;
 
+SELECT chatId,supplierId , customerId, senderId FROM viewChatOrder 
+WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT('47c9165c5bfb03689260a8f230e45589', CHAR) 
+OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT('47c9165c5bfb03689260a8f230e45589', CHAR) 
+ORDER BY viewChatOrder.createdDate;
 
+SELECT * from viewChatOrder WHERE senderId = '47c9165c5bfb03689260a8f230e45589';
 
-
+SELECT * FROM 
 
