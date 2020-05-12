@@ -3,11 +3,15 @@ import {
     urlGetLatLongFromAddress,
     urlGetPlacesFromAddress,
 } from './urlNames'
+import {translate} from '../languages/languageConfigurations'
 import {
     PermissionsAndroid,
     ToastAndroid,
     Platform
 } from 'react-native'
+import {
+    print 
+} from '../helpers/Helpers'
 // const firebase = require("firebase/app")
 import Firebase from 'firebase'
 // require("firebase/auth");
@@ -77,8 +81,12 @@ export const getLatLongFromAddress = async (address) => {
 }
 export const getPlacesFromAddress = async (address) => {
     try {                
-        const response = await fetch(urlGetPlacesFromAddress(address))
-        const responseJSON = await response.json()        
+        debugger
+        let urlString = urlGetPlacesFromAddress(address)
+        debugger
+        const response = await fetch(urlString)        
+        debugger
+        const responseJSON = await response.json()                
         if(responseJSON.status.toUpperCase() === 'OK') {
             let places = responseJSON.results.map(place => {
                 let formattedAddress = place["formatted_address"];

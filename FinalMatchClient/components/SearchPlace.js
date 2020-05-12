@@ -14,7 +14,7 @@ import Header from './Header'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {getLatLongFromAddress, getPlacesFromAddress} from '../server/googleServices'
-import {isIOS} from '../helpers/Helpers'
+import {isIOS, print} from '../helpers/Helpers'
 
 export default class SearchPlace extends MultiLanguageComponent {
   state = {
@@ -24,8 +24,10 @@ export default class SearchPlace extends MultiLanguageComponent {
   }
   searchPlace = async () => {
     try {
-      const {typedAddress} = this.state
+      
+      const {typedAddress} = this.state      
       const places = await getPlacesFromAddress(typedAddress)           
+      print(places)
       this.setState({places})      
       Keyboard.dismiss()
     } catch (error) {

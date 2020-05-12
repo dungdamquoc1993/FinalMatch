@@ -11,17 +11,25 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
+import Header from './Header'
 export default class Service extends MultiLanguageComponent {
   constructor (props) {
     super (props);
     this.state = {};
   }
+  
   render () {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}>{translate('Create a service')}</Text>
+      
+        {/*<Text style={styles.textTitle}>{translate('Create a service')}</Text> */}
 
+        <Header 
+        title = {translate('Create a service')}
+        hideBack = {true}
+        hideNext = {true}
+        />
         <LinearGradient
           colors={['#CAF1C1', '#C2F3B7', '#33FF99']}
           style={{

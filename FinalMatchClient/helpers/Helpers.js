@@ -109,7 +109,10 @@ export const OrderStatus = {
     EXPIRED: 'expired',
 }
 
-
+export const print = (object) => {
+    alert(JSON.stringify(object))
+    console.log(JSON.stringify(object))
+}
 
 
 
