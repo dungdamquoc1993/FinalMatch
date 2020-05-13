@@ -23,13 +23,11 @@ export default class Service extends MultiLanguageComponent {
     return (
       <View style={styles.container}>
       
-        {/*<Text style={styles.textTitle}>{translate('Create a service')}</Text> */}
+          <View style = {{ flexDirection: 'column', alignItems: 'center', marginTop: 20}} >
+          <Text style={styles.textTitle}>{translate('Greater than just a Game')}</Text> 
+          <Text style={styles.textTitle}>{translate('Create a service')}</Text> 
+          </View>
 
-        <Header 
-        title = {translate('Create a service')}
-        hideBack = {true}
-        hideNext = {true}
-        />
         <LinearGradient
           colors={['#CAF1C1', '#C2F3B7', '#33FF99']}
           style={{

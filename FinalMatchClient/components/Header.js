@@ -14,7 +14,7 @@ export default class Header extends Component {
     super (props)
   }
   render () {
-    const {title, hideBack = false, hideNext = false, pressBackButton} = this.props
+    const {quote, title, hideBack = false, hideNext = false, pressBackButton} = this.props
     return (
       <View style={{
         height: 60,
@@ -37,12 +37,7 @@ export default class Header extends Component {
               style={{width: 30, height: 30}}
             />
           </TouchableOpacity>
-          <Text style={{
-            lineHeight: 60,
-            fontSize: 20,        
-          }}>
-          {title}
-          </Text>                  
+          <Text style={{ lineHeight: 60, fontSize: 20 }}>{title}</Text>
           <TouchableOpacity
             disabled = {hideNext}   
             style = {{opacity: hideNext ? 0 : 1}}
