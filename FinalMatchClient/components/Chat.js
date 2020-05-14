@@ -39,7 +39,7 @@ export default class Chat extends Component {
         flatList: React.createRef()
     }    
     _scrollFlatListToEnd = () => {
-        debugger
+        
         const {messengers, flatList} = this.state 
         if(messengers.length > 0 && flatList.current != null) {
             flatList.current.scrollToIndex({index: messengers.length - 1})
@@ -51,9 +51,11 @@ export default class Chat extends Component {
     async componentDidMount() {        
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                  
+            debugger
             let {customerId} = await getCustomerFromStorage()            
-            let messengers = await getChatHistory({customerOrSupplierId: customerId})            
-            print(messengers)
+            debugger
+            let messengers = await getChatHistory({customerOrSupplierId: customerId})                        
+            debugger
             that.setState({messengers})                      
         })                                
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
@@ -181,7 +183,7 @@ class _ChatItem extends Component {
         } = this.props.item     
         const {isLastItem} = this.props          
         const {isSender} = this.state
-        debugger
+        
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>                

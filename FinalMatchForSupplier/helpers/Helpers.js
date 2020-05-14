@@ -81,8 +81,7 @@ export const saveSupplierToStorage = async (tokenKey, supplierId, email) => {
     }
 }
 
-export const getSupplierFromStorage = async () => {
-    
+export const getSupplierFromStorage = async () => {    
     let tokenKey = await AsyncStorage.getItem('tokenKey')
     if(tokenKey == null) {
         tokenKey = ''

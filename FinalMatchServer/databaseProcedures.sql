@@ -561,7 +561,7 @@ BEGIN
 END;//
 
 const INSERT_NEW_CHAT = "INSERT INTO Chat(orderId, sms, senderId) VALUES(?, ?, ?)"
-
+/*
 DROP PROCEDURE IF EXISTS insertNewChat;
 delimiter //
 CREATE PROCEDURE insertNewChat(
@@ -585,7 +585,7 @@ BEGIN
         AND viewChatOrder.sms = sms
         AND CONVERT(viewChatOrder.senderId, CHAR) = CONVERT(senderId, CHAR);
 END;//
-
+*/
 
 DROP PROCEDURE IF EXISTS checkCompletedAndExpiredMatch;
 delimiter //

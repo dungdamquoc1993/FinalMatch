@@ -65,7 +65,7 @@ export default class Orders extends MultiLanguageComponent {
   _reloadOrders = async () => {
       const {tokenKey, supplierId, email} = await getSupplierFromStorage ()
       let orders = await getOrdersBySupplierId ()      
-      debugger
+      
       this.setState ({orders, supplierId})        
   }
   render () {
@@ -217,7 +217,7 @@ class Item extends Component {
             {translate("Match's timing")}: {strDatetimeStart}
           </Text>          
           {orderStatus == PENDING && <PendingItem pressConfirm={async () => {
-          debugger
+          
           let result = await updateOrderStatus(orderId, ACCEPTED, 'supplier')            
             if (result == true) {
               _reloadOrders()
