@@ -70,7 +70,7 @@ router.post('/insertNewChat', async (req, res) => {
       supplierId: supplierid,
       customerId: customerid
     })
-    debugger
+    
     sendFirebaseCloudMessage({
       title: i18n.__("New Message"),
       body: i18n.__("You got new message"),
@@ -84,7 +84,7 @@ router.post('/insertNewChat', async (req, res) => {
       time: Date.now()
     })    
   } catch(error) {
-    debugger
+    
     res.json({
       result: "failed",
       data: {},
@@ -109,9 +109,10 @@ router.post('/getChatHistory', async (req, res) => {
     return
   }
   const {customerOrSupplierId} = req.body   
+  debugger
   connection.query(GET_CHAT_HISTORY,
     [customerOrSupplierId, customerOrSupplierId], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
