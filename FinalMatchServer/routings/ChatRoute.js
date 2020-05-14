@@ -5,7 +5,9 @@ const {
   connection,   
   firebaseDatabase 
 } = require('../database/database')
-
+const { Op } = require("sequelize")
+const ViewChatOrder = require('../models/viewChatOrder')
+const Chat = require('../models/Chat')
 const {
   checkTokenCustomer,
   getNotificationTokens,
@@ -13,10 +15,10 @@ const {
 const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const GET_CHAT_HISTORY = "SELECT * FROM viewChatOrder WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) ORDER BY viewChatOrder.createdDate"
 const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1 WHERE orderId = ? AND senderId = ?" 
-const INSERT_NEW_CHAT = "CALL insertNewChat(?, ?, ?)"
+// const INSERT_NEW_CHAT = "CALL insertNewChat(?, ?, ?)"
 //Link http://localhost:3000/chat/insertNewChat
 router.post('/insertNewChat', async (req, res) => {  
-  const { tokenkey, supplierid, customerid, locale } = req.headers    
+  const { tokenkey, supplierid, customerid, locale } = req.headers      
   i18n.setLocale(locale)  
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
@@ -29,47 +31,68 @@ router.post('/insertNewChat', async (req, res) => {
     return
   }
   const { sms, senderId} = req.body
-  let orderId = parseInt(req.body.orderId)
-  category
-  connection.query(INSERT_NEW_CHAT,
-    [orderId, sms, senderId], async (error, results) => {      
-      category
-      if (error) {
-        res.json({
-          result: "failed",
-          data: {},
-          message: error.sqlMessage,
-          time: Date.now()
-        })
-      } else {
-          const { chatId } = results[0][0]
-          let updates = {}
-          let key = `/chats/${chatId}`
-          updates[key] = {
-            ...results[0][0] || {}
-          }          
-          await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates)    
-          //Update order, báo cho customerid biết
-          let notificationTokens = await getNotificationTokens({
-            supplierId: supplierid, 
-            customerId: customerid
-          })
-          sendFirebaseCloudMessage({title: i18n.__("New Message"),
-                                    body: i18n.__("You got new message"),
-                                    payload: results[0][0],
-                                    notificationTokens
-                                  })                                                  
-        res.json({
-          result: "ok",
-          count: results != null ? results.length : 0,
-          data: results != null ? results : {},
-          message: i18n.__("Insert new message successfully"),
-          time: Date.now()
-        })
-      }
+  try {    
+    let orderId = parseInt(req.body.orderId)      
+    const newChat = await Chat.create({orderId, sms, senderId});    
+    await newChat.save();    
+    let foundObject = await ViewChatOrder.findOne({
+        attributes: { exclude: ['id'] },
+        where: 
+        {
+            [Op.and]: 
+                [
+                    {orderId: {[Op.eq]: orderId}},
+                    {sms: {[Op.eq]: sms.trim()}},
+                    {senderId: {[Op.eq]: senderId}},
+                ]
+        }
+    })    
+    if(foundObject == null) {
+      res.json({
+        result: "failed",
+        data: {},
+        message: 'Cannot find this chat',
+        time: Date.now()
+      })
+      return
+    }
+    const { chatId } = foundObject    
+    let updates = {}
+    let key = `/chats/${chatId}`
+    updates[key] = {
+      ...JSON.parse(JSON.stringify(foundObject)) || {}
+    }
+    
+    await firebaseDatabase.ref(key).remove()
+    await firebaseDatabase.ref().update(updates)
+    //Update order, báo cho customerid biết
+    let notificationTokens = await getNotificationTokens({
+      supplierId: supplierid,
+      customerId: customerid
     })
-})
+    debugger
+    sendFirebaseCloudMessage({
+      title: i18n.__("New Message"),
+      body: i18n.__("You got new message"),
+      payload: foundObject,
+      notificationTokens
+    })
+    res.json({
+      result: "ok",      
+      data: foundObject,
+      message: i18n.__("Insert new message successfully"),
+      time: Date.now()
+    })    
+  } catch(error) {
+    debugger
+    res.json({
+      result: "failed",
+      data: {},
+      message: error,
+      time: Date.now()
+    })
+  }
+});
 
 //Link http://localhost:3000/chat/getChatHistory
 router.post('/getChatHistory', async (req, res) => {  
