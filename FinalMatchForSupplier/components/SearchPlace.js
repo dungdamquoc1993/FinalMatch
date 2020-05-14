@@ -42,6 +42,7 @@ export default class SearchPlace extends MultiLanguageComponent {
             style={{
               width: '85%',
               height: 50,
+              color: 'black',
               fontSize: 17,
               lineHeight: isIOS == true ? 0 : null,
               paddingStart: 15,              

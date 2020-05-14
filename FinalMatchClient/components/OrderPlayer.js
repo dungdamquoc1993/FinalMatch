@@ -343,6 +343,7 @@ const styles = StyleSheet.create ({
   },
   textInput: {
     width: '90%',
+    color: 'black',
     height: 50,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,

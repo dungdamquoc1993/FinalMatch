@@ -24,6 +24,7 @@ export const StackNavigator = createStackNavigator ({
 }, {
   initialRouteName: 'Splash',
   headerShown: false,
+  headerMode: 'none',
   gesturesEnabled: false,
   navigationOptions: {
     gesturesEnabled: false

@@ -312,6 +312,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '90%',
     borderColor: '#d3d3d3',
+    color: 'black',
     borderWidth: 1,
     alignSelf: 'center',
     borderRadius: 6,

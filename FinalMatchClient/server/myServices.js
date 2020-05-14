@@ -119,12 +119,9 @@ export const tokenCheckCustomer = async (tokenKey, customerId) => {
 
 
 export const updateCustomerInformation = async (name, phoneNumber) => {
-    try {        
-        debugger
-        const {tokenKey, customerId} = await getCustomerFromStorage()                    
-        debugger
+    try {                
+        const {tokenKey, customerId} = await getCustomerFromStorage()                            
         let url =  urlUpdateCustomerInformation()                
-        debugger
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -134,20 +131,15 @@ export const updateCustomerInformation = async (name, phoneNumber) => {
                 tokenkey: tokenKey, customerid: customerId
             },
             body: JSON.stringify({ name, phoneNumber }),
-        })        
-        debugger
+        })                
         const responseJson = await response.json()        
-        const { result,message } = responseJson                
-        alert(JSON.stringify({result, message}))
+        const { result,message } = responseJson                        
         if(result.toLowerCase() === 'ok') {
             return {message, error: null}
         } else {
             return {message, error: message}
         }        
-    } catch (error) {     
-        debugger        
-        alert("errrrr"+error)   
-        debugger
+    } catch (error) {             
         return {
             message: "Error update Customer' information" + JSON.stringify(error),
             error

@@ -16,7 +16,7 @@ import MultiLanguageComponent from './MultiLanguageComponent'
 import {getLatLongFromAddress, getPlacesFromAddress} from '../server/googleServices'
 import {isIOS, print} from '../helpers/Helpers'
 
-export default class SearchPlace extends MultiLanguageComponent {
+export default class SearchPlace extends MultiLanguageComponent {  
   state = {
     typedAddress: '',    
     radius: 8,//8km
@@ -37,22 +37,30 @@ export default class SearchPlace extends MultiLanguageComponent {
     const { typedAddress, places } = this.state    
     const {updatePlace} = this.props.navigation.state.params        
     return (
-      <View style={styles.container}>
-        <View style={styles.personalInformation}>
+      <View style={styles.container}>        
+        <Header title={translate('Search place')} 
+          hideBack={false}
+          hideNext={true}
+          pressBackButton={() => {
+          this.props.navigation.pop()
+          }}/>
+        <View style={styles.personalInformation}>          
           <TextInput
             style={{
               width: '85%',
+              color: 'black',
+              placeholderTextColor: 'gray',
               height: 50,
               fontSize: 17,
               lineHeight: isIOS == true ? 0 : null,
-              paddingStart: 15,              
+              paddingStart: 15,                                          
             }}
             value = {typedAddress}
             onChangeText = {(typedAddress) => {
               this.setState({typedAddress})
             }}
-            onEndEditing = {this.searchPlace}
-            placeholder={translate("Competition address")}
+            onEndEditing = {this.searchPlace}            
+            placeholder = {translate("Enter place to search")}
           />
           <TouchableOpacity
             style={{
