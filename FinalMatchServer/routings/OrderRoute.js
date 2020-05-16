@@ -88,7 +88,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
 //Link http://150.95.113.87:3000/orders/getOrdersByCustomerId
 router.post('/getOrdersByCustomerId', async (req, res) => {
   const { tokenkey, customerid, locale } = req.headers
-  debugger
+  
   i18n.setLocale(locale)
   if (await checkTokenCustomer(tokenkey, customerid) == false) {
     res.json({
@@ -99,11 +99,11 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
     })
     return
   }
-  debugger
+  
   await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID,
     [customerid], (error, results) => {
-      debugger
+      
       if (error) {
         res.json({
           result: "failed",
@@ -257,7 +257,7 @@ router.post('/createNewOrder', async (req, res) => {
   let dateTimeEnd = new Date(dateTimeStart.getTime())
   dateTimeEnd.setHours(dateTimeStart.getHours() + 2)
 
-  debugger
+  
   let selectedOrders = await Orders.findAll({
     where:
     {
@@ -281,7 +281,7 @@ router.post('/createNewOrder', async (req, res) => {
       ]
     }
   });
-  debugger
+  
   if(selectedOrders  && selectedOrders.length > 0) {
     res.json({
       result: "ok",
@@ -292,7 +292,7 @@ router.post('/createNewOrder', async (req, res) => {
     });
     return
   }
-  debugger
+  
   connection.query(POST_CREATE_NEW_ORDER,
     [customerId,
       supplierId,
@@ -380,7 +380,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   const { tokenkey, supplierid, customerid, locale } = req.headers
   const { newStatus, orderId, sender } = req.body  
   i18n.setLocale(locale)   
-  debugger   
+  debugger
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -454,7 +454,7 @@ router.post('/updateOrderStatus', async (req, res) => {
       });
       if(newStatus == ACCEPTED) {
         selectedOrders = orders.filter(eachOrder => eachOrder.id == orderId && eachOrder.status == PENDING)
-        debugger
+        
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
@@ -466,7 +466,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           return
         }
         selectedOrder = selectedOrders[0];
-        debugger
+        
         selectedOrder.status = ACCEPTED;
         await selectedOrder.save();
         let dateTimeStartMinus2Hours = new Date(selectedOrder.dateTimeStart.getTime())
@@ -504,7 +504,7 @@ router.post('/updateOrderStatus', async (req, res) => {
         selectedOrders = orders.filter(
                                     eachOrder => eachOrder.id == orderId && 
                                     [PENDING, ACCEPTED].includes(eachOrder.status))
-        debugger                                    
+                                            
         if(selectedOrders == null || selectedOrders.length == 0) {
           res.json({
             result: "ok",
@@ -515,7 +515,7 @@ router.post('/updateOrderStatus', async (req, res) => {
           });
           return
         }
-        debugger
+        
         selectedOrder = selectedOrders[0];
         selectedOrder.status = CANCELLED;
         await selectedOrder.save();        
@@ -550,15 +550,15 @@ router.post('/updateOrderStatus', async (req, res) => {
 
       }      
     } else if (sender == 'customer') {
-      debugger
+      
       orders = await Orders.findAll({
         where: { customerId: customerid }
       });
-      debugger
+      
       selectedOrders = orders.filter(
         eachOrder => eachOrder.id == orderId &&
           [PENDING, ACCEPTED].includes(eachOrder.status))
-      debugger
+      
       if (selectedOrders == null || selectedOrders.length == 0) {
         res.json({
           result: "ok",
@@ -569,7 +569,7 @@ router.post('/updateOrderStatus', async (req, res) => {
         });
         return
       }
-      debugger
+      
       selectedOrder = selectedOrders[0];
       selectedOrder.status = CANCELLED;
       await selectedOrder.save();     
@@ -584,12 +584,13 @@ router.post('/updateOrderStatus', async (req, res) => {
       return
     }
     
-    selectedOrder = ViewOrdersSupplierCustomer.findOne({
+    selectedOrder = await ViewOrdersSupplierCustomer.findOne({
       attributes: { exclude: ['id'] },
       where: {
         orderId
       }
     })
+    
     if(selectedOrder == null) {
       res.json({
         result: "ok",
@@ -600,15 +601,15 @@ router.post('/updateOrderStatus', async (req, res) => {
       });
       return
     }
-    debugger
+    
     let updates = {}
     let key = `/orders/${selectedOrder.customerId}:${selectedOrder.supplierId}`
     updates[key] = {
-      ...selectedOrder || {}
+      ...JSON.parse(JSON.stringify(selectedOrder)) || {}
     }
     await firebaseDatabase.ref(key).remove()
     await firebaseDatabase.ref().update(updates)
-
+    
     //Update order, báo cho customerid biết
     let notificationTokens = await getNotificationTokens({ 
       supplierId: 0, 
@@ -616,13 +617,14 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
     let title = i18n.__("Update an order")
     let body = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
-
+    
     let failedTokens = await sendFirebaseCloudMessage({
       title,
       body,
       payload: body,
       notificationTokens
     })
+    
     if (failedTokens.length <= notificationTokens.length) {
       //success
       i18n.setLocale("en")
@@ -649,8 +651,7 @@ router.post('/updateOrderStatus', async (req, res) => {
       })
       return
     }
-  } catch(error) {
-    debugger
+  } catch(error) {    
     res.json({
       result: "failed",
       count: 0,

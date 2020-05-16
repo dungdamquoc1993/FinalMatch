@@ -65,7 +65,7 @@ const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {
                 if(results.length > 0) {
                     
                     results.forEach(tokenObject => {
-                        
+                        if(tokenObject && tokenObject.token.length > 3)
                         notificationTokens.push(tokenObject.token)
                     })
                 }                                                             

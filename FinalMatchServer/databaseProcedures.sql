@@ -531,6 +531,7 @@ CREATE PROCEDURE insertCustomerNotificationToken(
                     customerId VARCHAR(400)) 
 BEGIN    
 	DECLARE numberOfNotificationTokens INT DEFAULT 0;
+    DELETE FROM CustomerNotificationTokens WHERE length(token) < 3;
     SELECT COUNT(*) INTO numberOfNotificationTokens 
     FROM CustomerNotificationTokens 
     WHERE CustomerNotificationTokens.customerId = customerId
@@ -550,6 +551,7 @@ CREATE PROCEDURE insertSupplierNotificationToken(
                     supplierId INTEGER) 
 BEGIN    
 	DECLARE numberOfNotificationTokens INT DEFAULT 0;
+    DELETE FROM SupplierNotificationTokens WHERE length(token) < 3;
     SELECT COUNT(*) INTO numberOfNotificationTokens 
     FROM SupplierNotificationTokens 
     WHERE SupplierNotificationTokens.supplierId = supplierId
