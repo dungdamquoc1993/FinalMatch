@@ -151,7 +151,7 @@ export const insertPlayerService = async (
     radius) => {
     try {                    
         const {tokenKey, email} = await getSupplierFromStorage()            
-        debugger
+        
         const response = await fetch(urlInsertPlayerService(), {
             method: 'POST',
             headers: {
@@ -178,7 +178,7 @@ export const insertPlayerService = async (
             return { playerName, position, supplierId, message: 'Cannot insert player service'}
         }
     } catch (error) {       
-        debugger 
+         
         return error
     }
 }
@@ -192,7 +192,7 @@ export const insertRefereeService = async (
         address,
         radius) => {
     try {             
-        debugger
+        
         const {tokenKey, email} = await getSupplierFromStorage()                
         
         const response = await fetch(await urlInsertRefereeService(), {
@@ -284,7 +284,7 @@ export const getSupplierServicesOrders = async (supplierId) => {
             return { data, message}
         }
     } catch (error) {               
-        debugger
+        
         return { data, message: error}
     }
 }
@@ -353,7 +353,7 @@ export const updateSettings = async (supplierId,
                         
     try {                            
         const {tokenKey, email} = await getSupplierFromStorage()                             
-        debugger
+        
         const response = await fetch(urlUpdateSettings(), {
             method: 'POST',
             headers: {
@@ -377,7 +377,7 @@ export const updateSettings = async (supplierId,
                 position,
                 refereeName}),
         })      
-        debugger                         
+                                 
         const responseJson = await response.json();                
         const {result, data, message, time} = responseJson
         if (result.toUpperCase() === "OK") {                 
@@ -387,7 +387,7 @@ export const updateSettings = async (supplierId,
             return { data, message: 'Cannot update settings'}
         }
     } catch (error) {        
-        debugger
+        
         return error
     }
 }
@@ -489,7 +489,7 @@ export const getOrdersBySupplierId = async () => {
 export const updateOrderStatus = async (orderId, newStatus, sender) => {
     try {
         const { tokenKey, supplierId} = await getSupplierFromStorage()  
-        debugger      
+              
         const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
@@ -515,7 +515,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
         const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
         let url = await urlInsertNewChat()
-        debugger
+        
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -528,7 +528,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
                 orderId, sms, senderId
             }),
         })
-        debugger
+        
         const responseJson = await response.json();        
         debugger
         const {result, data} = responseJson
