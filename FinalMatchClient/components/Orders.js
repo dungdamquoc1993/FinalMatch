@@ -48,8 +48,7 @@ export default class Orders extends MultiLanguageComponent {
   }
   _getOrdersFromServer = async () => {            
     this.setState({spinner: true})
-    let orders =  await getOrdersByCustomerId()   
-    debugger 
+    let orders =  await getOrdersByCustomerId()       
     this.setState({orders, spinner: false})
   }
     
@@ -57,6 +56,7 @@ export default class Orders extends MultiLanguageComponent {
     super.componentDidMount()
     await this._getOrdersFromServer()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {          
+      debugger
       if(super.hasOrder = true) {
         await this._getOrdersFromServer()
       }          
@@ -122,7 +122,7 @@ class Item extends Component {
       customerEmail,
       navigate
     } = removeNullProperties(this.props)
-    debugger
+    
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>

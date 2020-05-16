@@ -279,11 +279,11 @@ export const createNewOrder = async (
                 dateTimeStart: dateTimeStart.toUTCString()//phải chuyển sang STRING dạng: Tue, 18 Feb 2020 09:48:32 GMT
             }),
         })    
-        debugger
+        
         const responseJson = await response.json()        
-        debugger
+        
         const { result,message, data } = responseJson                        
-        debugger
+        
         if(result.toLowerCase() === 'ok') {            
             return data
         } else {                
@@ -291,7 +291,7 @@ export const createNewOrder = async (
         }        
     } catch (error) {         
         console.log(error)               
-        debugger
+        
         return {}
     }
 }
@@ -312,7 +312,7 @@ export const getOrdersByCustomerId = async () => {
                 customerId,
             }),
         })    
-        debugger
+        
                     
         const responseJson = await response.json()                     
         const { result,message, data } = responseJson                        
@@ -328,7 +328,7 @@ export const getOrdersByCustomerId = async () => {
         return [] 
     }
 }
-export const updateOrderStatus = async (orderId, status, sender) => {
+export const updateOrderStatus = async (orderId, newStatus, sender) => {
     try {
         const { tokenKey, customerId} = await getCustomerFromStorage()        
         const response = await fetch(urlUpdateOrderStatus(), {
@@ -340,13 +340,13 @@ export const updateOrderStatus = async (orderId, status, sender) => {
                 tokenKey, customerId, sender
             },
             body: JSON.stringify({
-                orderId, status
+                orderId, newStatus, sender
             }),
         })
         
         const responseJson = await response.json();        
         const {result, data} = responseJson        
-        debugger
+        
         return result.toUpperCase() === "OK"
     } catch (error) {                
         return false
@@ -387,9 +387,9 @@ export const insertCustomerNotificationToken = async (notificationToken) => {
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
-        debugger
+        
         const { tokenKey, supplierId, customerId } = await getCustomerFromStorage()        
-        debugger
+        
         const response = await fetch(urlInsertNewChat(), {
             method: 'POST',
             headers: {
@@ -402,9 +402,9 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
                 orderId, sms, senderId
             }),
         })
-        debugger
+        
         const responseJson = await response.json();        
-        debugger
+        
         const {result, data} = responseJson        
         return result.toUpperCase() === "OK"
     } catch (error) {        

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as RNLocalize from "react-native-localize"
 import {setI18nConfig} from '../languages/languageConfigurations'
 import { View } from 'react-native'
+import { getCustomerFromStorage } from '../helpers/Helpers'
 import {
   firebaseDatabase,
 } from '../server/googleServices'
