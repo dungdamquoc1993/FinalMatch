@@ -52,9 +52,9 @@ export default class Chat extends Component {
         const that = this                
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                              
             let {supplierId} = await getSupplierFromStorage()            
-            debugger
+            
             let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
-            debugger
+            
             that.setState({messengers})                      
         })                                
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
@@ -262,11 +262,8 @@ class _BottomView extends Component {
             sms: typedText, 
             senderId: supplierId
         })
-        if(result == true) {
-            this.setState({typedText: ''})
-            Keyboard.dismiss()
-        }
-        
+        this.setState({typedText: ''})
+        Keyboard.dismiss()        
     }
     render() {
         const {typedText} = this.state        
