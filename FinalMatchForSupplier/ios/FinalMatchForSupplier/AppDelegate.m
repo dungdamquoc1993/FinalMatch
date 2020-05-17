@@ -69,6 +69,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
       NSLog(@"Error fetching remote instance ID: %@", error);
     } else {
       //c4qvvWAQ5E9Mtjo4wH7wmG:APA91bGmtDcp3CskbaLekX9WRx4g_kFaKPxw7p4AlrfK37iDRSCzG1Jes0ScYZuzfPEcktpKcBjwLdQHMAoN2rIewf_M6eKwNnSWC2Gvu6LnyfrkLbgkXdb3-lSi0DAMnwRlhWuhbUvZ
+      //failed: f6uIeuKi8kj9jO9pq1Xh2p:APA91bFzMEaIIwbVHSscER1lRdC…Hmz3-Z2csGPyBEg9BV1P47aAfjCsG4aStUdcjSb5iLS2Ejh8A
       NSLog(@"Remote instance ID token: %@", result.token);
       //Luu local,ko gửi event nữa
       //Bên RN, khi nào login/register xong,HOẶC thì lấy local này + supplierid/customerId gửi lên DB
@@ -178,6 +179,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 // [refresh_token] FCM gui cho App, se chui vao day, co 1 token
 - (void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
     NSLog(@"FCM registration token: %@", fcmToken);
+  
     // Notify about received token.
     NSDictionary *dataDict = [NSDictionary dictionaryWithObject:fcmToken forKey:@"token"];
     [[NSNotificationCenter defaultCenter] postNotificationName:

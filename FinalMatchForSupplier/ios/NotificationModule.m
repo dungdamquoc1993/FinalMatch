@@ -11,7 +11,6 @@
 @interface NotificationModule ()
 
 @end
-
 @implementation NotificationModule
 RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(pushLocalNotification:(NSString *)title message:(NSString *)message) {

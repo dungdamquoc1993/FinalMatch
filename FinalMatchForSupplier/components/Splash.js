@@ -25,6 +25,7 @@ import {tokenCheck, insertSupplierNotificationToken} from '../server/myServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {translate} from '../languages/languageConfigurations'
 const {height, width} = Dimensions.get('window')
+const {AsyncStorage} = NativeModules
 class Splash extends MultiLanguageComponent {
     constructor(props){
         super(props)
@@ -74,6 +75,10 @@ class Splash extends MultiLanguageComponent {
             }
             
             if(tokenKey.length > 0) {
+                const notificationToken = await AsyncStorage.getItem("notificationToken")
+                if(notificationToken != null && notificationToken.length > 0) {
+                    insertSupplierNotificationToken(notificationToken)
+                }                    
                 this.props.navigation.navigate("MyTabNavigator")
             } else {
                 this.props.navigation.navigate("LoginRegister")    
