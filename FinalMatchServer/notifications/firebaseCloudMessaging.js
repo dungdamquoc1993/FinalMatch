@@ -24,6 +24,7 @@ const sendFirebaseCloudMessage = async ({ title, body, payload, notificationToke
       }
       response.responses.forEach((resp, idx) => {
         if (!resp.success) {
+          console.log('Error : '+resp.error.message)
           failedTokens.push(notificationTokens[idx]);
         }
       })

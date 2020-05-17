@@ -379,8 +379,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
   const { newStatus, orderId, sender } = req.body  
-  i18n.setLocale(locale)   
-  debugger
+  i18n.setLocale(locale)     
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -611,13 +610,21 @@ router.post('/updateOrderStatus', async (req, res) => {
     await firebaseDatabase.ref().update(updates)
     
     //Update order, báo cho customerid biết
-    let notificationTokens = await getNotificationTokens({ 
-      supplierId: 0, 
-      customerId: selectedOrder.customerId 
-    })
+    let notificationTokens = []
+    if (sender == 'supplier') {
+      notificationTokens = await getNotificationTokens({ 
+        supplierId: 0, 
+        customerId: selectedOrder.customerId 
+      })
+    } else if(sender == 'customer') {
+      notificationTokens = await getNotificationTokens({
+        supplierId: selectedOrder.supplierId, 
+        customerId: ''
+      })   
+    }      
     let title = i18n.__("Update an order")
     let body = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
-    
+    debugger
     let failedTokens = await sendFirebaseCloudMessage({
       title,
       body,
