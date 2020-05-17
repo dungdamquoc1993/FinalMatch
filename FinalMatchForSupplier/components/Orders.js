@@ -115,22 +115,7 @@ class Item extends Component {
     const address = await getAddressFromLatLong(orderLatitude, orderLongitude)    
     this.setState({orderAddress: address})
   }
-  _fakeDataToTestUI = () => {
-    const {index} = this.props
-    if(index == 0) {
-      return ACCEPTED      
-    } else if(index == 1) {
-      return CANCELLED
-    } else if(index == 2) {
-      return COMPLETED
-    } else if(index == 3) {
-      return MISSED
-    } else if(index == 4) {
-      return PENDING
-    } else {
-      return PENDING;
-    }
-  }
+  
   render () {
     const {    
       orderId,
@@ -151,8 +136,10 @@ class Item extends Component {
       supplierAddress,
       supplierRadius,
       supplierAvatar = "",
+      playerName,
       playerPrice = 0.0,
       playerPosition = "",
+      refereeName,
       refereePrice = 0.0,
       customerId,
       customerAvatar,
@@ -172,7 +159,7 @@ class Item extends Component {
             <Text style={{            
               fontSize: 15,               
               paddingHorizontal: 10,
-              paddingVertical: 5,
+              paddingVertical: 5,              
               borderRadius: 10,
               fontWeight: 'bold', 
               marginHorizontal: 15,

@@ -38,6 +38,7 @@ import {
 } from '../colors/colors'
 import Spinner from 'react-native-loading-spinner-overlay'
 
+
 export default class Orders extends MultiLanguageComponent {
   static navigationOptions = {
     headerShown: false,
@@ -112,8 +113,10 @@ class Item extends Component {
       supplierAddress,
       supplierRadius,
       supplierAvatar = "",
+      playerName,
       playerPrice = 0.0,
       playerPosition = "",
+      refereeName,
       refereePrice = 0.0,
       customerId,
       customerAvatar,
@@ -121,8 +124,10 @@ class Item extends Component {
       customerPhoneNumber,
       customerEmail,
       navigate
-    } = removeNullProperties(this.props)
-    
+    } = removeNullProperties(this.props)    
+    let playerRefereeName = typeRole.toLowerCase() == 'player'?
+      `${translate("Player Name:")} ${playerName}` :
+      `${translate("Referee Name:")} ${refereeName}`
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -130,7 +135,6 @@ class Item extends Component {
               fontSize: 15,               
               paddingHorizontal: 10,
               paddingVertical: 5,
-              borderRadius: 10,
               fontWeight: 'bold', 
               marginHorizontal: 15,
               textAlign: 'left'}}>
@@ -167,17 +171,28 @@ class Item extends Component {
               flexDirection: 'column',              
               justifyContent: 'center',
             }}>
-            <View style={styles.inlineText}>
-              <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-              <Text style={styles.textLabel}>{supplierName}</Text>
+            <View style={styles.inlineText}>            
+              <Text 
+                numberOfLines={2}
+                style={{
+                  fontSize: 17,                                  
+                  width: Dimensions.get('window').width * 0.6,                
+                }}>{playerRefereeName}</Text>
+              
             </View>
-            <View style={styles.inlineText}>
-              <TouchableOpacity onPress = {() => {
-                Linking.openURL(`tel:${customerPhoneNumber}`)
-              }}>
+            <View style={[styles.inlineText, {backgroundColor: 'red', textAlign: 'left'}]}>
+              <TouchableOpacity 
+                style={{}}
+                onPress = {() => {
+                  Linking.openURL(`tel:${customerPhoneNumber}`)
+                }}>
 
               </TouchableOpacity>
-              <Text style={styles.textLabel}>{translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}</Text>              
+              <Text 
+                numberOfLines={2}
+                style={styles.textLabel}>
+                {translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}
+              </Text>              
             </View>            
             <View style={styles.inlineText}>
               <Text style={styles.textLabel}>{translate('Price : ')}</Text>
@@ -250,7 +265,7 @@ const styles = StyleSheet.create ({
   },  
   inlineText: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     paddingVertical:7
   },
   textLabel: {
