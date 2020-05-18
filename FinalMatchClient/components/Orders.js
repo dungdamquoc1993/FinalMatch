@@ -14,7 +14,8 @@ import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {getOrdersByCustomerId} from '../server/myServices'
 import {
-  firebaseDatabase,  
+  firebaseDatabase,
+  getAddressFromLatLong  
 } from '../server/googleServices'
 import {
   OrderStatus,
@@ -40,6 +41,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 
 
 export default class Orders extends MultiLanguageComponent {
+
   static navigationOptions = {
     headerShown: false,
   }
@@ -88,11 +90,19 @@ export default class Orders extends MultiLanguageComponent {
   }
 }
 class Item extends Component {
-  componentDidMount() {        
-  }
   state = {
-    order: false
+    order: false,
+    orderAddress: ""
   }
+
+  async componentDidMount() {
+     const {orderLatitude, orderLongitude} = this.props
+     const address = await getAddressFromLatLong(orderLatitude, orderLongitude)
+     this.setState({orderAddress: address})
+     debugger    
+  }
+  
+
   render() {
     const {
       orderId,
@@ -124,10 +134,12 @@ class Item extends Component {
       customerPhoneNumber,
       customerEmail,
       navigate
-    } = removeNullProperties(this.props)    
+    } = removeNullProperties(this.props)
+    
     let playerRefereeName = typeRole.toLowerCase() == 'player'?
       `${translate("Player Name:")} ${playerName}` :
       `${translate("Referee Name:")} ${refereeName}`
+      const {orderAddress} = this.state
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -173,27 +185,26 @@ class Item extends Component {
             }}>
             <View style={styles.inlineText}>            
               <Text 
-                numberOfLines={2}
+                numberOfLines={3}
                 style={{
                   fontSize: 17,                                  
                   width: Dimensions.get('window').width * 0.6,                
                 }}>{playerRefereeName}</Text>
               
             </View>
-            <View style={[styles.inlineText, {backgroundColor: 'red', textAlign: 'left'}]}>
-              <TouchableOpacity 
+            {/*<View style={[styles.inlineText, {textAlign: 'left'}]}>
+               <TouchableOpacity 
                 style={{}}
                 onPress = {() => {
                   Linking.openURL(`tel:${customerPhoneNumber}`)
                 }}>
-
               </TouchableOpacity>
               <Text 
                 numberOfLines={2}
                 style={styles.textLabel}>
                 {translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}
               </Text>              
-            </View>            
+              </View> */}            
             <View style={styles.inlineText}>
               <Text style={styles.textLabel}>{translate('Price : ')}</Text>
               <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
@@ -203,6 +214,16 @@ class Item extends Component {
               <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
               <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
             </View>
+            <View style={styles.inlineText}>
+            <Text style={styles.textLabel}>{translate("Location:")}</Text>
+            <Text 
+            numberOfLines={3}
+            style={{
+              fontSize: 17,                                  
+              width: Dimensions.get('window').width * 0.4,
+            }}
+            >{orderAddress}</Text>
+          </View>
             {orderStatus == ACCEPTED && <AcceptedItem 
                 pressReject={async ()=>{    
                   alertWithOKButton(
@@ -239,7 +260,6 @@ class Item extends Component {
     )
   }
 }
-
 const AcceptedItem = ({pressReject}) => {  
   return <TouchableOpacity onPress={pressReject}>
     <Text  style={{
