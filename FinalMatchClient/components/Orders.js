@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {
-  Text,
+  Text,  
   View,
   StyleSheet,
   TouchableOpacity,
@@ -59,7 +59,7 @@ export default class Orders extends MultiLanguageComponent {
     super.componentDidMount()
     await this._getOrdersFromServer()
     firebaseDatabase.ref ('/orders').on ('value', async snapshot => {          
-      debugger
+      
       if(super.hasOrder = true) {
         await this._getOrdersFromServer()
       }          
@@ -99,7 +99,7 @@ class Item extends Component {
      const {orderLatitude, orderLongitude} = this.props
      const address = await getAddressFromLatLong(orderLatitude, orderLongitude)
      this.setState({orderAddress: address})
-     debugger    
+         
   }
   
 

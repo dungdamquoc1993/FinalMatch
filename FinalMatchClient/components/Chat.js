@@ -9,7 +9,9 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity,
     Keyboard,
-    SafeAreaView
+    SafeAreaView,
+    Dimensions,
+    Platform,
 }
 from 'react-native'
 import {
@@ -30,6 +32,7 @@ import {
 import { translate } from '../languages/languageConfigurations'
 import { getCustomerFromStorage } from '../helpers/Helpers'
 import { urlGetAvatar } from '../server/urlNames'
+import Icon from 'react-native-vector-icons/FontAwesome'
 export default class Chat extends Component {
     static navigationOptions = {
         headerShown: false,        
@@ -38,27 +41,29 @@ export default class Chat extends Component {
         messengers: [],
         flatList: React.createRef()
     }    
-    _scrollFlatListToEnd = () => {
-        
+    _scrollFlatListToEnd = () => {                
         const {messengers, flatList} = this.state 
         if(messengers.length > 0 && flatList.current != null) {
             flatList.current.scrollToIndex({index: messengers.length - 1})
         }
     }
-    componentDidUpdate() {
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return this.state.messengers.length != nextState.messengers.length 
+    }
+    componentDidUpdate() {        
         this._scrollFlatListToEnd()        
     }
     async componentDidMount() {        
         const that = this
-        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                  
-            
-            let {customerId} = await getCustomerFromStorage()            
-            
-            let messengers = await getChatHistory({customerOrSupplierId: customerId})                        
-            
+        firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                              
+            let {customerId} = await getCustomerFromStorage()                        
+            let messengers = await getChatHistory({customerOrSupplierId: customerId})                                     
             that.setState({messengers})                      
         })                                
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                                    
+            this._scrollFlatListToEnd()     
+        })                
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidHide', (event) => {                        
             this._scrollFlatListToEnd()     
         })                
     }
@@ -93,11 +98,13 @@ export default class Chat extends Component {
             navigate
         } = this.props.navigation.state.params
         const {messengers, flatList} = this.state 
-        return <KeyboardAvoidingView style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
+        return <KeyboardAvoidingView 
+            behavior={Platform.OS === "ios" ? "padding" : null}
+            style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
             <SafeAreaView>
                 <ChatHeader pressBackButton={() => {
                     this.props.navigation.goBack()
@@ -114,9 +121,9 @@ export default class Chat extends Component {
                     ref={flatList}
                     onScrollToIndexFailed={(error) => {
                         flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
-                        setTimeout(() => {
+                        setTimeout(() => {                            
                             this._scrollFlatListToEnd()
-                        }, 100)
+                        }, 1000)
                     }}
                     keyExtractor={(item, index) => {
                         return `${index}`
@@ -193,7 +200,16 @@ class _ChatItem extends Component {
                     : require('../images/defaultAvatar.png')
                 } />
                 <View style={styles.text}>
-                    <Text>{sms}</Text>
+                    <Text                         
+                        style={{
+                            color: isSender == true ? 'white': 'black',                            
+                            fontWeight: 'bold',                            
+                            fontSize: 16,
+                            maxWidth: Dimensions.get('window').width * 0.5,
+                            //paddingVertical: 10,
+                        }}
+
+                        >{sms}</Text>
                 </View> 
                 {/* {isSender == true ? <Text>{customerName}</Text> :
                     <Text>{typeRole.toLowerCase() == "referee" ? refereeName : playerName}</Text>
@@ -238,7 +254,7 @@ const ChatHeader = ({pressBackButton, supplierAvatar, name}) => {
                             justifyContent: 'center',
                             flexDirection: 'column', 
                             alignItems: 'center'}}>
-                <Text>{name}</Text>
+                <Text style={{fontSize: 18, fontWeight: 'bold'}}>{name}</Text>
            </View> 
     </View>
 }
@@ -278,7 +294,7 @@ class _BottomView extends Component {
         } = this.props
         return <View style={{
                 width: '100%',
-
+                borderRadius: 25,
                 flexDirection: 'row',
                 justifyContent:'center',
                 alignItems: 'center',
@@ -295,23 +311,31 @@ class _BottomView extends Component {
                 style={{
                     width: '80%',                
                     height:50,                         
-                    padding: 10,        
+                    padding: 10,      
+                    borderRadius: 25,  
                     backgroundColor: 'white',
                     borderWidth: 1,
                     borderColor: COLOR_ITEM_BORDER
                 }}/>
-            <TouchableHighlight style={{        
-                width: '20%',
-                height: '100%',
-                padding: 10,        
+
+            <Icon.Button style={{        
+                // width: '20%',
+                // height: '100%',
+                // padding: 10,        
+                paddingLeft: 15,
                 alignItems: 'center',
-                justifyContent: 'center',        
-                backgroundColor: COLOR_ITEM_BACKGROUND
-            }} onPress = {() => {
+                justifyContent: 'center',                                         
+            }} 
+                backgroundColor = 'transparent'
+                size = {30}
+                // backgroundColor="#3b5998"
+                name="paper-plane"
+                color = 'rgb(86, 152, 252)'
+                onPress = {() => {
                 this.pressSend()
             }}>
-                <Text>{translate("Send")}</Text>
-            </TouchableHighlight>
+                {/* <Text>{translate("Send")}</Text> */}
+            </Icon.Button>
             
         </View>
     }
@@ -319,9 +343,9 @@ class _BottomView extends Component {
 
 const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
     chatItem: {
-        flexDirection: 'row',
-        height: 60,
-        alignItems: 'center',        
+        flexDirection: 'row',        
+        alignItems: 'center',     
+        paddingVertical: 8,        
     },
     profile: {
         width: 40,
@@ -336,10 +360,12 @@ const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
         alignItems:'center',
         height: 40,
         lineHeight: 40,
-        backgroundColor: COLOR_ITEM_BACKGROUND,
+        //backgroundColor: COLOR_ITEM_BACKGROUND,
+        backgroundColor: 'rgb(240, 241, 242)',
+        color: 'black',
         borderRadius:20, 
-        paddingHorizontal: 15      
-    },
+        paddingHorizontal: 15,              
+    },    
     status: {
         color: 'white',        
         fontSize: 12,
@@ -350,9 +376,9 @@ const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
 //isSender = false
 StyleSheet.create({
     chatItem: {
-        flexDirection: 'row-reverse',
-        height: 60,        
-        alignItems: 'center',            
+        flexDirection: 'row-reverse',        
+        alignItems: 'center',       
+        paddingVertical: 8,     
     },
     profile: {
         width: 40,
@@ -364,11 +390,13 @@ StyleSheet.create({
     },
     text: {
         justifyContent: 'center',
-        alignItems:'center',
-        height: 40,
-        lineHeight: 40,
-        backgroundColor: COLOR_ITEM_BACKGROUND,
-        borderRadius:20, 
+        alignItems:'center',                
+        // backgroundColor: COLOR_ITEM_BACKGROUND,
+        // backgroundColor: rgb(139, 210,74), //color green facebook
+        backgroundColor: 'rgb(86, 152, 252)',
+        color: 'white',
+        borderRadius:25, 
+        paddingVertical: 10,        
         paddingHorizontal: 15      
     },
     status: {
