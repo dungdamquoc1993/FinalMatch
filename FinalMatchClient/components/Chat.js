@@ -119,11 +119,11 @@ export default class Chat extends Component {
                         backgroundColor:'white',        
                     }}
                     ref={flatList}
-                    onScrollToIndexFailed={(error) => {
+                    onScrollToIndexFailed={(error) => {                        
                         flatList.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true })
                         setTimeout(() => {                            
                             this._scrollFlatListToEnd()
-                        }, 1000)
+                        }, 1500)
                     }}
                     keyExtractor={(item, index) => {
                         return `${index}`
@@ -190,15 +190,23 @@ class _ChatItem extends Component {
         } = this.props.item     
         const {isLastItem} = this.props          
         const {isSender} = this.state
-        
+        //http://150.95.113.87:3001/suppliers/getImage?fileName=0.dkbzzgg5hjq.png&locale=en
         const styles = stylesChatItem(isSender)
         return <View>
-            <View style={styles.chatItem}>                
+            <View style={styles.chatItem}>    
+            {isSender == true ?             
+                <Image style={styles.profile} source={
+                    customerAvatar.length > 0
+                      ? { uri: urlGetAvatar(customerAvatar) }
+                      : require('../images/defaultAvatar.png')
+                  } />
+                  :
                 <Image style={styles.profile} source={
                   supplierAvatar.length > 0
                     ? { uri: urlGetAvatar(supplierAvatar) }
                     : require('../images/defaultAvatar.png')
                 } />
+            }
                 <View style={styles.text}>
                     <Text                         
                         style={{
