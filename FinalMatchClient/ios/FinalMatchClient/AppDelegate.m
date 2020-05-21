@@ -11,8 +11,12 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "EventsToReactNative/NotificationEventEmitter.h"
+//@import FBSDKCoreKit;
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @implementation AppDelegate
+UIViewController *rootViewController;
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -47,7 +51,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
+  rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
@@ -55,13 +59,41 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   //test login facebook
   NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: 10.0
                                                 target: self
-                                              selector:@selector(onTick:)
+                                              selector:@selector(loginFacebook:)
                                               userInfo: nil repeats:NO];
   return YES;
 }
 
--(void)onTick:(NSTimer *)timer {
-   
+-(void)loginFacebook:(NSTimer *)timer {
+   if ([FBSDKAccessToken currentAccessToken]) {
+    // User is logged in, do work such as go to next view controller.
+     FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+     [login logInWithPermissions:<#(nonnull NSArray<NSString *> *)#> fromViewController:<#(nullable UIViewController *)#> handler:<#^(FBSDKLoginManagerLoginResult * _Nullable result, NSError * _Nullable error)handler#>]
+     [login
+       logInWithReadPermissions: @[@"public_profile"]
+             fromViewController: rootViewController
+                        handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+       if (error) {
+         NSLog(@"Process error");
+       } else if (result.isCancelled) {
+         NSLog(@"Cancelled");
+       } else {
+         NSLog(@"Logged in");
+       }
+     }];
+   }
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+  BOOL handled = [[ApplicationDelegate sharedInstance] application:application
+    openURL:url
+    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+  ];
+  // Add any custom logic here.
+  return handled;
 }
 -(void)getFCMToken {
   //send test message: https://console.firebase.google.com/project/finalmatch-9f4fe/notification/compose

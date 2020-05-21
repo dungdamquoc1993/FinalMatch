@@ -76,7 +76,7 @@ export default class Orders extends MultiLanguageComponent {
           textContent={translate("Loading")}
           textStyle={{fontWeight: 'bold'}}
         />
-      <Text style={styles.textTitle}>{translate("Orders")}</Text>
+      <Text style={styles.textTitle}>{translate("Orders list")}</Text>
         <FlatList
           width={'100%'}
           data={orders}                    
@@ -101,7 +101,6 @@ class Item extends Component {
      this.setState({orderAddress: address})
          
   }
-  
 
   render() {
     const {
@@ -191,8 +190,27 @@ class Item extends Component {
                   width: Dimensions.get('window').width * 0.6,                
                 }}>{playerRefereeName}</Text>
               
+            </View>     
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate('Price : ')}</Text>
+              <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
+                refereePrice : playerPrice}</Text>
             </View>
-            {/*<View style={[styles.inlineText, {textAlign: 'left'}]}>
+            <View style={styles.inlineText}>
+              <Text style={styles.textLabel}>{translate("Match's timing") + " :"}</Text>
+              <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
+            </View>
+            <View style={styles.inlineText}>
+            <Text style={styles.textLabel}>{translate("Stadium") + " :"}</Text>
+            <Text 
+            numberOfLines={3}
+            style={{
+              fontSize: 17,                                  
+              width: Dimensions.get('window').width * 0.4,
+            }}
+            >{orderAddress}</Text>
+          </View>
+          {orderStatus == ACCEPTED && <View style={[styles.inlineText, {textAlign: 'left'}]}>
                <TouchableOpacity 
                 style={{}}
                 onPress = {() => {
@@ -204,26 +222,7 @@ class Item extends Component {
                 style={styles.textLabel}>
                 {translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}
               </Text>              
-              </View> */}            
-            <View style={styles.inlineText}>
-              <Text style={styles.textLabel}>{translate('Price : ')}</Text>
-              <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
-                refereePrice : playerPrice}</Text>
-            </View>
-            <View style={styles.inlineText}>
-              <Text style={styles.textLabel}>{translate("Order's date : ")}</Text>
-              <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
-            </View>
-            <View style={styles.inlineText}>
-            <Text style={styles.textLabel}>{translate("Location:")}</Text>
-            <Text 
-            numberOfLines={3}
-            style={{
-              fontSize: 17,                                  
-              width: Dimensions.get('window').width * 0.4,
-            }}
-            >{orderAddress}</Text>
-          </View>
+              </View> }       
             {orderStatus == ACCEPTED && <AcceptedItem 
                 pressReject={async ()=>{    
                   alertWithOKButton(
@@ -233,6 +232,15 @@ class Item extends Component {
                     })                        
                 }} 
             />}
+            {orderStatus == PENDING && <PendingItem 
+              pressReject={async ()=>{    
+                alertWithOKButton(
+                  translate("Are you sure you want to cancel this order ?"),
+                  async () => {
+                    await updateOrderStatus(orderId, CANCELLED, 'customer')
+                  })                        
+              }} 
+          />}
           </View>
 
           <View style={styles.viewButton}>
@@ -265,17 +273,22 @@ const AcceptedItem = ({pressReject}) => {
     <Text  style={{
       fontSize: 17,
       padding: 5,
-      borderRadius: 6,
       color: 'white',
-      backgroundColor: COLOR_CANCEL_SOMETHING
+      backgroundColor: 'rgb(235,96,107)'
     }}>{translate("Cancel order")}</Text>
   </TouchableOpacity>
 }
-/*
-const CancelledItem = ({pressChat, pressCall, customerPhoneNumber, pressReject}) => {  
-  return T
+const PendingItem = ({pressReject}) => {  
+  return <TouchableOpacity onPress={pressReject}>
+    <Text  style={{
+      fontSize: 17,
+      padding: 5,
+      color: 'white',
+      backgroundColor: 'rgb(235,96,107)'
+    }}>{translate("Cancel order")}</Text>
+  </TouchableOpacity>
 }
-*/
+
 const styles = StyleSheet.create ({
   container: {
     flexDirection: 'column',

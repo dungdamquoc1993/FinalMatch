@@ -24,8 +24,9 @@ export default class Service extends MultiLanguageComponent {
       <View style={styles.container}>
       
           <View style = {{ flexDirection: 'column', alignItems: 'center', marginTop: 20}} >
-          <Text style={styles.textTitle}>{translate('Greater than just a Game')}</Text> 
-          <Text style={styles.textTitle}>{translate('Create a service')}</Text> 
+          <Text style={{fontSize: 20,margin: 10,textAlign: 'center', fontStyle: 'italic'}}>
+           {translate('Greater than just a Game')}</Text> 
+          <Text style={styles.textTitle}>{translate('Order service')}</Text> 
           </View>
 
         <LinearGradient
@@ -159,7 +160,7 @@ const styles = StyleSheet.create ({
   },
   textTitle: {
     fontSize: 20,
-    
+    margin: 10,
     textAlign: 'center',
   },
   textButton: {
