@@ -25,6 +25,10 @@ const {AsyncStorage} = NativeModules
 import {saveCustomerToStorage} from '../helpers/Helpers'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
+import { LoginManager, LoginResult, 
+  AccessToken, GraphRequest,
+  GraphRequestManager, } from "react-native-fbsdk"
+// import {getStackNavigation} from '../redux/actions/actions'
 
 export default class LoginRegister extends MultiLanguageComponent {
   static navigationOptions = {
@@ -121,21 +125,27 @@ export default class LoginRegister extends MultiLanguageComponent {
   _loginWithFacebook = async () => {
     const stackNavigation = this.props.navigation
     //dispatch = call action
-    this.props.dispatch(getStackNavigation(stackNavigation))
+    // this.props.dispatch(getStackNavigation(stackNavigation))
     try {
-
+      debugger
       const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
-
+      debugger
       if (loginResult.isCancelled) {
         console.log("Login cancelled")
       } else {
         const tokenObject = await AccessToken.getCurrentAccessToken()
+        debugger
         const { accessToken, userID } = tokenObject
+        debugger
         const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)
+        debugger
         const email = generateFakeString()
+        debugger
         const { tokenKey, supplierId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)
+        debugger
 
         if (tokenKey.length > 0) {
+          debugger
           await saveSupplierToStorage(tokenKey, supplierId, email)
           const notificationToken = await AsyncStorage.getItem("notificationToken")
           if (notificationToken != null) {
@@ -148,8 +158,8 @@ export default class LoginRegister extends MultiLanguageComponent {
         }
       }
     } catch (error) {
-
-      alert(translate("Cannot login Facebook: ") + JSON.stringify(error))
+      debugger
+      alert(translate("Cannot login Facebook: ") +error)
     }
   }
 
