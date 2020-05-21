@@ -22,7 +22,10 @@ import {
   loginFacebookCustomer
 } from '../server/myServices'
 const {AsyncStorage} = NativeModules
-import {saveCustomerToStorage} from '../helpers/Helpers'
+import {
+  saveCustomerToStorage,
+  generateFakeString,
+} from '../helpers/Helpers'
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import { LoginManager, LoginResult, 
@@ -127,29 +130,29 @@ export default class LoginRegister extends MultiLanguageComponent {
     //dispatch = call action
     // this.props.dispatch(getStackNavigation(stackNavigation))
     try {
-      debugger
+      
       const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
-      debugger
+      
       if (loginResult.isCancelled) {
         console.log("Login cancelled")
       } else {
         const tokenObject = await AccessToken.getCurrentAccessToken()
-        debugger
+        
         const { accessToken, userID } = tokenObject
-        debugger
+        
         const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)
-        debugger
+        
         const email = generateFakeString()
-        debugger
-        const { tokenKey, supplierId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)
-        debugger
+        
+        const { tokenKey, customerId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)
+        
 
         if (tokenKey.length > 0) {
-          debugger
-          await saveSupplierToStorage(tokenKey, supplierId, email)
+          
+          await saveCustomerToStorage(tokenKey, customerId, email)
           const notificationToken = await AsyncStorage.getItem("notificationToken")
           if (notificationToken != null) {
-            insertSupplierNotificationToken(notificationToken)
+            insertCustomerNotificationToken(notificationToken)
           }
           //dispatch = call action                                        
           this.props.navigation.navigate("MyTabNavigator", {})
@@ -158,7 +161,7 @@ export default class LoginRegister extends MultiLanguageComponent {
         }
       }
     } catch (error) {
-      debugger
+      
       alert(translate("Cannot login Facebook: ") +error)
     }
   }

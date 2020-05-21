@@ -21,7 +21,9 @@ export const getCustomerFromStorage = async () => {
     let notificationToken = await AsyncStorage.getItem('notificationToken')    
     return {tokenKey, customerId, email, notificationToken}
 }
-
+export const generateFakeString = () => {
+    return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`
+}
 export function convertDateToStringDDMMYYYY(date) {    
     // alert("kaka")      
     function pad(s) { return (s < 10) ? '0' + s : s; }    
