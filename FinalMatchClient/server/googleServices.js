@@ -32,7 +32,8 @@ const firebaseConfig = {
 // export firebase
 const firebaseApp = Firebase.initializeApp(firebaseConfig);
 export const firebaseDatabase = firebaseApp.database();
-
+export const firebaseAuthentication = firebaseApp.auth();
+firebaseAuthentication.useDeviceLanguage()
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    
             

@@ -52,9 +52,17 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [self getFCMToken];
+  //test login facebook
+  NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: 10.0
+                                                target: self
+                                              selector:@selector(onTick:)
+                                              userInfo: nil repeats:NO];
   return YES;
 }
 
+-(void)onTick:(NSTimer *)timer {
+   
+}
 -(void)getFCMToken {
   //send test message: https://console.firebase.google.com/project/finalmatch-9f4fe/notification/compose
   [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result,

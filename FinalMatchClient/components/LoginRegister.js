@@ -126,13 +126,14 @@ export default class LoginRegister extends MultiLanguageComponent {
     })
   }
   _loginWithFacebook = async () => {
+    debugger
     const stackNavigation = this.props.navigation
     //dispatch = call action
     // this.props.dispatch(getStackNavigation(stackNavigation))
     try {
       
       const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
-      
+      debugger
       if (loginResult.isCancelled) {
         console.log("Login cancelled")
       } else {
@@ -151,12 +152,15 @@ export default class LoginRegister extends MultiLanguageComponent {
           
           await saveCustomerToStorage(tokenKey, customerId, email)
           const notificationToken = await AsyncStorage.getItem("notificationToken")
+          debugger
           if (notificationToken != null) {
             insertCustomerNotificationToken(notificationToken)
           }
+          debugger
           //dispatch = call action                                        
           this.props.navigation.navigate("MyTabNavigator", {})
         } else {
+          debugger
           alert(message)
         }
       }
