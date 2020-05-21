@@ -23,6 +23,27 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   
   [FIRApp configure];
   [FIRMessaging messaging].delegate = self;
+  [FBSDKLoginButton class];
+  [[NSNotificationCenter defaultCenter] addObserverForName:FBSDKAccessTokenDidChangeNotification
+                                                   object:nil
+                                                    queue:[NSOperationQueue mainQueue]
+                                               usingBlock:
+  ^(NSNotification *notification) {
+    if (notification.userInfo[FBSDKAccessTokenDidChangeUserIDKey]) {
+      // Handle user change
+    }
+  }];
+  [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
+  [[NSNotificationCenter defaultCenter] addObserverForName:FBSDKProfileDidChangeNotification
+                                                    object:nil
+                                                     queue:[NSOperationQueue mainQueue]
+                                                usingBlock:
+   ^(NSNotification *notification) {
+     if ([FBSDKProfile currentProfile]) {
+       // Update for new user profile
+     }
+   }];
+  
   if ([UNUserNotificationCenter class] != nil) {
     // iOS 10 or later
     // For iOS 10 display notification (sent via APNS)
@@ -67,18 +88,24 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 -(void)loginFacebook:(NSTimer *)timer {
    if ([FBSDKAccessToken currentAccessToken]) {
     // User is logged in, do work such as go to next view controller.
+     
+   } else {
      FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
-     [login logInWithPermissions:<#(nonnull NSArray<NSString *> *)#> fromViewController:<#(nullable UIViewController *)#> handler:<#^(FBSDKLoginManagerLoginResult * _Nullable result, NSError * _Nullable error)handler#>]
-     [login
-       logInWithReadPermissions: @[@"public_profile"]
-             fromViewController: rootViewController
-                        handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+     [login logInWithPermissions: @[@"public_profile"]
+              fromViewController:rootViewController
+                         handler:^(FBSDKLoginManagerLoginResult * _Nullable result, NSError * _Nullable error) {
        if (error) {
          NSLog(@"Process error");
        } else if (result.isCancelled) {
          NSLog(@"Cancelled");
        } else {
          NSLog(@"Logged in");
+         [FBSDKProfile loadCurrentProfileWithCompletion:
+         ^(FBSDKProfile *profile, NSError *error) {
+           if (profile) {
+             NSLog(@"Hello, %@!", profile.firstName);
+           }
+         }];
        }
      }];
    }
@@ -87,7 +114,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
 
-  BOOL handled = [[ApplicationDelegate sharedInstance] application:application
+  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
     openURL:url
     sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]

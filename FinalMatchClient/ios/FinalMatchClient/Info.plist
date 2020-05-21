@@ -28,9 +28,9 @@
 		</dict>
 	</array>
 	<key>FacebookAppID</key>
-	<string>501150603831653</string>
-	<key>FacebookDisplayName</key>
-	<string>FinalMatchClient</string>
+  <string>501150603831653</string>
+  <key>FacebookDisplayName</key>
+  <string>FinalMatch</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
