@@ -14,7 +14,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Server {
-    private static final String  SERVER = "150.95.113.87:3000";
+    private static final String  PORT = "3001";
+    private static final String  SERVER = "150.95.113.87:"+PORT;
     private static final String  URL_INSERT_HASHKEY = "http://"+SERVER+"/temp/insertHashKey";
     private static Server instance;
     private Server() {
@@ -32,7 +33,10 @@ public class Server {
         try {
 
             OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormBody.Builder().add("content", hashKey).build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("content", hashKey)
+                    .add("locale", "en")
+                    .build();
             Request request = new Request.Builder()
                     .url(URL_INSERT_HASHKEY)
                     .post(formBody)
