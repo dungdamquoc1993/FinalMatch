@@ -63,9 +63,12 @@ export default class Chat extends Component {
             
             that.setState({messengers})                      
         })                                
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                        
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                                    
             this._scrollFlatListToEnd()     
         })                
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (event) => {                        
+            this._scrollFlatListToEnd()     
+        })   
     }
     
     render() {       
@@ -195,18 +198,25 @@ class _ChatItem extends Component {
         const styles = stylesChatItem(isSender)
         return <View>
             <View style={styles.chatItem}>                
+            {isSender == false ?             
                 <Image style={styles.profile} source={
-                  customerAvatar.length > 0
-                    ? { uri: urlGetAvatar(supplierId) }
+                    customerAvatar.length > 0
+                      ? { uri: urlGetAvatar(customerAvatar) }
+                      : require('../images/defaultAvatar.png')
+                  } />
+                  :
+                <Image style={styles.profile} source={
+                  supplierAvatar.length > 0
+                    ? { uri: urlGetAvatar(supplierAvatar) }
                     : require('../images/defaultAvatar.png')
                 } />
+            }
                 <View style={styles.text}>
                     <Text
                     style = {{
                         color: isSender == true ? 'white' : 'black',
                         fontSize: 16,
-                        maxWidth: Dimensions.get('window').width*0.4,
-                        paddingVertical: 10,
+                        maxWidth: Dimensions.get('window').width*0.5,                        
                     }}
                     >{sms}</Text>
                 </View> 
@@ -221,9 +231,9 @@ class _ChatItem extends Component {
 const ChatHeader = ({pressBackButton, customerAvatar, name}) => {
     return <View style={{
         height: 50,
-        width: '100%',        
-        paddingHorizontal: 10,
+        width: '100%',
         flexDirection: 'row',
+        paddingHorizontal: 10,
         justifyContent: 'flex-start',
         alignItems: 'center',        
         backgroundColor: COLOR_ITEM_BACKGROUND,
@@ -285,17 +295,17 @@ class _BottomView extends Component {
         const {
             orderId,
             supplierId, 
-            customerId
-        } = this.props
-        const {scrollFlatListToEnd} = this.props
+            customerId,
+            scrollFlatListToEnd
+        } = this.props        
         return <View style={{
                 width: '100%',
                 borderRadius: 25,
                 flexDirection: 'row',
                 justifyContent:'center',
                 alignItems: 'center',
-                marginHorizontal: 10,
-                height:50,                         
+                paddingHorizontal: 10,
+                height:50, 
             }}>
             <TextInput placeholder={translate("Enter your sms:")} 
                 onChangeText = {(typedText) => this.setState({typedText})}
@@ -338,10 +348,9 @@ class _BottomView extends Component {
 
 const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
     chatItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 8,
-        height: 100,
+        flexDirection: 'row',        
+        alignItems: 'center',     
+        paddingVertical: 8,        
     },
     profile: {
         width: 40,
@@ -360,7 +369,7 @@ const stylesChatItem = (isSender) => isSender == false ? StyleSheet.create({
         backgroundColor: 'rgb(240, 241, 242)',
         color: 'black',
         borderRadius:20, 
-        paddingHorizontal: 15,   
+        paddingHorizontal: 15,              
     },
     status: {
         color: 'white',        
