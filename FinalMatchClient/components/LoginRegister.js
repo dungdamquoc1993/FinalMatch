@@ -31,6 +31,7 @@ import MultiLanguageComponent from './MultiLanguageComponent'
 import { LoginManager, LoginResult, 
   AccessToken, GraphRequest,
   GraphRequestManager, } from "react-native-fbsdk"
+import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 // import {getStackNavigation} from '../redux/actions/actions'
 
 export default class LoginRegister extends MultiLanguageComponent {
@@ -62,7 +63,13 @@ export default class LoginRegister extends MultiLanguageComponent {
           alert(translate('Password and retype password does not match'))
           return
         }
-      }            
+      }                  
+      let firebaseUser = {}
+      if(isLogin == true) {
+        firebaseUser = await firebaseApp.firebase_.auth().signInWithEmailAndPassword(email, password)        
+      } else {
+        firebaseUser = await firebaseApp.firebase_.auth().createUserWithEmailAndPassword(email, password)        
+      }      
       const { tokenKey, customerId, message } = isLogin == true ? await loginCustomer(email, password) :
                                                                   await registerCustomer(name, email, password)            
                                                                         
@@ -125,51 +132,44 @@ export default class LoginRegister extends MultiLanguageComponent {
       new GraphRequestManager().addRequest(infoRequest).start()
     })
   }
-  _loginWithFacebook = async () => {
-    debugger
+  _loginWithFacebook = async () => {    
     const stackNavigation = this.props.navigation
     //dispatch = call action
     // this.props.dispatch(getStackNavigation(stackNavigation))
-    try {
-      
-      const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
-      debugger
+    try {      
+      const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])      
       if (loginResult.isCancelled) {
         console.log("Login cancelled")
-      } else {
+      } else {        
         const tokenObject = await AccessToken.getCurrentAccessToken()
-        
-        const { accessToken, userID } = tokenObject
-        
-        const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)
-        
-        const email = generateFakeString()
-        
-        const { tokenKey, customerId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)
-        
-
+        // Create a Firebase credential with the AccessToken        
+        const facebookCredential =  await 
+          firebaseApp.firebase_.auth.FacebookAuthProvider.credential(tokenObject.accessToken)
+        let facebookUser = await firebaseApp.firebase_.auth().signInWithCredential(facebookCredential)     
+        const { accessToken, userID } = tokenObject                
+        const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
+        const email = generateFakeString()        
+        const { tokenKey, customerId, message } = await loginFacebookCustomer(name, email, facebookId, avatar)        
         if (tokenKey.length > 0) {
           
           await saveCustomerToStorage(tokenKey, customerId, email)
           const notificationToken = await AsyncStorage.getItem("notificationToken")
-          debugger
+          
           if (notificationToken != null) {
             insertCustomerNotificationToken(notificationToken)
           }
-          debugger
+          
           //dispatch = call action                                        
           this.props.navigation.navigate("MyTabNavigator", {})
         } else {
-          debugger
+          
           alert(message)
         }
       }
-    } catch (error) {
-      
+    } catch (error) {      
       alert(translate("Cannot login Facebook: ") +error)
     }
-  }
-
+  }  
   render() {
     const { navigate } = this.props.navigation
     const { email, password, isLogin } = this.state

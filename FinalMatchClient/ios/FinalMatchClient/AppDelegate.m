@@ -78,10 +78,10 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
   [self.window makeKeyAndVisible];
   [self getFCMToken];
   //test login facebook
-  NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: 10.0
-                                                target: self
-                                              selector:@selector(loginFacebook:)
-                                              userInfo: nil repeats:NO];
+//  NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: 10.0
+//                                                target: self
+//                                              selector:@selector(loginFacebook:)
+//                                              userInfo: nil repeats:NO];
   return YES;
 }
 

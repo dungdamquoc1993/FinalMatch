@@ -32,6 +32,7 @@ import { LoginManager, LoginResult,
     GraphRequestManager, } from "react-native-fbsdk"
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
+import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 const {AsyncStorage} = NativeModules
 
 class LoginRegister extends Component {
@@ -103,12 +104,14 @@ class LoginRegister extends Component {
             if (loginResult.isCancelled) {
                 console.log("Login cancelled")
             } else {
-                const tokenObject = await AccessToken.getCurrentAccessToken()                
+                const tokenObject = await AccessToken.getCurrentAccessToken()  
+                const facebookCredential =  await 
+                    firebaseApp.firebase_.auth.FacebookAuthProvider.credential(tokenObject.accessToken)
+                let facebookUser = await firebaseApp.firebase_.auth().signInWithCredential(facebookCredential)     
                 const { accessToken, userID } = tokenObject                
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
-                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                                         
-                
+                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                                                                      
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
@@ -143,7 +146,13 @@ class LoginRegister extends Component {
                     alert(translate("Password and retype password does not match"))
                     return
                 }
-            }                        
+            }       
+            let firebaseUser = {}
+            if (isLogin == true) {
+                firebaseUser = await firebaseApp.firebase_.auth().signInWithEmailAndPassword(email, password)
+            } else {
+                firebaseUser = await firebaseApp.firebase_.auth().createUserWithEmailAndPassword(email, password)
+            }                 
             const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
                                                         await registerSupplier(email, password)            
             if (tokenKey.length > 0) {
