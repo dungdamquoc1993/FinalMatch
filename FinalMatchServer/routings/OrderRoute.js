@@ -320,10 +320,15 @@ router.post('/createNewOrder', async (req, res) => {
           await firebaseDatabase.ref().update(updates) 
           //Tạo order mới, báo cho supplierid biết
           let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
-          const {supplierName, customerName, orderId} = results[0][0]
-          const title = "New Order"
-          
-          const body = i18n.__("%s create a new order", `${customerName}`);
+          const {supplierName, customerName, orderId} = results[0][0]          
+
+          i18n.setLocale("en")
+          titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
+          bodyEnglish = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+          i18n.setLocale("vi")
+          titleVietnamese = i18n.__("%s send you an Order", `${customerName}`)
+          bodyVietnamese = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+
           let failedTokens = await sendFirebaseCloudMessage({title, 
                                     body, 
                                     payload: body,
@@ -331,7 +336,15 @@ router.post('/createNewOrder', async (req, res) => {
                                   })         
           if(failedTokens.length <= notificationTokens.length) {
             //success
-            await insertNotification({supplierId, customerId, title, body, orderId})
+            await insertNotification({
+              supplierId,
+              customerId,
+              titleEnglish,
+              bodyEnglish,
+              titleVietnamese,
+              bodyVietnamese,
+              orderId
+            })            
           }                        
           res.json({
             result: "ok",
@@ -635,11 +648,11 @@ router.post('/updateOrderStatus', async (req, res) => {
     if (failedTokens.length <= notificationTokens.length) {
       //success
       i18n.setLocale("en")
-      titleEnglish = i18n.__("Update an order")
-      bodyEnglish = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
+      titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
+      bodyEnglish = i18n.__("Match's timing is : ", `${selectedOrder.dateTimeStart}`)
       i18n.setLocale("vi")
-      titleVietnamese = i18n.__("Update an order")
-      bodyVietnamese = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
+      titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${selectedOrder.dateTimeStart}`)
       await insertNotification({
         supplierId: selectedOrder.supplierId,
         customerId: selectedOrder.customerId,
