@@ -29,6 +29,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -40,9 +41,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> data = remoteMessage.getData();
+            String language = Locale.getDefault().getDisplayLanguage();
+            String title = "";
+            String body = "";
+            if(language.equals("en") == true) {
+                title = data.get("title").split(";")[0];
+            } else {
+                body = data.get("title").split(";")[1];
+            }
             notificationObject = new NotificationObject(
-                    data.get("title") == null ? "" : data.get("title"),
-                    data.get("body") == null ? "" : data.get("body"),
+                    title,
+                    body,
                     new HashMap<>()
             );
             this.pushRemoteNotification(notificationObject);
