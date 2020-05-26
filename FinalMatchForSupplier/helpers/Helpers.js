@@ -81,6 +81,21 @@ export const saveSupplierToStorage = async (tokenKey, supplierId, email) => {
     }
 }
 
+export const setNotificationById = async (notificationId) => {
+    // debugger
+    let dateTimeISOString =  await AsyncStorage.getItem(`${notificationId}`)
+    // debugger
+    if(dateTimeISOString == null || dateTimeISOString == "") {
+        await AsyncStorage.setItem(`${notificationId}`, (new Date()).toISOString())
+    }    
+}
+export const getNotificationById = async (notificationId) => {        
+    let dateTimeISOString =  await AsyncStorage.getItem(`${notificationId}`)    
+    if(dateTimeISOString == null || dateTimeISOString == "") {
+        return (new Date()).toISOString() //de cho dep
+    }
+    return dateTimeISOString
+}
 export const getSupplierFromStorage = async () => {    
     let tokenKey = await AsyncStorage.getItem('tokenKey')
     if(tokenKey == null) {

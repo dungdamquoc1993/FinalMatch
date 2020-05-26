@@ -44,6 +44,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED, EXPIRED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {translate} from '../languages/languageConfigurations'
+
+
 export default class Orders extends MultiLanguageComponent {
   constructor (props) {
     super (props)    

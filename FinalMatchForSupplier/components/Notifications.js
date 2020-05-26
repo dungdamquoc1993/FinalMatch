@@ -8,6 +8,10 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native'
+import {
+  firebaseDatabase,
+  getAddressFromLatLong
+} from '../server/googleServices'
 import Header from './Header'
 import { NavigationEvents } from 'react-navigation'
 import {getSupplierFromStorage, 
@@ -29,6 +33,10 @@ import {
 } from '../colors/colors'
 import Spinner from 'react-native-loading-spinner-overlay'
 import MultiLanguageComponent from './MultiLanguageComponent'
+import {
+  setNotificationById,
+  getNotificationById,
+} from '../helpers/Helpers'
 
 export default class Notifications extends MultiLanguageComponent {
   state = {
@@ -38,12 +46,25 @@ export default class Notifications extends MultiLanguageComponent {
   reloadDataFromServer = async () => {    
     this.setState({spinner: true})
     const {supplierId, tokenKey, email} = await getSupplierFromStorage() 
-    let notifications = await getNotificationsBySupplierId(supplierId)    
+    let notifications = await getNotificationsBySupplierId(supplierId)        
+    notifications.forEach((notification) => {      
+      setNotificationById(notification.id)
+    });
+    
     this.setState({notifications,spinner: false})    
   }
-  async componentDidMount() {
-    // this.reloadDataFromServer()    
+  async componentDidMount () {        
+    await super.componentDidMount()
+    await this.reloadDataFromServer()
+    firebaseDatabase.ref ('/orders').on ('value', async snapshot => {            
+      if(super.hasOrder = true) {
+        //Goi api load orders        
+        await this.reloadDataFromServer()
+      }          
+    })        
   }
+
+  
   render () {    
     const {notifications} = this.state
     return (
@@ -82,48 +103,60 @@ export default class Notifications extends MultiLanguageComponent {
     )
   }
 }
-const Item = (props) => {  
-  const { 
-    supplierId, 
-    customerId, 
-    titleEnglish, 
-    bodyEnglish, 
-    titleVietnamese, 
-    bodyVietnamese, 
-    orderId, 
-    createdDate,
-  } = props
-  
-  return (
-    <TouchableOpacity>
-      <View style={
-        {          
-          paddingHorizontal: 20,
-        }
-      }>
-        <View style={{
-          marginVertical: 10,
-          backgroundColor: COLOR_ITEM_BACKGROUND,
-          borderRadius: 10,
-          borderColor: COLOR_ITEM_BORDER,
-          borderWidth: 1,
-        }}>
-          <Text style={{
-            paddingHorizontal: 10,
-            paddingTop: 5,
-            fontSize: 16,
-            fontWeight: 'bold'
-          }}>{i18n.locale == 'en'? titleEnglish : titleVietnamese}</Text>
-          <Text style={{
-            paddingHorizontal: 10,
-            paddingBottom: 5,
-            fontSize: 16,
-          }}>{i18n.locale == 'en'? bodyEnglish : bodyVietnamese}</Text>
+class Item extends Component {
+  state = {
+    dateTime: ''
+  }
+  async componentDidMount() {    
+    const dateTime = await getNotificationById(this.props.id)    
+    this.setState({dateTime})
+  }
+  render() {
+    const { 
+      id,
+      supplierId, 
+      customerId, 
+      titleEnglish, 
+      bodyEnglish, 
+      titleVietnamese, 
+      bodyVietnamese, 
+      orderId, 
+      createdDate,
+    } = this.props
+    const {dateTime} = this.state
+    return (
+      <TouchableOpacity>
+        <View style={
+          {          
+            paddingHorizontal: 20,
+          }
+        }>
+          <View style={{
+            marginVertical: 10,
+            backgroundColor: COLOR_ITEM_BACKGROUND,
+            borderRadius: 10,
+            borderColor: COLOR_ITEM_BORDER,
+            borderWidth: 1,
+          }}>
+            <Text style={{
+              paddingHorizontal: 10,
+              paddingTop: 5,
+              fontSize: 16,
+              fontWeight: 'bold'
+            }}>{i18n.locale == 'en'? titleEnglish : titleVietnamese}</Text>
+            <Text style={{
+              paddingHorizontal: 10,
+              paddingBottom: 5,
+              fontSize: 16,
+            }}>{i18n.locale == 'en'? bodyEnglish : bodyVietnamese}</Text>
+            <Text>{dateTime}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  )
+      </TouchableOpacity>
+    )
+  }
 }
+
 const styles = StyleSheet.create ({
   container: {    
     flexDirection: 'column',

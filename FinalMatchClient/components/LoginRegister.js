@@ -26,6 +26,8 @@ import {
   saveCustomerToStorage,
   generateFakeString,
 } from '../helpers/Helpers'
+
+
 import {translate} from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
 import { LoginManager, LoginResult, 
