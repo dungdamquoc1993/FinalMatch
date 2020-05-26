@@ -17,7 +17,7 @@ import {
 } from 'react-native'
 import Header from './Header'
 import {
-  daysBetween2Dates,
+  getAgesBetween2Dates,
   getSupplierFromStorage,
   convertDayMonthYearToString,
   isIOS,
@@ -194,7 +194,7 @@ export default class Settings extends MultiLanguageComponent {
         avatar, position, phoneNumber, radius, playerName, refereeName, supplierId,
         playerId, refereeId,
         stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),        
-        age: daysBetween2Dates(new Date(), selectedDate),
+        age: getAgesBetween2Dates(new Date(), selectedDate),
         selectedDate,
         dateOfBirth: selectedDate,
         currentLocation: {
@@ -361,7 +361,7 @@ export default class Settings extends MultiLanguageComponent {
               </Text>
             </TouchableOpacity>
             <Text style={styles.age}>
-              {daysBetween2Dates(new Date(), this.state.dateOfBirth)}
+              {getAgesBetween2Dates(new Date(), this.state.dateOfBirth)}
 
             </Text>
           </View>
@@ -603,7 +603,7 @@ export default class Settings extends MultiLanguageComponent {
                 this.setState({
                   dateOfBirth: date,                  
                   stringDateOfBirth: convertDateToStringDDMMYYYY(date),
-                  age: daysBetween2Dates(new Date(), date),
+                  age: getAgesBetween2Dates(new Date(), date),
                   modalVisible: false,
                   dataChanged: true,
                 })

@@ -33,7 +33,7 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 import {
-  daysBetween2Dates,  
+  getAgesBetween2Dates,  
   convertDateToStringYYYYMMDD,   
   convertDateToString,
   convertDateTimeToString,
@@ -88,7 +88,7 @@ export class RefereeService extends MultiLanguageComponent {
         radius,    
         dateOfBirth,    
         stringDateOfBirth: convertDateToStringDDMMYYYY(dateOfBirth),
-        age: daysBetween2Dates(new Date(), dateOfBirth),
+        age: getAgesBetween2Dates(new Date(), dateOfBirth),
       })       
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
@@ -339,7 +339,7 @@ export class RefereeService extends MultiLanguageComponent {
                 this.setState({
                   dateOfBirth: date,                  
                   stringDateOfBirth: convertDateToStringDDMMYYYY(date),
-                  age: daysBetween2Dates(new Date(), date),
+                  age: getAgesBetween2Dates(new Date(), date),
                   modalVisible: false
                 })
               }}

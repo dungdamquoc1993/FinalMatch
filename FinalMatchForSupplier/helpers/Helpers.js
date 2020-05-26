@@ -10,7 +10,7 @@ import { setI18nConfig } from '../languages/languageConfigurations'
 import i18n from "i18n-js"
 import {translate} from '../languages/languageConfigurations'
 
-export const daysBetween2Dates = (bigDay, smallDay) => {   
+export const getAgesBetween2Dates = (bigDay, smallDay) => {   
     if(bigDay < smallDay) {
         return 0
     }
@@ -25,7 +25,21 @@ export const daysBetween2Dates = (bigDay, smallDay) => {
     }
     return result
 }  
-
+export const getHoursBetween2Dates = (bigDay, smallDay) => {   
+    
+    if(bigDay < smallDay) {
+        return 0
+    }
+    setI18nConfig() // set initial config
+    let hours = Math.abs(bigDay - smallDay) / 36e5
+    hours = Math.round(hours * 10) / 10
+    let result = ""    
+    if(hours > 0) {        
+        result += hours > 1 ? ` ${hours} `+translate("hours") : `${hours} `+translate("hour")                
+    } 
+    
+    return result
+}  
 export function convertDayMonthYearToString(day, month, year) {
     const strDay = day < 10 ? `0${day}` : `${day}`
     month += 1
@@ -82,9 +96,9 @@ export const saveSupplierToStorage = async (tokenKey, supplierId, email) => {
 }
 
 export const setNotificationById = async (notificationId) => {
-    // debugger
+    // 
     let dateTimeISOString =  await AsyncStorage.getItem(`${notificationId}`)
-    // debugger
+    // 
     if(dateTimeISOString == null || dateTimeISOString == "") {
         await AsyncStorage.setItem(`${notificationId}`, (new Date()).toISOString())
     }    

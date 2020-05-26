@@ -32,6 +32,8 @@
     "You must enter stadium's name": "You must enter stadium's name",
     "days":"days",
     "day":"day",
+    "hours": "hours",
+    "hour": "hour",
     "Player:":"Player:",
     "Position : ":"Position : ",
     "pending": "pending",

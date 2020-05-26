@@ -36,6 +36,7 @@ import MultiLanguageComponent from './MultiLanguageComponent'
 import {
   setNotificationById,
   getNotificationById,
+  getHoursBetween2Dates
 } from '../helpers/Helpers'
 
 export default class Notifications extends MultiLanguageComponent {
@@ -104,12 +105,15 @@ export default class Notifications extends MultiLanguageComponent {
   }
 }
 class Item extends Component {
+  
   state = {
-    dateTime: ''
+    hoursBetween2Dates: ''
   }
   async componentDidMount() {    
-    const dateTime = await getNotificationById(this.props.id)    
-    this.setState({dateTime})
+    const dateTimeISOString = await getNotificationById(this.props.id)    
+    const hoursBetween2Dates = getHoursBetween2Dates(new Date(),new Date(dateTimeISOString))
+    debugger
+    this.setState({hoursBetween2Dates})
   }
   render() {
     const { 
@@ -123,7 +127,7 @@ class Item extends Component {
       orderId, 
       createdDate,
     } = this.props
-    const {dateTime} = this.state
+    const {hoursBetween2Dates} = this.state
     return (
       <TouchableOpacity>
         <View style={
@@ -149,7 +153,7 @@ class Item extends Component {
               paddingBottom: 5,
               fontSize: 16,
             }}>{i18n.locale == 'en'? bodyEnglish : bodyVietnamese}</Text>
-            <Text>{dateTime}</Text>
+            <Text>{hoursBetween2Dates}</Text>
           </View>
         </View>
       </TouchableOpacity>
