@@ -27,6 +27,7 @@
     "pending": "pending",
     "accepted": "accepted",
     "cancelled": "cancelled",
+    "Orders list": "Orders list",
     "completed": "completed",
     "missed": "missed",
     "expired":"expired",
