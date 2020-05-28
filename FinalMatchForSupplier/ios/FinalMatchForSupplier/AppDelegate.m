@@ -81,21 +81,28 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 // [START receive_message]
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   //Neu dang o background, ham nay ko goi  
+  [self processRemoteNotification:userInfo];;
+}
+-(void)processRemoteNotification: (NSDictionary *)userInfo {
   if (userInfo[kGCMMessageIDKey]) {
     NSLog(@"Message ID: %@", userInfo[kGCMMessageIDKey]);
-    [self pushLocalNotification: [userInfo valueForKey:@"title"]
-    message: [userInfo valueForKey:@"body"]];
+    NSString *title = @"";
+    NSString *body = @"";
+    NSString * language = [[NSLocale preferredLanguages] firstObject];
+    if([language isEqualToString: @"vi-VN"]) {
+      title = [[[userInfo valueForKey:@"title"] componentsSeparatedByString:@";"] objectAtIndex:1];
+      body = [[[userInfo valueForKey:@"body"] componentsSeparatedByString:@";"] objectAtIndex:1];
+    } else {
+      title = [[[userInfo valueForKey:@"title"] componentsSeparatedByString:@";"] objectAtIndex:0];
+      body = [[[userInfo valueForKey:@"body"] componentsSeparatedByString:@";"] objectAtIndex:0];
+    }
+    [self pushLocalNotification: title
+                        message: body];
   }
-  // Print full message.
-  NSLog(@"%@", userInfo);
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  if (userInfo[kGCMMessageIDKey]) {
-    NSLog(@"Message ID: %@", userInfo[kGCMMessageIDKey]);
-    [self pushLocalNotification: [userInfo valueForKey:@"title"]
-    message: [userInfo valueForKey:@"body"]];
-  }
+  [self processRemoteNotification:userInfo];
 
   // Print full message.
   NSLog(@"%@", userInfo);
