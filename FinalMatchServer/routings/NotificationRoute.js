@@ -4,8 +4,8 @@ const {i18n} = require('../locales/i18n')
 var router = express.Router()
 const {checkToken, convertDateToDayMonthYear, removeNullProperties} = require('./helpers')
 const {connection} = require('../database/database')
-const GET_NOTIFICATIONS_BY_SUPPLIER_ID = "SELECT * FROM Notification WHERE supplierId = ? ORDER BY createdDate DESC" 
-const GET_NOTIFICATIONS_BY_CUSTOMER_ID = "SELECT * FROM Notification WHERE customerId = ? ORDER BY createdDate DESC" 
+const GET_NOTIFICATIONS_BY_SUPPLIER_ID = "SELECT * FROM viewNotificationSupplierCustomer WHERE supplierId = ? ORDER BY createdDate DESC" 
+const GET_NOTIFICATIONS_BY_CUSTOMER_ID = "SELECT * FROM viewNotificationSupplierCustomer WHERE customerId = ? ORDER BY createdDate DESC" 
 
 //Link http://localhost:3000/notifications/getNotificationsBySupplierId
 router.get('/getNotificationsBySupplierId', async (req, res) => {
