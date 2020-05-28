@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Dimensions,
   FlatList,
+  Image,
 } from 'react-native'
 import {
   firebaseDatabase,
@@ -21,6 +22,7 @@ import {getSupplierFromStorage,
   alert,
   isIOS
 } from '../helpers/Helpers'
+import { urlGetAvatar } from '../server/urlNames'
 import i18n from "i18n-js"
 const {width, height} = Dimensions.get ('window')
 import {
@@ -98,7 +100,7 @@ export default class Notifications extends MultiLanguageComponent {
           width={'100%'}
           data={notifications}
           renderItem={({ item }) => <Item {...item} />}
-          keyExtractor={item => `${item.id}`}
+          keyExtractor={item => `${item.notificationId}`}
       />
       </SafeAreaView>
     )
@@ -110,37 +112,69 @@ class Item extends Component {
     hoursBetween2Dates: ''
   }
   async componentDidMount() {    
-    const dateTimeISOString = await getNotificationById(this.props.id)    
+    const dateTimeISOString = await getNotificationById(this.props.notificationId)    
     const hoursBetween2Dates = getHoursBetween2Dates(new Date(),new Date(dateTimeISOString))
     debugger
     this.setState({hoursBetween2Dates})
   }
   render() {
     const { 
-      id,
-      supplierId, 
-      customerId, 
-      titleEnglish, 
-      bodyEnglish, 
-      titleVietnamese, 
-      bodyVietnamese, 
-      orderId, 
+      bodyEnglish,
+      bodyVietnamese,
       createdDate,
-    } = this.props
+      customerAvatar,
+      customerEmail,
+      customerFacebookId,
+      customerId,
+      customerIsActive,
+      customerName,
+      customerPhoneNumber,
+      customerTokenKey,
+      customerUserType,
+      notificationId,
+      orderId,
+      supplierAddress,
+      supplierAvatar,
+      supplierDateOfBirth,
+      supplierEmail,
+      supplierFacebookId,
+      supplierId,
+      supplierIsActive,
+      supplierName,
+      supplierPhoneNumber,
+      supplierPoint,
+      supplierRadius,
+      supplierTokenKey,
+      supplierUserType,
+      titleEnglish,
+      titleVietnamese,
+    } = this.props    
     const {hoursBetween2Dates} = this.state
     return (
       <TouchableOpacity>
         <View style={
           {          
             paddingHorizontal: 20,
+            flexDirection: 'row',            
+            alignItems: 'center',
           }
         }>
+          <Image
+                source={
+                  customerAvatar.length > 0
+                    ? { uri: urlGetAvatar(customerAvatar) }
+                    : require('../images/defaultAvatar.png')
+                }
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 40,    
+                }}
+              />
           <View style={{
             marginVertical: 10,
-            backgroundColor: COLOR_ITEM_BACKGROUND,
-            borderRadius: 10,
-            borderColor: COLOR_ITEM_BORDER,
-            borderWidth: 1,
+            paddingEnd: 10,            
+            flexDirection: 'column'
           }}>
             <Text style={{
               paddingHorizontal: 10,
@@ -153,7 +187,11 @@ class Item extends Component {
               paddingBottom: 5,
               fontSize: 16,
             }}>{i18n.locale == 'en'? bodyEnglish : bodyVietnamese}</Text>
-            <Text>{hoursBetween2Dates}</Text>
+            <Text style={{
+              paddingHorizontal: 10,
+              paddingBottom: 5,
+              fontSize: 16,
+            }}>{hoursBetween2Dates}</Text>
           </View>
         </View>
       </TouchableOpacity>

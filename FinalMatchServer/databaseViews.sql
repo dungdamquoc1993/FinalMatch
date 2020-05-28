@@ -169,4 +169,47 @@ LEFT JOIN viewOrdersSupplierCustomer
 ON Chat.orderId = viewOrdersSupplierCustomer.orderId;
 
 
+DROP VIEW IF EXISTS viewNotificationSupplierCustomer;
+CREATE VIEW viewNotificationSupplierCustomer AS
+SELECT 
+Notification.id as notificationId,   
+Notification.titleEnglish as titleEnglish,   
+Notification.bodyEnglish as bodyEnglish,    
+Notification.titleVietnamese as titleVietnamese,
+Notification.bodyVietnamese as bodyVietnamese,  
+Notification.supplierId as supplierId,     
+Notification.customerId as customerId,     
+Notification.orderId as orderId,        
+Notification.createdDate as createdDate, 
+
+Supplier.name as supplierName,
+Supplier.phoneNumber as supplierPhoneNumber,
+Supplier.dateOfBirth as supplierDateOfBirth,
+Supplier.facebookId as supplierFacebookId,
+Supplier.email as supplierEmail,
+Supplier.userType as supplierUserType,
+Supplier.point as supplierPoint,
+Supplier.address as supplierAddress,
+Supplier.radius as supplierRadius,
+Supplier.isActive as supplierIsActive,
+Supplier.tokenKey as supplierTokenKey,
+Supplier.avatar as supplierAvatar,
+
+Customer.avatar as customerAvatar,            
+Customer.name as customerName,                
+Customer.phoneNumber as customerPhoneNumber,  
+Customer.facebookId as customerFacebookId,    
+Customer.email as customerEmail,              
+Customer.userType as customerUserType,        
+Customer.isActive as customerIsActive,        
+Customer.tokenKey as customerTokenKey        
+
+FROM Supplier 
+INNER JOIN Notification ON Notification.supplierId=Supplier.id
+INNER JOIN Customer ON Notification.customerId=Customer.customerId
+ORDER BY Supplier.id;
+
+
+
+
 
