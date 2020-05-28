@@ -44,10 +44,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String language = Locale.getDefault().getDisplayLanguage();
             String title = "";
             String body = "";
-            if(language.equals("en") == true) {
+            if(language.equalsIgnoreCase("english") == true) {
                 title = data.get("title").split(";")[0];
+                body = data.get("body").split(";")[0];
             } else {
-                body = data.get("title").split(";")[1];
+                title = data.get("title").split(";")[1];
+                body = data.get("body").split(";")[1];
             }
             notificationObject = new NotificationObject(
                     title,
@@ -82,8 +84,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(contentIntent)
                 .setColor(Color.BLUE)
-                .addAction(R.drawable.ic_notification,"OK",
-                        actionIntent)
+//                .addAction(R.drawable.ic_notification,"OK",
+//                        actionIntent)
                 .build();
         NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(context);
         notificationManager.notify(2, notification);
