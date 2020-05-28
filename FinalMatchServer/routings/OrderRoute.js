@@ -321,14 +321,15 @@ router.post('/createNewOrder', async (req, res) => {
             await firebaseDatabase.ref().update(updates) 
             //Tạo order mới, báo cho supplierid biết
             let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
-            const {supplierName, customerName, orderId} = results[0][0]          
+            const {supplierName, customerName, orderId} = results[0][0]  
+            let stringDateTimeStart = dateTimeStart.toISOString()        
             debugger
             i18n.setLocale("en")
             titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
-            bodyEnglish = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+            bodyEnglish = i18n.__("The Match’s timing is: %s", `${stringDateTimeStart}`)
             i18n.setLocale("vi")
             titleVietnamese = i18n.__("%s send you an Order", `${customerName}`)
-            bodyVietnamese = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+            bodyVietnamese = i18n.__("The Match’s timing is: %s", `${stringDateTimeStart}`)
             debugger
             let failedTokens = await sendFirebaseCloudMessage({
                                       title: `${titleEnglish};${titleVietnamese}`, 
@@ -369,6 +370,7 @@ router.post('/createNewOrder', async (req, res) => {
       }
     })
 })
+
 const insertNotification = ({ 
   supplierId, 
   customerId, 
@@ -647,9 +649,6 @@ router.post('/updateOrderStatus', async (req, res) => {
         customerId: ''
       })   
     }      
-    let title = i18n.__("Update an order")
-    let body = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
-    debugger
     let failedTokens = await sendFirebaseCloudMessage({
       title: `${titleEnglish};${titleVietnamese}`, 
       body: `${bodyEnglish};${bodyVietnamese}`,
@@ -659,12 +658,14 @@ router.post('/updateOrderStatus', async (req, res) => {
     
     if (failedTokens.length <= notificationTokens.length) {
       //success
+      let stringDateTimeStart = selectedOrder.dateTimeStart.toISOString()        
       i18n.setLocale("en")
       titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
-      bodyEnglish = i18n.__("Match's timing is : ", `${selectedOrder.dateTimeStart}`)
+      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
       i18n.setLocale("vi")
       titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
-      bodyVietnamese = i18n.__("Match's timing is : %s", `${selectedOrder.dateTimeStart}`)
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+      debugger
       await insertNotification({
         supplierId: selectedOrder.supplierId,
         customerId: selectedOrder.customerId,
@@ -693,7 +694,31 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
   }  
 })
-
-
+// async function fake() {
+//   debugger
+//   let notificationTokens = 
+//   [ 'fUvOrkWXRUX7nitCYGz7Ia:APA91bGtNUw_hxf50Cf58FfXZaUVX7sKNOt0nZA07ug1--IApfL9emqgLJnY4iU8cgqGAjT1ZTg9o-FB9VavEPKXUN_fJU_3GXCfzguBu9yahG_JrTLL40HYitT7ZvrFj9Omnz6miTZ',
+//     'fY0RI79OTjiAtyPEzv9uf3:APA91bGbnGJzrgYyWIkvcGRBvCzhPIP2kfuvBt2JFgZZpv5P2kyNwJBp2i4fMo8ICZRt4U5wXypKifCiGVr-1Dhk4W2QFmkGUZhwu2yPkbqFf-wXXYs3vm0PZkByoTW7etzl4PcbaDpu',
+//     'fjHNhxrWQqGbrTrVl-sHyi:APA91bFb_W_NcGOWEjEF3o8_8ODcRDYZbDzRuWUaFFFqqdAuXdV04Rcs_jhhTvdIvXehfhVJR8szDLpr3h9Nu9LiThYswcRgs88DmndwB1-BYdUSF4MV6T1TMlDM-V8Etf-iDoo1D4lX',
+//     'cts7MN_tlUPrt1y1OpzQtV:APA91bFPZA3yaMLqMNCAyENd_B5m13gdZekSPhGkmK9Dn5VWsYMG1069Pul5UDv5I3XKvWaxm0yevo2SkL1mAkgy_kX2jPEqECIixwvhWs47dsPqLrAfV_uC4GgdhXYj2D5sLWyCBtdT',
+//     'ej62ZMeE-U5RvjmLs1l2hr:APA91bFwa-0FCl_n0Zx_KIFzC20giYQU14Y249zbDdHC4SGVIyz02xUecMfU_OsPVJP97pJjD4h4SQI89LpQLJ2f_3RkvgtT8zYbsRL_iPaJJ8gTY2gn-ebDAFhfUUayHyrsKAsCJ0GT',
+//     'd143AcL3oUn8tc-bIEWpZm:APA91bFLXUm2TI5exV0nhhRDouX_-0T4VEnmfkwc3xEzqwEZVNCJjuob5ITu04MZ9d0mQr_mXK4Dfj83NRkbDCkPfCDX-BYfKe_9JxV1EcGiDIEVWWD9ifbNaqORu-K9WJ9ceKaF3JKv',
+//     'dvM8UeXATU6-ojILrl_X9w:APA91bFo8F4vq_HZ896iQrLn-c-rkiLklJ_4PNuFyTPDvzVyZShdTofvK4vgQdmqAD8q0WoiWMlg8LUiZqN6ERvvXoxyOwIeYZIHTBnC_YxlzmUVxD9neyTzC4jvcqeTg-KyIyXH4uNl',
+//     'dBaM-DdmRJqV5km3NfNvZl:APA91bFjiY9zj5lUNvLAqpitfIt9usyWSvR7gM7oM99h0xvAyUnQZvylNRfRdkNAJ_wVkm2WDU8_dcQdgOVFbKJgOAmpVgnt4x30OwzR4XXDQO1erw14qR3Uj6HIlimG4_GaUd36ZkAz',
+//     'dFS-m1FGwE8JlcDQqBhJC-:APA91bFoZ5AEEzNcUSZJJ__BrPELE2cMqteXQ7uculcgDok3yIviwJZuYvCm-bQWeNF8fVkldjTRyi0mloFFpBXVgQstBcZyOGqHDe0UvOPo9fPVtQgvA4Ef6L15rPaCMDHNa31f7ep5',
+//     'dbRGk1UgTg6A3HFMZojw-_:APA91bEPR9kMC6CjCSKMP9CMylLaddL2j475i3j5WTxp5zxITJbsXOaAQZ3XF7njeTboRSHAFNYuWZKhWIqScgIwAk_LcejBAnOoqcEWXtVS2dg27vOBtefcaD6VQzF67KKve5Enb7Jn' ]
+//     let titleEnglish = 'customer01 send you an Order' 
+//     let bodyEnglish = 'The Match’s timing is: Thu May 28 2020 15:31:00 GMT+0700 (Indochina Time)'
+//     let bodyVietnamese = 'Thời gian thi đấu: Thu May 28 2020 15:31:00 GMT+0700 (Indochina Time)'
+//     let titleVietnamese ='customer01 gửi bạn 1 đơn hàng'
+  
+//    let failedTokens = await sendFirebaseCloudMessage({
+//                                         title: `${titleEnglish};${titleVietnamese}`, 
+//                                         body: `${bodyEnglish};${bodyVietnamese}`,
+//                                         payload: `${bodyEnglish};${bodyVietnamese}`,
+//                                         notificationTokens
+//                                       })       
+// }
+//fake()
 module.exports = router
 
