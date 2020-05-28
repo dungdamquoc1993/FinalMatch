@@ -310,50 +310,62 @@ router.post('/createNewOrder', async (req, res) => {
           time: Date.now()
         })
       } else {
-        if (results != null && results.length > 0) {
-          let updates = {}
-          let key = `/orders/${customerId}:${supplierId}`
-          updates[key] = {
-            ...results[0][0] || {}
+        try {
+          if (results != null && results.length > 0) {
+            let updates = {}
+            let key = `/orders/${customerId}:${supplierId}`
+            updates[key] = {
+              ...results[0][0] || {}
+            }
+            await firebaseDatabase.ref(key).remove()   
+            await firebaseDatabase.ref().update(updates) 
+            //Tạo order mới, báo cho supplierid biết
+            let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
+            const {supplierName, customerName, orderId} = results[0][0]          
+            debugger
+            i18n.setLocale("en")
+            titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
+            bodyEnglish = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+            i18n.setLocale("vi")
+            titleVietnamese = i18n.__("%s send you an Order", `${customerName}`)
+            bodyVietnamese = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
+            debugger
+            let failedTokens = await sendFirebaseCloudMessage({
+                                      title: `${titleEnglish};${titleVietnamese}`, 
+                                      body: `${bodyEnglish};${bodyVietnamese}`,
+                                      payload: `${bodyEnglish};${bodyVietnamese}`,
+                                      notificationTokens
+                                    })         
+            debugger                        
+            if(failedTokens.length <= notificationTokens.length) {
+              //success
+              debugger
+              await insertNotification({
+                supplierId,
+                customerId,
+                titleEnglish,
+                bodyEnglish,
+                titleVietnamese,
+                bodyVietnamese,
+                orderId
+              })            
+            }                        
+            res.json({
+              result: "ok",
+              count: results[0].length,
+              data: results[0][0],
+              message: i18n.__("Insert new Order successfully"),
+              time: Date.now()
+            })
           }
-          await firebaseDatabase.ref(key).remove()   
-          await firebaseDatabase.ref().update(updates) 
-          //Tạo order mới, báo cho supplierid biết
-          let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
-          const {supplierName, customerName, orderId} = results[0][0]          
-
-          i18n.setLocale("en")
-          titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
-          bodyEnglish = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
-          i18n.setLocale("vi")
-          titleVietnamese = i18n.__("%s send you an Order", `${customerName}`)
-          bodyVietnamese = i18n.__("The Match’s timing is: %s", `${dateTimeStart}`)
-
-          let failedTokens = await sendFirebaseCloudMessage({title, 
-                                    body, 
-                                    payload: body,
-                                    notificationTokens
-                                  })         
-          if(failedTokens.length <= notificationTokens.length) {
-            //success
-            await insertNotification({
-              supplierId,
-              customerId,
-              titleEnglish,
-              bodyEnglish,
-              titleVietnamese,
-              bodyVietnamese,
-              orderId
-            })            
-          }                        
+        }catch(error) {
           res.json({
-            result: "ok",
-            count: results[0].length,
-            data: results[0][0],
-            message: i18n.__("Insert new Order successfully"),
+            result: "failed",
+            data: {},
+            message: error,
             time: Date.now()
           })
-        }
+        }        
       }
     })
 })
@@ -639,11 +651,11 @@ router.post('/updateOrderStatus', async (req, res) => {
     let body = i18n.__("%s update an order", `${selectedOrder.supplierName}`)
     debugger
     let failedTokens = await sendFirebaseCloudMessage({
-      title,
-      body,
-      payload: body,
+      title: `${titleEnglish};${titleVietnamese}`, 
+      body: `${bodyEnglish};${bodyVietnamese}`,
+      payload: `${bodyEnglish};${bodyVietnamese}`,
       notificationTokens
-    })
+    })                   
     
     if (failedTokens.length <= notificationTokens.length) {
       //success
