@@ -30,7 +30,7 @@ import {
   updateOrderStatus, 
 } from '../server/myServices'
 import { urlGetAvatar } from '../server/urlNames'
-const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED } = OrderStatus
+const { PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED, COMPLETED } = OrderStatus
 import {
   COLOR_ITEM_BACKGROUND,
   COLOR_ITEM_BORDER,
@@ -262,8 +262,20 @@ class Item extends Component {
                 {translate("Chat")}
                 </Text>
             </TouchableOpacity>}
-          </View>        
-        </View>
+          </View>  
+          {orderStatus == FINISHED && <TouchableOpacity onPress={async () => {
+            await updateOrderStatus(orderId, COMPLETED, 'customer')
+          }}>
+            <Text style={{
+              height: 50,
+              fontSize: 17,
+              padding: 10,
+              width: '100%',
+              color: 'white',
+              backgroundColor: '#3498DB'
+            }}>{translate("Complete this order")}</Text>
+          </TouchableOpacity>}      
+        </View>        
       </View>
     )
   }

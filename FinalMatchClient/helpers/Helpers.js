@@ -74,17 +74,18 @@ export const alertWithOKButton = (content, callback) => {
     Alert.alert("FinalMatch",content,buttons,{cancelable: false})
 }
 
-// pending, accepted, cancelled, completed, missed
+// pending, accepted, cancelled, finished, missed
 export const getColorFromStatus = (orderStatus) => {  
     const {
         COLOR_ORDER_STATUS_PENDING,
         COLOR_ORDER_STATUS_ACCEPTED,
         COLOR_ORDER_STATUS_CANCELLED,
-        COLOR_ORDER_STATUS_COMPLETED,
+        COLOR_ORDER_STATUS_FINISHED,
         COLOR_ORDER_STATUS_MISSED,	
-        COLOR_ORDER_STATUS_EXPIRED
+        COLOR_ORDER_STATUS_EXPIRED,
+        COLOR_ORDER_STATUS_COMPLETED
     } = require('../colors/colors')
-    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED} = OrderStatus        
+    const {PENDING, ACCEPTED, CANCELLED, FINISHED, MISSED, EXPIRED, COMPLETED} = OrderStatus        
     switch(orderStatus) {        
         case PENDING:
             return COLOR_ORDER_STATUS_PENDING
@@ -92,12 +93,14 @@ export const getColorFromStatus = (orderStatus) => {
             return COLOR_ORDER_STATUS_ACCEPTED
         case CANCELLED:
             return COLOR_ORDER_STATUS_CANCELLED
-        case COMPLETED:
-            return COLOR_ORDER_STATUS_COMPLETED
+        case FINISHED:
+            return COLOR_ORDER_STATUS_FINISHED
         case MISSED:
             return COLOR_ORDER_STATUS_MISSED
         case EXPIRED:
             return COLOR_ORDER_STATUS_EXPIRED            
+        case COMPLETED:
+            return COLOR_ORDER_STATUS_COMPLETED            
         default:
             return COLOR_ORDER_STATUS_PENDING
     }
@@ -106,9 +109,10 @@ export const OrderStatus = {
     PENDING: "pending",
     ACCEPTED: "accepted",
     CANCELLED: "cancelled",
-    COMPLETED: "completed",
+    FINISHED: "finished",
     MISSED: "missed",
     EXPIRED: 'expired',
+    COMPLETED: "completed",
 }
 
 export const print = (object) => {
