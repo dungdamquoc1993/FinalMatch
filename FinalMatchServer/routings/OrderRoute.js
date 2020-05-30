@@ -21,7 +21,7 @@ const OrderStatus = {
   EXPIRED: "expired",
   COMPLETED: "completed"
 }
-const { PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED,EXPIRED } = OrderStatus  
+const { PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED,EXPIRED, COMPLETED } = OrderStatus  
 const { 
   connection,   
   firebaseDatabase 
@@ -325,24 +325,24 @@ router.post('/createNewOrder', async (req, res) => {
             let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
             const {supplierName, customerName, orderId} = results[0][0]              
             const stringDateTimeStart = convertDateToDDMMYYYHHMM(dateTimeStart)
-            debugger
+            
             i18n.setLocale("en")
             titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
             bodyEnglish = i18n.__("The Match’s timing is: %s", `${stringDateTimeStart}`)
             i18n.setLocale("vi")
             titleVietnamese = i18n.__("%s send you an Order", `${customerName}`)
             bodyVietnamese = i18n.__("The Match’s timing is: %s", `${stringDateTimeStart}`)
-            debugger
+            
             let failedTokens = await sendFirebaseCloudMessage({
                                       title: `${titleEnglish};${titleVietnamese}`, 
                                       body: `${bodyEnglish};${bodyVietnamese}`,
                                       payload: `${bodyEnglish};${bodyVietnamese}`,
                                       notificationTokens
                                     })         
-            debugger                        
+                                    
             if(failedTokens.length <= notificationTokens.length) {
               //success
-              debugger
+              
               await insertNotification({
                 supplierId,
                 customerId,
@@ -408,7 +408,7 @@ router.post('/updateOrderStatus', async (req, res) => {
   //Cả customer và supplier đều thay đổi đc order  
   const { tokenkey, supplierid, customerid, locale } = req.headers
   const { newStatus, orderId, sender } = req.body  
-  i18n.setLocale(locale)     
+  i18n.setLocale(locale)       
   if(sender == 'supplier') {
     if (await checkToken(tokenkey, supplierid) == false) {
       res.json({
@@ -438,8 +438,9 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
     return
   }  
+  
   //validate, check token ?    
-  if (![PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED].includes(newStatus.trim().toLowerCase())) {    
+  if (![PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED, COMPLETED].includes(newStatus.trim().toLowerCase())) {    
     res.json({
       result: "failed",
       data: {},
@@ -579,28 +580,53 @@ router.post('/updateOrderStatus', async (req, res) => {
       }      
     } else if (sender == 'customer') {
       
-      orders = await Orders.findAll({
-        where: { customerId: customerid }
-      });
-      
-      selectedOrders = orders.filter(
-        eachOrder => eachOrder.id == orderId &&
-          [PENDING, ACCEPTED].includes(eachOrder.status))
-      
-      if (selectedOrders == null || selectedOrders.length == 0) {
-        res.json({
-          result: "ok",
-          count: 0,
-          data: {},
-          message: "No change",
-          time: Date.now()
+      if(newStatus == CANCELLED) {
+        orders = await Orders.findAll({
+          where: { customerId: customerid }
         });
-        return
+        
+        selectedOrders = orders.filter(
+          eachOrder => eachOrder.id == orderId &&
+            [PENDING, ACCEPTED].includes(eachOrder.status))
+        
+        if (selectedOrders == null || selectedOrders.length == 0) {
+          res.json({
+            result: "ok",
+            count: 0,
+            data: {},
+            message: "No change",
+            time: Date.now()
+          });
+          return
+        }
+        
+        selectedOrder = selectedOrders[0];
+        selectedOrder.status = newStatus;
+        await selectedOrder.save();     
+      } else if(newStatus == COMPLETED) {
+        orders = await Orders.findAll({
+          where: { customerId: customerid }
+        });
+        
+        selectedOrders = orders.filter(
+          eachOrder => eachOrder.id == orderId &&
+            [FINISHED].includes(eachOrder.status))
+        
+        if (selectedOrders == null || selectedOrders.length == 0) {
+          res.json({
+            result: "ok",
+            count: 0,
+            data: {},
+            message: "No change",
+            time: Date.now()
+          });
+          return
+        }
+        
+        selectedOrder = selectedOrders[0];
+        selectedOrder.status = newStatus;
+        await selectedOrder.save();     
       }
-      
-      selectedOrder = selectedOrders[0];
-      selectedOrder.status = CANCELLED;
-      await selectedOrder.save();     
     } else {
       res.json({
         result: "failed",
@@ -610,15 +636,13 @@ router.post('/updateOrderStatus', async (req, res) => {
         time: Date.now()
       })
       return
-    }
-    
+    }    
     selectedOrder = await ViewOrdersSupplierCustomer.findOne({
       attributes: { exclude: ['id'] },
       where: {
         orderId
       }
-    })
-    
+    })    
     if(selectedOrder == null) {
       res.json({
         result: "ok",
@@ -650,32 +674,34 @@ router.post('/updateOrderStatus', async (req, res) => {
         supplierId: selectedOrder.supplierId, 
         customerId: ''
       })   
-    }      
+    } 
+    debugger
+    let {
+      titleEnglish, 
+      titleVietnamese, 
+      bodyEnglish, 
+      bodyVietnamese
+    } = await createNotificationContent({sender, orderStatus: newStatus, selectedOrder})         
     let failedTokens = await sendFirebaseCloudMessage({
       title: `${titleEnglish};${titleVietnamese}`, 
       body: `${bodyEnglish};${bodyVietnamese}`,
       payload: `${bodyEnglish};${bodyVietnamese}`,
       notificationTokens
     })                   
-    
+    debugger
     if (failedTokens.length <= notificationTokens.length) {
-      //success      
-      const {
-        titleEnglish, 
-        titleVietnamese, 
-        bodyEnglish, 
-        bodyVietnamese
-      } = createNotificationContent({sender, orderStatus: newStatus, selectedOrder})      
-      debugger
-      await insertNotification({
-        supplierId: selectedOrder.supplierId,
-        customerId: selectedOrder.customerId,
-        titleEnglish,
-        bodyEnglish,
-        titleVietnamese,
-        bodyVietnamese,
-        orderId
-      })
+      //success            
+      if(titleEnglish.length > 0) {        
+        await insertNotification({
+          supplierId: selectedOrder.supplierId,
+          customerId: selectedOrder.customerId,
+          titleEnglish,
+          bodyEnglish,
+          titleVietnamese,
+          bodyVietnamese,
+          orderId
+        })
+      }        
       res.json({
         result: "ok",
         count: 0,
@@ -695,7 +721,8 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
   }  
 })
-function createNotificationContent({sender, orderStatus, selectedOrder}) {
+async function createNotificationContent({sender, orderStatus, selectedOrder}) {
+  debugger
   let titleEnglish = ""
   let titleVietnamese = ""
   let bodyEnglish = ""
@@ -705,45 +732,49 @@ function createNotificationContent({sender, orderStatus, selectedOrder}) {
     if(orderStatus == ACCEPTED) {
       i18n.setLocale("en")      
       titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName neu ko co thi lay supplierName
-      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      bodyEnglish = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
       i18n.setLocale("vi")
       titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
       bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
     } else if(orderStatus == CANCELLED) {
       i18n.setLocale("en")      
       titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
-      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      bodyEnglish = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
       i18n.setLocale("vi")
       titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
       bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
     }else if(orderStatus == FINISHED) {
-      i18n.setLocale("en")      
-      titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName neu ko co thi lay supplierName
-      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
-      i18n.setLocale("vi")
-      titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
-      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+      
+    } else if(orderStatus == COMPLETED) {
+      
     }
   } else if(sender == 'customer') {
+    
     if(orderStatus == ACCEPTED) {
       
     } else if(orderStatus == CANCELLED) {
       i18n.setLocale("en")      
       titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.customerName}`)//debug lay ra refereeName hoac playerName
-      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      bodyEnglish = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
       i18n.setLocale("vi")
       titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.customerName}`)//debug lay ra refereeName hoac playerName
       bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
     }else if(orderStatus == FINISHED) {
       
-    }
-  }
-  "You've got a match": "You've got a match",
-  "%s has accepted your order": "%s has accepted your order",
-  "Your order has been cancelled by %s": "Your order has been cancelled by %s",
-  "Congratulation!.You has complete %s matches": "Congratulation!.You has complete %s matches"
+    } else if(orderStatus == COMPLETED) {
 
-  "Congratulation You has complete %s matches":"Chúc mừng Bạn đã hoàn thành trận đấu thứ %s"
+      let orders = await Orders.findAll({
+        where: { status: COMPLETED }
+      });
+      let numberOfCompletedMatches = orders.length;
+      i18n.setLocale("en")      
+      titleEnglish = i18n.__("Congratulation!.You has complete %s matches", `${numberOfCompletedMatches}`)
+      bodyEnglish = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+      i18n.setLocale("vi")
+      titleEnglish = i18n.__("Congratulation!.You has complete %s matches", `${numberOfCompletedMatches}`)
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+    }
+  }  
 
   return {
     titleEnglish, 
@@ -754,7 +785,7 @@ function createNotificationContent({sender, orderStatus, selectedOrder}) {
 
 }
 // async function fake() {
-//   debugger
+//   
 //   let notificationTokens = 
 //   [ 'fUvOrkWXRUX7nitCYGz7Ia:APA91bGtNUw_hxf50Cf58FfXZaUVX7sKNOt0nZA07ug1--IApfL9emqgLJnY4iU8cgqGAjT1ZTg9o-FB9VavEPKXUN_fJU_3GXCfzguBu9yahG_JrTLL40HYitT7ZvrFj9Omnz6miTZ',
 //     'fY0RI79OTjiAtyPEzv9uf3:APA91bGbnGJzrgYyWIkvcGRBvCzhPIP2kfuvBt2JFgZZpv5P2kyNwJBp2i4fMo8ICZRt4U5wXypKifCiGVr-1Dhk4W2QFmkGUZhwu2yPkbqFf-wXXYs3vm0PZkByoTW7etzl4PcbaDpu',

@@ -74,6 +74,14 @@ const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {
         }) 
     })
 }
+const convertDateToDDMMYYYHHMM = (date) => {    
+    const result = date.getDate() + "-"
+        + (date.getMonth() + 1) +
+        '-' + date.getFullYear() +
+        " " + date.getHours() + ":" +
+        date.getMinutes()
+    return result
+}
 const convertDateToDayMonthYear = (date) => {
     return {
         day: date.getDate(),
@@ -109,5 +117,6 @@ module.exports = {
     convertDateToDayMonthYear,
     removeNullProperties,
     checkCompletedOrExpiredMatch,
-    getNotificationTokens
+    getNotificationTokens,
+    convertDateToDDMMYYYHHMM
 }
