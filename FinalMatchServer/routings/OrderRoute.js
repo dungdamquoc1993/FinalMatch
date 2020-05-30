@@ -9,17 +9,19 @@ const {
   checkTokenCustomer,
   checkToken,
   checkCompletedOrExpiredMatch,
-  getNotificationTokens
+  getNotificationTokens,
+  convertDateToDDMMYYYHHMM,
 } = require('./helpers')
 const OrderStatus = {
   PENDING: "pending", 
   ACCEPTED: "accepted", 
   CANCELLED:"cancelled", 
-  COMPLETED: "completed", 
+  FINISHED: "finished", 
   MISSED: "missed",
-  EXPIRED: "expired"
+  EXPIRED: "expired",
+  COMPLETED: "completed"
 }
-const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED,EXPIRED } = OrderStatus  
+const { PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED,EXPIRED } = OrderStatus  
 const { 
   connection,   
   firebaseDatabase 
@@ -31,7 +33,7 @@ const POST_CREATE_NEW_ORDER = "CALL createNewOrder(?, ?, ?, ?, ?, ?)"
 const POST_UPDATE_ORDER_STATUS = "CALL updateOrderStatus(?, ?)"
 const POST_GET_ORDERS_BY_SUPPLIER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
-  "WHERE supplierId = ? AND orderStatus in ('missed', 'pending', 'completed', 'accepted', 'cancelled') " +
+  "WHERE supplierId = ? AND orderStatus in ('missed', 'pending', 'finished', 'accepted', 'cancelled', 'completed') " +
   "ORDER BY createdDate DESC"
 const POST_GET_ORDERS_BY_CUSTOMER_ID =
   "SELECT * FROM viewOrdersSupplierCustomer " +
@@ -62,7 +64,7 @@ router.post('/getOrdersBySupplierId', async (req, res) => {
     })    
     return
   }
-  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
+  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "finished"
   connection.query(POST_GET_ORDERS_BY_SUPPLIER_ID,
     [supplierid], (error, results) => {      
       if (error) {
@@ -100,7 +102,7 @@ router.post('/getOrdersByCustomerId', async (req, res) => {
     return
   }
   
-  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "completed"
+  await checkCompletedOrExpiredMatch() //Chuyển trạng thái các order mà datetimeEnd đã qua thời điểm hiện tại => về trạng thái "finished"
   connection.query(POST_GET_ORDERS_BY_CUSTOMER_ID,
     [customerid], (error, results) => {
       
@@ -321,8 +323,8 @@ router.post('/createNewOrder', async (req, res) => {
             await firebaseDatabase.ref().update(updates) 
             //Tạo order mới, báo cho supplierid biết
             let notificationTokens = await getNotificationTokens({supplierId, customerId: ''})          
-            const {supplierName, customerName, orderId} = results[0][0]  
-            let stringDateTimeStart = dateTimeStart.toISOString()        
+            const {supplierName, customerName, orderId} = results[0][0]              
+            const stringDateTimeStart = convertDateToDDMMYYYHHMM(dateTimeStart)
             debugger
             i18n.setLocale("en")
             titleEnglish = i18n.__("%s send you an Order", `${customerName}`)
@@ -437,11 +439,11 @@ router.post('/updateOrderStatus', async (req, res) => {
     return
   }  
   //validate, check token ?    
-  if (![PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED].includes(newStatus.trim().toLowerCase())) {    
+  if (![PENDING, ACCEPTED,CANCELLED, FINISHED, MISSED].includes(newStatus.trim().toLowerCase())) {    
     res.json({
       result: "failed",
       data: {},
-      message: i18n.__("Status must be: pending, accepted, cancelled, completed, missed"),
+      message: i18n.__("Status must be: pending, accepted, cancelled, finished, missed"),
       time: Date.now()
     })
     return
@@ -503,7 +505,7 @@ router.post('/updateOrderStatus', async (req, res) => {
               [Op.and]: [
                           { supplierId: {[Op.eq]: supplierid} },
                           { id: {[Op.ne]: orderId} },
-                          { status : {[Op.notIn]: [CANCELLED, COMPLETED, EXPIRED, MISSED, ACCEPTED]}}, 
+                          { status : {[Op.notIn]: [CANCELLED, FINISHED, EXPIRED, MISSED, ACCEPTED]}}, 
                           {
                             [Op.and]: 
                               [
@@ -657,14 +659,13 @@ router.post('/updateOrderStatus', async (req, res) => {
     })                   
     
     if (failedTokens.length <= notificationTokens.length) {
-      //success
-      let stringDateTimeStart = selectedOrder.dateTimeStart.toISOString()        
-      i18n.setLocale("en")
-      titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
-      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
-      i18n.setLocale("vi")
-      titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.customerName}`)
-      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+      //success      
+      const {
+        titleEnglish, 
+        titleVietnamese, 
+        bodyEnglish, 
+        bodyVietnamese
+      } = createNotificationContent({sender, orderStatus: newStatus, selectedOrder})      
       debugger
       await insertNotification({
         supplierId: selectedOrder.supplierId,
@@ -694,6 +695,64 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
   }  
 })
+function createNotificationContent({sender, orderStatus, selectedOrder}) {
+  let titleEnglish = ""
+  let titleVietnamese = ""
+  let bodyEnglish = ""
+  let bodyVietnamese = ""  
+  const stringDateTimeStart = convertDateToDDMMYYYHHMM(selectedOrder.dateTimeStart)
+  if(sender == 'supplier') {
+    if(orderStatus == ACCEPTED) {
+      i18n.setLocale("en")      
+      titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName neu ko co thi lay supplierName
+      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      i18n.setLocale("vi")
+      titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+    } else if(orderStatus == CANCELLED) {
+      i18n.setLocale("en")      
+      titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
+      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      i18n.setLocale("vi")
+      titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+    }else if(orderStatus == FINISHED) {
+      i18n.setLocale("en")      
+      titleEnglish = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName neu ko co thi lay supplierName
+      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      i18n.setLocale("vi")
+      titleVietnamese = i18n.__("%s has accepted your order", `${selectedOrder.supplierName}`)//debug lay ra refereeName hoac playerName
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+    }
+  } else if(sender == 'customer') {
+    if(orderStatus == ACCEPTED) {
+      
+    } else if(orderStatus == CANCELLED) {
+      i18n.setLocale("en")      
+      titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.customerName}`)//debug lay ra refereeName hoac playerName
+      bodyEnglish = i18n.__("Match's timing is : ", `${stringDateTimeStart}`)
+      i18n.setLocale("vi")
+      titleEnglish = i18n.__("Your order has been cancelled by %s", `${selectedOrder.customerName}`)//debug lay ra refereeName hoac playerName
+      bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
+    }else if(orderStatus == FINISHED) {
+      
+    }
+  }
+  "You've got a match": "You've got a match",
+  "%s has accepted your order": "%s has accepted your order",
+  "Your order has been cancelled by %s": "Your order has been cancelled by %s",
+  "Congratulation!.You has complete %s matches": "Congratulation!.You has complete %s matches"
+
+  "Congratulation You has complete %s matches":"Chúc mừng Bạn đã hoàn thành trận đấu thứ %s"
+
+  return {
+    titleEnglish, 
+    titleVietnamese, 
+    bodyEnglish, 
+    bodyVietnamese
+  }
+
+}
 // async function fake() {
 //   debugger
 //   let notificationTokens = 

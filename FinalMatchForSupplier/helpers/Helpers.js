@@ -165,7 +165,14 @@ export const convertStringPositionsToPositionName = (stringPosition) => {
     } 
     return "GK"
 }
-
+export const convertDateToDDMMYYYHHMM = (date) => {    
+    const result = date.getDate() + "-"
+        + (date.getMonth() + 1) +
+        '-' + date.getFullYear() +
+        " " + date.getHours() + ":" +
+        date.getMinutes()
+    return result
+}
 // pending, accepted, cancelled, completed, missed
 export const getColorFromStatus = (orderStatus) => {  
     const {
