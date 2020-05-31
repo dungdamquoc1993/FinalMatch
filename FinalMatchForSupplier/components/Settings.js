@@ -26,7 +26,8 @@ import {
   getPosition,
   alert,
   convertDateToStringYYYYMMDD,
-  convertDateToStringDDMMYYYY
+  convertDateToStringDDMMYYYY,
+  OrderStatus,
 } from '../helpers/Helpers'
 import TextInputMask from 'react-native-text-input-mask'
 import {
@@ -37,6 +38,7 @@ import {
   getSupplierServicesOrders,
   postUploadPhoto,
   updateSettings,
+  getOrdersBySupplierId
 } from '../server/myServices'
 import {translate} from '../languages/languageConfigurations'
 import { urlGetAvatar } from '../server/urlNames'
@@ -48,6 +50,8 @@ import { NavigationEvents } from 'react-navigation'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
 import MultiLanguageComponent from './MultiLanguageComponent'
+
+const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED,FINISHED } = OrderStatus
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -94,6 +98,8 @@ export default class Settings extends MultiLanguageComponent {
     radius: 0.0,
     modalVisible: false,
     spinner: false,
+    numberOfCompletedMatchPlayer: 0,
+    numberOfCompletedMatchReferee: 0,
   }
   _saveSettings = async () => {
     debugger
@@ -167,8 +173,7 @@ export default class Settings extends MultiLanguageComponent {
   componentDidCatch(error, errorInfo) {
 
   }
-  reloadDataFromServer = async () => {
-    debugger
+  reloadDataFromServer = async () => {    
     this.setState({spinner: true})        
     try {
       const { supplierId, email } = await getSupplierFromStorage()      
@@ -180,11 +185,19 @@ export default class Settings extends MultiLanguageComponent {
         dateOfBirthObject, radius, address, playerName = '',
         refereeName = '', playerId, refereeId,
         latitude, longitude
-      } = data      
+      } = data          
+      debugger
+      let orders = await getOrdersBySupplierId ()          
+      debugger 
+      let numberOfCompletedMatchPlayer = orders.filter(order => order.orderStatus == COMPLETED && order.typeRole == 'player').length
+     let numberOfCompletedMatchReferee = orders
+          .filter(order => order.orderStatus == COMPLETED && order.typeRole == 'referee')
+          .length      
       const { day, month, year } = dateOfBirthObject      
       let selectedDate = new Date(year, month, day)
       const { isGK, isCB, isMF, isCF } = setPosition(position)
             
+      
       this.setState({
         spinner: false,
         name,
@@ -201,9 +214,12 @@ export default class Settings extends MultiLanguageComponent {
           address,
           latitude, 
           longitude
-        },        
+        },       
+        numberOfCompletedMatchPlayer, 
+        numberOfCompletedMatchReferee 
       })
     } catch (error) {      
+      debugger
       alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
       this.setState({spinner: false})
     }
@@ -268,7 +284,9 @@ export default class Settings extends MultiLanguageComponent {
       playerName,
       refereeName,
       stringDateOfBirth,
-      modalVisible
+      modalVisible,
+      numberOfCompletedMatchPlayer, 
+      numberOfCompletedMatchReferee,
     } = this.state
 
     const {
@@ -467,9 +485,8 @@ export default class Settings extends MultiLanguageComponent {
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
-              placeholder={'0'}
-              placeholderTextColor = "black"
-              editable={false}
+                value={`${numberOfCompletedMatchPlayer}`}                
+                editable={false}
              />
             </View>
             <Text style={{ marginBottom: 5, fontSize: 16 }}>
@@ -565,8 +582,7 @@ export default class Settings extends MultiLanguageComponent {
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
-              placeholder={'0'}
-              placeholderTextColor = "black"
+              value={`${numberOfCompletedMatchReferee}`}
               editable={false}
              />
             </View>

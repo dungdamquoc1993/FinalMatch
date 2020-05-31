@@ -263,7 +263,7 @@ class Item extends Component {
                 </Text>
             </TouchableOpacity>}
           </View>  
-          {orderStatus == FINISHED && <TouchableOpacity onPress={async () => {
+          {orderStatus == FINISHED && <TouchableOpacity onPress={async () => {            
             await updateOrderStatus(orderId, COMPLETED, 'customer')
           }}>
             <Text style={{
