@@ -167,7 +167,7 @@ class Item extends Component {
             </Text>
           </View>   
         <View style={{
-            flexDirection: 'row',
+            flexDirection: 'column', 
             paddingVertical:10,
             justifyContent: 'space-around',
             alignItems: 'stretch',
@@ -176,106 +176,122 @@ class Item extends Component {
             borderRadius: 15,
             marginBottom: 20,
             marginTop: 5,            
-            marginHorizontal: 10,            
-          }}>
+            marginHorizontal: 10,            }}>
           <View style={{
-              flexDirection: 'column',              
+            flexDirection: 'row',
+            marginHorizontal: 10,       
+          }}>
+            <View style={{
+              flexDirection: 'column',
               justifyContent: 'center',
             }}>
-            <View style={styles.inlineText}>            
-              <Text 
-                numberOfLines={3}
-                style={{
-                  fontSize: 17,                                  
-                  width: Dimensions.get('window').width * 0.6,                
-                }}>{playerRefereeName}</Text>
-              
-            </View>     
-            <View style={styles.inlineText}>
-              <Text style={styles.textLabel}>{translate('Price : ')}</Text>
-              <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
-                refereePrice : playerPrice}</Text>
-            </View>
-            <View style={styles.inlineText}>
-              <Text style={styles.textLabel}>{translate("Match's timing") + " :"}</Text>
-              <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
-            </View>
-            <View style={styles.inlineText}>
-            <Text style={styles.textLabel}>{translate("Stadium") + " :"}</Text>
-            <Text 
-            numberOfLines={3}
-            style={{
-              fontSize: 17,                                  
-              width: Dimensions.get('window').width * 0.4,
-            }}
-            >{orderAddress}</Text>
-          </View>
-          {orderStatus == ACCEPTED && <View style={[styles.inlineText, {textAlign: 'left'}]}>
-               <TouchableOpacity 
-                style={{}}
-                onPress = {() => {
-                  Linking.openURL(`tel:${customerPhoneNumber}`)
-                }}>
-              </TouchableOpacity>
-              <Text 
-                numberOfLines={2}
-                style={styles.textLabel}>
-                {translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/,'$1-$2-$3')}
-              </Text>              
-              </View> }       
-            {orderStatus == ACCEPTED && <AcceptedItem 
-                pressReject={async ()=>{    
+              <View style={styles.inlineText}>
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    fontSize: 17,
+                    width: Dimensions.get('window').width * 0.6,
+                  }}>{playerRefereeName}</Text>
+
+              </View>
+              <View style={styles.inlineText}>
+                <Text style={styles.textLabel}>{translate('Price : ')}</Text>
+                <Text style={styles.textLabel}>{typeRole.trim().toLowerCase() == 'referee' ?
+                  refereePrice : playerPrice}</Text>
+              </View>
+              <View style={styles.inlineText}>
+                <Text style={styles.textLabel}>{translate("Match's timing") + " :"}</Text>
+                <Text style={styles.textLabel}>{dateTimeStart.split('T')[0]}</Text>
+              </View>
+              <View style={styles.inlineText}>
+                <Text style={styles.textLabel}>{translate("Stadium") + " :"}</Text>
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    fontSize: 17,
+                    width: Dimensions.get('window').width * 0.4,
+                  }}
+                >{orderAddress}</Text>
+              </View>
+              {orderStatus == ACCEPTED && <View style={[styles.inlineText, { textAlign: 'left' }]}>
+                <TouchableOpacity
+                  style={{}}
+                  onPress={() => {
+                    Linking.openURL(`tel:${customerPhoneNumber}`)
+                  }}>
+                </TouchableOpacity>
+                <Text
+                  numberOfLines={2}
+                  style={styles.textLabel}>
+                  {translate('Phone : ')}: {supplierPhoneNumber.replace(/(\d{3})(\d{3})(\d{1,})/, '$1-$2-$3')}
+                </Text>
+              </View>}
+              {orderStatus == ACCEPTED && <AcceptedItem
+                pressReject={async () => {
                   alertWithOKButton(
                     translate("Are you sure you want to cancel this order ?"),
                     async () => {
                       await updateOrderStatus(orderId, CANCELLED, 'customer')
-                    })                        
-                }} 
-            />}
-            {orderStatus == PENDING && <PendingItem 
-              pressReject={async ()=>{    
-                alertWithOKButton(
-                  translate("Are you sure you want to cancel this order ?"),
-                  async () => {
-                    await updateOrderStatus(orderId, CANCELLED, 'customer')
-                  })                        
-              }} 
-          />}
-          </View>
+                    })
+                }}
+              />}
+              {orderStatus == PENDING && <PendingItem
+                pressReject={async () => {
+                  alertWithOKButton(
+                    translate("Are you sure you want to cancel this order ?"),
+                    async () => {
+                      await updateOrderStatus(orderId, CANCELLED, 'customer')
+                    })
+                }}
+              />}
+            </View>
 
-          <View style={styles.viewButton}>
-            <Image
-              source={
-                supplierAvatar.length > 0
-                  ? { uri: urlGetAvatar(supplierAvatar) }
-                  : require('../images/avatar.png')
-              }
-              style={styles.images}
-            />
-            {orderStatus == ACCEPTED && <TouchableOpacity
-              style={styles.btnOrder}
-              onPress = {() => {
-                //alert(JSON.stringify(Object.keys(this.props)))
-                navigate("Chat", {...this.props})
-              }}>
-              <Text style={styles.textOrder}>
-                {translate("Chat")}
+            <View style={styles.viewButton}>
+              <Image
+                source={
+                  supplierAvatar.length > 0
+                    ? { uri: urlGetAvatar(supplierAvatar) }
+                    : require('../images/avatar.png')
+                }
+                style={styles.images}
+              />
+              {orderStatus == ACCEPTED && <TouchableOpacity
+                style={styles.btnOrder}
+                onPress={() => {
+                  //alert(JSON.stringify(Object.keys(this.props)))
+                  navigate("Chat", { ...this.props })
+                }}>
+                <Text style={styles.textOrder}>
+                  {translate("Chat")}
                 </Text>
-            </TouchableOpacity>}
-          </View>  
-          {orderStatus == FINISHED && <TouchableOpacity onPress={async () => {            
-            await updateOrderStatus(orderId, COMPLETED, 'customer')
-          }}>
-            <Text style={{
-              height: 50,
-              fontSize: 17,
-              padding: 10,
-              width: '100%',
-              color: 'white',
+              </TouchableOpacity>}
+            </View>
+          </View> 
+        {orderStatus == FINISHED && <TouchableOpacity 
+            style={{             
+              flex: 1, 
+              borderRadius: 25,              
+              marginHorizontal: 20,
+              marginTop: 5,              
+              justifyContent:'center',
+              alignItems: 'center',
               backgroundColor: '#3498DB'
+            }}
+            onPress={async () => {            
+              await updateOrderStatus(orderId, COMPLETED, 'customer')
+            }}>
+            <Text style={{                                 
+              width: '100%',
+              
+              textAlign: 'center'       ,                            
+              fontSize: 17,
+              padding: 12,              
+              color: 'white',
+              
             }}>{translate("Complete this order")}</Text>
           </TouchableOpacity>}      
-        </View>        
+        </View>
+               
       </View>
     )
   }
