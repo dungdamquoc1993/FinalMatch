@@ -147,9 +147,10 @@ export const OrderStatus  = {
     PENDING : "pending", 
     ACCEPTED : "accepted",
     CANCELLED: "cancelled", 
-    COMPLETED: "completed", 
+    FINISHED: "finished", 
     MISSED: "missed" ,
     EXPIRED: 'expired',
+    COMPLETED: "completed", 
 }
 //input "0100" => "CB", "1000" => "GK",...
 export const convertStringPositionsToPositionName = (stringPosition) => {
