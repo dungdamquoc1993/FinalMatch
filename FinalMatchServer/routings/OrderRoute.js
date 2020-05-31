@@ -674,14 +674,14 @@ router.post('/updateOrderStatus', async (req, res) => {
         supplierId: selectedOrder.supplierId, 
         customerId: ''
       })   
-    } 
-    debugger
+    }     
     let {
       titleEnglish, 
       titleVietnamese, 
       bodyEnglish, 
       bodyVietnamese
-    } = await createNotificationContent({sender, orderStatus: newStatus, selectedOrder})         
+    } = await createNotificationContent({sender, orderStatus: newStatus, selectedOrder})             
+    debugger
     let failedTokens = await sendFirebaseCloudMessage({
       title: `${titleEnglish};${titleVietnamese}`, 
       body: `${bodyEnglish};${bodyVietnamese}`,
@@ -721,8 +721,7 @@ router.post('/updateOrderStatus', async (req, res) => {
     })
   }  
 })
-async function createNotificationContent({sender, orderStatus, selectedOrder}) {
-  debugger
+async function createNotificationContent({sender, orderStatus, selectedOrder}) {  
   let titleEnglish = ""
   let titleVietnamese = ""
   let bodyEnglish = ""
@@ -762,16 +761,22 @@ async function createNotificationContent({sender, orderStatus, selectedOrder}) {
     }else if(orderStatus == FINISHED) {
       
     } else if(orderStatus == COMPLETED) {
-
       let orders = await Orders.findAll({
-        where: { status: COMPLETED }
-      });
+        where: 
+          { 
+            [Op.and]:  
+                [
+                  {supplierId: selectedOrder.supplierId},
+                  {status: COMPLETED}
+                ]            
+          }
+      });      
       let numberOfCompletedMatches = orders.length;
       i18n.setLocale("en")      
       titleEnglish = i18n.__("Congratulation!.You has complete %s matches", `${numberOfCompletedMatches}`)
       bodyEnglish = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
       i18n.setLocale("vi")
-      titleEnglish = i18n.__("Congratulation!.You has complete %s matches", `${numberOfCompletedMatches}`)
+      titleVietnamese = i18n.__("Congratulation!.You has complete %s matches", `${numberOfCompletedMatches}`)
       bodyVietnamese = i18n.__("Match's timing is : %s", `${stringDateTimeStart}`)
     }
   }  
