@@ -90,7 +90,7 @@ class Splash extends MultiLanguageComponent {
     }
     render() {
         return <View style={styles.container}>
-            <Animated.Image source={require('../images/logo2.png')} 
+            <Animated.Image source={require('../images/logoSupplier.jpg')} 
                 style={{...styles.logo, opacity: this.state.logoOpacity}}>                
             </Animated.Image>
             <Animated.Text style={{...styles.title, 

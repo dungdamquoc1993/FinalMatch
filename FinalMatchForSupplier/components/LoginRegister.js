@@ -181,7 +181,7 @@ class LoginRegister extends Component {
             }} accessible={false}> 
           <SafeAreaView style={styles.container} 
             enabled>                
-            <Image style={styles.logo} source={require('../images/logo2.png')} />
+            <Image style={styles.logo} source={require('../images/logoSupplier.jpg')} />
             
             <Icon.Button
                 style={styles.facebookButton}

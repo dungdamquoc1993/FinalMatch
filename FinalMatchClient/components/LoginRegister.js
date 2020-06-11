@@ -47,9 +47,9 @@ export default class LoginRegister extends MultiLanguageComponent {
     userType: "default", 
     avatar: '', 
     phoneNumber: '',
-    email: 'customer01@gmail.com',
-    password: '123456',
-    retypePassword: '123456'
+    email: '',
+    password: '',
+    retypePassword: ''
   }  
   _loginOrRegister = async () => {
     try {
@@ -180,7 +180,7 @@ export default class LoginRegister extends MultiLanguageComponent {
         Keyboard.dismiss()        
       }} accessible={false}>
       <SafeAreaView style={styles.container}>        
-        <Image style={styles.logo} source={require('../images/cat.jpeg')} />
+        <Image style={styles.logo} source={require('../images/logo.jpeg')} />
         <Icon.Button
           style={styles.facebookButton}
           name="facebook"
