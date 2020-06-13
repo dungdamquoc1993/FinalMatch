@@ -156,10 +156,6 @@ export default class Settings extends MultiLanguageComponent {
   onScreenFocus = () => {
     // Screen was focused, our on focus logic goes here    
   }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return true
-  }
   validateInput() {
     const { phoneNumber } = this.state
     if (phoneNumber.trim().length == 0) {
