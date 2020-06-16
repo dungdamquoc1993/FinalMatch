@@ -33,9 +33,10 @@ import { LoginManager, LoginResult,
 import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
 import {validateEmail, validatePasword} from '../Validations/Validation'
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
+import MultiLanguageComponent from './MultiLanguageComponent'
 const {AsyncStorage} = NativeModules
 
-class LoginRegister extends Component {
+class LoginRegister extends MultiLanguageComponent {
     static navigationOptions = {
         headerShown: false,
     }
@@ -104,6 +105,7 @@ class LoginRegister extends Component {
             if (loginResult.isCancelled) {
                 console.log("Login cancelled")
             } else {
+                
                 const tokenObject = await AccessToken.getCurrentAccessToken()  
                 const facebookCredential =  await 
                     firebaseApp.firebase_.auth.FacebookAuthProvider.credential(tokenObject.accessToken)
@@ -111,7 +113,8 @@ class LoginRegister extends Component {
                 const { accessToken, userID } = tokenObject                
                 const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
                 const email = generateFakeString()
-                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)                                                                      
+                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)      
+                                                                                
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
@@ -124,7 +127,8 @@ class LoginRegister extends Component {
                     alert(message)
                 }
             }
-        } catch(error) {              
+        } catch(error) {          
+                
             alert(translate("Cannot login Facebook: ") + `${error}`)
         }        
     }
@@ -228,7 +232,7 @@ class LoginRegister extends Component {
                     value={password}
                     keyboardType={"default"}
                     secureTextEntry
-                    placeholder={translate("Password:")} />
+                    placeholder={translate("Password : ")} />
                 {isLogin === false && <TextInput style={styles.textInput} 
                     onChangeText = {(retypePassword) => {
                         this.setState({retypePassword})

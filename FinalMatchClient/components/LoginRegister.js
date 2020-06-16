@@ -139,10 +139,14 @@ export default class LoginRegister extends MultiLanguageComponent {
     //dispatch = call action
     // this.props.dispatch(getStackNavigation(stackNavigation))
     try {      
+      
       const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])      
+      
       if (loginResult.isCancelled) {
+        
         console.log("Login cancelled")
-      } else {        
+      } else {  
+              
         const tokenObject = await AccessToken.getCurrentAccessToken()
         // Create a Firebase credential with the AccessToken        
         const facebookCredential =  await 
@@ -159,10 +163,10 @@ export default class LoginRegister extends MultiLanguageComponent {
           
           if (notificationToken != null) {
             insertCustomerNotificationToken(notificationToken)
-          }
-          
+          }          
           //dispatch = call action                                        
-          this.props.navigation.navigate("MyTabNavigator", {})
+          //this.props.navigation.navigate("MyTabNavigator", {})
+          this.props.navigation.navigate('Service') //success
         } else {
           
           alert(message)
@@ -238,7 +242,7 @@ export default class LoginRegister extends MultiLanguageComponent {
             value={password}
             keyboardType={'default'}
             secureTextEntry
-            placeholder={translate("Password:")}
+            placeholder={translate("Password : ")}
           />
           {isLogin === false &&
             <TextInput
