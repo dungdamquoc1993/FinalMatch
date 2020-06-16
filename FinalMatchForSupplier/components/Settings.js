@@ -311,6 +311,7 @@ export default class Settings extends MultiLanguageComponent {
             hideBack={false}
             hideNext={true}
             pressBackButton={async () => {
+              debugger
               if (this.validateInput() == true) {
                 await this._saveSettings()
                 return true
