@@ -21,8 +21,8 @@ const TabOptions = {
 
 }
 TabOptions[translate("Services")] = { screen: ServiceRegister }
-TabOptions[translate("Notifications")] = { screen: Notifications }
 TabOptions[translate("Orders")] = { screen: Orders }
+TabOptions[translate("Notifications")] = { screen: Notifications }
 TabOptions[translate("Settings")] = { screen: Settings }
 
 const TabNavigator = createBottomTabNavigator(
@@ -36,11 +36,11 @@ const TabNavigator = createBottomTabNavigator(
                     case translate("Services"):
                         iconName = require('../images/document.png')
                         break
-                    case translate("Notifications"):
-                        iconName = require('../images/notification.png')
-                        break
                     case translate("Orders"):
                         iconName = require('../images/order.png')
+                        break
+                    case translate("Notifications"):
+                            iconName = require('../images/notification.png')    
                         break
                     case translate("Settings"):
                         iconName = require('../images/football-player.png')

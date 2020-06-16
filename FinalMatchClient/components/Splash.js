@@ -19,9 +19,11 @@ import {
 } from './eventNames.js'
 import {getCustomerFromStorage, saveCustomerToStorage} from '../helpers/Helpers'
 import {tokenCheckCustomer, insertCustomerNotificationToken} from '../server/myServices'
+import MultiLanguageComponent from './MultiLanguageComponent'
+import {translate} from '../languages/languageConfigurations'
 
 const {height, width} = Dimensions.get('window')
-export default class Splash extends Component {
+export default class Splash extends MultiLanguageComponent {
     static navigationOptions = {
         headerShown: false,
     }
@@ -102,7 +104,7 @@ export default class Splash extends Component {
             </Animated.Image>
             <Animated.Text style={{...styles.title, 
                                 marginTop:this.state.titleMarginTop}}>
-                FinalMatch for Client
+                {translate("Never miss the Finalmatch")}
             </Animated.Text>
         </View>
     }

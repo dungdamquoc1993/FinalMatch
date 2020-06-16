@@ -22,7 +22,6 @@ export const urlCheckRefereeServiceExist = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/refereeServices/checkRefereeServiceExist?supplierId=${supplierId}&locale=${i18n.locale}`
 }
 
-
 export const urlGetSupplierById = (supplierId) => {
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/urlGetSupplierById?supplierId=${supplierId}&locale=${i18n.locale}`
 }
