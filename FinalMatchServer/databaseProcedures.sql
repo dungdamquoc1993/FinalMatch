@@ -268,7 +268,7 @@ SELECT * FROM viewSupplierServices
 WHERE supplierId in (11,7,5)
 
 
-
+--SELECT loginFacebook('2555958671338523', 'Fake0.25bwlybe07q0.sp6m07uod8j0.v2f4g8saqn@gmail.com', 'Dũng Đàm', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2555958671338523&height=200&width=200&ext=1594889043&hash=AeQojQzZbUTYt0uP') as tokenKeySupplierId;
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
 CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), 
