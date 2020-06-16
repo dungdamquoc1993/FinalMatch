@@ -268,11 +268,12 @@ SELECT * FROM viewSupplierServices
 WHERE supplierId in (11,7,5)
 
 
+
 DROP FUNCTION IF EXISTS loginFacebook;
 delimiter //
 CREATE FUNCTION loginFacebook(facebookId VARCHAR(300), 
     email VARCHAR(300), 
-    name VARCHAR(250) CHARACTER SET utf8mb4, 
+    name VARCHAR(500) CHARACTER SET utf8mb4, 
     avatar VARCHAR(500)) RETURNS VARCHAR(500)
 BEGIN
     DECLARE numberOfSuppliers INT;
@@ -593,7 +594,7 @@ DROP PROCEDURE IF EXISTS checkCompletedAndExpiredMatch;
 delimiter //
 CREATE PROCEDURE checkCompletedAndExpiredMatch()  
 BEGIN    
-    UPDATE Orders SET status = 'completed' WHERE dateTimeEnd < NOW() AND status = 'accepted';
+    UPDATE Orders SET status = 'finished' WHERE dateTimeEnd < NOW() AND status = 'accepted';
     UPDATE Orders SET status = 'expired' WHERE dateTimeStart < NOW() AND status = 'pending';
 END;//
 

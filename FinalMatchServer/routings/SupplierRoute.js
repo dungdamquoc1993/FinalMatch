@@ -51,8 +51,7 @@ router.post('/login', async (req, res) => {
    
   i18n.setLocale(req.headers.locale)   
   
-  connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {
-          
+  connection.query(POST_LOGIN_SUPPLIER, [email, password,userType], (error, results) => {          
           if(error) {
               res.json({
                 result: "failed", 
@@ -75,8 +74,9 @@ router.post('/login', async (req, res) => {
 router.post('/loginFacebook', async (req, res) => {
   const {facebookId, email = '', name, avatar = ''} = req.body   
   i18n.setLocale(req.headers.locale)   
+  debugger
   connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
-          
+          debugger
           if(error) {
               res.json({
                 result: "failed", 
