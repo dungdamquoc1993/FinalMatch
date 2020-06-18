@@ -11,6 +11,8 @@ const Chat = require('../models/Chat')
 const {
   checkTokenCustomer,
   getNotificationTokens,
+  getNotificationTokensFromCustomer,
+  getNotificationTokensFromSupplier,
   checkToken} = require('./helpers')
 const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const GET_CHAT_HISTORY = "SELECT * FROM viewChatOrder WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) ORDER BY viewChatOrder.createdDate"
@@ -61,15 +63,17 @@ router.post('/insertNewChat', async (req, res) => {
     let key = `/chats/${chatId}`
     updates[key] = {
       ...JSON.parse(JSON.stringify(foundObject)) || {}
-    }
-    debugger
+    }    
     await firebaseDatabase.ref(key).remove()
     await firebaseDatabase.ref().update(updates)
     //Update order, báo cho customerid biết
-    let notificationTokens = await getNotificationTokens({
-      supplierId: supplierid,
-      customerId: customerid
-    })
+    let notificationTokens = [] 
+    debugger
+    if(foundObject.senderId == foundObject.supplierId){
+      notificationTokens = await getNotificationTokensFromCustomer({customerId: foundObject.customerId})
+    } else if(foundObject.senderId == foundObject.customerId) {
+      notificationTokens = await getNotificationTokensFromSupplier({supplierId : foundObject.supplierId})
+    }
     debugger
     sendFirebaseCloudMessage({
       title: i18n.__("New Message"),

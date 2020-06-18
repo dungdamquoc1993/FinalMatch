@@ -49,6 +49,7 @@ const checkTokenCustomer = (tokenKey = '', customerId = '') => {
 const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {    
     let notificationTokens = []
     return new Promise((resolve, reject) => {
+        debugger
         if((supplierId == 0 && customerId == '') ||(supplierId != 0 && customerId != '')) {            
             
             resolve(notificationTokens)
@@ -64,6 +65,51 @@ const getNotificationTokens = ({supplierId = 0, customerId = ''}) => {
                                                                 
                 if(results.length > 0) {
                     
+                    results.forEach(tokenObject => {
+                        if(tokenObject && tokenObject.token.length > 3)
+                        notificationTokens.push(tokenObject.token)
+                    })
+                }                                                             
+                resolve(notificationTokens)                
+            }
+        }) 
+    })
+}
+const getNotificationTokensFromSupplier = ({supplierId}) => {    
+    let notificationTokens = []
+    return new Promise((resolve, reject) => {                
+        connection.query(
+            GET_NOTIFICATION_TOKENS_SUPPLIER, 
+            [supplierId], (error, results) => {            
+            if (error) {                                
+                resolve(notificationTokens)
+            } else {    
+                                                                
+                if(results.length > 0) {                    
+                    results.forEach(tokenObject => {
+                        if(tokenObject && tokenObject.token.length > 3)
+                        notificationTokens.push(tokenObject.token)
+                    })
+                }                                                             
+                resolve(notificationTokens)                
+            }
+        }) 
+    })
+}
+
+const getNotificationTokensFromCustomer = ({customerId}) => {    
+    let notificationTokens = []
+    return new Promise((resolve, reject) => {                
+        debugger
+        connection.query(
+            GET_NOTIFICATION_TOKENS_CUSTOMER, 
+            [customerId], (error, results) => {         
+                debugger   
+            if (error) {                                
+                resolve(notificationTokens)
+            } else {    
+                                                                
+                if(results.length > 0) {                    
                     results.forEach(tokenObject => {
                         if(tokenObject && tokenObject.token.length > 3)
                         notificationTokens.push(tokenObject.token)
@@ -118,5 +164,7 @@ module.exports = {
     removeNullProperties,
     checkCompletedOrExpiredMatch,
     getNotificationTokens,
+    getNotificationTokensFromCustomer,
+    getNotificationTokensFromSupplier,
     convertDateToDDMMYYYHHMM
 }
