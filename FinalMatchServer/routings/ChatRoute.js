@@ -16,6 +16,13 @@ const {
   checkToken} = require('./helpers')
 const{sendFirebaseCloudMessage} = require('../notifications/firebaseCloudMessaging')
 const GET_CHAT_HISTORY = "SELECT * FROM viewChatOrder WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(?, CHAR) OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(?, CHAR) ORDER BY viewChatOrder.createdDate"
+/*
+SELECT * FROM viewChatOrder WHERE 
+(CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(1, CHAR) 
+OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(1, CHAR))
+AND viewChatOrder.orderId = 106
+ORDER BY viewChatOrder.createdDate;
+*/
 const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1 WHERE orderId = ? AND senderId = ?" 
 // const INSERT_NEW_CHAT = "CALL insertNewChat(?, ?, ?)"
 //Link http://localhost:3000/chat/insertNewChat

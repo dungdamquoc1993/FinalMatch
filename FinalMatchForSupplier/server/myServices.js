@@ -542,8 +542,9 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
 export const getChatHistory = async () => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
+        debugger
         let url = await urlGetChatHistory()
-        
+        debugger
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -556,9 +557,9 @@ export const getChatHistory = async () => {
                 customerOrSupplierId: supplierId
             }),
         })
-        
+        debugger
         const responseJson = await response.json();        
-        
+        debugger
         const {result, data} = responseJson
         return result.toUpperCase() === "OK" ? data : []
     } catch (error) {

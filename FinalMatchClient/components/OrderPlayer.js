@@ -60,7 +60,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
       const {name, phoneNumber, tokenKey, userType} = data
       this.setState ({
         name,
-        phoneNumber,
+        phoneNumber: this.state.phoneNumber.length > 0 ? this.state.phoneNumber : phoneNumber,
       })
     } catch (error) {
       alert (translate("Cannot get customer's information: ")+`${JSON.stringify (error)}`)

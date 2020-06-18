@@ -154,6 +154,7 @@ INNER JOIN Customer ON CONVERT(Orders.customerId, CHAR) = CONVERT(Customer.custo
 LEFT JOIN PlayerService ON CONVERT(Orders.supplierId, CHAR) = CONVERT(PlayerService.supplierId , CHAR)
 LEFT JOIN RefereeService ON CONVERT(Orders.supplierId , CHAR) = CONVERT(RefereeService.supplierId , CHAR);
 
+DROP VIEW viewChatOrder
 CREATE VIEW viewChatOrder AS 
 SELECT 
 Chat.id as chatId,
