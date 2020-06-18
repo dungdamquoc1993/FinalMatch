@@ -62,7 +62,7 @@ router.post('/insertNewChat', async (req, res) => {
     updates[key] = {
       ...JSON.parse(JSON.stringify(foundObject)) || {}
     }
-    
+    debugger
     await firebaseDatabase.ref(key).remove()
     await firebaseDatabase.ref().update(updates)
     //Update order, báo cho customerid biết
@@ -70,7 +70,7 @@ router.post('/insertNewChat', async (req, res) => {
       supplierId: supplierid,
       customerId: customerid
     })
-    
+    debugger
     sendFirebaseCloudMessage({
       title: i18n.__("New Message"),
       body: i18n.__("You got new message"),
@@ -112,7 +112,7 @@ router.post('/getChatHistory', async (req, res) => {
   debugger
   connection.query(GET_CHAT_HISTORY,
     [customerOrSupplierId, customerOrSupplierId], (error, results) => {
-      
+      //SELECT * FROM viewChatOrder WHERE CONVERT(viewChatOrder.supplierId, CHAR) = CONVERT(315, CHAR) OR CONVERT(viewChatOrder.customerId, CHAR) = CONVERT(315, CHAR) ORDER BY viewChatOrder.createdDate;
       if (error) {
         res.json({
           result: "failed",
