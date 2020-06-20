@@ -59,7 +59,7 @@ export default class Chat extends Component {
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                              
             let {supplierId} = await getSupplierFromStorage()            
             debugger
-            let messengers = await getChatHistory({customerOrSupplierId: supplierId})            
+            let messengers = await getChatHistory({customerOrSupplierId: supplierId, orderId: this.props.navigation.state.params})            
             debugger
             that.setState({messengers})                      
         })                                

@@ -539,7 +539,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
     }
 }
 
-export const getChatHistory = async () => {
+export const getChatHistory = async ({customerOrSupplierId, orderId}) => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
         debugger
@@ -554,7 +554,7 @@ export const getChatHistory = async () => {
                 tokenKey, supplierId
             },
             body: JSON.stringify({
-                customerOrSupplierId: supplierId
+                customerOrSupplierId, orderId
             }),
         })
         debugger

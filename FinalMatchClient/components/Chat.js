@@ -57,7 +57,7 @@ export default class Chat extends Component {
         const that = this
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                              
             let {customerId} = await getCustomerFromStorage()                        
-            let messengers = await getChatHistory({customerOrSupplierId: customerId})                                     
+            let messengers = await getChatHistory({customerOrSupplierId: customerId, orderId: this.props.navigation.state.params.orderId})                                     
             that.setState({messengers})                      
         })                                
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {                                    
