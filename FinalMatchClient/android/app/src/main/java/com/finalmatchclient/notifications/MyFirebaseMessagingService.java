@@ -35,6 +35,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     data.get("body") == null ? "" : data.get("body"),
                     new HashMap<>()
             );
+            //kiem tra va yeu cau cho phep noti
+            if(NotificationManagerCompat.from(this).areNotificationsEnabled() == false) {
+                System.out.println("haha");
+            } else {
+                System.out.println("nhuc");
+            }
             this.pushRemoteNotification(notificationObject);
         }
 
@@ -55,18 +61,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent actionIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(context, MainApplication.CHANNEL_1_ID)
+//        Notification notification = new NotificationCompat.Builder(context, MainApplication.CHANNEL_1_ID)
+//                .setSmallIcon(R.drawable.ic_notification)
+//                .setContentTitle(notificationObject.getTitle())
+//                .setContentText(notificationObject.getBody())
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setContentIntent(contentIntent)
+//
+//                .setColor(Color.BLUE)
+//                .addAction(R.drawable.ic_notification,"OK",
+//                        actionIntent)
+//                .build();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,  MainApplication.CHANNEL_2_ID)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(notificationObject.getTitle())
-                .setContentText(notificationObject.getBody())
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(contentIntent)
-                .setColor(Color.BLUE)
-                .addAction(R.drawable.ic_notification,"OK",
-                        actionIntent)
-                .build();
+                .setContentTitle("chgao b")
+                .setContentText("nhuc chua")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(context);
-        notificationManager.notify(2, notification);
+        Notification noti = builder.build();
+        notificationManager.notify(2, noti);
     }
 }
