@@ -68,12 +68,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Refreshed token: " + token);
     }
     public void pushRemoteNotification(NotificationObject notificationObject) {
-        Context context = this;
+        Context context = getApplicationContext();
         Intent intent = new Intent(context, MainActivity.class);
         intent.setAction("OK");
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
         Intent broadcastIntent = new Intent(context, MyBroadcastReceiver.class);
-        broadcastIntent.putExtra("data", "haha");
+//        broadcastIntent.putExtra("data", "haha");
 
         PendingIntent actionIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -82,13 +82,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(notificationObject.getTitle())
                 .setContentText(notificationObject.getBody())
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(contentIntent)
-                .setColor(Color.BLUE)
-//                .addAction(R.drawable.ic_notification,"OK",
-//                        actionIntent)
-                .build();
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(notificationObject.getBody()))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT).build();
         NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(context);
         notificationManager.notify(2, notification);
     }

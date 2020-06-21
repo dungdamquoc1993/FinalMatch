@@ -19,6 +19,7 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
   public  static final String CHANNEL_1_ID = "channel1";
   public  static final String CHANNEL_2_ID = "channel2";
+  private NotificationManager notificationManager;
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
+            createNotificationChannels();
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
             packages.add(new NotificationPackage());
@@ -54,9 +56,9 @@ public class MainApplication extends Application implements ReactApplication {
                   NotificationManager.IMPORTANCE_LOW
           );
           channel1.setDescription("This is channel 2 ");
-          NotificationManager manager = getSystemService(NotificationManager.class);
-          manager.createNotificationChannel(channel1);
-          manager.createNotificationChannel(channel2);
+          notificationManager = getSystemService(NotificationManager.class);
+          notificationManager.createNotificationChannel(channel1);
+          notificationManager.createNotificationChannel(channel2);
       }
   }
 
