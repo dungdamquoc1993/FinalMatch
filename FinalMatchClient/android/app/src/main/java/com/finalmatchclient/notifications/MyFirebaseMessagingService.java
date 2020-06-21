@@ -58,10 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     data.get("body") == null ? "" : data.get("body"),
                     new HashMap<>()
             );
-            RemoteMessage.Notification notification = remoteMessage.getNotification();
-            Log.d("FROM", remoteMessage.getFrom());
-            sendNotification(notification, data);
-            //this.pushRemoteNotification(notificationObject);
+            this.pushRemoteNotification(notificationObject);
         }
 
     }
@@ -81,85 +78,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent actionIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-//        Notification notification = new NotificationCompat.Builder(context, MainApplication.CHANNEL_1_ID)
-//                .setSmallIcon(R.drawable.ic_notification)
-//                .setContentTitle(notificationObject.getTitle())
-//                .setContentText(notificationObject.getBody())
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setContentIntent(contentIntent)
-//
-//                .setColor(Color.BLUE)
+        Notification notification = new NotificationCompat.Builder(context, MainApplication.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(notificationObject.getTitle())
+                .setContentText(notificationObject.getBody())
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .setColor(Color.BLUE)
 //                .addAction(R.drawable.ic_notification,"OK",
 //                        actionIntent)
-//                .build();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,  MainApplication.CHANNEL_2_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("chgao b")
-                .setContentText("nhuc chua")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .build();
         NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(context);
-        Notification noti = builder.build();
-        notificationManager.notify(2, noti);
-    }
-    private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FCM_PARAM, data.get(FCM_PARAM));
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtras(bundle);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setContentTitle("nhuc")
-                .setContentText("bod yde")
-                .setAutoCancel(true)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                //.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.win))
-                .setContentIntent(pendingIntent)
-                .setContentInfo("Hello")
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-//                .setColor(getColor(R.color.colorAccent))
-                .setLights(Color.RED, 1000, 300)
-                .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setNumber(++numMessages)
-                .setSmallIcon(R.drawable.ic_notification);
-
-        try {
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText("a lodishjuierw"));
-            String picture = data.get(FCM_PARAM);
-            if (picture != null && !"".equals(picture)) {
-                URL url = new URL(picture);
-                Bitmap bigPicture = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                notificationBuilder.setStyle(
-                        new NotificationCompat.BigPictureStyle().bigPicture(bigPicture).setSummaryText("nhuc chuhcuc")
-                );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    getString(R.string.notification_channel_id), CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT
-            );
-            channel.setDescription(CHANNEL_DESC);
-            channel.setShowBadge(true);
-            channel.canShowBadge();
-            channel.enableLights(true);
-            channel.setLightColor(Color.RED);
-            channel.enableVibration(true);
-            channel.setVibrationPattern(new long[]{100, 200, 300, 400, 500});
-
-            assert notificationManager != null;
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        assert notificationManager != null;
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(2, notification);
     }
 }

@@ -44,3 +44,4 @@ const sendFirebaseCloudMessage = async ({ title, body, payload, notificationToke
 module.exports = {
     sendFirebaseCloudMessage
 }
+sendFirebaseCloudMessage({title: "haha", body: "hshdhs", payload:"dadda", notificationTokens})
