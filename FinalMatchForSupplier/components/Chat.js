@@ -101,6 +101,7 @@ export default class Chat extends Component {
             navigate
         } = this.props.navigation.state.params
         const {messengers, flatList} = this.state         
+        debugger
         
         return <KeyboardAvoidingView 
         behavior = {Platform.OS === 'ios' ? "padding" : null}

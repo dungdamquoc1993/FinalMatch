@@ -125,7 +125,7 @@ class Item extends Component {
           <View style={styles.ViewDetail}>
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate('Name : ')}</Text>
-              <Text style={styles.textLabel}>{playerName || name}</Text>
+              <Text style={styles.textLabel}>{playerName || ""}</Text>
             </View>
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate("Position : ")}</Text>
