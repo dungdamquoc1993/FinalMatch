@@ -9,4 +9,5 @@
     <string name="default_notification_channel_name" translatable="true">FinalMatchOrder</string>
     <!-- [END fcm_default_icon_string] -->
     <string name="fcm_message">FCM Message</string>
+    <string name="notification_channel_id">default</string>
 </resources>
