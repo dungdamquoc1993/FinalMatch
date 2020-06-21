@@ -25,9 +25,9 @@ const GET_CHAT_HISTORY = `
 const MAKE_CHAT_SEEN = "UPDATE Chat SET Chat.seen = 1 WHERE orderId = ? AND senderId = ?" 
 // const INSERT_NEW_CHAT = "CALL insertNewChat(?, ?, ?)"
 //Link http://localhost:3000/chat/insertNewChat
-router.post('/insertNewChat', async (req, res) => {  
+router.post('/insertNewChat', async (req, res) => {      
   const { tokenkey, supplierid, customerid, locale } = req.headers      
-  i18n.setLocale(locale)  
+  i18n.setLocale(locale)    
   if (await checkToken(tokenkey, supplierid) == false &&
     await checkTokenCustomer(tokenkey, customerid) == false) {    
     res.json({
@@ -37,8 +37,9 @@ router.post('/insertNewChat', async (req, res) => {
       time: Date.now()
     })
     return
-  }
+  }  
   const { sms, senderId} = req.body
+  debugger
   try {    
     let orderId = parseInt(req.body.orderId)      
     const newChat = await Chat.create({orderId, sms, senderId});    
