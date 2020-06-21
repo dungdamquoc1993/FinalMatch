@@ -513,9 +513,10 @@ export const updateOrderStatus = async (orderId, newStatus, sender) => {
 }
 export const insertNewChat = async ({orderId, sms, senderId}) => {
     try {
+        debugger
         const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
         let url = await urlInsertNewChat()
-        
+        debugger
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -534,6 +535,7 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
         const {result, data} = responseJson
         return result.toUpperCase() === "OK"
     } catch (error) {
+        debugger
         alert("Cannot insert new chat. Error: "+error)        
         return false
     }

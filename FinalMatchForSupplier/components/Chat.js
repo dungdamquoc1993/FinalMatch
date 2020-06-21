@@ -59,7 +59,8 @@ export default class Chat extends Component {
         firebaseDatabase.ref ('/chats').on ('value', async snapshot => {                              
             let {supplierId} = await getSupplierFromStorage()            
             debugger
-            let messengers = await getChatHistory({customerOrSupplierId: supplierId, orderId: this.props.navigation.state.params})            
+            const {orderId} = this.props.navigation.state.params
+            let messengers = await getChatHistory({customerOrSupplierId: supplierId, orderId})            
             debugger
             that.setState({messengers})                      
         })                                
@@ -279,6 +280,7 @@ class _BottomView extends Component {
             customerId
         } = this.props
         const {typedText} = this.state
+        debugger
         if(typedText.trim() == "") {
             Keyboard.dismiss()
             return
