@@ -42,6 +42,7 @@
     "completed": "completed",
     "missed": "missed",
     "expired": "expired",
+    "finished": "finished",
     "Address : ": "Address : ",
     "Price must be < 150K": "Price must be < 150K",
     "Referee Service":"Referee Service",
