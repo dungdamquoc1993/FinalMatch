@@ -12,6 +12,7 @@ router.post('/insertHashKey', async (req, res) => {
   debugger
   i18n.setLocale(locale)
     connection.query(POST_INSERT_HASHKEY, [content, new Date()], (error, results) => {
+        debugger        
         if (error) {
             res.json({
                 result: "failed",

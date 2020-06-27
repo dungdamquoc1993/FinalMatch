@@ -1,3 +1,4 @@
+//keytool -exportcert -alias ADD_RELEASE_KEY_ALIASE_HERE -keystore ADD_UR_KEYSTORE_PATH_HERE | openssl sha1 -binary | openssl base64
 import React, {Component} from 'react'
 import {View, StyleSheet, Image,
     TouchableOpacity,
