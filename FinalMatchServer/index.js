@@ -39,7 +39,7 @@ app.use('/notifications', NotificationRoute)
 const Orders = require('./models/Orders')
 // let PORT = require('readline-sync').question("Enter PORT : ")
 //PORT = 3000;//in real server
-PORT = 3001;
+PORT = 3000;
 app.listen(PORT, () => {
     console.log(`app listen from : ${PORT}`)    
 })
