@@ -7,13 +7,12 @@ const POST_INSERT_HASHKEY = "INSERT INTO Temp(content, createdDate) VALUES(?, ?)
 
 //Link http://localhost:3000/temp/insertHashKey
 router.post('/insertHashKey', async (req, res) => {       
-    debugger
-  const {content, locale} = req.body      
   let content = req.baseUrl.content
   let locale = req.baseUrl.locale
   if(locale == 'undefined') {
       locale = 'en'
   }
+  debugger
   i18n.setLocale(locale)
     connection.query(POST_INSERT_HASHKEY, [content, new Date()], (error, results) => {
         debugger        
