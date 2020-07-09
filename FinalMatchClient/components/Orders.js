@@ -98,7 +98,7 @@ class Item extends Component {
   async componentDidMount() {
      const {orderLatitude, orderLongitude} = this.props
      const address = await getAddressFromLatLong(orderLatitude, orderLongitude)
-     this.setState({orderAddress: address.split(',')[address.split(',').length-3].trim()})
+     this.setState({orderAddress: address})
          
   }
 
