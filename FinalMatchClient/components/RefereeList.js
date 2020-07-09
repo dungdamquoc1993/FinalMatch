@@ -104,10 +104,11 @@ class Item extends Component {
       position,
       distance,
       positionAt,      
-      matchTiming,
-      ages
+      matchTiming,      
     } = this.props 
     const {order} = this.state    
+    //address.split(',')[address.split(',').length-3].trim()
+    debugger
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -117,7 +118,7 @@ class Item extends Component {
           </View>          
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Address : ")}</Text>
-            <Text style={styles.textLabel}>{ages}</Text>
+            <Text style={styles.textLabel}>{address.split(',')[address.split(',').length-3].trim()}</Text>
           </View>
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Referee's price: ")}</Text>
