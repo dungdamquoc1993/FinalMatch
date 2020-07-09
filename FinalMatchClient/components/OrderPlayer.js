@@ -76,8 +76,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
       const {message, error} = await updateCustomerInformation (
         name,
         phoneNumber
-      )
-      alert("lala"+JSON.stringify({name, phoneNumber}))
+      )      
       if (!error) {        
         if(name.trim().length == 0 || phoneNumber.trim().length == 0) {
           alert(translate("You must enter order's name or phone number"))

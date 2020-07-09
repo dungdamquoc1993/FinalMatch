@@ -48,8 +48,7 @@ export default class SearchPlace extends MultiLanguageComponent {
           <TextInput
             style={{
               width: '85%',
-              color: 'black',
-              placeholderTextColor: 'gray',
+              color: 'black',              
               height: 50,
               fontSize: 17,
               lineHeight: isIOS == true ? 0 : null,

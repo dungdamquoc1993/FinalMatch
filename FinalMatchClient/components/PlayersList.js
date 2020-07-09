@@ -88,6 +88,9 @@ class Item extends Component {
   state = {
     order: false
   }  
+  componentDidMount() {    
+    
+  }
   render () {
     const {
       avatar,
@@ -114,7 +117,8 @@ class Item extends Component {
       navigate,
       matchTiming,
     } = this.props 
-    const {order} = this.state             
+    const {order} = this.state     
+    debugger        
     return (
       <TouchableOpacity
         onPress={() => {
@@ -133,7 +137,7 @@ class Item extends Component {
             </View>
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate("Address : ")}</Text>
-              <Text style={styles.textLabel}>{address}</Text>
+              <Text style={styles.textLabel}>{address.split(',')[address.split(',').length-3].trim()}</Text>
             </View>
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate("Player's price: ")}</Text>
