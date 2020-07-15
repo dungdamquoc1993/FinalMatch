@@ -30,17 +30,21 @@ export default class RefereeList extends MultiLanguageComponent {
   _getRefereesList = async () => {
     const {
       radius,      
-      latitude, 
-      longitude,
+      orderLatitude, 
+      orderLongitude,
       matchTiming //phải là kiểu Date
     } = this.props.navigation.state.params                
-    let referees = await getRefereesAroundOrder(radius, latitude, longitude)
+    let referees = await getRefereesAroundOrder(radius, orderLatitude, orderLongitude)
     
     this.setState({referees, matchTiming})
   }
   render () {
     const {navigate} = this.props.navigation   
     const {referees, matchTiming} = this.state
+    const {      
+      orderLatitude, 
+      orderLongitude,      
+    } = this.props.navigation.state.params  
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents
@@ -59,7 +63,7 @@ export default class RefereeList extends MultiLanguageComponent {
           width={'100%'}
           data={referees}
           renderItem={({item}) => (
-            <Item {...item} matchTiming={matchTiming}/>
+            <Item {...item} matchTiming={matchTiming} orderLatitude={orderLatitude} orderLongitude={orderLongitude}/>
           )}
           keyExtractor={item => item.supplierId}
         />
@@ -108,7 +112,7 @@ class Item extends Component {
     } = this.props 
     const {order} = this.state    
     //address.split(',')[address.split(',').length-3].trim()
-    
+    const {orderLatitude, orderLongitude} = this.props
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -146,8 +150,8 @@ class Item extends Component {
               const {customerId} = await getCustomerFromStorage()                            
               await createNewOrder(
                   refereeServiceSupplierId, 
-                  latitude,
-                  longitude,
+                  orderLatitude,
+                  orderLongitude,
                   customerId, 
                   'referee',             
                   matchTiming //phải là kiểu Date, matchTiming chính là dateTimeStart     

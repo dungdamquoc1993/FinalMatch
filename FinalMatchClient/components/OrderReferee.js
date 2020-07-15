@@ -60,8 +60,8 @@ export default class OrderReferee extends MultiLanguageComponent {
         }        
         navigate ('RefereeList', {
           radius: 10,          
-          latitude, 
-          longitude,
+          orderLatitude: latitude, 
+          orderLongitude: longitude,
           matchTiming
         })        
       } else {

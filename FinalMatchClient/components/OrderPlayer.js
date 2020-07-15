@@ -98,8 +98,8 @@ export default class OrderPlayer extends MultiLanguageComponent {
         navigate ('PlayersList', {
           radius: 10,
           position: convertStringPositionToNumber(getPosition({isGK, isCB, isMF, isCF})),//1, 2, 3, 4
-          latitude, 
-          longitude,
+          orderLatitude: latitude, 
+          orderLongitude: longitude,
           matchTiming
         })
       } else {
@@ -244,6 +244,7 @@ export default class OrderPlayer extends MultiLanguageComponent {
                 // await updateCustomerInformation(name, phoneNumber)                      
                 navigate ('SearchPlace', {
                   updatePlace: (place, latitude, longitude) => {
+                    debugger
                     this.setState ({place, point: {latitude, longitude}})
                   },
                 })

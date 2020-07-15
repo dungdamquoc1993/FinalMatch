@@ -105,7 +105,8 @@ class Item extends Component {
       <View style={styles.ViewAllInformation}>
         <TouchableOpacity 
           style={{ width: '85%', height: '100%' }}
-          onPress = {() => {            
+          onPress = {() => {           
+            debugger 
             updatePlace(formattedAddress, latitude, longitude)
             navigation.goBack()
           }}

@@ -299,7 +299,8 @@ export const createNewOrder = async (
 export const getOrdersByCustomerId = async () => {    
     try {        
         
-        const {tokenKey, customerId} = await getCustomerFromStorage()           
+        const {tokenKey, customerId} = await getCustomerFromStorage()   
+        debugger        
         const response = await fetch(await urlGetOrdersByCustomerId(), {
             method: 'POST',
             headers: {

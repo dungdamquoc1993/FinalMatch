@@ -98,6 +98,7 @@ class Item extends Component {
   async componentDidMount() {
      const {orderLatitude, orderLongitude} = this.props
      const address = await getAddressFromLatLong(orderLatitude, orderLongitude)     
+     debugger
      this.setState({orderAddress: address})
          
   }
@@ -138,8 +139,7 @@ class Item extends Component {
     let playerRefereeName = typeRole.toLowerCase() == 'player'?
       `${translate("Player Name:")} ${playerName}` :
       `${translate("Referee Name:")} ${refereeName}`
-      const {orderAddress} = this.state
-      debugger
+      const {orderAddress} = this.state      
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>

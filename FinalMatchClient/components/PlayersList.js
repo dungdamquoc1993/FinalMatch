@@ -32,21 +32,20 @@ export default class PlayersList extends MultiLanguageComponent {
     const {
       radius,
       position, //1, 2, 3, 4
-      latitude, 
-      longitude,
+      orderLatitude, 
+      orderLongitude,
       matchTiming
     } = this.props.navigation.state.params        
-    console.log({radius,
-      position, //1, 2, 3, 4
-      latitude, 
-      longitude,
-      matchTiming})
-    let players = await getPlayersAroundOrder(radius, latitude, longitude, position)    
+    let players = await getPlayersAroundOrder(radius, orderLatitude, orderLongitude, position)    
     this.setState({players, matchTiming})
   }
   render () {
     const {players, matchTiming} = this.state    
     const {navigate} = this.props.navigation      
+    const {      
+      orderLatitude, 
+      orderLongitude,      
+    } = this.props.navigation.state.params  
     return (
       <SafeAreaView style={styles.container}>        
         <NavigationEvents
@@ -65,7 +64,7 @@ export default class PlayersList extends MultiLanguageComponent {
           width={'100%'}
           data={players}
           renderItem={({item}) => (
-            <Item {...item} navigate = {navigate} matchTiming={matchTiming}/>
+            <Item {...item} navigate = {navigate} matchTiming={matchTiming} orderLatitude={orderLatitude} orderLongitude={orderLongitude}/>
           )}
           keyExtractor={item => item.playerId}
         />
@@ -117,6 +116,7 @@ class Item extends Component {
       navigate,
       matchTiming,
     } = this.props 
+    const {orderLatitude, orderLongitude} = this.props
     const {order} = this.state     
     debugger        
     return (
@@ -165,8 +165,8 @@ class Item extends Component {
               debugger
               await createNewOrder(
                 playerServiceSupplierId, 
-                latitude,
-                longitude,
+                orderLatitude,
+                orderLongitude,
                 customerId, 
                 'player',             
                 matchTiming //phải là kiểu Date, matchTiming chính là dateTimeStart     
