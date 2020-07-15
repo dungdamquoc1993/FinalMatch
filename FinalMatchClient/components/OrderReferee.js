@@ -42,7 +42,7 @@ export default class OrderReferee extends MultiLanguageComponent {
       const {navigate} = this.props.navigation
       const {point, matchTiming, dateTimeString} = this.state
       const {latitude, longitude} = point
-      
+      debugger
       //1.Update customer's information
       const { message, error } = await updateCustomerInformation(name, phoneNumber)      
       if (!error) {        

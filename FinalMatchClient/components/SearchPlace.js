@@ -24,9 +24,9 @@ export default class SearchPlace extends MultiLanguageComponent {
   }
   searchPlace = async () => {
     try {
-      const {typedAddress} = this.state      
-      debugger
+      const {typedAddress} = this.state            
       const places = await getPlacesFromAddress(typedAddress)                 
+      debugger
       this.setState({places})      
       Keyboard.dismiss()
     } catch (error) {

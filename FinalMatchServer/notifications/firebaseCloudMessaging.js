@@ -44,7 +44,12 @@ const sendFirebaseCloudMessage = async ({ title, body, payload, notificationToke
 module.exports = {
     sendFirebaseCloudMessage
 }
-// sendFirebaseCloudMessage({title: "haha", 
-//   body: "hshdhs", 
-//   payload:"dadda", 
-//   notificationTokens: ["cVyLtJnnQv2nNC7nZKqoeQ:APA91bG4by3GaIlqTsaz5jBAjzB-suvHXg5X4nBg8rxou9UrWdKCZ0svhRTkWInW0F1822qPg1cjf5t7DL5LAXOimCUz974C9jxMRUjEosIL2f8xTc_sOlGf7tU7nUdl5bNZOXt7tzPW"]})
+var running = true
+if(running == true) {
+  sendFirebaseCloudMessage({
+    title: "haha", 
+    body: "hshdhs", 
+    payload:"dadda", 
+    notificationTokens: ["cVyLtJnnQv2nNC7nZKqoeQ:APA91bG4by3GaIlqTsaz5jBAjzB-suvHXg5X4nBg8rxou9UrWdKCZ0svhRTkWInW0F1822qPg1cjf5t7DL5LAXOimCUz974C9jxMRUjEosIL2f8xTc_sOlGf7tU7nUdl5bNZOXt7tzPW"]}
+  );
+}

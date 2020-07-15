@@ -85,7 +85,7 @@ export const getPlacesFromAddress = async (address) => {
         const response = await fetch(urlGetPlacesFromAddress(address))        
         const responseJSON = await response.json()                
         if(responseJSON.status.toUpperCase() === 'OK') {
-            let places = responseJSON.results.map(place => {
+            let places = responseJSON.results.map(place => {                
                 let formattedAddress = place["formatted_address"];
                 let latitude = 0.0
                 let longitude = 0.0                

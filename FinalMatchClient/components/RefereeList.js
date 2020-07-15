@@ -108,7 +108,7 @@ class Item extends Component {
     } = this.props 
     const {order} = this.state    
     //address.split(',')[address.split(',').length-3].trim()
-    debugger
+    
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
