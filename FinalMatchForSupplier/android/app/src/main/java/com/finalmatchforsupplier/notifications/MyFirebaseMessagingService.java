@@ -76,8 +76,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent actionIntent = PendingIntent.getBroadcast(context, 0, broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        if(notificationObject.getBody().contains("http")) {
+            Intent notifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(notificationObject.getBody()));
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            contentIntent = PendingIntent.getActivities(context, 0, new Intent[] {notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
+
         Notification notification = new NotificationCompat.Builder(context, MainApplication.CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
                 .setContentTitle(notificationObject.getTitle())
                 .setContentText(notificationObject.getBody())
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

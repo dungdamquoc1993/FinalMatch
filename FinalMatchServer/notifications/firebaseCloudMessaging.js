@@ -48,7 +48,7 @@ var running = true
 if(running == true) {
   sendFirebaseCloudMessage({
     title: "haha", 
-    body: "hshdhs", 
+    body: "https://www.facebook.com/watch/?v=857887144359013", 
     payload:"dadda", 
     notificationTokens: [
       "f1nQEAIvRYS_5bTGuaPMK6:APA91bH-EKzyKTJWkcxIedwo7UISB22OZqe9_LvTVpyl_lPC8CKiV9nsWuTsIJgMrR2RudfZzPp5axdrx-FaiYyxOYa6DT2rW89oObpxY8nPNi0AKNeUicDdQwqaekUc8jMEfv15ZUGw"
