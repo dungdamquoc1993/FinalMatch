@@ -50,6 +50,8 @@ if(running == true) {
     title: "haha", 
     body: "hshdhs", 
     payload:"dadda", 
-    notificationTokens: ["cVyLtJnnQv2nNC7nZKqoeQ:APA91bG4by3GaIlqTsaz5jBAjzB-suvHXg5X4nBg8rxou9UrWdKCZ0svhRTkWInW0F1822qPg1cjf5t7DL5LAXOimCUz974C9jxMRUjEosIL2f8xTc_sOlGf7tU7nUdl5bNZOXt7tzPW"]}
+    notificationTokens: [
+      "f1nQEAIvRYS_5bTGuaPMK6:APA91bH-EKzyKTJWkcxIedwo7UISB22OZqe9_LvTVpyl_lPC8CKiV9nsWuTsIJgMrR2RudfZzPp5axdrx-FaiYyxOYa6DT2rW89oObpxY8nPNi0AKNeUicDdQwqaekUc8jMEfv15ZUGw"
+    ]}
   );
 }
