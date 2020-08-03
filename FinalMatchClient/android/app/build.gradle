@@ -131,8 +131,8 @@ android {
         applicationId "com.finalmatchclient"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "Wellcome to FinalMatch"
+        versionCode 15
+        versionName "This should be ok"
         multiDexEnabled true
     }
     splits {
