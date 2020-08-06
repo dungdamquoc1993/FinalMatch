@@ -48,8 +48,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 title = data.get("title").split(";")[0];
                 body = data.get("body").split(";")[0];
             } else {
-                title = data.get("title").split(";")[1];
-                body = data.get("body").split(";")[1];
+                String xx = data.get("title");
+                String[] dataArray = data.get("title").split(";");
+                if(dataArray.length > 1) {
+                    title = data.get("title").split(";")[1];
+                    body = data.get("body").split(";")[1];
+                }
             }
             notificationObject = new NotificationObject(
                     title,
