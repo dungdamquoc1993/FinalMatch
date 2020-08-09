@@ -148,7 +148,7 @@ class PlayerService extends Component {
           this.reloadDataFromServer()
         }}
         />
-        <Header title={translate("Player Service")} pressBackButton={async () => {
+        <Header title={translate("Player Service")} hideNext={true} pressBackButton={async () => {
           //validate ok
           return true
         }}/>        

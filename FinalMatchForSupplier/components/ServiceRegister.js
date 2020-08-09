@@ -119,7 +119,7 @@ const styles = StyleSheet.create ({
     fontSize: 30,
     width: 0.8 * screenWidth,
     height: 80,    
-    borderRadius: 40,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
   },
