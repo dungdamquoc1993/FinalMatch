@@ -55,7 +55,7 @@ export default class PlayersList extends MultiLanguageComponent {
         />
         <Header
           title={translate("Players around you")}
-          hideBack={true}
+          hideNext={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderPlayer')
           }}
@@ -75,7 +75,7 @@ export default class PlayersList extends MultiLanguageComponent {
           }}
         >
           <Text style={styles.textSubmit}>
-            Xong
+            {translate("Done")}
           </Text>
         </TouchableOpacity>
 

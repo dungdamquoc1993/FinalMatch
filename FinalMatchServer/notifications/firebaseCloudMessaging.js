@@ -44,6 +44,9 @@ const sendFirebaseCloudMessage = async ({ title, body, payload, notificationToke
 module.exports = {
     sendFirebaseCloudMessage
 }
+
+
+/* comment Augsust 9, 2020 by Bruce 
 var running = true
 if(running == true) {
   sendFirebaseCloudMessage({
@@ -55,3 +58,4 @@ if(running == true) {
     ]}
   );
 }
+*/

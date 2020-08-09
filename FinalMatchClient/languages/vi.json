@@ -80,5 +80,7 @@
     "Cannot get lat, lon from address": "Không lấy được lat, lon từ địa chỉ",
     "Cannot get Places From Address:":"Không lấy được các địa điểm quanh địa chỉ:",
     "Location permission denied by user.":"Người dùng từ chối cho phép lấy địa chỉ",
-    "Never miss the Finalmatch": "Không bỏ lỡ trận Chung Kết"
+    "Never miss the Finalmatch": "Không bao giờ bỏ lỡ trận Chung Kết",
+    "Done": "Xong"
+
 }

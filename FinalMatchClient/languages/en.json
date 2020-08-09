@@ -81,6 +81,7 @@
     "Cannot get lat, lon from address": "Cannot get lat, lon from address",
     "Cannot get Places From Address:":"Cannot get Places From Address:",
     "Location permission denied by user.":"Location permission denied by user.",
-    "Never miss the Finalmatch": "Never miss the Finalmatch"
+    "Never miss the Finalmatch": "Never miss the Finalmatch",
+    "Done": "Done"
 
 }

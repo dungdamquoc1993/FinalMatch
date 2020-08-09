@@ -54,7 +54,7 @@ export default class RefereeList extends MultiLanguageComponent {
         />        
         <Header
           title={translate('Referees around you')}
-          hideBack={true}
+          hideNext={true}
           pressBackButton={() => {
             this.props.navigation.navigate ('OrderReferee')
           }}
@@ -74,7 +74,7 @@ export default class RefereeList extends MultiLanguageComponent {
           }}
         >
           <Text style={styles.textSubmit}>
-            Xong
+            {translate("Done")}
           </Text>
         </TouchableOpacity>
 
