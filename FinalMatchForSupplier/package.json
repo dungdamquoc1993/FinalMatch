@@ -18,7 +18,7 @@
     "lodash.memoize": "^4.1.2",
     "moment": "^2.24.0",
     "react": "16.9.0",
-    "react-native": "0.61.4",
+    "react-native": "^0.63.2",
     "react-native-date-picker": "^2.7.6",
     "react-native-fbsdk": "^1.1.1",
     "react-native-geolocation-service": "^3.1.0",
