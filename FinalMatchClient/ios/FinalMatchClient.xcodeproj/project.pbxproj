@@ -12,11 +12,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3340A611B097F532C96E435 /* libPods-FinalMatchClient.a */; };
+		AD6F3A4524E5A82900235274 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6F3A4424E5A82900235274 /* File.swift */; };
 		ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADDB614924163B910034B843 /* GoogleService-Info.plist */; };
 		ADDB6151241643240034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6150241643240034B843 /* AsynStorage.m */; };
-		FA2293C6247690C70019F663 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C5247690C70019F663 /* FacebookShare */; };
-		FA2293C8247690C70019F663 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C7247690C70019F663 /* FacebookCore */; };
-		FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C9247690C70019F663 /* FacebookLogin */; };
 		FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2A424151E0900CFD4C6 /* NotificationModule.m */; };
 		FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2AA24151E1400CFD4C6 /* NotificationEventEmitter.m */; };
 		FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */; };
@@ -45,6 +43,8 @@
 		7862D6C716A04B23B22946C8 /* Pods-FinalMatchClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchClient.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient.debug.xcconfig"; sourceTree = "<group>"; };
 		8B84678E568A445B806DD3DC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		A7E0EFBA81B445E7BC2266DF /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		AD6F3A4324E5A82900235274 /* FinalMatchClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FinalMatchClient-Bridging-Header.h"; sourceTree = "<group>"; };
+		AD6F3A4424E5A82900235274 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		ADDB614924163B910034B843 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FinalMatchClient/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADDB614D241640A00034B843 /* AsyncStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AsyncStorage.h; path = FinalMatchClient/AsynStorage/AsyncStorage.h; sourceTree = "<group>"; };
 		ADDB6150241643240034B843 /* AsynStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsynStorage.m; path = FinalMatchClient/AsynStorage/AsynStorage.m; sourceTree = "<group>"; };
@@ -93,10 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD9A2B02415211F00CFD4C6 /* NotificationCenter.framework in Frameworks */,
-				FA2293C8247690C70019F663 /* FacebookCore in Frameworks */,
-				FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */,
 				FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */,
-				FA2293C6247690C70019F663 /* FacebookShare in Frameworks */,
 				85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +134,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				FAD9A2A224151DF500CFD4C6 /* Notification */,
 				FAD9A2A124151DEF00CFD4C6 /* EventsToReactNative */,
+				AD6F3A4424E5A82900235274 /* File.swift */,
+				AD6F3A4324E5A82900235274 /* FinalMatchClient-Bridging-Header.h */,
 			);
 			name = FinalMatchClient;
 			sourceTree = "<group>";
@@ -299,9 +298,6 @@
 			);
 			name = FinalMatchClient;
 			packageProductDependencies = (
-				FA2293C5247690C70019F663 /* FacebookShare */,
-				FA2293C7247690C70019F663 /* FacebookCore */,
-				FA2293C9247690C70019F663 /* FacebookLogin */,
 			);
 			productName = FinalMatchClient;
 			productReference = 13B07F961A680F5B00A75B9A /* FinalMatchClient.app */;
@@ -315,6 +311,11 @@
 			attributes = {
 				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1160;
+					};
+				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FinalMatchClient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -432,6 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADDB6151241643240034B843 /* AsynStorage.m in Sources */,
+				AD6F3A4524E5A82900235274 /* File.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */,
 				FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */,
@@ -459,6 +461,7 @@
 			baseConfigurationReference = 7862D6C716A04B23B22946C8 /* Pods-FinalMatchClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FinalMatchClient/FinalMatchClient.entitlements;
 				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
@@ -475,6 +478,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.FinalMatchClient;
 				PRODUCT_NAME = FinalMatchClient;
+				SWIFT_OBJC_BRIDGING_HEADER = "FinalMatchClient-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -484,6 +490,7 @@
 			baseConfigurationReference = BD4BA49B5EF64EC9238B7E14 /* Pods-FinalMatchClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FinalMatchClient/FinalMatchClient.entitlements;
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = K58H99UQSN;
@@ -499,6 +506,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.FinalMatchClient;
 				PRODUCT_NAME = FinalMatchClient;
+				SWIFT_OBJC_BRIDGING_HEADER = "FinalMatchClient-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -635,24 +644,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FA2293C5247690C70019F663 /* FacebookShare */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookShare;
-		};
-		FA2293C7247690C70019F663 /* FacebookCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookCore;
-		};
-		FA2293C9247690C70019F663 /* FacebookLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookLogin;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
