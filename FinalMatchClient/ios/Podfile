@@ -10,8 +10,12 @@ target 'FinalMatchClient' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+  
   pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
-
+  pod 'RNLocalize', :path => '../node_modules/react-native-localize'
   use_flipper!
   post_install do |installer|
     flipper_post_install(installer)
