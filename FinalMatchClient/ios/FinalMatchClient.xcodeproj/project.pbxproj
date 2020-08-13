@@ -11,7 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		76D5549BF4CCC11914F1FFC2 /* Pods_FinalMatchClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE84B2F7BAC409D15932906D /* Pods_FinalMatchClient.framework */; };
+		85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3340A611B097F532C96E435 /* libPods-FinalMatchClient.a */; };
 		ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADDB614924163B910034B843 /* GoogleService-Info.plist */; };
 		ADDB6151241643240034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6150241643240034B843 /* AsynStorage.m */; };
 		FA032D00244382A1006F8A99 /* AntDesign.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF624438272006F8A99 /* AntDesign.ttf */; };
@@ -52,9 +52,9 @@
 		FA032D232443834F006F8A99 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFF24438273006F8A99 /* Pacifico-Regular.ttf */; };
 		FA032D242443834F006F8A99 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF224438272006F8A99 /* SimpleLineIcons.ttf */; };
 		FA032D252443834F006F8A99 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF124438272006F8A99 /* Zocial.ttf */; };
-		FA2293C6247690C70019F663 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C5247690C70019F663 /* FacebookShare */; };
-		FA2293C8247690C70019F663 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C7247690C70019F663 /* FacebookCore */; };
-		FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C9247690C70019F663 /* FacebookLogin */; };
+		FA2293C6247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C5247690C70019F663 /* SwiftPackageProductDependency */; };
+		FA2293C8247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C7247690C70019F663 /* SwiftPackageProductDependency */; };
+		FA2293CA247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C9247690C70019F663 /* SwiftPackageProductDependency */; };
 		FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2A424151E0900CFD4C6 /* NotificationModule.m */; };
 		FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2AA24151E1400CFD4C6 /* NotificationEventEmitter.m */; };
 		FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */; };
@@ -65,7 +65,6 @@
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* FinalMatchClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalMatchClientTests.m; sourceTree = "<group>"; };
-		0B8EE09D105CBE7C5F0E96E8 /* Pods-FinalMatchClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchClient.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient.debug.xcconfig"; sourceTree = "<group>"; };
 		100A174571C645398EAB6876 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		118F1213AE3D44658C8816A1 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* FinalMatchClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMatchClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,19 +80,21 @@
 		28C3F6F8938C47B4AFE4F8A9 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		4230A9AFC33F434196AB83DC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		583C18FA81B649248BD7C3D5 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		7862D6C716A04B23B22946C8 /* Pods-FinalMatchClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchClient.debug.xcconfig"; path = "Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient.debug.xcconfig"; sourceTree = "<group>"; };
 		8B84678E568A445B806DD3DC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		A7E0EFBA81B445E7BC2266DF /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		ADDB614924163B910034B843 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FinalMatchClient/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADDB614D241640A00034B843 /* AsyncStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AsyncStorage.h; path = FinalMatchClient/AsynStorage/AsyncStorage.h; sourceTree = "<group>"; };
 		ADDB6150241643240034B843 /* AsynStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsynStorage.m; path = FinalMatchClient/AsynStorage/AsynStorage.m; sourceTree = "<group>"; };
 		B340780C2DB94BD48C492978 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		BD4BA49B5EF64EC9238B7E14 /* Pods-FinalMatchClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchClient.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient.release.xcconfig"; sourceTree = "<group>"; };
 		C894C5316B974D1BBAE2DDAC /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		CE84B2F7BAC409D15932906D /* Pods_FinalMatchClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalMatchClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC1296F98324366BF741049 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		D531CD47248C43A39DE0699C /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EDC424E3DE054F92B73885EF /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		F3340A611B097F532C96E435 /* libPods-FinalMatchClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinalMatchClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F56857AB7511486B884D7C87 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		FA032CED24438272006F8A99 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = assets/fonts/Fontisto.ttf; sourceTree = "<group>"; };
 		FA032CEE24438272006F8A99 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Brands.ttf; path = assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
@@ -122,7 +123,6 @@
 		FAD9A2AC241520D900CFD4C6 /* FinalMatchClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FinalMatchClient.entitlements; path = FinalMatchClient/FinalMatchClient.entitlements; sourceTree = "<group>"; };
 		FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		FAD9A2AE2415211F00CFD4C6 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		FAFE8BB20B98B3514F35B4F0 /* Pods-FinalMatchClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMatchClient.release.xcconfig"; path = "Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,11 +131,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD9A2B02415211F00CFD4C6 /* NotificationCenter.framework in Frameworks */,
-				FA2293C8247690C70019F663 /* FacebookCore in Frameworks */,
-				FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */,
+				FA2293C8247690C70019F663 /* BuildFile in Frameworks */,
+				FA2293CA247690C70019F663 /* BuildFile in Frameworks */,
 				FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */,
-				FA2293C6247690C70019F663 /* FacebookShare in Frameworks */,
-				76D5549BF4CCC11914F1FFC2 /* Pods_FinalMatchClient.framework in Frameworks */,
+				FA2293C6247690C70019F663 /* BuildFile in Frameworks */,
+				85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +186,7 @@
 				FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				CE84B2F7BAC409D15932906D /* Pods_FinalMatchClient.framework */,
+				F3340A611B097F532C96E435 /* libPods-FinalMatchClient.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -257,8 +257,8 @@
 		D8547547975553C6244C3BF9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0B8EE09D105CBE7C5F0E96E8 /* Pods-FinalMatchClient.debug.xcconfig */,
-				FAFE8BB20B98B3514F35B4F0 /* Pods-FinalMatchClient.release.xcconfig */,
+				7862D6C716A04B23B22946C8 /* Pods-FinalMatchClient.debug.xcconfig */,
+				BD4BA49B5EF64EC9238B7E14 /* Pods-FinalMatchClient.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -323,13 +323,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinalMatchClient" */;
 			buildPhases = (
-				2690DD3668CA3D5E40F4029E /* [CP] Check Pods Manifest.lock */,
+				07BCB9FECF159E26D095C657 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D0233612E13A00536AF3D907 /* [CP] Embed Pods Frameworks */,
+				E2E144DB59C997017CBD260E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -337,9 +337,9 @@
 			);
 			name = FinalMatchClient;
 			packageProductDependencies = (
-				FA2293C5247690C70019F663 /* FacebookShare */,
-				FA2293C7247690C70019F663 /* FacebookCore */,
-				FA2293C9247690C70019F663 /* FacebookLogin */,
+				FA2293C5247690C70019F663 /* SwiftPackageProductDependency */,
+				FA2293C7247690C70019F663 /* SwiftPackageProductDependency */,
+				FA2293C9247690C70019F663 /* SwiftPackageProductDependency */,
 			);
 			productName = FinalMatchClient;
 			productReference = 13B07F961A680F5B00A75B9A /* FinalMatchClient.app */;
@@ -365,7 +365,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -423,7 +423,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2690DD3668CA3D5E40F4029E /* [CP] Check Pods Manifest.lock */ = {
+		07BCB9FECF159E26D095C657 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -445,21 +445,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D0233612E13A00536AF3D907 /* [CP] Embed Pods Frameworks */ = {
+		E2E144DB59C997017CBD260E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinalMatchClient/Pods-FinalMatchClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -532,7 +532,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B8EE09D105CBE7C5F0E96E8 /* Pods-FinalMatchClient.debug.xcconfig */;
+			baseConfigurationReference = 7862D6C716A04B23B22946C8 /* Pods-FinalMatchClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FinalMatchClient/FinalMatchClient.entitlements;
@@ -557,7 +557,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAFE8BB20B98B3514F35B4F0 /* Pods-FinalMatchClient.release.xcconfig */;
+			baseConfigurationReference = BD4BA49B5EF64EC9238B7E14 /* Pods-FinalMatchClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FinalMatchClient/FinalMatchClient.entitlements;
@@ -702,7 +702,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+		FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
 			requirement = {
@@ -713,19 +713,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FA2293C5247690C70019F663 /* FacebookShare */ = {
+		FA2293C5247690C70019F663 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
 			productName = FacebookShare;
 		};
-		FA2293C7247690C70019F663 /* FacebookCore */ = {
+		FA2293C7247690C70019F663 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
 			productName = FacebookCore;
 		};
-		FA2293C9247690C70019F663 /* FacebookLogin */ = {
+		FA2293C9247690C70019F663 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
 			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
