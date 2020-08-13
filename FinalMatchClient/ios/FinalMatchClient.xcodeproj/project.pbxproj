@@ -14,47 +14,9 @@
 		85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3340A611B097F532C96E435 /* libPods-FinalMatchClient.a */; };
 		ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADDB614924163B910034B843 /* GoogleService-Info.plist */; };
 		ADDB6151241643240034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6150241643240034B843 /* AsynStorage.m */; };
-		FA032D00244382A1006F8A99 /* AntDesign.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF624438272006F8A99 /* AntDesign.ttf */; };
-		FA032D01244382A1006F8A99 /* Entypo.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFD24438273006F8A99 /* Entypo.ttf */; };
-		FA032D02244382A1006F8A99 /* EvilIcons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CEF24438272006F8A99 /* EvilIcons.ttf */; };
-		FA032D03244382A1006F8A99 /* Feather.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFC24438273006F8A99 /* Feather.ttf */; };
-		FA032D04244382A1006F8A99 /* FontAwesome.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF524438272006F8A99 /* FontAwesome.ttf */; };
-		FA032D05244382A1006F8A99 /* FontAwesome5_Brands.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CEE24438272006F8A99 /* FontAwesome5_Brands.ttf */; };
-		FA032D06244382A1006F8A99 /* FontAwesome5_Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF424438272006F8A99 /* FontAwesome5_Regular.ttf */; };
-		FA032D07244382A1006F8A99 /* FontAwesome5_Solid.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF924438273006F8A99 /* FontAwesome5_Solid.ttf */; };
-		FA032D08244382A1006F8A99 /* Fontisto.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CED24438272006F8A99 /* Fontisto.ttf */; };
-		FA032D09244382A1006F8A99 /* Foundation.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF824438273006F8A99 /* Foundation.ttf */; };
-		FA032D0A244382A1006F8A99 /* IndieFlower-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFA24438273006F8A99 /* IndieFlower-Regular.ttf */; };
-		FA032D0B244382A1006F8A99 /* Ionicons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF324438272006F8A99 /* Ionicons.ttf */; };
-		FA032D0C244382A1006F8A99 /* Lobster-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFB24438273006F8A99 /* Lobster-Regular.ttf */; };
-		FA032D0D244382A1006F8A99 /* MaterialCommunityIcons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF024438272006F8A99 /* MaterialCommunityIcons.ttf */; };
-		FA032D0E244382A1006F8A99 /* MaterialIcons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFE24438273006F8A99 /* MaterialIcons.ttf */; };
-		FA032D0F244382A1006F8A99 /* Octicons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF724438272006F8A99 /* Octicons.ttf */; };
-		FA032D10244382A1006F8A99 /* Pacifico-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CFF24438273006F8A99 /* Pacifico-Regular.ttf */; };
-		FA032D11244382A1006F8A99 /* SimpleLineIcons.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF224438272006F8A99 /* SimpleLineIcons.ttf */; };
-		FA032D12244382A1006F8A99 /* Zocial.ttf in Sources */ = {isa = PBXBuildFile; fileRef = FA032CF124438272006F8A99 /* Zocial.ttf */; };
-		FA032D132443834F006F8A99 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF624438272006F8A99 /* AntDesign.ttf */; };
-		FA032D142443834F006F8A99 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFD24438273006F8A99 /* Entypo.ttf */; };
-		FA032D152443834F006F8A99 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CEF24438272006F8A99 /* EvilIcons.ttf */; };
-		FA032D162443834F006F8A99 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFC24438273006F8A99 /* Feather.ttf */; };
-		FA032D172443834F006F8A99 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF524438272006F8A99 /* FontAwesome.ttf */; };
-		FA032D182443834F006F8A99 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CEE24438272006F8A99 /* FontAwesome5_Brands.ttf */; };
-		FA032D192443834F006F8A99 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF424438272006F8A99 /* FontAwesome5_Regular.ttf */; };
-		FA032D1A2443834F006F8A99 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF924438273006F8A99 /* FontAwesome5_Solid.ttf */; };
-		FA032D1B2443834F006F8A99 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CED24438272006F8A99 /* Fontisto.ttf */; };
-		FA032D1C2443834F006F8A99 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF824438273006F8A99 /* Foundation.ttf */; };
-		FA032D1D2443834F006F8A99 /* IndieFlower-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFA24438273006F8A99 /* IndieFlower-Regular.ttf */; };
-		FA032D1E2443834F006F8A99 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF324438272006F8A99 /* Ionicons.ttf */; };
-		FA032D1F2443834F006F8A99 /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFB24438273006F8A99 /* Lobster-Regular.ttf */; };
-		FA032D202443834F006F8A99 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF024438272006F8A99 /* MaterialCommunityIcons.ttf */; };
-		FA032D212443834F006F8A99 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFE24438273006F8A99 /* MaterialIcons.ttf */; };
-		FA032D222443834F006F8A99 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF724438272006F8A99 /* Octicons.ttf */; };
-		FA032D232443834F006F8A99 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CFF24438273006F8A99 /* Pacifico-Regular.ttf */; };
-		FA032D242443834F006F8A99 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF224438272006F8A99 /* SimpleLineIcons.ttf */; };
-		FA032D252443834F006F8A99 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA032CF124438272006F8A99 /* Zocial.ttf */; };
-		FA2293C6247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C5247690C70019F663 /* SwiftPackageProductDependency */; };
-		FA2293C8247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C7247690C70019F663 /* SwiftPackageProductDependency */; };
-		FA2293CA247690C70019F663 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C9247690C70019F663 /* SwiftPackageProductDependency */; };
+		FA2293C6247690C70019F663 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C5247690C70019F663 /* FacebookShare */; };
+		FA2293C8247690C70019F663 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C7247690C70019F663 /* FacebookCore */; };
+		FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = FA2293C9247690C70019F663 /* FacebookLogin */; };
 		FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2A424151E0900CFD4C6 /* NotificationModule.m */; };
 		FAD9A2AB24151E1400CFD4C6 /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9A2AA24151E1400CFD4C6 /* NotificationEventEmitter.m */; };
 		FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9A2AD2415211F00CFD4C6 /* UserNotifications.framework */; };
@@ -131,10 +93,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD9A2B02415211F00CFD4C6 /* NotificationCenter.framework in Frameworks */,
-				FA2293C8247690C70019F663 /* BuildFile in Frameworks */,
-				FA2293CA247690C70019F663 /* BuildFile in Frameworks */,
+				FA2293C8247690C70019F663 /* FacebookCore in Frameworks */,
+				FA2293CA247690C70019F663 /* FacebookLogin in Frameworks */,
 				FAD9A2AF2415211F00CFD4C6 /* UserNotifications.framework in Frameworks */,
-				FA2293C6247690C70019F663 /* BuildFile in Frameworks */,
+				FA2293C6247690C70019F663 /* FacebookShare in Frameworks */,
 				85A2372CC9E6198AA2A1DB2C /* libPods-FinalMatchClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,9 +299,9 @@
 			);
 			name = FinalMatchClient;
 			packageProductDependencies = (
-				FA2293C5247690C70019F663 /* SwiftPackageProductDependency */,
-				FA2293C7247690C70019F663 /* SwiftPackageProductDependency */,
-				FA2293C9247690C70019F663 /* SwiftPackageProductDependency */,
+				FA2293C5247690C70019F663 /* FacebookShare */,
+				FA2293C7247690C70019F663 /* FacebookCore */,
+				FA2293C9247690C70019F663 /* FacebookLogin */,
 			);
 			productName = FinalMatchClient;
 			productReference = 13B07F961A680F5B00A75B9A /* FinalMatchClient.app */;
@@ -365,7 +327,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */,
+				FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -381,25 +343,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA032D132443834F006F8A99 /* AntDesign.ttf in Resources */,
-				FA032D142443834F006F8A99 /* Entypo.ttf in Resources */,
-				FA032D152443834F006F8A99 /* EvilIcons.ttf in Resources */,
-				FA032D162443834F006F8A99 /* Feather.ttf in Resources */,
-				FA032D172443834F006F8A99 /* FontAwesome.ttf in Resources */,
-				FA032D182443834F006F8A99 /* FontAwesome5_Brands.ttf in Resources */,
-				FA032D192443834F006F8A99 /* FontAwesome5_Regular.ttf in Resources */,
-				FA032D1A2443834F006F8A99 /* FontAwesome5_Solid.ttf in Resources */,
-				FA032D1B2443834F006F8A99 /* Fontisto.ttf in Resources */,
-				FA032D1C2443834F006F8A99 /* Foundation.ttf in Resources */,
-				FA032D1D2443834F006F8A99 /* IndieFlower-Regular.ttf in Resources */,
-				FA032D1E2443834F006F8A99 /* Ionicons.ttf in Resources */,
-				FA032D1F2443834F006F8A99 /* Lobster-Regular.ttf in Resources */,
-				FA032D202443834F006F8A99 /* MaterialCommunityIcons.ttf in Resources */,
-				FA032D212443834F006F8A99 /* MaterialIcons.ttf in Resources */,
-				FA032D222443834F006F8A99 /* Octicons.ttf in Resources */,
-				FA032D232443834F006F8A99 /* Pacifico-Regular.ttf in Resources */,
-				FA032D242443834F006F8A99 /* SimpleLineIcons.ttf in Resources */,
-				FA032D252443834F006F8A99 /* Zocial.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				ADDB614A24163B910034B843 /* GoogleService-Info.plist in Resources */,
@@ -488,25 +431,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA032D00244382A1006F8A99 /* AntDesign.ttf in Sources */,
-				FA032D01244382A1006F8A99 /* Entypo.ttf in Sources */,
-				FA032D02244382A1006F8A99 /* EvilIcons.ttf in Sources */,
-				FA032D03244382A1006F8A99 /* Feather.ttf in Sources */,
-				FA032D04244382A1006F8A99 /* FontAwesome.ttf in Sources */,
-				FA032D05244382A1006F8A99 /* FontAwesome5_Brands.ttf in Sources */,
-				FA032D06244382A1006F8A99 /* FontAwesome5_Regular.ttf in Sources */,
-				FA032D07244382A1006F8A99 /* FontAwesome5_Solid.ttf in Sources */,
-				FA032D08244382A1006F8A99 /* Fontisto.ttf in Sources */,
-				FA032D09244382A1006F8A99 /* Foundation.ttf in Sources */,
-				FA032D0A244382A1006F8A99 /* IndieFlower-Regular.ttf in Sources */,
-				FA032D0B244382A1006F8A99 /* Ionicons.ttf in Sources */,
-				FA032D0C244382A1006F8A99 /* Lobster-Regular.ttf in Sources */,
-				FA032D0D244382A1006F8A99 /* MaterialCommunityIcons.ttf in Sources */,
-				FA032D0E244382A1006F8A99 /* MaterialIcons.ttf in Sources */,
-				FA032D0F244382A1006F8A99 /* Octicons.ttf in Sources */,
-				FA032D10244382A1006F8A99 /* Pacifico-Regular.ttf in Sources */,
-				FA032D11244382A1006F8A99 /* SimpleLineIcons.ttf in Sources */,
-				FA032D12244382A1006F8A99 /* Zocial.ttf in Sources */,
 				ADDB6151241643240034B843 /* AsynStorage.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				FAD9A2A624151E0900CFD4C6 /* NotificationModule.m in Sources */,
@@ -702,7 +626,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */ = {
+		FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
 			requirement = {
@@ -713,19 +637,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FA2293C5247690C70019F663 /* SwiftPackageProductDependency */ = {
+		FA2293C5247690C70019F663 /* FacebookShare */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
+			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookShare;
 		};
-		FA2293C7247690C70019F663 /* SwiftPackageProductDependency */ = {
+		FA2293C7247690C70019F663 /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
+			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookCore;
 		};
-		FA2293C9247690C70019F663 /* SwiftPackageProductDependency */ = {
+		FA2293C9247690C70019F663 /* FacebookLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA2293C4247690C70019F663 /* RemoteSwiftPackageReference */;
+			package = FA2293C4247690C70019F663 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
