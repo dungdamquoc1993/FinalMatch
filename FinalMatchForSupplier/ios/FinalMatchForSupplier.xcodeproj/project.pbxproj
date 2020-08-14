@@ -567,6 +567,7 @@
 				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = K58H99UQSN;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -651,6 +652,7 @@
 				CODE_SIGN_ENTITLEMENTS = FinalMatchForSupplier/FinalMatchForSupplier.entitlements;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = K58H99UQSN;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = FinalMatchForSupplier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
