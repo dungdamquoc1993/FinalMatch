@@ -598,6 +598,19 @@ export default class Settings extends MultiLanguageComponent {
             </View>
 
           </View>}
+
+          <TouchableOpacity style={styles.buttonSave}
+            onPress={async () => {
+              if (this.validateInput() == true) {
+                await this._saveSettings()
+                return true
+              }
+              return false
+            }}>
+            <Text style={styles.textSave}>{translate('Save')}</Text>
+
+          </TouchableOpacity>
+
         </ScrollView>
         <Modal
             animationType="fade"
@@ -740,5 +753,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 10,
   },
+  buttonSave: {
+    height: 50,
+    marginTop: 20,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 17,
+    backgroundColor: '#00CCFF',
+    justifyContent: 'center',
+    borderRadius: 25,
+  }, 
+  textSave: {
+    lineHeight: 50,
+    fontSize: 20,
+    color: 'white',
+    alignSelf: 'center',
+  }
 
 })
