@@ -308,15 +308,16 @@ export default class Settings extends MultiLanguageComponent {
         }}>
           <Header
             title={"Account management"}
-            hideBack={false}
+            hideBack={true}
             hideNext={true}
-            pressBackButton={async () => {
+            /* pressBackButton={async () => {
               if (this.validateInput() == true) {
                 await this._saveSettings()
                 return true
               }
               return false
-            }} />
+            }} */ 
+            />
 
           <View style={styles.avatar}>
             <TouchableOpacity
@@ -599,6 +600,8 @@ export default class Settings extends MultiLanguageComponent {
 
           </View>}
 
+        </ScrollView>
+        <View style = {styles.buttonSaveArea}>
           <TouchableOpacity style={styles.buttonSave}
             onPress={async () => {
               if (this.validateInput() == true) {
@@ -610,8 +613,7 @@ export default class Settings extends MultiLanguageComponent {
             <Text style={styles.textSave}>{translate('Save')}</Text>
 
           </TouchableOpacity>
-
-        </ScrollView>
+          </View>
         <Modal
             animationType="fade"
             transparent={true}
@@ -753,17 +755,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 10,
   },
-  buttonSave: {
-    height: 50,
-    marginTop: 20,
-    width: '90%',
+  buttonSaveArea: {
     alignSelf: 'center',
-    borderRadius: 6,
-    paddingHorizontal: 10,
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor:'transparent',
+    },
+  buttonSave: {
+    height: 40,
+    width: '25%',
+    alignSelf: 'center',
     fontSize: 17,
-    backgroundColor: '#00CCFF',
+    backgroundColor: MAIN_COLOR,
     justifyContent: 'center',
     borderRadius: 25,
+    marginBottom: 10,
+    position: "relative"
   }, 
   textSave: {
     lineHeight: 50,
