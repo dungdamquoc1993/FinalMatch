@@ -151,10 +151,12 @@ class Item extends Component {
       navigate,
       _reloadOrders
     } = this.props
+    debugger
     //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
     let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")    
     //let orderStatus = this._fakeDataToTestUI()
-    const {orderAddress} = this.state             
+    const {orderAddress} = this.state     
+    debugger        
     return (
       <View style = {{flex: 1}}>
         <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -197,7 +199,7 @@ class Item extends Component {
           justifyContent: 'space-between',    
         }}>                    
           <Text style={styles.textOrderItem}>
-            {translate("Name : ")}{customerName}
+            {translate("Customer Name : ")}{customerName}
           </Text>
           <Text style={styles.textOrderItem}>
             {`${translate("Match's place")}: ${orderAddress}`}
