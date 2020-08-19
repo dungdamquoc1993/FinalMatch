@@ -175,7 +175,7 @@ class Item extends Component {
             marginVertical: 10,
             paddingEnd: 10,            
             flexDirection: 'column',
-            width: '90%'
+            width: '80%'
           }}>
             <Text style={{
               paddingHorizontal: 10,
