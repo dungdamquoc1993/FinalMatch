@@ -131,8 +131,8 @@ android {
         applicationId "com.finalmatchforsupplier"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 17
-        versionName "rise of farmer"
+        versionCode 18
+        versionName "Changing Clothes"
         multiDexEnabled true
     }
     splits {

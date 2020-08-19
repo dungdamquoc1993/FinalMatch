@@ -318,7 +318,6 @@ export default class Settings extends MultiLanguageComponent {
               return false
             }} */ 
             />
-
           <View style={styles.avatar}>
             <TouchableOpacity
               onPress={() => {
@@ -759,7 +758,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     width: '100%',
-    backgroundColor:'transparent',
     },
   buttonSave: {
     height: 40,

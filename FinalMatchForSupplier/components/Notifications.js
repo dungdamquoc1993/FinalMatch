@@ -91,9 +91,8 @@ export default class Notifications extends MultiLanguageComponent {
           <Header
             title={translate("Notifications")}
             hideBack = {true}
-            hideNext = {true}            
-        />
-
+            hideNext = {true}       
+            />
         </View>
         
         <FlatList      
@@ -148,7 +147,8 @@ class Item extends Component {
       supplierUserType,
       titleEnglish,
       titleVietnamese,
-    } = this.props    
+    } = this.props 
+    debugger   
     const {hoursBetween2Dates} = this.state
     return (
       <TouchableOpacity>
@@ -166,15 +166,16 @@ class Item extends Component {
                     : require('../images/defaultAvatar.png')
                 }
                 style={{
-                  width: 80,
-                  height: 80,
+                  width: 75,
+                  height: 75,
                   borderRadius: 40,    
                 }}
               />
           <View style={{
             marginVertical: 10,
             paddingEnd: 10,            
-            flexDirection: 'column'
+            flexDirection: 'column',
+            width: '90%'
           }}>
             <Text style={{
               paddingHorizontal: 10,
