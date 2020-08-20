@@ -153,7 +153,8 @@ class Item extends Component {
     } = this.props
     debugger
     //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")    
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")    
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")   
+    debugger 
     //let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state     
     debugger        
