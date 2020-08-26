@@ -26,7 +26,7 @@ export default class SearchPlace extends MultiLanguageComponent {
     try {
       const {typedAddress} = this.state            
       const places = await getPlacesFromAddress(typedAddress)                 
-      debugger
+      //debugger
       this.setState({places})      
       Keyboard.dismiss()
     } catch (error) {
@@ -106,7 +106,7 @@ class Item extends Component {
         <TouchableOpacity 
           style={{ width: '85%', height: '100%' }}
           onPress = {() => {           
-            debugger 
+            //debugger 
             updatePlace(formattedAddress, latitude, longitude)
             navigation.goBack()
           }}

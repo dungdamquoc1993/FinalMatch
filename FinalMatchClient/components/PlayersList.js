@@ -121,9 +121,9 @@ class Item extends Component {
     debugger        
     return (
       <TouchableOpacity
-        onPress={() => {
+        /* onPress={() => {
           navigate("Chat", {...this.props})
-        }}
+        }} */
       >
         <View style={styles.ViewAllInformation}>
           <View style={styles.ViewDetail}>
@@ -138,6 +138,10 @@ class Item extends Component {
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate("Address : ")}</Text>
               <Text style={styles.textLabel}>{address.split(',')[address.split(',').length-3].trim()}</Text>
+            </View>
+            <View style={styles.viewInformation}>
+              <Text style={styles.textLabel}>{translate("Distance :")}</Text>
+              <Text style={styles.textLabel}>{`${Math.round(distance*100)/100} (Km)`}</Text>
             </View>
             <View style={styles.viewInformation}>
               <Text style={styles.textLabel}>{translate("Player's price: ")}</Text>

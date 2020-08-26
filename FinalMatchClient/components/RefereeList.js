@@ -86,6 +86,7 @@ class Item extends Component {
   state = {
     order: false
   }
+  
   render () {
     const {
       avatar,      
@@ -113,6 +114,7 @@ class Item extends Component {
     const {order} = this.state    
     //address.split(',')[address.split(',').length-3].trim()
     const {orderLatitude, orderLongitude} = this.props
+    debugger
     return (
       <View style={styles.ViewAllInformation}>
         <View style={styles.ViewDetail}>
@@ -123,6 +125,10 @@ class Item extends Component {
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Address : ")}</Text>
             <Text style={styles.textLabel}>{address.split(',')[address.split(',').length-3].trim()}</Text>
+          </View>
+          <View style={styles.viewInformation}>
+            <Text style={styles.textLabel}>{translate("Distance :")}</Text>
+            <Text style={styles.textLabel}>{`${Math.round(distance*100)/100} (Km)`}</Text>
           </View>
           <View style={styles.viewInformation}>
             <Text style={styles.textLabel}>{translate("Referee's price: ")}</Text>

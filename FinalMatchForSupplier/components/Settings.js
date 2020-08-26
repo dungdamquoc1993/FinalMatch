@@ -352,7 +352,7 @@ export default class Settings extends MultiLanguageComponent {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-            {translate("Age")}
+            {translate("Age :")}
             </Text>
             <TouchableOpacity
               style={[styles.textInput, { width: '40%' }]}
@@ -713,7 +713,8 @@ const styles = StyleSheet.create({
     width: '30%',
     height: 60,
     lineHeight: 60,
-    textAlign:'left',    
+    textAlign:'left',
+    justifyContent: 'flex-start'     
   },
   textInputRole: {
     width: '50%',
