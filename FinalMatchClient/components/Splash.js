@@ -35,25 +35,11 @@ export default class Splash extends MultiLanguageComponent {
         titleMarginTop: new Animated.Value(height / 2)
     }
     
-    componentWillUnmount() {
-                
-        if(this.subsribeEventPressNotification) {
-            this.subsribeEventPressNotification.remove()
-        }                
+    componentWillUnmount() {                        
     }
     //Liệu Splash lúc sinh ra có kịp nhận event từ ios/android ko ?. Cái này phải debug
     reloadEventsFromNative() {        
-        
-        /*        
-        this.nativeEventEmitter = new NativeEventEmitter()
-        
-        this.subsribeEventPressNotification = this.nativeEventEmitter.addListener(
-            EVENT_PRESS_NOTIFICATION,
-            (reminder) => {
-                navigate("Orders")  
-            }
-        ) 
-        */       
+                    
     }
     async componentDidMount() {
         const {navigate} = this.props.navigation
