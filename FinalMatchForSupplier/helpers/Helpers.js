@@ -174,6 +174,9 @@ export const convertDateToDDMMYYYHHMM = (date) => {
         date.getMinutes()
     return result
 }
+export const convertDateToHH_MM_SS_DD_MM_YYYY = (date) =>     
+    `${date.getHours()}:${date.getMinutes()}:00,${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`    
+
 // pending, accepted, cancelled, completed, missed
 export const getColorFromStatus = (orderStatus) => {  
     const {

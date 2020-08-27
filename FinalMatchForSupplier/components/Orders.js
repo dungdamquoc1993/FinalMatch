@@ -44,7 +44,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 const { PENDING, ACCEPTED,CANCELLED, COMPLETED, MISSED, EXPIRED } = OrderStatus
 import MultiLanguageComponent from './MultiLanguageComponent'
 import {translate} from '../languages/languageConfigurations'
-import moment from 'moment'
+import {convertDateToHH_MM_SS_DD_MM_YYYY} from '../helpers/Helpers'
 
 export default class Orders extends MultiLanguageComponent {
   constructor (props) {
@@ -153,7 +153,8 @@ class Item extends Component {
     } = this.props    
     debugger
 
-    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")        
+    //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")        
+    let strDatetimeStart = convertDateToHH_MM_SS_DD_MM_YYYY(new Date(dateTimeStart))
     //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")   
     //let strDatetimeStart = (new Date(dateTimeStart)).toISOString()      
     //let orderStatus = this._fakeDataToTestUI()
