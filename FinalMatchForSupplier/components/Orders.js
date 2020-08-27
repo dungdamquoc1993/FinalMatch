@@ -151,10 +151,11 @@ class Item extends Component {
       navigate,
       _reloadOrders
     } = this.props    
+    debugger
 
-    //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")        
+    let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString(i18n.locale == 'en' ? "en-US" : "vi-VN")        
     //let strDatetimeStart = (new Date(dateTimeStart)).toLocaleString("vi-VN")   
-    let strDatetimeStart = (new Date(dateTimeStart)).toISOString()      
+    //let strDatetimeStart = (new Date(dateTimeStart)).toISOString()      
     //let orderStatus = this._fakeDataToTestUI()
     const {orderAddress} = this.state           
     return (
