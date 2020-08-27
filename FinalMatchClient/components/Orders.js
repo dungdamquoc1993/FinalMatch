@@ -159,7 +159,7 @@ class Item extends Component {
     } = removeNullProperties(this.props)
 
     const dist = this._getDistance(supplierLatitude, supplierLongitude, orderLatitude, orderLongitude, "K")
-    console.log(dist)
+
     let playerRefereeName = typeRole.toLowerCase() == 'player'?
       `${translate("Player Name:")} ${playerName}` :
       `${translate("Referee Name:")} ${refereeName}`
