@@ -35,6 +35,7 @@ import { LoginManager, LoginResult,
   GraphRequestManager, } from "react-native-fbsdk"
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 // import {getStackNavigation} from '../redux/actions/actions'
+import { AppleButton } from '@invertase/react-native-apple-authentication';
 
 export default class LoginRegister extends MultiLanguageComponent {
   static navigationOptions = {
@@ -189,7 +190,7 @@ export default class LoginRegister extends MultiLanguageComponent {
           style={styles.facebookButton}
           name="facebook"
           backgroundColor="#3b5998"
-          borderRadius={30}
+          borderRadius={10}
           onPress={async () => {
             await this._loginWithFacebook()
           }}
@@ -201,6 +202,17 @@ export default class LoginRegister extends MultiLanguageComponent {
           </Text>
 
         </Icon.Button>
+        <AppleButton
+        buttonStyle={AppleButton.Style.BLACK}
+        buttonType={AppleButton.Type.CONTINUE}
+        style={{
+          height: 50,
+          width: 0.9 * screenWidth,
+          marginVertical: 10
+        }}
+        onPress={() => onAppleButtonPress()}
+      />
+
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
             <TouchableOpacity onPress={() => {
