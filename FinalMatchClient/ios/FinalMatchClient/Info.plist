@@ -77,7 +77,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is required for searching Service Area</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app does not require access to the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
