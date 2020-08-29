@@ -9,8 +9,7 @@
     "test": "jest",
     "lint": "eslint ."
   },
-  "dependencies": {
-    "@invertase/react-native-apple-authentication": "^1.1.2",
+  "dependencies": {    
     "@react-native-community/datetimepicker": "^2.2.3",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.7",

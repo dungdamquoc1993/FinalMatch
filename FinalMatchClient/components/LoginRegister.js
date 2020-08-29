@@ -35,7 +35,7 @@ import { LoginManager, LoginResult,
   GraphRequestManager, } from "react-native-fbsdk"
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 // import {getStackNavigation} from '../redux/actions/actions'
-import { AppleButton } from '@invertase/react-native-apple-authentication';
+// import { AppleButton } from '@invertase/react-native-apple-authentication';
 
 export default class LoginRegister extends MultiLanguageComponent {
   static navigationOptions = {
@@ -202,7 +202,7 @@ export default class LoginRegister extends MultiLanguageComponent {
           </Text>
 
         </Icon.Button>
-        <AppleButton
+        {/* <AppleButton
         buttonStyle={AppleButton.Style.BLACK}
         buttonType={AppleButton.Type.CONTINUE}
         style={{
@@ -211,7 +211,7 @@ export default class LoginRegister extends MultiLanguageComponent {
           marginVertical: 10
         }}
         onPress={() => onAppleButtonPress()}
-      />
+      /> */}
 
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
