@@ -25,7 +25,6 @@ const {AsyncStorage} = NativeModules
 import {
   saveCustomerToStorage,
   generateFakeString,
-  isIOS,
 } from '../helpers/Helpers'
 
 
@@ -203,7 +202,7 @@ export default class LoginRegister extends MultiLanguageComponent {
           </Text>
 
         </Icon.Button>
-        {isIOS == true && <AppleButton
+        <AppleButton
         buttonStyle={AppleButton.Style.BLACK}
         buttonType={AppleButton.Type.CONTINUE}
         style={{
@@ -212,7 +211,8 @@ export default class LoginRegister extends MultiLanguageComponent {
           marginVertical: 10
         }}
         onPress={() => onAppleButtonPress()}
-      /> }
+      />
+
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
             <TouchableOpacity onPress={() => {
