@@ -17,7 +17,6 @@ target 'FinalMatchClient' do
   pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
   pod 'RNLocalize', :path => '../node_modules/react-native-localize'
   use_flipper!
-  pod 'RNAppleAuthentication', :path => '../node_modules/@invertase/react-native-apple-authentication'
 
   post_install do |installer|
     flipper_post_install(installer)
