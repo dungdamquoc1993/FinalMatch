@@ -202,17 +202,6 @@ export default class LoginRegister extends MultiLanguageComponent {
           </Text>
 
         </Icon.Button>
-        {/* <AppleButton
-        buttonStyle={AppleButton.Style.BLACK}
-        buttonType={AppleButton.Type.CONTINUE}
-        style={{
-          height: 50,
-          width: 0.9 * screenWidth,
-          marginVertical: 10
-        }}
-        onPress={() => onAppleButtonPress()}
-      /> */}
-
         <View style={styles.viewLoginRegister}>
           <View style={styles.viewLogin}>
             <TouchableOpacity onPress={() => {
