@@ -49,7 +49,30 @@ export default class Service extends MultiLanguageComponent {
     }
   }
 
+  initNotification() {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      // BE khi push notification truyen data type la screen Order
+      // this.props.navigation.navigate(remoteMessage.data.type);
+    });
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          // this.props.navigation.navigate(remoteMessage.data.type); // e.g. "Order"
+        }
+      });
+  }
+
   async componentDidMount() {
+    this.initNotification();
     AppState.addEventListener("change", this._handleAppStateChange);
     this.checkNotifyPermission()
   }

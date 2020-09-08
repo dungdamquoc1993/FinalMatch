@@ -52,6 +52,7 @@ class ServiceRegister extends Component {
 
   checkNotifyPermission = async () => {
     const authStatus = await messaging().requestPermission();
+    const fcmToken = await messaging().getToken();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
@@ -63,7 +64,30 @@ class ServiceRegister extends Component {
     }
   }
 
+  initNotification() {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      // BE khi push notification truyen data type la screen Order
+      // this.props.navigation.navigate(remoteMessage.data.type);
+    });
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          // this.props.navigation.navigate(remoteMessage.data.type); // e.g. "Order"
+        }
+      });
+  }
+
   async componentDidMount() {
+    this.initNotification();
     AppState.addEventListener("change", this._handleAppStateChange);
     this.checkNotifyPermission()
   }
