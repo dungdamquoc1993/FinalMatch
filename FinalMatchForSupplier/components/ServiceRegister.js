@@ -72,6 +72,7 @@ class ServiceRegister extends Component {
       );
       // BE khi push notification truyen data type la screen Order
       // this.props.navigation.navigate(remoteMessage.data.type);
+      this.props.navigation.navigate(translate("Orders"));
     });
     messaging()
       .getInitialNotification()
@@ -82,6 +83,7 @@ class ServiceRegister extends Component {
             remoteMessage.notification,
           );
           // this.props.navigation.navigate(remoteMessage.data.type); // e.g. "Order"
+          this.props.navigation.navigate(translate("Orders"));
         }
       });
   }

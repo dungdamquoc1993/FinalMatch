@@ -57,6 +57,7 @@ export default class Service extends MultiLanguageComponent {
       );
       // BE khi push notification truyen data type la screen Order
       // this.props.navigation.navigate(remoteMessage.data.type);
+      this.props.navigation.navigate('Orders')
     });
     messaging()
       .getInitialNotification()
@@ -67,6 +68,7 @@ export default class Service extends MultiLanguageComponent {
             remoteMessage.notification,
           );
           // this.props.navigation.navigate(remoteMessage.data.type); // e.g. "Order"
+          this.props.navigation.navigate('Orders')
         }
       });
   }

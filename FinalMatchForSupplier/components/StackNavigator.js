@@ -6,11 +6,11 @@ import PlayerService from './PlayerService'
 import LoginRegister from './LoginRegister'
 import Splash from './Splash'
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
-import {store} from '../redux/stores/store'
-import {KeyboardAvoidingView} from 'react-native'
+import { store } from '../redux/stores/store'
+import { KeyboardAvoidingView } from 'react-native'
 import Chat from './Chat'
 import SearchPlace from './SearchPlace'
 
@@ -26,7 +26,7 @@ const StackNavigator = createAppContainer(createStackNavigator({
     navigationOptions: {
       gesturesEnabled: false
     }
-  },  
+  },
   MyTabNavigator: {
     screen: MyTabNavigator,
     navigationOptions: {
@@ -56,13 +56,13 @@ const StackNavigator = createAppContainer(createStackNavigator({
     navigationOptions: {
       gesturesEnabled: false
     }
-  },  
+  },
   SearchPlace: {
     screen: SearchPlace,
     navigationOptions: {
       gesturesEnabled: false
     }
-  },  
+  },
 }, {
   initialRouteName: 'Splash',
   headerShown: false,
@@ -73,7 +73,12 @@ const StackNavigator = createAppContainer(createStackNavigator({
 }))
 
 
-export default () => <Provider store={store}>
-    <StackNavigator />
-   
-</Provider> 
+export default class StackNavigatorRoot extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <StackNavigator />
+      </Provider>
+    )
+  }
+}
