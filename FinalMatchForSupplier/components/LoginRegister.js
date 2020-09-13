@@ -27,7 +27,8 @@ import {alert,
     saveSupplierToStorage,
     generateFakeString, 
     getSupplierFromStorage,
-    isIOS} from '../helpers/Helpers'
+    isIOS
+} from '../helpers/Helpers'
 import { LoginManager, LoginResult, 
     AccessToken, GraphRequest,
     GraphRequestManager, } from "react-native-fbsdk"
@@ -36,6 +37,7 @@ import {validateEmail, validatePasword} from '../Validations/Validation'
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
 const {AsyncStorage} = NativeModules
+import { AppleButton, appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication'
 
 class LoginRegister extends MultiLanguageComponent {
     static navigationOptions = {
@@ -53,6 +55,29 @@ class LoginRegister extends MultiLanguageComponent {
     }
     componentDidMount() {                        
     }
+    _onAppleButtonPress = async() => {
+        // performs login request
+        try {
+            debugger
+            const appleAuthRequestResponse = await appleAuth.performRequest({
+                requestedOperation: appleAuth.Operation.LOGIN,
+                requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+            });
+
+            // get current authentication state for user
+            // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+            const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+            // use credentialState response to ensure the user is authenticated
+            if (credentialState === appleAuth.State.AUTHORIZED) {
+                // user is authenticated
+
+            }
+        }catch(error) {
+            alert(error)
+        }
+        
+      }
     _getFacebookAvatar = async (accessToken) => {
         return new Promise((resolve, reject) => {
             const avatarRequest = new GraphRequest('/me', {
@@ -179,8 +204,7 @@ class LoginRegister extends MultiLanguageComponent {
         
     }
     render() {
-        const {email, password, isLogin} = this.state
-        
+        const {email, password, isLogin} = this.state        
         return <TouchableWithoutFeedback onPress={() => {        
                 Keyboard.dismiss()        
             }} accessible={false}> 
@@ -198,7 +222,18 @@ class LoginRegister extends MultiLanguageComponent {
                 }}
             >
                 <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
-             </Icon.Button>
+             </Icon.Button>             
+             {(isIOS() || appleAuthAndroid.isSupported) && <AppleButton
+                    buttonStyle={AppleButton.Style.WHITE}
+                    buttonType={AppleButton.Type.SIGN_IN}
+                    style={{
+                        width: 160, // You must specify a width
+                        height: 45, // You must specify a height
+                    }}
+                    onPress={async () => {
+                        await this._onAppleButtonPress()
+                    }}
+            /> } 
             <View style={styles.viewLoginRegister}>
                 <View style={styles.viewLogin}>
                     <TouchableOpacity onPress={this._login}>
@@ -223,7 +258,7 @@ class LoginRegister extends MultiLanguageComponent {
                         this.setState({email})
                     }}
                     value={email}
-                    autoCapitalize = {false}
+                    autoCapitalize = {"none"}
                     keyboardType={"email-address"}
                     placeholder={"Email:"} />
                 <TextInput style={styles.textInput} 

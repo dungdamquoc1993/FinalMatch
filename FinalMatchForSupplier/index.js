@@ -15,6 +15,7 @@
  * yarn add i18n-js yarn add lodash.memoize
  * yarn add react-native-date-picker moment
  * yarn add react-native-loading-spinner-overlay
+ * yarn add @invertase/react-native-apple-authentication
  1. Clear watchman watches: watchman watch-del-all
  2. Delete node_modules: rm -rf node_modules and run yarn install
  3. Reset Metro's cache: yarn start --reset-cache
