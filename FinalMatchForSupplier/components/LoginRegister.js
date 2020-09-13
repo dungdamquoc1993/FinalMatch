@@ -78,7 +78,8 @@ class LoginRegister extends MultiLanguageComponent {
             if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
                 // user is authenticated
                 const {familyName, givenName} = appleAuthRequestResponse.fullName
-                const {email, identityToken, authorizationCode} = appleAuthRequestResponse
+                const {email, identityToken, authorizationCode, user} = appleAuthRequestResponse
+                alert(`email = ${email}, identityToken = ${identityToken}, authorizationCode = ${authorizationCode}, userId = ${user}`)
                 /*
                 const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)      
                                                                                 
@@ -236,9 +237,9 @@ class LoginRegister extends MultiLanguageComponent {
             
             <Icon.Button
                 style={styles.facebookButton}
-          name="facebook"
-          backgroundColor="#3b5998"
-          borderRadius={30}
+                name="facebook"
+                backgroundColor="#3b5998"
+                borderRadius={30}
                 onPress={async () => {
                     await this._loginWithFacebook()
                 }}
