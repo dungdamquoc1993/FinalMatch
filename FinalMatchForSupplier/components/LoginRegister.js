@@ -77,7 +77,23 @@ class LoginRegister extends MultiLanguageComponent {
             // use credentialState response to ensure the user is authenticated
             if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
                 // user is authenticated
-                debugger
+                const {familyName, givenName} = appleAuthRequestResponse.fullName
+                const {email, identityToken, authorizationCode} = appleAuthRequestResponse
+                /*
+                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)      
+                                                                                
+                if (tokenKey.length > 0) {                    
+                    await saveSupplierToStorage(tokenKey, supplierId, email)
+                    const notificationToken = await AsyncStorage.getItem("notificationToken")
+                    if(notificationToken != null) {
+                        insertSupplierNotificationToken(notificationToken)
+                    }                    
+                    //dispatch = call action                                        
+                    this.props.navigation.navigate("MyTabNavigator", {})
+                } else {
+                    alert(message)
+                }
+                */                
             }
         }catch(error) {
             console.log('error = '+ error.toString())            
