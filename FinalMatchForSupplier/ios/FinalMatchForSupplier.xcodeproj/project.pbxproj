@@ -16,6 +16,7 @@
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
 		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
+		ADD45158250DE0FC00B4A9B6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD45157250DE0FC00B4A9B6 /* AuthenticationServices.framework */; };
 		ADDB6155241647340034B843 /* AsynStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDB6153241647340034B843 /* AsynStorage.m */; };
 		B2F865FA8D4F359CCA771502 /* libPods-FinalMatchForSupplier.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EFC718F4FB7E4E6182C369 /* libPods-FinalMatchForSupplier.a */; };
 		FAE2F2A7240F6E3B0038971A /* NotificationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2F2A6240F6E3B0038971A /* NotificationEventEmitter.m */; };
@@ -106,6 +107,7 @@
 		ADB84D562440768F00CBDDD1 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = assets/fonts/EvilIcons.ttf; sourceTree = SOURCE_ROOT; };
 		ADB84D572440768F00CBDDD1 /* IndieFlower-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IndieFlower-Regular.ttf"; path = "assets/fonts/IndieFlower-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		ADB84D582440768F00CBDDD1 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = assets/fonts/FontAwesome.ttf; sourceTree = SOURCE_ROOT; };
+		ADD45157250DE0FC00B4A9B6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		ADDB6153241647340034B843 /* AsynStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsynStorage.m; path = AsynStorage/AsynStorage.m; sourceTree = "<group>"; };
 		ADDB6154241647340034B843 /* AsyncStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncStorage.h; path = AsynStorage/AsyncStorage.h; sourceTree = "<group>"; };
 		AEBA27E12EE94C89A5DE4145 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADD45158250DE0FC00B4A9B6 /* AuthenticationServices.framework in Frameworks */,
 				ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */,
 				B2F865FA8D4F359CCA771502 /* libPods-FinalMatchForSupplier.a in Frameworks */,
 			);
@@ -178,6 +181,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ADD45157250DE0FC00B4A9B6 /* AuthenticationServices.framework */,
 				ADB4CE37240BC807009F8D4D /* UserNotifications.framework */,
 				AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */,
 				AD90A65D23D5906200BBF83B /* JosefinSans-BoldItalic.ttf */,

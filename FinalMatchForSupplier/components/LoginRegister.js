@@ -37,7 +37,8 @@ import {validateEmail, validatePasword} from '../Validations/Validation'
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
 const {AsyncStorage} = NativeModules
-import { AppleButton, appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication'
+//import { appleAuth } from '@invertase/react-native-apple-authentication'
+import { AppleButton, appleAuthAndroid } from '@invertase/react-native-apple-authentication'
 
 class LoginRegister extends MultiLanguageComponent {
     static navigationOptions = {
@@ -58,23 +59,25 @@ class LoginRegister extends MultiLanguageComponent {
     _onAppleButtonPress = async() => {
         // performs login request
         try {
+            const x = require('@invertase/react-native-apple-authentication')
+            console.log(Object.keys(x))
             debugger
             const appleAuthRequestResponse = await appleAuth.performRequest({
                 requestedOperation: appleAuth.Operation.LOGIN,
                 requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
             });
-
+            debugger
             // get current authentication state for user
             // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
             const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-
+            debugger
             // use credentialState response to ensure the user is authenticated
             if (credentialState === appleAuth.State.AUTHORIZED) {
                 // user is authenticated
-
+                debugger
             }
         }catch(error) {
-            alert(error)
+            console.log('error = '+ error.toString())            
         }
         
       }

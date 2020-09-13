@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@import AuthenticationServices;
 @import UserNotifications;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainViewController : UIViewController
+@interface MainViewController : UIViewController<ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding>
 
 @end
 

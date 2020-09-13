@@ -8,6 +8,7 @@
 #import <React/RCTBridgeDelegate.h>
 @import UIKit;
 @import UserNotifications;
+@import AuthenticationServices;
 
 @import Firebase;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,
