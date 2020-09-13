@@ -94,6 +94,30 @@ router.post('/loginFacebook', async (req, res) => {
           }
   })    
 })
+//Link http://localhost:3000/suppliers/loginFacebook
+router.post('/loginApple', async (req, res) => {
+  const {fullName, email = '', name, avatar = ''} = req.body   
+  i18n.setLocale(req.headers.locale)   
+  debugger
+  connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
+          debugger
+          if(error) {
+              res.json({
+                result: "failed", 
+                data: {}, 
+                message: error.sqlMessage,
+                time: Date.now()})
+          } else {
+              if(results != null && results.length > 0) {
+                  res.json({
+                    result: "ok", 
+                    data: results[0], 
+                    message: i18n.__("Login facebook successfully"),
+                    time: Date.now()})
+              }                
+          }
+  })    
+})
 
 //Link http://localhost:3000/suppliers/urlGetSupplierById
 router.get('/urlGetSupplierById', async (req, res) => {

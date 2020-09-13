@@ -292,6 +292,30 @@ BEGIN
 END; //                                 
 delimiter ;
 
+DROP PROCEDURE IF EXISTS loginApple;
+delimiter //
+CREATE PROCEDURE loginAppleForSupplier(
+    facebookId VARCHAR(300), 
+    email VARCHAR(300), 
+    name VARCHAR(250) CHARACTER SET utf8mb4,
+    avatar VARCHAR(500)) DEFAULT '' 
+BEGIN
+    DECLARE numberOfSuppliers INT DEFAULT 0;    
+    SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier 
+    WHERE Customer.facebookId = facebookId;
+    SET @myToken = createToken();
+    IF (numberOfCustomers = 0) THEN
+        BEGIN
+            INSERT INTO Customer(facebookId, name, email, avatar, password, userType)
+            VALUES(facebookId, name, email, avatar, '11111', 'facebook');                        
+        END;            
+    END IF;
+    UPDATE Customer SET tokenKey=@myToken, Customer.name = name WHERE Customer.facebookId = facebookId;        
+    SELECT * FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
+END; //                                 
+delimiter;
+
+
 DROP FUNCTION IF EXISTS registerSupplier;
 delimiter //
 CREATE FUNCTION registerSupplier(email VARCHAR(300), password VARCHAR(400), userType VARCHAR(150)) RETURNS VARCHAR(300)
