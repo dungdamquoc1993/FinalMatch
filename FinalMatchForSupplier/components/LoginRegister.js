@@ -37,8 +37,13 @@ import {validateEmail, validatePasword} from '../Validations/Validation'
 import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
 const {AsyncStorage} = NativeModules
-//import { appleAuth } from '@invertase/react-native-apple-authentication'
-import { AppleButton, appleAuthAndroid } from '@invertase/react-native-apple-authentication'
+import appleAuth from '@invertase/react-native-apple-authentication'
+import { AppleButton, 
+    AppleAuthRequestScope,    
+    appleAuthAndroid, 
+    AppleAuthRequestOperation,
+    AppleAuthCredentialState
+} from '@invertase/react-native-apple-authentication'
 
 class LoginRegister extends MultiLanguageComponent {
     static navigationOptions = {
@@ -58,13 +63,11 @@ class LoginRegister extends MultiLanguageComponent {
     }
     _onAppleButtonPress = async() => {
         // performs login request
-        try {
-            const x = require('@invertase/react-native-apple-authentication')
-            console.log(Object.keys(x))
+        try {                        
             debugger
             const appleAuthRequestResponse = await appleAuth.performRequest({
-                requestedOperation: appleAuth.Operation.LOGIN,
-                requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+                requestedOperation: AppleAuthRequestOperation.LOGIN,
+                requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
             });
             debugger
             // get current authentication state for user
@@ -72,7 +75,7 @@ class LoginRegister extends MultiLanguageComponent {
             const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
             debugger
             // use credentialState response to ensure the user is authenticated
-            if (credentialState === appleAuth.State.AUTHORIZED) {
+            if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
                 // user is authenticated
                 debugger
             }
