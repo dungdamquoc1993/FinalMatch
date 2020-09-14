@@ -9,6 +9,8 @@ const path = require('path')
 const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_FACEBOOK = "SELECT loginFacebook(?, ?, ?, ?) as tokenKeySupplierId"
+const POST_LOGIN_APPLE = "SELECT loginAppleForSupplier(?, ?, ?) as tokenKeySupplierId"
+
 
 const GET_SUPPLIER_PLAYER_SERVICE = "SELECT *, X(point) as latitude, Y(point) as longitude"+
                                     " FROM Supplier WHERE id = ?"
@@ -99,7 +101,7 @@ router.post('/loginApple', async (req, res) => {
   const {fullName, email = '', name, avatar = ''} = req.body   
   i18n.setLocale(req.headers.locale)   
   debugger
-  connection.query(POST_LOGIN_FACEBOOK, [facebookId, email, name, avatar], (error, results) => {
+  connection.query(POST_LOGIN_APPLE, [email, name, avatar], (error, results) => {
           debugger
           if(error) {
               res.json({
@@ -112,7 +114,7 @@ router.post('/loginApple', async (req, res) => {
                   res.json({
                     result: "ok", 
                     data: results[0], 
-                    message: i18n.__("Login facebook successfully"),
+                    message: i18n.__("Login Apple successfully"),
                     time: Date.now()})
               }                
           }

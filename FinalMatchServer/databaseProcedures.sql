@@ -294,24 +294,23 @@ delimiter ;
 
 DROP PROCEDURE IF EXISTS loginApple;
 delimiter //
-CREATE PROCEDURE loginAppleForSupplier(
-    facebookId VARCHAR(300), 
+CREATE PROCEDURE loginAppleForSupplier(    
     email VARCHAR(300), 
     name VARCHAR(250) CHARACTER SET utf8mb4,
     avatar VARCHAR(500)) DEFAULT '' 
 BEGIN
     DECLARE numberOfSuppliers INT DEFAULT 0;    
     SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier 
-    WHERE Customer.facebookId = facebookId;
+    WHERE Supplier.email = email;
     SET @myToken = createToken();
-    IF (numberOfCustomers = 0) THEN
+    IF (numberOfSuppliers = 0) THEN
         BEGIN
-            INSERT INTO Customer(facebookId, name, email, avatar, password, userType)
-            VALUES(facebookId, name, email, avatar, '11111', 'facebook');                        
+            INSERT INTO Supplier(name, email, avatar, password, userType)
+            VALUES(name, email, avatar, '11111', 'apple');                        
         END;            
-    END IF;
-    UPDATE Customer SET tokenKey=@myToken, Customer.name = name WHERE Customer.facebookId = facebookId;        
-    SELECT * FROM Customer WHERE Customer.facebookId = facebookId AND tokenKey=@myToken;    
+    END IF;    
+    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email and Supplier.userType = 'apple';        
+    SELECT * FROM Supplier WHERE Supplier.email = email AND tokenKey=@myToken;    
 END; //                                 
 delimiter;
 

@@ -14,6 +14,7 @@ import {urlLoginSupplier,
     urlUpdateSettings, 
     urlInsertStadium,
     urlLoginFacebook,
+    urlLoginApple,
     urlGetOrdersBySupplierId,
     urlUpdateOrderStatus,
     urlInsertCustomerNotificationToken,
@@ -22,7 +23,7 @@ import {urlLoginSupplier,
     urlGetChatHistory,
     urlMakeSeen,
     urlGetNotificationsBySupplierId,
-    urlGetNotificationsByCustomerId,
+    urlGetNotificationsByCustomerId,    
 } from './urlNames'
 const {AsyncStorage} = NativeModules
 import {getSupplierFromStorage, alert} from '../helpers/Helpers'
@@ -111,6 +112,34 @@ export const loginFacebook = async (name, email, facebookId, avatar) => {
                 tokenKey: tokenKeySupplierId.split(";")[0], 
                 supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
                 message: ''}
+        } else {            
+            return { tokenKey : '', message}
+        }
+    } catch (error) {        
+        return { tokenKey : '', message: error}
+    }
+}
+export const loginApple = async ({name, email, avatar}) => {
+    try {            
+        const response = await fetch(await urlLoginApple(), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                locale: i18n.locale,
+            },
+            body: JSON.stringify({name, email, avatar}),
+        })             
+        const responseJson = await response.json();
+        const {result, data, message, time} = responseJson                
+        const {tokenKey, supplierId, email} = data
+        if (result.toUpperCase() === "OK") {                   
+            return {
+                tokenKey, 
+                supplierId, 
+                email,
+                message: ''
+            }            
         } else {            
             return { tokenKey : '', message}
         }
