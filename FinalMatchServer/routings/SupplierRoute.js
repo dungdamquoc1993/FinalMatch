@@ -5,11 +5,11 @@ const {checkToken, convertDateToDayMonthYear, removeNullProperties} = require('.
 const {connection} = require('../database/database')
 const fs = require('fs')//fs = file system
 const path = require('path')
+const crypto = require('crypto')
 
 const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_FACEBOOK = "SELECT loginFacebook(?, ?, ?, ?) as tokenKeySupplierId"
-const POST_LOGIN_APPLE = "SELECT loginAppleForSupplier(?, ?, ?) as tokenKeySupplierId"
 
 
 const GET_SUPPLIER_PLAYER_SERVICE = "SELECT *, X(point) as latitude, Y(point) as longitude"+
@@ -96,29 +96,47 @@ router.post('/loginFacebook', async (req, res) => {
           }
   })    
 })
-//Link http://localhost:3000/suppliers/loginFacebook
-router.post('/loginApple', async (req, res) => {
-  const {fullName, email = '', name, avatar = ''} = req.body   
-  i18n.setLocale(req.headers.locale)   
+//Link http://localhost:3000/suppliers/loginAppleForSupplier
+router.post('/loginAppleForSupplier', async (req, res) => {
+  const {email = '', name, appleId = ''} = req.body   
   debugger
-  connection.query(POST_LOGIN_APPLE, [email, name, avatar], (error, results) => {
-          debugger
-          if(error) {
-              res.json({
-                result: "failed", 
-                data: {}, 
-                message: error.sqlMessage,
-                time: Date.now()})
-          } else {
-              if(results != null && results.length > 0) {
-                  res.json({
-                    result: "ok", 
-                    data: results[0], 
-                    message: i18n.__("Login Apple successfully"),
-                    time: Date.now()})
-              }                
-          }
-  })    
+  i18n.setLocale(req.headers.locale)   
+  const Supplier = require('../models/Supplier')
+  try {
+    let foundSupplier = await Supplier.findOne({
+      attributes: { exclude: ['id'] },
+      where:
+      {
+        [Op.and]:
+          [
+            { appleId: { [Op.eq]: appleId } },
+            { isActive: { [Op.eq]: true } }
+          ]
+      }
+    })
+    if (foundSupplier == null) {    
+      let tokenKey = crypto.randomBytes(200).toString('hex')
+      const newSupplier = await Supplier.create({ email, appleId, tokenKey, name});
+      await newSupplier.save();
+      res.json({
+        result: "ok", 
+        data: newSupplier, 
+        message: i18n.__("Login Apple successfully"),
+        time: Date.now()})
+    } else {
+      res.json({
+        result: "ok", 
+        data: newSupplier, 
+        message: i18n.__("Login Apple successfully"),
+        time: Date.now()})
+    }    
+  } catch(error) {
+    res.json({
+      result: "failed", 
+      data: {}, 
+      message: error.toString(),
+      time: Date.now()})
+  }    
 })
 
 //Link http://localhost:3000/suppliers/urlGetSupplierById

@@ -292,27 +292,6 @@ BEGIN
 END; //                                 
 delimiter ;
 
-DROP PROCEDURE IF EXISTS loginApple;
-delimiter //
-CREATE PROCEDURE loginAppleForSupplier(    
-    email VARCHAR(300), 
-    name VARCHAR(250) CHARACTER SET utf8mb4,
-    avatar VARCHAR(500)) DEFAULT '' 
-BEGIN
-    DECLARE numberOfSuppliers INT DEFAULT 0;    
-    SELECT COUNT(*) INTO numberOfSuppliers FROM Supplier 
-    WHERE Supplier.email = email;
-    SET @myToken = createToken();
-    IF (numberOfSuppliers = 0) THEN
-        BEGIN
-            INSERT INTO Supplier(name, email, avatar, password, userType)
-            VALUES(name, email, avatar, '11111', 'apple');                        
-        END;            
-    END IF;    
-    UPDATE Supplier SET tokenKey=@myToken WHERE Supplier.email = email and Supplier.userType = 'apple';        
-    SELECT * FROM Supplier WHERE Supplier.email = email AND tokenKey=@myToken;    
-END; //                                 
-delimiter;
 
 
 DROP FUNCTION IF EXISTS registerSupplier;
