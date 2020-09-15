@@ -104,7 +104,7 @@ router.post('/loginAppleForSupplier', async (req, res) => {
   const Supplier = require('../models/Supplier')
   try {
     let foundSupplier = await Supplier.findOne({
-      attributes: { exclude: ['id'] },
+      // attributes: { exclude: ['id'] },
       where:
       {
         [Op.and]:
@@ -119,12 +119,14 @@ router.post('/loginAppleForSupplier', async (req, res) => {
       let tokenKey = crypto.randomBytes(200).toString('hex')
       const newSupplier = await Supplier.create({ email, appleId, tokenKey, name});
       await newSupplier.save();
+      debugger      
       res.json({
         result: "ok", 
         data: newSupplier, 
         message: i18n.__("Login Apple successfully"),
         time: Date.now()})
     } else {
+      debugger
       res.json({
         result: "ok", 
         data: foundSupplier, 

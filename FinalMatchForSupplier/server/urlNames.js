@@ -60,8 +60,8 @@ export const urlInsertStadium = () => {
 export const urlLoginFacebook = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginFacebook`
 }
-export const urlLoginApple = () => {    
-    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginApple`
+export const urlLoginAppleForSupplier = () => {    
+    return `http://${SERVER_NAME}:${SERVER_PORT}/suppliers/loginAppleForSupplier`
 }
 export const urlGetOrdersBySupplierId = () => {    
     return `http://${SERVER_NAME}:${SERVER_PORT}/orders/getOrdersBySupplierId`
