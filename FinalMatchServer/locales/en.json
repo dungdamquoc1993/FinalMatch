@@ -65,5 +65,6 @@
 	"Delete Player Service  successfully": "Delete Player Service  successfully",
 	"Login user successfully1111": "Login user successfully1111",
 	"Status must be: pending, accepted, cancelled, finished, missed": "Status must be: pending, accepted, cancelled, finished, missed",
-	"Match's timing is : ": "Match's timing is : "
+	"Match's timing is : ": "Match's timing is : ",
+	"Login Apple successfully": "Login Apple successfully"
 }

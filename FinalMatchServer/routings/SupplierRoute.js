@@ -6,6 +6,7 @@ const {connection} = require('../database/database')
 const fs = require('fs')//fs = file system
 const path = require('path')
 const crypto = require('crypto')
+const { Op } = require("sequelize")
 
 const POST_REGISTER_SUPPLIER = "select registerSupplier(?, ?, ?) as tokenKeySupplierId"
 const POST_LOGIN_SUPPLIER = "select loginSupplier(?, ?, ?) as tokenKeySupplierId"
@@ -99,8 +100,7 @@ router.post('/loginFacebook', async (req, res) => {
 //Link http://localhost:3000/suppliers/loginAppleForSupplier
 router.post('/loginAppleForSupplier', async (req, res) => {
   const {email = '', name, appleId = ''} = req.body   
-  debugger
-  i18n.setLocale(req.headers.locale)   
+  i18n.setLocale(req.headers.locale == null ? 'en':req.headers.locale)   
   const Supplier = require('../models/Supplier')
   try {
     let foundSupplier = await Supplier.findOne({
@@ -110,10 +110,11 @@ router.post('/loginAppleForSupplier', async (req, res) => {
         [Op.and]:
           [
             { appleId: { [Op.eq]: appleId } },
-            { isActive: { [Op.eq]: true } }
+            { isActive: { [Op.eq]: 1 } },
+            { email: {[Op.eq]: email}}
           ]
       }
-    })
+    })    
     if (foundSupplier == null) {    
       let tokenKey = crypto.randomBytes(200).toString('hex')
       const newSupplier = await Supplier.create({ email, appleId, tokenKey, name});
@@ -126,7 +127,7 @@ router.post('/loginAppleForSupplier', async (req, res) => {
     } else {
       res.json({
         result: "ok", 
-        data: newSupplier, 
+        data: foundSupplier, 
         message: i18n.__("Login Apple successfully"),
         time: Date.now()})
     }    

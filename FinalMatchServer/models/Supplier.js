@@ -50,6 +50,11 @@ module.exports = sequelize.define('Supplier', {
 		type: DataTypes.STRING(500),
 		allowNull: true
 	},
+	appleId: {
+                type: DataTypes.STRING(500),
+                allowNull: true,
+		defaultValue: ''
+        },
 	radius: {
 		type: DataTypes.FLOAT,
 		allowNull: true,
