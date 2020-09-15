@@ -21,7 +21,8 @@ import {
     registerSupplier, 
     insertSupplierNotificationToken,
     loginSupplier, 
-    loginFacebook
+    loginFacebook,
+    loginAppleForSupplier
 } from '../server/myServices'
 import {alert, 
     saveSupplierToStorage,
@@ -64,7 +65,7 @@ class LoginRegister extends MultiLanguageComponent {
     _onAppleButtonPress = async() => {
         // performs login request
         try {                        
-            debugger
+            debugger            
             const appleAuthRequestResponse = await appleAuth.performRequest({
                 requestedOperation: AppleAuthRequestOperation.LOGIN,
                 requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
@@ -79,10 +80,9 @@ class LoginRegister extends MultiLanguageComponent {
                 // user is authenticated
                 const {familyName, givenName} = appleAuthRequestResponse.fullName
                 const {email, identityToken, authorizationCode, user} = appleAuthRequestResponse
-                alert(`email = ${email}, identityToken = ${identityToken}, authorizationCode = ${authorizationCode}, userId = ${user}`)
-                /*
-                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)      
-                                                                                
+                // alert(`email = ${email}, identityToken = ${identityToken}, authorizationCode = ${authorizationCode}, userId = ${user}`)
+                debugger
+                const {tokenKey, supplierId, message} = await loginAppleForSupplier({name, email,appleId:user})                                                                              
                 if (tokenKey.length > 0) {                    
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
@@ -94,7 +94,6 @@ class LoginRegister extends MultiLanguageComponent {
                 } else {
                     alert(message)
                 }
-                */                
             }
         }catch(error) {
             console.log('error = '+ error.toString())            
