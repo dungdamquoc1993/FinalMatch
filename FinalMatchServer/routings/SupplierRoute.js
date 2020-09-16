@@ -118,7 +118,7 @@ router.post('/loginAppleForSupplier', async (req, res) => {
     let tokenKey = crypto.randomBytes(200).toString('hex')
     if (foundSupplier == null) {          
       const newSupplier = await Supplier.create({ email, appleId, tokenKey, name});
-      if(email != null && tokenKey.length > 0) {
+      if(tokenKey.length > 0) {
         await newSupplier.save()      
       }      
       res.json({
