@@ -67,6 +67,7 @@ class Splash extends MultiLanguageComponent {
         ]).start(async () => {
             //End of animations            
             let {tokenKey, supplierId} = await getSupplierFromStorage()                 
+            debugger
             let {result, data, message, time} = await tokenCheck(tokenKey, supplierId)           
             if(result == "failed") {
                 await saveSupplierToStorage('', '', '')

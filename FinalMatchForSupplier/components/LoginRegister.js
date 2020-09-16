@@ -45,7 +45,6 @@ import { AppleButton,
     AppleAuthRequestOperation,
     AppleAuthCredentialState
 } from '@invertase/react-native-apple-authentication'
-
 class LoginRegister extends MultiLanguageComponent {
     static navigationOptions = {
         headerShown: false,
@@ -64,12 +63,16 @@ class LoginRegister extends MultiLanguageComponent {
     }
     _onAppleButtonPress = async() => {
         // performs login request
-        try {                        
-            debugger            
+        if(!appleAuth.isSupported) {
+            alert('Login with Apple not supported')
+            return
+        }
+        try {                                    
+            debugger
             const appleAuthRequestResponse = await appleAuth.performRequest({
                 requestedOperation: AppleAuthRequestOperation.LOGIN,
                 requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
-            });
+            })
             debugger
             // get current authentication state for user
             // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.

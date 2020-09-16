@@ -110,23 +110,25 @@ router.post('/loginAppleForSupplier', async (req, res) => {
         [Op.and]:
           [
             { appleId: { [Op.eq]: appleId } },
-            { isActive: { [Op.eq]: 1 } },
-            { email: {[Op.eq]: email}}
+            // { isActive: { [Op.eq]: 1 } },
+            // { email: {[Op.eq]: email}}
           ]
       }
     })    
-    if (foundSupplier == null) {    
-      let tokenKey = crypto.randomBytes(200).toString('hex')
+    let tokenKey = crypto.randomBytes(200).toString('hex')
+    if (foundSupplier == null) {          
       const newSupplier = await Supplier.create({ email, appleId, tokenKey, name});
-      await newSupplier.save();
-      debugger      
+      if(email != null && tokenKey.length > 0) {
+        await newSupplier.save()      
+      }      
       res.json({
         result: "ok", 
         data: newSupplier, 
         message: i18n.__("Login Apple successfully"),
         time: Date.now()})
-    } else {
-      debugger
+    } else {      
+      foundSupplier.tokenKey = tokenKey
+      await foundSupplier.save()
       res.json({
         result: "ok", 
         data: foundSupplier, 

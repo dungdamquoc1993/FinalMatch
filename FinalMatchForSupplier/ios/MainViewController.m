@@ -17,7 +17,7 @@
   if (@available(iOS 13.0, *)) {
     ASAuthorizationAppleIDProvider *appleIDProvider = [ASAuthorizationAppleIDProvider new];
     ASAuthorizationAppleIDRequest *request =  [appleIDProvider createRequest];
-    request.requestedScopes = @[ASAuthorizationScopeFullName, ASAuthorizationScopeFullName];
+    request.requestedScopes = @[ASAuthorizationScopeEmail, ASAuthorizationScopeFullName];
     ASAuthorizationController *authorizationController = [[ASAuthorizationController alloc] initWithAuthorizationRequests: @[request]];
     //
     authorizationController.delegate = self;
