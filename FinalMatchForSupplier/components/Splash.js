@@ -50,19 +50,21 @@ class Splash extends MultiLanguageComponent {
     async componentDidMount() {
         await super.componentDidMount()
         this.reloadEventsFromNative()
-        //Add animations here        
+        //Add animations here                
         Animated.sequence([
             //animations by sequence
             Animated.timing(this.state.logoOpacity,{
                 toValue: 1,                  
                 //duration: 1500,              
                 duration: 1500,              
+                useNativeDriver: false
             }),
             //Animate Text ?
             Animated.timing(this.state.titleMarginTop, {
                 toValue: 10,
                 //duration: 1000, //1000 miliseconds = 1 second
-                duration: 1000,              
+                duration: 1000,       
+                useNativeDriver: false
             })
         ]).start(async () => {
             //End of animations            
