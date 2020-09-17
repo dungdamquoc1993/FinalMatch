@@ -65,9 +65,9 @@
 	<string>This app requires access to the camera.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is required for searching Service Area</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required for searching Service Area</string>
 	<key>NSLocationUsageDescription</key>
+	<string>Your location is required for searching Service Area</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required for searching Service Area</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app does not require access to the microphone.</string>
