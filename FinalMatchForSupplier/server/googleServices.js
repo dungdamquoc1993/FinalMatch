@@ -51,8 +51,7 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
     }
 }
 
-export const checkLocationPermission = async () => {
-
+export const checkLocationPermission = async () => {    
     if (Platform.OS === 'ios' ||
         (Platform.OS === 'android' && Platform.Version < 23)) {
         return true;
@@ -61,7 +60,7 @@ export const checkLocationPermission = async () => {
     const hasPermission = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
     );
-
+    
     if (hasPermission) return true;
 
     const status = await PermissionsAndroid.request(

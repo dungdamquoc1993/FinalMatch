@@ -18,57 +18,57 @@ const StackNavigator = createAppContainer(createStackNavigator({
   Splash: {
     screen: Splash,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   LoginRegister: {
     screen: LoginRegister,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   MyTabNavigator: {
     screen: MyTabNavigator,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   RefereeService: {
     screen: RefereeService,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   PlayerService: {
     screen: PlayerService,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   Stadium: {
     screen: Stadium,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   Chat: {
     screen: Chat,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
   SearchPlace: {
     screen: SearchPlace,
     navigationOptions: {
-      gesturesEnabled: false
+      gestureEnabled: false
     }
   },
 }, {
   initialRouteName: 'Splash',
   headerShown: false,
-  gesturesEnabled: false,
+  gestureEnabled: false,
   navigationOptions: {
-    gesturesEnabled: false
+    gestureEnabled: false
   }
 }))
 
