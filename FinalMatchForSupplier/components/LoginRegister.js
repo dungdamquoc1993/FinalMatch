@@ -398,14 +398,13 @@ const styles = StyleSheet.create({
       loginButton: {
         height: 50,
         marginTop: 20,
-        width: '90%',
+        width: '70%',
         alignSelf: 'center',
-        borderRadius: 6,
         paddingHorizontal: 10,
         fontSize: 18,
         backgroundColor: MAIN_COLOR,
         justifyContent: 'center',
-        borderRadius: 25,
+        borderRadius: 12,
       },
       textLoginFaceBook:{
         fontSize: 18,
