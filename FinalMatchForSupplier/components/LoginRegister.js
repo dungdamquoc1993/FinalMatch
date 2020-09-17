@@ -41,7 +41,7 @@ const {AsyncStorage} = NativeModules
 import appleAuth from '@invertase/react-native-apple-authentication'
 import { AppleButton, 
     AppleAuthRequestScope,    
-    appleAuthAndroid, 
+    // appleAuthAndroid, 
     AppleAuthRequestOperation,
     AppleAuthCredentialState
 } from '@invertase/react-native-apple-authentication'
@@ -248,7 +248,7 @@ class LoginRegister extends MultiLanguageComponent {
             >
                 <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
              </Icon.Button>             
-             {(isIOS() || appleAuthAndroid.isSupported) && <AppleButton
+             {(isIOS() == true) && <AppleButton
                     buttonStyle={AppleButton.Style.WHITE}
                     buttonType={AppleButton.Type.SIGN_IN}
                     style={{
