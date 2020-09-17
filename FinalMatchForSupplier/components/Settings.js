@@ -101,8 +101,7 @@ export default class Settings extends MultiLanguageComponent {
     numberOfCompletedMatchPlayer: 0,
     numberOfCompletedMatchReferee: 0,
   }
-  _saveSettings = async () => {
-    debugger
+  _saveSettings = async () => {    
     if(this.state.dataChanged == false) {
       return
     }
@@ -240,11 +239,15 @@ export default class Settings extends MultiLanguageComponent {
   }
 
   _pressLocation = async () => {
+    debugger
     const hasLocationPermission = await checkLocationPermission()
+    debugger
     if (hasLocationPermission) {
+      debugger
       this.setState({spinner: true})
       Geolocation.getCurrentPosition(
         async position => {
+          debugger
           const { latitude, longitude } = position.coords
           const address = await getAddressFromLatLong(latitude, longitude)
           this.setState({
@@ -254,9 +257,14 @@ export default class Settings extends MultiLanguageComponent {
           })
         },
         error => {
+          debugger
           console.log(error.code, error.message)
+          this.setState({            
+            spinner: false,
+            dataChanged: true,
+          })
         },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 }
       )
     }
   }

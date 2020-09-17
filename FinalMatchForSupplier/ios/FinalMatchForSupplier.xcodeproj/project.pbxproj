@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		AD63BEDE24E5AAE900D2119E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD63BEDD24E5AAE900D2119E /* File.swift */; };
 		AD9DDA90240CF8AE00AB9CD5 /* NotificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */; };
+		ADA6F221251306EC00C9636D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA6F220251306EB00C9636D /* CoreLocation.framework */; };
 		ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB4CE37240BC807009F8D4D /* UserNotifications.framework */; };
 		ADB4CE3C240BCBD2009F8D4D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */; };
 		ADB697EC23FD2F0A0019E751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADB697EB23FD2F0A0019E751 /* GoogleService-Info.plist */; };
@@ -84,6 +85,7 @@
 		AD90A66223D5906200BBF83B /* JosefinSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-ThinItalic.ttf"; path = "../assets/JosefinSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		AD9DDA8E240CF8AE00AB9CD5 /* NotificationModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationModule.h; sourceTree = "<group>"; };
 		AD9DDA8F240CF8AE00AB9CD5 /* NotificationModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationModule.m; sourceTree = "<group>"; };
+		ADA6F220251306EB00C9636D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		ADB4CE37240BC807009F8D4D /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		ADB4CE39240BCBD2009F8D4D /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		ADB4CE3A240BCBD2009F8D4D /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADA6F221251306EC00C9636D /* CoreLocation.framework in Frameworks */,
 				ADD45158250DE0FC00B4A9B6 /* AuthenticationServices.framework in Frameworks */,
 				ADB4CE38240BC807009F8D4D /* UserNotifications.framework in Frameworks */,
 				B2F865FA8D4F359CCA771502 /* libPods-FinalMatchForSupplier.a in Frameworks */,
@@ -181,6 +184,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ADA6F220251306EB00C9636D /* CoreLocation.framework */,
 				ADD45157250DE0FC00B4A9B6 /* AuthenticationServices.framework */,
 				ADB4CE37240BC807009F8D4D /* UserNotifications.framework */,
 				AD90A65B23D5906200BBF83B /* JosefinSans-Bold.ttf */,
