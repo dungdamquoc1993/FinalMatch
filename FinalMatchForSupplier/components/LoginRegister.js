@@ -1,46 +1,51 @@
 //keytool -exportcert -alias ADD_RELEASE_KEY_ALIASE_HERE -keystore ADD_UR_KEYSTORE_PATH_HERE | openssl sha1 -binary | openssl base64
-import React, {Component} from 'react'
-import {View, StyleSheet, Image,
+import React, { Component } from 'react'
+import {
+    View, StyleSheet, Image,
     TouchableOpacity,
     Text,
     Dimensions,
     Keyboard,
-    KeyboardAvoidingView, 
-    TouchableWithoutFeedback,   
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
     NativeModules,
-    SafeAreaView, 
+    SafeAreaView,
 } from 'react-native'
-import {translate} from '../languages/languageConfigurations'
+import { translate } from '../languages/languageConfigurations'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon5 from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
-import {getStackNavigation} from '../redux/actions/actions'
+import { getStackNavigation } from '../redux/actions/actions'
 import { Header } from 'react-navigation-stack'
 import {
-    registerSupplier, 
+    registerSupplier,
     insertSupplierNotificationToken,
-    loginSupplier, 
+    loginSupplier,
     loginFacebook,
     loginAppleForSupplier
 } from '../server/myServices'
-import {alert, 
+import {
+    alert,
     saveSupplierToStorage,
-    generateFakeString, 
+    generateFakeString,
     getSupplierFromStorage,
     isIOS
 } from '../helpers/Helpers'
-import { LoginManager, LoginResult, 
+import {
+    LoginManager, LoginResult,
     AccessToken, GraphRequest,
-    GraphRequestManager, } from "react-native-fbsdk"
-import {MAIN_COLOR,COLOR_BUTTON} from '../colors/colors'
-import {validateEmail, validatePasword} from '../Validations/Validation'
-import { firebaseDatabase,firebaseApp,  firebaseAuthentication } from '../server/googleServices'
+    GraphRequestManager,
+} from "react-native-fbsdk"
+import { MAIN_COLOR, COLOR_BUTTON } from '../colors/colors'
+import { validateEmail, validatePasword } from '../Validations/Validation'
+import { firebaseDatabase, firebaseApp, firebaseAuthentication } from '../server/googleServices'
 import MultiLanguageComponent from './MultiLanguageComponent'
-const {AsyncStorage} = NativeModules
+const { AsyncStorage } = NativeModules
 import appleAuth from '@invertase/react-native-apple-authentication'
-import { AppleButton, 
-    AppleAuthRequestScope,    
+import {
+    AppleButton,
+    AppleAuthRequestScope,
     // appleAuthAndroid, 
     AppleAuthRequestOperation,
     AppleAuthCredentialState
@@ -50,59 +55,61 @@ class LoginRegister extends MultiLanguageComponent {
         headerShown: false,
     }
     state = {
-        isLogin: true,        
+        isLogin: true,
         //email: 'hoang55@gmail.com', //hoang123456@gmail.com / 123456
         email: '',
         facebookId: '',
         avatar: '',
         name: '',
         password: '',
-        retypePassword: '',        
+        retypePassword: '',
     }
-    componentDidMount() {                        
+    componentDidMount() {
     }
-    _onAppleButtonPress = async() => {
+    _onAppleButtonPress = async () => {
         // performs login request
-        if(!appleAuth.isSupported) {
+        if (!appleAuth.isSupported) {
             alert('Login with Apple not supported')
             return
         }
-        try {                                    
-            debugger
+        try {
+            // debugger
             const appleAuthRequestResponse = await appleAuth.performRequest({
                 requestedOperation: AppleAuthRequestOperation.LOGIN,
                 requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
             })
-            debugger
+            console.log({ appleAuthRequestResponse })
+            // debugger
             // get current authentication state for user
             // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
             const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-            debugger
+            console.log({ credentialState })
+            // debugger
             // use credentialState response to ensure the user is authenticated
             if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
                 // user is authenticated
-                const {familyName, givenName} = appleAuthRequestResponse.fullName
-                const {email, identityToken, authorizationCode, user} = appleAuthRequestResponse
+                const { familyName, givenName } = appleAuthRequestResponse.fullName
+                const { email, identityToken, authorizationCode, user } = appleAuthRequestResponse
                 // alert(`email = ${email}, identityToken = ${identityToken}, authorizationCode = ${authorizationCode}, userId = ${user}`)
-                debugger
-                const {tokenKey, supplierId, message} = await loginAppleForSupplier({name, email,appleId:user})                                                                              
-                if (tokenKey.length > 0) {                    
+                // debugger
+                const { tokenKey, supplierId, message } = await loginAppleForSupplier({ name, email, appleId: user })
+                if (tokenKey.length > 0) {
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
-                    if(notificationToken != null) {
+                    if (notificationToken != null) {
                         insertSupplierNotificationToken(notificationToken)
-                    }                    
+                    }
                     //dispatch = call action                                        
                     this.props.navigation.navigate("MyTabNavigator", {})
                 } else {
                     alert(message)
                 }
             }
-        }catch(error) {
-            console.log('error = '+ error.toString())            
+        } catch (error) {
+            console.log('error = ' + error.toString())
         }
-        
-      }
+
+    }
     _getFacebookAvatar = async (accessToken) => {
         return new Promise((resolve, reject) => {
             const avatarRequest = new GraphRequest('/me', {
@@ -118,12 +125,12 @@ class LoginRegister extends MultiLanguageComponent {
                     reject(error)
                 } else {
                     const avatar = avatarObject.picture.data.url
-                    this.setState({avatar})                                    
+                    this.setState({ avatar })
                     resolve(avatar)
                 }
-            })                                
-            new GraphRequestManager().addRequest(avatarRequest).start()    
-        })        
+            })
+            new GraphRequestManager().addRequest(avatarRequest).start()
+        })
     }
     _getFacebookInfo = async (accessToken, userID) => {
         return new Promise((resolve, reject) => {
@@ -132,123 +139,123 @@ class LoginRegister extends MultiLanguageComponent {
                 null,
                 async (error, facebookUser) => {
                     // alert(JSON.stringify(facebookUser))
-                    if (error) {                        
+                    if (error) {
                         reject(error)
                     } else {
                         const facebookId = facebookUser.id
-                        const {name} = facebookUser     
-                        const avatar = await this._getFacebookAvatar(accessToken)                                                                   
-                        resolve({facebookId, name, avatar})                                                                                                
+                        const { name } = facebookUser
+                        const avatar = await this._getFacebookAvatar(accessToken)
+                        resolve({ facebookId, name, avatar })
                     }
                 },
-            )           
+            )
             new GraphRequestManager().addRequest(infoRequest).start()
         })
     }
-    _loginWithFacebook = async () => {        
-        const stackNavigation = this.props.navigation                
+    _loginWithFacebook = async () => {
+        const stackNavigation = this.props.navigation
         //dispatch = call action
         this.props.dispatch(getStackNavigation(stackNavigation))
-        try {            
-               
-            const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])                                                
-               
+        try {
+
+            const loginResult = await LoginManager.logInWithPermissions(["public_profile", "email"])
+
             if (loginResult.isCancelled) {
                 console.log("Login cancelled")
             } else {
-                
-                const tokenObject = await AccessToken.getCurrentAccessToken()  
-                const facebookCredential =  await 
+
+                const tokenObject = await AccessToken.getCurrentAccessToken()
+                const facebookCredential = await
                     firebaseApp.firebase_.auth.FacebookAuthProvider.credential(tokenObject.accessToken)
-                let facebookUser = await firebaseApp.firebase_.auth().signInWithCredential(facebookCredential)     
-                const { accessToken, userID } = tokenObject                
-                const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)                
+                let facebookUser = await firebaseApp.firebase_.auth().signInWithCredential(facebookCredential)
+                const { accessToken, userID } = tokenObject
+                const { facebookId, name, avatar } = await this._getFacebookInfo(accessToken, userID)
                 const email = generateFakeString()
-                const {tokenKey, supplierId, message} = await loginFacebook(name, email, facebookId, avatar)      
-                                                                                
-                if (tokenKey.length > 0) {                    
+                const { tokenKey, supplierId, message } = await loginFacebook(name, email, facebookId, avatar)
+
+                if (tokenKey.length > 0) {
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
-                    if(notificationToken != null) {
+                    if (notificationToken != null) {
                         insertSupplierNotificationToken(notificationToken)
-                    }                    
+                    }
                     //dispatch = call action                                        
                     this.props.navigation.navigate("MyTabNavigator", {})
                 } else {
                     alert(message)
                 }
             }
-        } catch(error) {          
-                
+        } catch (error) {
+
             alert(translate("Cannot login Facebook: ") + `${error}`)
-        }        
+        }
     }
     _login = async () => {
-        this.setState({isLogin: true})
+        this.setState({ isLogin: true })
     }
     _register = async () => {
-        this.setState({isLogin: false})
+        this.setState({ isLogin: false })
     }
     _loginOrRegister = async () => {
         try {
-            const { email, password, retypePassword, isLogin } = await this.state            
-            if(!validateEmail(email) || !validatePasword(password)) {
+            const { email, password, retypePassword, isLogin } = await this.state
+            if (!validateEmail(email) || !validatePasword(password)) {
                 alert(translate("Email and password is invalid format"))
                 return
             }
-            if(isLogin != true) {                            
-                if(retypePassword != password) {
+            if (isLogin != true) {
+                if (retypePassword != password) {
                     alert(translate("Password and retype password does not match"))
                     return
                 }
-            }       
+            }
             let firebaseUser = {}
             if (isLogin == true) {
                 firebaseUser = await firebaseApp.firebase_.auth().signInWithEmailAndPassword(email, password)
             } else {
                 firebaseUser = await firebaseApp.firebase_.auth().createUserWithEmailAndPassword(email, password)
-            }                 
-            const {tokenKey, supplierId, message} = isLogin == true ? await loginSupplier(email, password):
-                                                        await registerSupplier(email, password)            
+            }
+            const { tokenKey, supplierId, message } = isLogin == true ? await loginSupplier(email, password) :
+                await registerSupplier(email, password)
             if (tokenKey.length > 0) {
-                await saveSupplierToStorage(tokenKey, supplierId, email)       
+                await saveSupplierToStorage(tokenKey, supplierId, email)
                 const notificationToken = await AsyncStorage.getItem("notificationToken")
-                if(notificationToken != null) {
+                if (notificationToken != null) {
                     insertSupplierNotificationToken(notificationToken)
-                }         
+                }
                 const stackNavigation = this.props.navigation
                 //dispatch = call action
                 this.props.dispatch(getStackNavigation(stackNavigation))
                 this.props.navigation.navigate("MyTabNavigator", { email })
-            } else {                
+            } else {
                 alert(message)
             }
-        } catch(error) {
+        } catch (error) {
             alert(translate("Error login or register customer: ") + `${error}`)
         }
-        
+
     }
     render() {
-        const {email, password, isLogin} = this.state        
-        return <TouchableWithoutFeedback onPress={() => {        
-                Keyboard.dismiss()        
-            }} accessible={false}> 
-          <SafeAreaView style={styles.container} 
-            enabled>                
-            <Image style={styles.logo} source={require('../images/logoSupplier.jpg')} />
-            
-            <Icon.Button
-                style={styles.facebookButton}
-                name="facebook"
-                backgroundColor="#3b5998"
-                borderRadius={30}
-                onPress={async () => {
-                    await this._loginWithFacebook()
-                }}
-            >
-                <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
-             </Icon.Button>             
-             {(isIOS() == true) && <AppleButton
+        const { email, password, isLogin } = this.state
+        return <TouchableWithoutFeedback onPress={() => {
+            Keyboard.dismiss()
+        }} accessible={false}>
+            <SafeAreaView style={styles.container}
+                enabled>
+                <Image style={styles.logo} source={require('../images/logoSupplier.jpg')} />
+
+                <Icon.Button
+                    style={styles.facebookButton}
+                    name="facebook"
+                    backgroundColor="#3b5998"
+                    borderRadius={30}
+                    onPress={async () => {
+                        await this._loginWithFacebook()
+                    }}
+                >
+                    <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
+                </Icon.Button>
+                {(isIOS() == true) && <AppleButton
                     buttonStyle={AppleButton.Style.WHITE}
                     buttonType={AppleButton.Type.SIGN_IN}
                     style={{
@@ -258,59 +265,59 @@ class LoginRegister extends MultiLanguageComponent {
                     onPress={async () => {
                         await this._onAppleButtonPress()
                     }}
-            /> } 
-            <View style={styles.viewLoginRegister}>
-                <View style={styles.viewLogin}>
-                    <TouchableOpacity onPress={this._login}>
+                />}
+                <View style={styles.viewLoginRegister}>
+                    <View style={styles.viewLogin}>
+                        <TouchableOpacity onPress={this._login}>
 
-                        <Text style={styles.twoButton}>
-                            {translate("Login")}
-                        </Text>
-                    </TouchableOpacity>
-                    {isLogin === true && <View style={styles.line}></View>}
+                            <Text style={styles.twoButton}>
+                                {translate("Login")}
+                            </Text>
+                        </TouchableOpacity>
+                        {isLogin === true && <View style={styles.line}></View>}
+                    </View>
+                    <View style={styles.viewLogin}>
+                        <TouchableOpacity onPress={this._register}>
+                            <Text style={styles.twoButton}>
+                                {translate("Register")}
+                            </Text>
+                        </TouchableOpacity>
+                        {isLogin === false && <View style={styles.line}></View>}
+                    </View>
                 </View>
-                <View style={styles.viewLogin}>
-                    <TouchableOpacity onPress={this._register}>
-                        <Text style={styles.twoButton}>
-                            {translate("Register")}
-                        </Text>
-                    </TouchableOpacity>
-                    {isLogin === false && <View style={styles.line}></View>}
-                </View>
-            </View>    
-            <TextInput style={styles.textInput} 
-                    onChangeText = {(email) => {
-                        this.setState({email})
+                <TextInput style={styles.textInput}
+                    onChangeText={(email) => {
+                        this.setState({ email })
                     }}
                     value={email}
-                    autoCapitalize = {"none"}
+                    autoCapitalize={"none"}
                     keyboardType={"email-address"}
                     placeholder={"Email:"} />
-                <TextInput style={styles.textInput} 
-                    onChangeText = {(password) => {
-                        this.setState({password})
+                <TextInput style={styles.textInput}
+                    onChangeText={(password) => {
+                        this.setState({ password })
                     }}
                     value={password}
                     keyboardType={"default"}
                     secureTextEntry
                     placeholder={translate("Password : ")} />
-                {isLogin === false && <TextInput style={styles.textInput} 
-                    onChangeText = {(retypePassword) => {
-                        this.setState({retypePassword})
+                {isLogin === false && <TextInput style={styles.textInput}
+                    onChangeText={(retypePassword) => {
+                        this.setState({ retypePassword })
                     }}
                     value={this.state.retypePassword}
                     keyboardType={"default"}
                     secureTextEntry
                     placeholder={translate("Retype password:")} />}
-            <TouchableOpacity style={styles.loginButton} onPress={() => {
-                this._loginOrRegister()
-            }}>
-                <Text style={styles.textLogin}>
-                    {isLogin === true ? translate("Login to your account") 
-                                        : translate("Register new user")}
-                </Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+                <TouchableOpacity style={styles.loginButton} onPress={() => {
+                    this._loginOrRegister()
+                }}>
+                    <Text style={styles.textLogin}>
+                        {isLogin === true ? translate("Login to your account")
+                            : translate("Register new user")}
+                    </Text>
+                </TouchableOpacity>
+            </SafeAreaView>
         </TouchableWithoutFeedback>
     }
 }
@@ -332,14 +339,14 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: '10%',
-      },
-      logo: {
+    },
+    logo: {
         margin: 20,
         width: 100,
         height: 100,
         borderRadius: 50,
-      },
-      facebookButton: {
+    },
+    facebookButton: {
         height: 50,
         width: 0.9 * screenWidth,
         backgroundColor: '#3b5998',
@@ -350,37 +357,37 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      viewLoginRegister: {
+    },
+    viewLoginRegister: {
         height: 50,
         alignSelf: 'stretch',
         marginHorizontal: 30,
         flexDirection: 'row',
-      },
-      viewLogin: {
+    },
+    viewLogin: {
         height: 50,
         width: '50%',
         flexDirection: 'column',
-      },
-      line: {
+    },
+    line: {
         height: 2,
         width: '100%',
         backgroundColor: 'black',
-      },
-      twoButton: {
+    },
+    twoButton: {
         height: '100%',
         fontSize: 25,
         textAlign: 'center',
         paddingTop: 13,
-        
-      },
-      viewInput: {
+
+    },
+    viewInput: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         width: '100%',
-      },
-      textInput: {
+    },
+    textInput: {
         height: 50,
         marginTop: 20,
         width: '90%',
@@ -393,9 +400,9 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         fontSize: 18,
         paddingStart: 15,
-        
-      },
-      loginButton: {
+
+    },
+    loginButton: {
         height: 50,
         marginTop: 20,
         width: '90%',
@@ -406,15 +413,14 @@ const styles = StyleSheet.create({
         backgroundColor: MAIN_COLOR,
         justifyContent: 'center',
         borderRadius: 25,
-      },
-      textLoginFaceBook:{
+    },
+    textLoginFaceBook: {
         fontSize: 18,
-        color: 'white',    
-      },
-      textLogin:{
+        color: 'white',
+    },
+    textLogin: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 20,    
-      }
-    })
-    
+        fontSize: 20,
+    }
+})
