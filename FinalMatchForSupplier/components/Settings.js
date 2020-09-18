@@ -40,10 +40,10 @@ import {
   updateSettings,
   getOrdersBySupplierId
 } from '../server/myServices'
-import {translate} from '../languages/languageConfigurations'
+import { translate } from '../languages/languageConfigurations'
 import { urlGetAvatar } from '../server/urlNames'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Geolocation from 'react-native-geolocation-service'
+import Geolocation from '@react-native-community/geolocation';
 import ImagePicker from 'react-native-image-crop-picker'
 import { COLOR_BUTTON, COLOR_GREEN, MAIN_COLOR } from '../colors/colors'
 import { NavigationEvents } from 'react-navigation'
@@ -51,7 +51,7 @@ import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
 import MultiLanguageComponent from './MultiLanguageComponent'
 
-const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED,FINISHED } = OrderStatus
+const { PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED, FINISHED } = OrderStatus
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -85,13 +85,13 @@ export default class Settings extends MultiLanguageComponent {
     avatar: '',
     age: '',
     dateOfBirth: new Date(),
-    stringDateOfBirth: '',    
+    stringDateOfBirth: '',
     isGK: false,
     isCB: false,
     isMF: false,
     isCF: false,
     currentLocation: {
-      address: '',      
+      address: '',
       latitude: 0.00,
       longitude: 0.00,
     },
@@ -101,20 +101,20 @@ export default class Settings extends MultiLanguageComponent {
     numberOfCompletedMatchPlayer: 0,
     numberOfCompletedMatchReferee: 0,
   }
-  _saveSettings = async () => {    
-    if(this.state.dataChanged == false) {
+  _saveSettings = async () => {
+    if (this.state.dataChanged == false) {
       return
     }
     const { supplierId } = this.state
-    if(playerPrice >= 20000) {
-      this.setState({playerPrice: 20000})
-    } else if(playerPrice <= 150000) {
-      this.setState({playerPrice: 150000})
+    if (playerPrice >= 20000) {
+      this.setState({ playerPrice: 20000 })
+    } else if (playerPrice <= 150000) {
+      this.setState({ playerPrice: 150000 })
     }
-    if(refereePrice >= 50000) {
-      this.setState({refereePrice: 50000})
-    } else if(refereePrice <= 300000) {
-      this.setState({refereePrice: 300000})
+    if (refereePrice >= 50000) {
+      this.setState({ refereePrice: 50000 })
+    } else if (refereePrice <= 300000) {
+      this.setState({ refereePrice: 300000 })
     }
 
     const {
@@ -168,11 +168,11 @@ export default class Settings extends MultiLanguageComponent {
   componentDidCatch(error, errorInfo) {
 
   }
-  reloadDataFromServer = async () => {    
-    this.setState({spinner: true})        
+  reloadDataFromServer = async () => {
+    this.setState({ spinner: true })
     try {
-      const { supplierId, email } = await getSupplierFromStorage()      
-      const { data, message } = await getSupplierServicesOrders(supplierId)      
+      const { supplierId, email } = await getSupplierFromStorage()
+      const { data, message } = await getSupplierServicesOrders(supplierId)
       const { name,
         playerPrice,
         refereePrice,
@@ -180,19 +180,17 @@ export default class Settings extends MultiLanguageComponent {
         dateOfBirthObject, radius, address, playerName = '',
         refereeName = '', playerId, refereeId,
         latitude, longitude
-      } = data          
-      debugger
-      let orders = await getOrdersBySupplierId ()          
-      debugger 
+      } = data
+      let orders = await getOrdersBySupplierId()
       let numberOfCompletedMatchPlayer = orders.filter(order => order.orderStatus == COMPLETED && order.typeRole == 'player').length
-     let numberOfCompletedMatchReferee = orders
-          .filter(order => order.orderStatus == COMPLETED && order.typeRole == 'referee')
-          .length      
-      const { day, month, year } = dateOfBirthObject      
+      let numberOfCompletedMatchReferee = orders
+        .filter(order => order.orderStatus == COMPLETED && order.typeRole == 'referee')
+        .length
+      const { day, month, year } = dateOfBirthObject
       let selectedDate = new Date(year, month, day)
       const { isGK, isCB, isMF, isCF } = setPosition(position)
-            
-      
+
+
       this.setState({
         spinner: false,
         name,
@@ -201,26 +199,30 @@ export default class Settings extends MultiLanguageComponent {
         isGK, isCB, isMF, isCF,
         avatar, position, phoneNumber, radius, playerName, refereeName, supplierId,
         playerId, refereeId,
-        stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),        
+        stringDateOfBirth: convertDateToStringDDMMYYYY(selectedDate),
         age: getAgesBetween2Dates(new Date(), selectedDate),
         selectedDate,
         dateOfBirth: selectedDate,
         currentLocation: {
           address,
-          latitude, 
+          latitude,
           longitude
-        },       
-        numberOfCompletedMatchPlayer, 
-        numberOfCompletedMatchReferee 
+        },
+        numberOfCompletedMatchPlayer,
+        numberOfCompletedMatchReferee
       })
-    } catch (error) {      
-      debugger
-      alert(translate("Cannot get service's information:") +`${JSON.stringify(error)}`)
-      this.setState({spinner: false})
+    } catch (error) {
+      alert(translate("Cannot get service's information:") + `${JSON.stringify(error)}`)
+      this.setState({ spinner: false })
     }
   }
   async componentDidMount() {
-    // this.reloadDataFromServer()           
+    // this.reloadDataFromServer()
+    Geolocation.requestAuthorization();
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: false,
+      authorizationLevel: 'whenInUse',
+    });
   }
   async _chooseAvatar() {
     try {
@@ -229,25 +231,22 @@ export default class Settings extends MultiLanguageComponent {
       })
       const { supplierId } = this.state
       const { data, message = '' } = await postUploadPhoto(photos, supplierId)
-      this.setState({ 
+      this.setState({
         avatar: typeof data == "object" ? data[0] : data,
-        dataChanged: true, 
+        dataChanged: true,
       })
     } catch (error) {
-      alert(translate("Cannot upload avatar: ")+`${JSON.stringify(error)}`)
+      alert(translate("Cannot upload avatar: ") + `${JSON.stringify(error)}`)
     }
   }
 
   _pressLocation = async () => {
-    debugger
-    const hasLocationPermission = await checkLocationPermission()    
-    debugger
+    const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
-      debugger
-      this.setState({spinner: true})
+      this.setState({ spinner: true })
       Geolocation.getCurrentPosition(
         async position => {
-          debugger
+          console.log({ position })
           const { latitude, longitude } = position.coords
           const address = await getAddressFromLatLong(latitude, longitude)
           this.setState({
@@ -257,14 +256,13 @@ export default class Settings extends MultiLanguageComponent {
           })
         },
         error => {
-          debugger
           console.log(error.code, error.message)
-          this.setState({            
+          this.setState({
             spinner: false,
             dataChanged: true,
           })
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 }
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 10000 }
       )
     }
   }
@@ -289,7 +287,7 @@ export default class Settings extends MultiLanguageComponent {
       refereeName,
       stringDateOfBirth,
       modalVisible,
-      numberOfCompletedMatchPlayer, 
+      numberOfCompletedMatchPlayer,
       numberOfCompletedMatchReferee,
     } = this.state
 
@@ -308,9 +306,9 @@ export default class Settings extends MultiLanguageComponent {
         <Spinner
           visible={this.state.spinner}
           textContent={translate('Loading')}
-          textStyle={{fontWeight: 'bold'}}
+          textStyle={{ fontWeight: 'bold' }}
         />
-        <View style={{          
+        <View style={{
           height: 120,
           width: '100%'
         }}>
@@ -318,14 +316,14 @@ export default class Settings extends MultiLanguageComponent {
             title={"Account management"}
             hideBack={true}
             hideNext={true}
-            /* pressBackButton={async () => {
-              if (this.validateInput() == true) {
-                await this._saveSettings()
-                return true
-              }
-              return false
-            }} */ 
-            />
+          /* pressBackButton={async () => {
+            if (this.validateInput() == true) {
+              await this._saveSettings()
+              return true
+            }
+            return false
+          }} */
+          />
           <View style={styles.avatar}>
             <TouchableOpacity
               onPress={() => {
@@ -360,22 +358,22 @@ export default class Settings extends MultiLanguageComponent {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-            {translate("Age :")}
+              {translate("Age :")}
             </Text>
             <TouchableOpacity
               style={[styles.textInput, { width: '40%' }]}
-              onPress={async() => {
+              onPress={async () => {
                 await this._saveSettings()
                 this.setState({ modalVisible: true })
               }}
             >
               <Text
-                style={{                  
+                style={{
                   fontSize: 15,
-                  textAlign:'left',
+                  textAlign: 'left',
                   height: 40,
                   lineHeight: 40,
-                  paddingStart: 5,                  
+                  paddingStart: 5,
                   color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
                 }}
               >
@@ -389,83 +387,84 @@ export default class Settings extends MultiLanguageComponent {
           </View>
           <View style={styles.personalInformation}>
             <Text style={styles.textLabel}>
-              {translate("Phone : ")}              
-            </Text>            
+              {translate("Phone : ")}
+            </Text>
             <TextInputMask
-                style={styles.textInput}
-                placeholder={translate("Phone : ")}
-                keyboardType={'number-pad'}
-                onChangeText={(formattedValue, originValue) => {                  
-                  this.setState ({phoneNumber: originValue, dataChanged: true,})
-                }}
-                mask={"[999]-[9999]-[9999]"}
-                value={`${phoneNumber}`}
-              />                    
+              style={styles.textInput}
+              placeholder={translate("Phone : ")}
+              keyboardType={'number-pad'}
+              onChangeText={(formattedValue, originValue) => {
+                this.setState({ phoneNumber: originValue, dataChanged: true, })
+              }}
+              mask={"[999]-[9999]-[9999]"}
+              value={`${phoneNumber}`}
+            />
           </View>
           {/* Quan ly dich vu */}
-          <TouchableOpacity 
-                onPress={async () => {
-                  await this._saveSettings()
-                  this._pressLocation()
-                }}
-                style={{ height: 70,                                    
-                    flexDirection: 'column', 
-                    width: windowWidth - 30,        
-                    justifyContent: 'flex-start',   
-                    paddingStart: 10,  
-                    alignSelf: 'center',                        
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-              <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />              
-              <Text numberOfLines={2} 
-                  style={{ 
-                    fontSize:16,                                         
-                  }}>{address}</Text>                
-
-            </TouchableOpacity>
-            <View style={{
-              flexDirection: 'row',              
+          <TouchableOpacity
+            onPress={async () => {
+              await this._saveSettings()
+              this._pressLocation()
+            }}
+            style={{
+              height: 70,
+              flexDirection: 'column',
+              width: windowWidth - 30,
               justifyContent: 'flex-start',
-              alignItems: 'center',              
-              width: '100%', 
-              height: 50,
-              padding: 5,
-              margin: 2,
+              paddingStart: 10,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
-              <Text style={{
-                height: 40,
-                lineHeight: 40,
-                fontSize: 16,                
-                paddingHorizontal:10,
-                
-              }}>
-                  {translate("Enter radius:")}
+            <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
+            <Text numberOfLines={2}
+              style={{
+                fontSize: 16,
+              }}>{address}</Text>
+
+          </TouchableOpacity>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            width: '100%',
+            height: 50,
+            padding: 5,
+            margin: 2,
+          }}>
+            <Text style={{
+              height: 40,
+              lineHeight: 40,
+              fontSize: 16,
+              paddingHorizontal: 10,
+
+            }}>
+              {translate("Enter radius:")}
+            </Text>
+            <TextInput
+              style={{
+                height: 45,
+                backgroundColor: '#f5f5f5',
+                borderRadius: 25,
+                borderColor: '#a9a9a9',
+                borderWidth: 1,
+                textAlign: 'center',
+                color: 'black',
+                width: '30%',
+                fontSize: 15,
+
+              }}
+              placeholder={translate("Radius")}
+              keyboardType={'numeric'}
+              value={`${radius}`}
+              onChangeText={radius => {
+                this.setState({ radius, dataChanged: true, })
+              }}
+            />
+            <Text style={{ fontSize: 15, height: 40, lineHeight: 40, marginLeft: 5, width: '10%' }}>
+              km
               </Text>
-              <TextInput
-                style={{
-                  height: 45,
-                  backgroundColor: '#f5f5f5',                  
-                  borderRadius: 25,
-                  borderColor: '#a9a9a9',
-                  borderWidth: 1,
-                  textAlign: 'center',
-                  color: 'black',
-                  width: '30%',
-                  fontSize: 15,
-                  
-                }}
-                placeholder={translate("Radius")}
-                keyboardType={'numeric'}
-                value={`${radius}`}
-                onChangeText={radius => {
-                  this.setState({ radius, dataChanged: true, })
-                }}
-              />
-              <Text style={{ fontSize: 15, height: 40, lineHeight: 40, marginLeft: 5,width:'10%' }}>
-                km
-              </Text>
-            </View>        
+          </View>
           {/* get location  */}
           {/* ban kinh */}
           {playerId > 0 && <View
@@ -489,13 +488,13 @@ export default class Settings extends MultiLanguageComponent {
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
-                value={`${numberOfCompletedMatchPlayer}`}                
+                value={`${numberOfCompletedMatchPlayer}`}
                 editable={false}
-             />
+              />
             </View>
             <Text style={{ marginBottom: 5, fontSize: 16 }}>
               {translate("Position : ")}
-              </Text>
+            </Text>
             <View style={styles.positions}>
               <TouchableOpacity
                 style={styles.eachPosition}
@@ -526,7 +525,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isMF: !this.state.isMF,dataChanged: true, })
+                  this.setState({ isMF: !this.state.isMF, dataChanged: true, })
                 }}
               >
                 <Text style={{}}>MF</Text>
@@ -539,7 +538,7 @@ export default class Settings extends MultiLanguageComponent {
               <TouchableOpacity
                 style={styles.eachPosition}
                 onPress={() => {
-                  this.setState({ isCF: !this.state.isCF,dataChanged: true, })
+                  this.setState({ isCF: !this.state.isCF, dataChanged: true, })
                 }}
               >
                 <Text style={{}}>CF</Text>
@@ -553,19 +552,19 @@ export default class Settings extends MultiLanguageComponent {
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Price : ")}</Text>
               <TextInputMask
-                style={styles.textInputRole}                                
+                style={styles.textInputRole}
                 onChangeText={(formattedValue, originValue) => {
-                  this.setState({ 
-                    playerPrice: isNaN(originValue) == false ? originValue : parseFloat(originValue) ,
+                  this.setState({
+                    playerPrice: isNaN(originValue) == false ? originValue : parseFloat(originValue),
                     dataChanged: true,
                   })
                 }}
                 mask={"[000] [000] VND"}
-                value={`${playerPrice}`} 
-              />                        
+                value={`${playerPrice}`}
+              />
             </View>
           </View>}
-          
+
           {refereeId > 0 && <View
             style={{
               alignItems: 'center',
@@ -580,35 +579,35 @@ export default class Settings extends MultiLanguageComponent {
               <Text style={styles.textRole}>{translate("Referee")}</Text>
               <TextInput style={styles.textInputRole}
                 value={refereeName} onChangeText={(refereeName) => {
-                  this.setState({ refereeName,dataChanged: true, })
+                  this.setState({ refereeName, dataChanged: true, })
                 }} />
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Number of matches: ")}</Text>
               <TextInput style={styles.textInputRole}
-              value={`${numberOfCompletedMatchReferee}`}
-              editable={false}
-             />
+                value={`${numberOfCompletedMatchReferee}`}
+                editable={false}
+              />
             </View>
             <View style={styles.personalInformation}>
               <Text style={styles.textRole}>{translate("Price : ")}</Text>
               <TextInputMask
-                style={styles.textInputRole}                                
+                style={styles.textInputRole}
                 onChangeText={(formattedValue, originValue) => {
-                  this.setState({ 
+                  this.setState({
                     refereePrice: isNaN(originValue) == false ? originValue : parseFloat(originValue),
                     dataChanged: true,
-                    })
+                  })
                 }}
                 mask={"[000] [000] VND"}
-                value={`${refereePrice}`} 
-              />                        
+                value={`${refereePrice}`}
+              />
             </View>
 
           </View>}
 
         </ScrollView>
-        <View style = {styles.buttonSaveArea}>
+        <View style={styles.buttonSaveArea}>
           <TouchableOpacity style={styles.buttonSave}
             onPress={async () => {
               if (this.validateInput() == true) {
@@ -620,30 +619,30 @@ export default class Settings extends MultiLanguageComponent {
             <Text style={styles.textSave}>{translate('Save')}</Text>
 
           </TouchableOpacity>
-          </View>
+        </View>
         <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              //alert('Modal has been closed.')
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            //alert('Modal has been closed.')
+          }}
+        >
+          <FinalMatchDatePicker
+            dismissModal={() => {
+              this.setState({ modalVisible: false })
             }}
-          >
-            <FinalMatchDatePicker
-              dismissModal={() => {
-                this.setState({ modalVisible: false })
-              }}
-              updateDateTime={(date) => {                   
-                this.setState({
-                  dateOfBirth: date,                  
-                  stringDateOfBirth: convertDateToStringDDMMYYYY(date),
-                  age: getAgesBetween2Dates(new Date(), date),
-                  modalVisible: false,
-                  dataChanged: true,
-                })
-              }}
-            />
-          </Modal>         
+            updateDateTime={(date) => {
+              this.setState({
+                dateOfBirth: date,
+                stringDateOfBirth: convertDateToStringDDMMYYYY(date),
+                age: getAgesBetween2Dates(new Date(), date),
+                modalVisible: false,
+                dataChanged: true,
+              })
+            }}
+          />
+        </Modal>
       </SafeAreaView>
     )
   }
@@ -656,14 +655,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  avatar: {            
+  avatar: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarImage: {
     width: 80,
     height: 80,
-    borderRadius: 40,    
+    borderRadius: 40,
   },
   scrollView: {
     width: '100%',
@@ -673,7 +672,7 @@ const styles = StyleSheet.create({
 
   dateTime: {
     flexDirection: 'row',
-    lineHeight:60,
+    lineHeight: 60,
     height: 60,
     width: '100%',
     justifyContent: 'center',
@@ -690,10 +689,10 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     width: 100,
-    height: 45,  
+    height: 45,
     lineHeight: 45,
     paddingStart: 15,
-    fontSize: 15,    
+    fontSize: 15,
   },
 
   textInput: {
@@ -707,7 +706,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: 'black',
     fontSize: 15,
-    
+
   },
   serviceArea: {
     flexDirection: 'column',
@@ -721,8 +720,8 @@ const styles = StyleSheet.create({
     width: '30%',
     height: 60,
     lineHeight: 60,
-    textAlign:'left',
-    justifyContent: 'flex-start'     
+    textAlign: 'left',
+    justifyContent: 'flex-start'
   },
   textInputRole: {
     width: '50%',
@@ -741,14 +740,14 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     paddingStart: 30,
     fontSize: 16,
-    
+
   },
   positions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 60,
     width: '100%',
-    
+
   },
   eachPosition: {
     flexDirection: 'column',
@@ -767,7 +766,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     width: '100%',
-    },
+  },
   buttonSave: {
     height: 40,
     width: '25%',
@@ -778,7 +777,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginBottom: 10,
     position: "relative"
-  }, 
+  },
   textSave: {
     lineHeight: 50,
     fontSize: 20,

@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {NavigationActions} from 'react-navigation'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 import {
   Text,
   View,
@@ -15,15 +15,15 @@ import {
 } from 'react-native'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Geolocation from 'react-native-geolocation-service'
+import Geolocation from '@react-native-community/geolocation'
 import {
   getAddressFromLatLong,
   checkLocationPermission,
 } from '../server/googleServices'
-import {insertStadium} from '../server/myServices'
-import {getSupplierFromStorage, alertWithOKButton,isIOS} from '../helpers/Helpers'
-import {MAIN_COLOR, COLOR_BUTTON} from '../colors/colors'
-import {translate} from '../languages/languageConfigurations'
+import { insertStadium } from '../server/myServices'
+import { getSupplierFromStorage, alertWithOKButton, isIOS } from '../helpers/Helpers'
+import { MAIN_COLOR, COLOR_BUTTON } from '../colors/colors'
+import { translate } from '../languages/languageConfigurations'
 class Stadium extends Component {
   static navigationOptions = {
     headerShown: false,
@@ -34,35 +34,40 @@ class Stadium extends Component {
     phoneNumber: '',
     supplierId: 0,
     currentLocation: {
-      address: '',            
+      address: '',
       latitude: 0,
       longitude: 0,
     },
   }
-  async componentDidMount () {
-    const {supplierId} = await getSupplierFromStorage ()
-    this.setState ({supplierId})
+  async componentDidMount() {
+    Geolocation.requestAuthorization();
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: false,
+      authorizationLevel: 'whenInUse',
+    });
+    const { supplierId } = await getSupplierFromStorage()
+    this.setState({ supplierId })
   }
   _isOnpressSubmit = async () => {
     //test
-    const {supplierId, isFree, stadiumName, phoneNumber} = this.state
-    if(stadiumName.trim().length == 0) {
+    const { supplierId, isFree, stadiumName, phoneNumber } = this.state
+    if (stadiumName.trim().length == 0) {
       alert(translate("You must enter stadium's name"))
       return
     }
-    if(isFree == false) {
-      if(phoneNumber.trim().length == 0) {
+    if (isFree == false) {
+      if (phoneNumber.trim().length == 0) {
         alert(translate("You must enter phone number"))
         return
       }
-    }    
+    }
     const {
       address,
       latitude,
-      longitude,      
+      longitude,
     } = this.state.currentLocation
     try {
-      const {message} = await insertStadium (
+      const { message } = await insertStadium(
         isFree == true ? 0 : 1,
         stadiumName,
         latitude,
@@ -72,92 +77,92 @@ class Stadium extends Component {
         supplierId
       )
       if (message.length > 0) {
-        alertWithOKButton (translate("Cannot insert Stadium:") + `${message}`, null)
+        alertWithOKButton(translate("Cannot insert Stadium:") + `${message}`, null)
       } else {
-        alertWithOKButton (translate("Insert stadium successfully"), () => {
-          this.props.stackNavigation.dispatch (NavigationActions.back ())
+        alertWithOKButton(translate("Insert stadium successfully"), () => {
+          this.props.stackNavigation.dispatch(NavigationActions.back())
         })
       }
     } catch (error) {
-      alert (translate("Cannot get data from Server")+ error)
+      alert(translate("Cannot get data from Server") + error)
     }
   }
   _pressLocation = async () => {
-    const hasLocationPermission = await checkLocationPermission ()
+    const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
-      Geolocation.getCurrentPosition (
+      Geolocation.getCurrentPosition(
         async position => {
-          const {latitude, longitude} = position.coords
-          const address = await getAddressFromLatLong (latitude, longitude)
-          this.setState ({
-            currentLocation: {address, latitude, longitude},
+          const { latitude, longitude } = position.coords
+          const address = await getAddressFromLatLong(latitude, longitude)
+          this.setState({
+            currentLocation: { address, latitude, longitude },
           })
         },
         error => {
-          console.log (error.code, error.message)
+          console.log(error.code, error.message)
         },
-        {enableHighAccuracy: true, timeout: 5000, maximumAge: 10000}
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
       )
     }
   }
-  render () {
-    const {isFree, stadiumName, phoneNumber} = this.state
+  render() {
+    const { isFree, stadiumName, phoneNumber } = this.state
     const {
       address,
       latitude,
-      longitude,      
+      longitude,
     } = this.state.currentLocation
-    const {navigate} = this.props.navigation
+    const { navigate } = this.props.navigation
     return (
-      <TouchableWithoutFeedback onPress={() => {        
-        Keyboard.dismiss()        
-    }} accessible={false}> 
-      <SafeAreaView style={styles.container}>
-      <View 
-          style={{          
-            height: 60,
-            width: '100%'
-          }}          
-        >
-          <Header
-            title={translate("Stadium")}
-            pressBackButton={async () => {
-              //validate ok
-              return true
+      <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss()
+      }} accessible={false}>
+        <SafeAreaView style={styles.container}>
+          <View
+            style={{
+              height: 60,
+              width: '100%'
             }}
-            hideBack = {false}
-            hideNext = {true}            
-          />
-        </View>        
-        <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            value={stadiumName}
-            onChangeText={stadiumName => {
-              this.setState ({stadiumName})
-            }}
-            placeholder={translate("Stadium's name")}
-          />
-        </View>
+          >
+            <Header
+              title={translate("Stadium")}
+              pressBackButton={async () => {
+                //validate ok
+                return true
+              }}
+              hideBack={false}
+              hideNext={true}
+            />
+          </View>
+          <View style={styles.personalInformation}>
+            <TextInput
+              style={styles.textInput}
+              value={stadiumName}
+              onChangeText={stadiumName => {
+                this.setState({ stadiumName })
+              }}
+              placeholder={translate("Stadium's name")}
+            />
+          </View>
 
-        {isFree == true
-          ? <View style={styles.txtAddresses}>
+          {isFree == true
+            ? <View style={styles.txtAddresses}>
               <Text style={styles.txtShowAddresses}>
                 {address.length > 0 ? address : translate("Click to get location")}
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  this._pressLocation ()
+                  this._pressLocation()
                 }}
                 style={styles.buttonGetLocation}
               >
                 <Image
-                  source={require ('../images/placeholder.png')}
-                  style={{height: 30, width: 30}}
+                  source={require('../images/placeholder.png')}
+                  style={{ height: 30, width: 30 }}
                 />
               </TouchableOpacity>
             </View>
-          : <View style={{width: '100%'}}>
+            : <View style={{ width: '100%' }}>
               <View style={styles.personalInformation}>
                 <TextInput
                   style={styles.textInput}
@@ -165,16 +170,16 @@ class Stadium extends Component {
                   keyboardType={'number-pad'}
                   value={phoneNumber}
                   onChangeText={phoneNumber => {
-                    this.setState ({phoneNumber})
+                    this.setState({ phoneNumber })
                   }}
                 />
 
               </View>
               <TouchableOpacity
-                onPress={async () => {                  
-                  navigate ('SearchPlace', {
+                onPress={async () => {
+                  navigate('SearchPlace', {
                     updatePlace: (address, latitude, longitude) => {
-                      this.setState ({currentLocation: {address,latitude, longitude}})
+                      this.setState({ currentLocation: { address, latitude, longitude } })
                     },
                   })
                 }}
@@ -186,65 +191,65 @@ class Stadium extends Component {
                     {address.trim() === '' ? translate("Stadium's address") : address}
                   </Text>
                 </View>
-              </TouchableOpacity>              
+              </TouchableOpacity>
             </View>}
-        <Text style={{fontSize: 20, fontWeight: 'bold', marginVertical: 20}}>
-          {translate("Charging's type")}
-        </Text>
-        <View style={styles.positions}>
-          <TouchableOpacity
-            style={styles.eachPosition}
-            onPress={() => {
-              this.setState({isFree: true})
-            }}
-          >
-            <Text
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginVertical: 20 }}>
+            {translate("Charging's type")}
+          </Text>
+          <View style={styles.positions}>
+            <TouchableOpacity
+              style={styles.eachPosition}
               onPress={() => {
-                this.setState({isFree: true})
-              }}
-              style={styles.txtFree}
-            >
-              {translate("Free")}
-            </Text>
-            <FontAwesome5
-              name={isFree == true ? 'check-square' : 'square'}
-              size={35}
-              color={MAIN_COLOR}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.eachPosition}
-            onPress={() => {
-              this.setState({isFree: false})
-            }}
-          >
-            <Text
-              style={styles.txtFree}
-              onPress={() => {
-                this.setState({isFree: false})
+                this.setState({ isFree: true })
               }}
             >
-              {translate("Fee")}
-            </Text>
-            <FontAwesome5
-              name={isFree == false ? 'check-square' : 'square'}
-              size={35}
-              color={MAIN_COLOR}
-            />
+              <Text
+                onPress={() => {
+                  this.setState({ isFree: true })
+                }}
+                style={styles.txtFree}
+              >
+                {translate("Free")}
+              </Text>
+              <FontAwesome5
+                name={isFree == true ? 'check-square' : 'square'}
+                size={35}
+                color={MAIN_COLOR}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.eachPosition}
+              onPress={() => {
+                this.setState({ isFree: false })
+              }}
+            >
+              <Text
+                style={styles.txtFree}
+                onPress={() => {
+                  this.setState({ isFree: false })
+                }}
+              >
+                {translate("Fee")}
+              </Text>
+              <FontAwesome5
+                name={isFree == false ? 'check-square' : 'square'}
+                size={35}
+                color={MAIN_COLOR}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={styles.btnSubmit}
+            onPress={() => {
+              this._isOnpressSubmit()
+            }}
+          >
+            <Text style={styles.txtSubmit}>Submit</Text>
           </TouchableOpacity>
-        </View>
 
-        <TouchableOpacity
-          style={styles.btnSubmit}
-          onPress={() => {
-            this._isOnpressSubmit ()
-          }}
-        >
-          <Text style={styles.txtSubmit}>Submit</Text>
-        </TouchableOpacity>
-
-      </SafeAreaView>
-      </TouchableWithoutFeedback> 
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -253,9 +258,9 @@ const mapStateToProps = state => ({
   stackNavigation: state.navigationReducers.stackNavigation,
   tabNavigation: state.navigationReducers.tabNavigation,
 })
-export default connect (mapStateToProps) (Stadium)
+export default connect(mapStateToProps)(Stadium)
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -279,7 +284,7 @@ const styles = StyleSheet.create ({
   textInput: {
     width: '90%',
     height: 50,
-    lineHeight:isIOS?25:50,
+    lineHeight: isIOS ? 25 : 50,
     backgroundColor: '#f5f5f5',
     borderRadius: 25,
     borderColor: '#a9a9a9',

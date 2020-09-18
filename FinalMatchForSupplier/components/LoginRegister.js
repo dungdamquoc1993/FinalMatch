@@ -241,7 +241,6 @@ class LoginRegister extends MultiLanguageComponent {
                 style={styles.facebookButton}
                 name="facebook"
                 backgroundColor="#3b5998"
-                borderRadius={30}
                 onPress={async () => {
                     await this._loginWithFacebook()
                 }}
@@ -249,12 +248,14 @@ class LoginRegister extends MultiLanguageComponent {
                 <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
              </Icon.Button>             
              {(isIOS() == true) && <AppleButton
-                    buttonStyle={AppleButton.Style.WHITE}
+                    buttonStyle={AppleButton.Style.BLACK}
                     buttonType={AppleButton.Type.SIGN_IN}
-                    style={{
-                        width: 160, // You must specify a width
-                        height: 45, // You must specify a height
+                    style={{        
+                        height: 50,
+                        width: 0.8 * screenWidth,
+                        marginVertical: 12,
                     }}
+                    
                     onPress={async () => {
                         await this._onAppleButtonPress()
                     }}
@@ -341,11 +342,10 @@ const styles = StyleSheet.create({
       },
       facebookButton: {
         height: 50,
-        width: 0.9 * screenWidth,
+        width: 0.8 * screenWidth,
         backgroundColor: '#3b5998',
         color: 'white',
         textAlign: 'center',
-        lineHeight: 40,
         paddingHorizontal: 15,
         borderRadius: 6,
         justifyContent: 'center',
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
       textInput: {
         height: 50,
         marginTop: 20,
-        width: '90%',
+        width: '85%',
         borderColor: '#d3d3d3',
         borderWidth: 1,
         alignSelf: 'center',
@@ -398,14 +398,13 @@ const styles = StyleSheet.create({
       loginButton: {
         height: 50,
         marginTop: 20,
-        width: '90%',
+        width: '70%',
         alignSelf: 'center',
-        borderRadius: 6,
         paddingHorizontal: 10,
         fontSize: 18,
         backgroundColor: MAIN_COLOR,
         justifyContent: 'center',
-        borderRadius: 25,
+        borderRadius: 12,
       },
       textLoginFaceBook:{
         fontSize: 18,

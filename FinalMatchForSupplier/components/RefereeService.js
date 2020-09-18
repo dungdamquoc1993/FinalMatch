@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   SafeAreaView,
-  Dimensions,  
+  Dimensions,
   DatePickerAndroid,
   TouchableWithoutFeedback,
   Keyboard,
@@ -15,16 +15,16 @@ import {
   KeyboardAvoidingView
 } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
-import {translate} from '../languages/languageConfigurations'
+import { translate } from '../languages/languageConfigurations'
 import MultiLanguageComponent from './MultiLanguageComponent'
-import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert ,isIOS} from '../helpers/Helpers'
+import { getSupplierFromStorage, saveSupplierToStorage, alertWithOKButton, alert, isIOS } from '../helpers/Helpers'
 import { insertRefereeService, getSupplierById } from '../server/myServices'
 import Header from './Header'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Geolocation from 'react-native-geolocation-service'
+import Geolocation from '@react-native-community/geolocation'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-import {MAIN_COLOR} from '../colors/colors'
+import { MAIN_COLOR } from '../colors/colors'
 import FinalMatchDatePicker from './FinalMatchDatePicker'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { NavigationEvents } from 'react-navigation'
@@ -33,8 +33,8 @@ const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 import {
-  getAgesBetween2Dates,  
-  convertDateToStringYYYYMMDD,   
+  getAgesBetween2Dates,
+  convertDateToStringYYYYMMDD,
   convertDateToString,
   convertDateTimeToString,
   convertDateToStringDDMMYYYY
@@ -45,8 +45,8 @@ import {
 } from '../server/googleServices'
 
 export class RefereeService extends MultiLanguageComponent {
-  constructor(props) {   
-    
+  constructor(props) {
+
     super(props)
   }
 
@@ -58,11 +58,11 @@ export class RefereeService extends MultiLanguageComponent {
     price: 100000,
     refereeName: '',
     phoneNumber: '',
-    dateOfBirth: new Date(),    
-    stringDateOfBirth: '',    
+    dateOfBirth: new Date(),
+    stringDateOfBirth: '',
     modalVisible: false,
     currentLocation: {
-      address: '',      
+      address: '',
       latitude: 0.00,
       longitude: 0.00,
     },
@@ -70,67 +70,75 @@ export class RefereeService extends MultiLanguageComponent {
     spinner: false,
   }
 
-  reloadDataFromServer = async () => {    
-    try {      
+  componentDidMount() {
+    Geolocation.requestAuthorization();
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: false,
+      authorizationLevel: 'whenInUse',
+    });
+  }
+
+  reloadDataFromServer = async () => {
+    try {
       const { supplierId, tokenKey, email } = await getSupplierFromStorage()
       const { data, message } = await getSupplierById(supplierId)
-      const { 
-        phoneNumber,         
+      const {
+        phoneNumber,
         latitude,
-        longitude, 
-        radius, 
+        longitude,
+        radius,
         address
-      } = data  
-      let dateOfBirth = new Date(data.dateOfBirth)            
-      this.setState({ 
-        phoneNumber, 
-        currentLocation: { latitude, longitude, address }, 
-        radius,    
-        dateOfBirth,    
+      } = data
+      let dateOfBirth = new Date(data.dateOfBirth)
+      this.setState({
+        phoneNumber,
+        currentLocation: { latitude, longitude, address },
+        radius,
+        dateOfBirth,
         stringDateOfBirth: convertDateToStringDDMMYYYY(dateOfBirth),
         age: getAgesBetween2Dates(new Date(), dateOfBirth),
-      })       
+      })
     } catch (error) {
       alertWithOKButton(translate("Cannot get supplier's information") + error)
     }
   }
-  _pressLocation = async () => {    
-    const hasLocationPermission = await checkLocationPermission()    
+  _pressLocation = async () => {
+    const hasLocationPermission = await checkLocationPermission()
     if (hasLocationPermission) {
-      this.setState({spinner: true})
+      this.setState({ spinner: true })
       Geolocation.getCurrentPosition(
         async (position) => {
 
           const { latitude, longitude } = position.coords
           const address = await getAddressFromLatLong(latitude, longitude)
-          this.setState({ currentLocation: {address, latitude, longitude},spinner: false  })
+          this.setState({ currentLocation: { address, latitude, longitude }, spinner: false })
         },
         (error) => {
           console.log(error.code, error.message)
-          this.setState({spinner: false})
+          this.setState({ spinner: false })
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
       )
     }
   }
-  _insertRefereeService = async () => {    
+  _insertRefereeService = async () => {
     debugger
-    const {refereeName, price,radius, phoneNumber, dateOfBirth} = this.state    
-    const {address,latitude, longitude} = this.state.currentLocation
-    const { supplierId, email } = await getSupplierFromStorage()      
+    const { refereeName, price, radius, phoneNumber, dateOfBirth } = this.state
+    const { address, latitude, longitude } = this.state.currentLocation
+    const { supplierId, email } = await getSupplierFromStorage()
 
     if (latitude == 0.0 || longitude == 0.0 || radius == 0.0) {
       alertWithOKButton(translate("You must press Location and choose radius"))
       return
     }
-    if(price >= 300000) {
-      this.setState({price: 300000})
-    } else if(price <= 50000) {
-      this.setState({price: 50000})
+    if (price >= 300000) {
+      this.setState({ price: 300000 })
+    } else if (price <= 50000) {
+      this.setState({ price: 50000 })
     }
 
-    try {            
-      const {message} = await insertRefereeService(
+    try {
+      const { message } = await insertRefereeService(
         refereeName,
         price,
         phoneNumber,
@@ -152,7 +160,7 @@ export class RefereeService extends MultiLanguageComponent {
     }
 
   }
-  
+
   render() {
     const {
       refereeName,
@@ -160,9 +168,9 @@ export class RefereeService extends MultiLanguageComponent {
       age,
       stringDateOfBirth,
       dateOfBirth,
-      phoneNumber,      
+      phoneNumber,
       radius,
-      modalVisible,      
+      modalVisible,
     } = this.state
     const {
       address = '',
@@ -171,183 +179,183 @@ export class RefereeService extends MultiLanguageComponent {
     } = this.state.currentLocation
 
     return (
-     <KeyboardAvoidingView
-       behavior={isIOS() ? "padding" : "height"}
-       style={{flex: 1}}
-     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>        
-        <SafeAreaView style={styles.container}>
-          <NavigationEvents
-          onWillFocus={payload => {
-            this.reloadDataFromServer()
-          }}
-          />
-        <Spinner
-          visible={this.state.spinner}
-          textContent={translate('Loading')}
-          textStyle={{fontWeight: 'bold'}}
-        />
-        <Header title={translate("Referee Service")} hideNext = {true} pressBackButton={async () => {
-          //validate ok
-          return true
-        }}/>
+      <KeyboardAvoidingView
+        behavior={isIOS() ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <SafeAreaView style={styles.container}>
+            <NavigationEvents
+              onWillFocus={payload => {
+                this.reloadDataFromServer()
+              }}
+            />
+            <Spinner
+              visible={this.state.spinner}
+              textContent={translate('Loading')}
+              textStyle={{ fontWeight: 'bold' }}
+            />
+            <Header title={translate("Referee Service")} hideNext={true} pressBackButton={async () => {
+              //validate ok
+              return true
+            }} />
 
-        <View style={{marginTop:20}}/>
-        <View style={styles.personalInformation}>
-          <TextInput
-            style={styles.textInput}
-            value={refereeName}            
-            onChangeText={(refereeName) => {
-              this.setState({refereeName})
-            }}
-            placeholder={translate("Your referee's name:")}
-          />
-        </View>
-        <View style={styles.personalInformation}>
-            <TextInputMask
+            <View style={{ marginTop: 20 }} />
+            <View style={styles.personalInformation}>
+              <TextInput
+                style={styles.textInput}
+                value={refereeName}
+                onChangeText={(refereeName) => {
+                  this.setState({ refereeName })
+                }}
+                placeholder={translate("Your referee's name:")}
+              />
+            </View>
+            <View style={styles.personalInformation}>
+              <TextInputMask
                 style={styles.textInput}
                 placeholder={translate("Phone : ")}
                 keyboardType={'number-pad'}
-                onChangeText={(formattedValue, originValue) => {                  
-                  this.setState ({phoneNumber: originValue})
+                onChangeText={(formattedValue, originValue) => {
+                  this.setState({ phoneNumber: originValue })
                 }}
                 mask={"[999]-[9999]-[9999]"}
                 value={`${phoneNumber}`}
-              />                    
-        </View>
-        <View style={styles.personalInformation}>
-        <TextInputMask
+              />
+            </View>
+            <View style={styles.personalInformation}>
+              <TextInputMask
                 style={styles.textInput}
                 placeholder={translate("Your service's price(less than 300K):")}
-                keyboardType={'number-pad'}    
+                keyboardType={'number-pad'}
                 onChangeText={(formattedValue, originValue) => {
-                  this.setState ({price: isNaN(originValue) == false ? originValue : parseFloat(originValue)})
+                  this.setState({ price: isNaN(originValue) == false ? originValue : parseFloat(originValue) })
                 }}
-                mask={"VND [999] [999]"}                
+                mask={"VND [999] [999]"}
                 value={`${price}`}
-              />          
-          
-        </View>
-          <View style={{
-                flexDirection: 'row',
-                height: 60,   
-                width: windowWidth - 30,             
-                justifyContent: 'flex-start',
-                alignItems: 'center',                
-              }}>
-            <TouchableOpacity
-              style={[styles.textInput, { 
-                width: 200,                 
-                justifyContent: 'center', 
-              }]}
-              onPress={() => {
-                this.setState({ modalVisible: true })
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  height: 40,                  
-                  lineHeight: isIOS == true ? 0 : 40,
-                  color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
+              />
+
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              height: 60,
+              width: windowWidth - 30,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}>
+              <TouchableOpacity
+                style={[styles.textInput, {
+                  width: 200,
+                  justifyContent: 'center',
+                }]}
+                onPress={() => {
+                  this.setState({ modalVisible: true })
                 }}
               >
-                {stringDateOfBirth === '' ? translate("Date of birth: dd/mm/yyyy") : stringDateOfBirth}
-              </Text>              
-          </TouchableOpacity>
-            <Text style={{              
-              height: 40,              
-              lineHeight: 40,
-              paddingStart: 10
-            }}>
-              {this.state.age}
-            </Text>
-          </View>        
-        <TouchableOpacity onPress={() => {
-          this._pressLocation()
-        }}
-          style={styles.buttonGetLocation}
-        >
-          <Text style={styles.textGetLocation}> Get Location</Text>
-          <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
-        </TouchableOpacity>
-        {address.length > 0
-          && <Text numberOfLines={2} 
-            style={{ 
-              fontSize:16, 
-              marginBottom: 10,
-              paddingHorizontal: 25,
-            }}>{address}</Text>}
-          <View style={{
+                <Text
+                  style={{
+                    fontSize: 16,
+                    height: 40,
+                    lineHeight: isIOS == true ? 0 : 40,
+                    color: stringDateOfBirth.trim() === '' ? '#a9a9a9' : 'black',
+                  }}
+                >
+                  {stringDateOfBirth === '' ? translate("Date of birth: dd/mm/yyyy") : stringDateOfBirth}
+                </Text>
+              </TouchableOpacity>
+              <Text style={{
+                height: 40,
+                lineHeight: 40,
+                paddingStart: 10
+              }}>
+                {this.state.age}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => {
+              this._pressLocation()
+            }}
+              style={styles.buttonGetLocation}
+            >
+              <Text style={styles.textGetLocation}> Get Location</Text>
+              <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
+            </TouchableOpacity>
+            {address.length > 0
+              && <Text numberOfLines={2}
+                style={{
+                  fontSize: 16,
+                  marginBottom: 10,
+                  paddingHorizontal: 25,
+                }}>{address}</Text>}
+            <View style={{
               flexDirection: 'row',
               height: 50,
               width: windowWidth - 30,
               justifyContent: 'center',
               alignItems: 'center',
-              marginVertical:10,
-              
+              marginVertical: 10,
+
             }}>
               <TextInput
-              style={{    
-                height: 50,
-                backgroundColor: '#f5f5f5',
-                borderRadius: 25,
-                borderColor: '#a9a9a9',
-                borderWidth: 1,
-                paddingStart: 10,
-                paddingVertical: isIOS() ? null : 2,
-                fontSize: 16,    
-                lineHeight:isIOS() == true ? null : 50,
-              }}
-              placeholder={translate("Enter radius:")}
-              value = {radius}
-              keyboardType={'numeric'}
-              onChangeText={radius => {
-                this.setState ({radius})
-              }}
+                style={{
+                  height: 50,
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: 25,
+                  borderColor: '#a9a9a9',
+                  borderWidth: 1,
+                  paddingStart: 10,
+                  paddingVertical: isIOS() ? null : 2,
+                  fontSize: 16,
+                  lineHeight: isIOS() == true ? null : 50,
+                }}
+                placeholder={translate("Enter radius:")}
+                value={radius}
+                keyboardType={'numeric'}
+                onChangeText={radius => {
+                  this.setState({ radius })
+                }}
               />
-          <Text style={{
-              width: '20%',
-              height: 50,
-              lineHeight: 50,
-              fontSize:16,
-              paddingStart: 10,
-              textAlign:'left'
-            }}>
-            KM
+              <Text style={{
+                width: '20%',
+                height: 50,
+                lineHeight: 50,
+                fontSize: 16,
+                paddingStart: 10,
+                textAlign: 'left'
+              }}>
+                KM
           </Text>
 
-        </View>
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => {
-          this._insertRefereeService()
-        }}>
-          <Text style={styles.txtSubmit}>Submit</Text>
-        </TouchableOpacity>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              // alert('Modal has been closed.')
-            }}
-          >
-            <FinalMatchDatePicker
-              dismissModal={() => {
-                this.setState({ modalVisible: false })
+            </View>
+            <TouchableOpacity style={styles.btnSubmit} onPress={() => {
+              this._insertRefereeService()
+            }}>
+              <Text style={styles.txtSubmit}>Submit</Text>
+            </TouchableOpacity>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                // alert('Modal has been closed.')
               }}
-              updateDateTime={(date) => {                   
-                this.setState({
-                  dateOfBirth: date,                  
-                  stringDateOfBirth: convertDateToStringDDMMYYYY(date),
-                  age: getAgesBetween2Dates(new Date(), date),
-                  modalVisible: false
-                })
-              }}
-            />
-          </Modal> 
-      </SafeAreaView>
-      </TouchableWithoutFeedback>
-     </KeyboardAvoidingView>
+            >
+              <FinalMatchDatePicker
+                dismissModal={() => {
+                  this.setState({ modalVisible: false })
+                }}
+                updateDateTime={(date) => {
+                  this.setState({
+                    dateOfBirth: date,
+                    stringDateOfBirth: convertDateToStringDDMMYYYY(date),
+                    age: getAgesBetween2Dates(new Date(), date),
+                    modalVisible: false
+                  })
+                }}
+              />
+            </Modal>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -369,12 +377,12 @@ const styles = StyleSheet.create({
   personalInformation: {
     flexDirection: 'row',
     height: 60,
-    width: '100%',    
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical:5,
+    marginVertical: 5,
   },
-  
+
   textInput: {
     width: windowWidth - 30,
     height: 50,
@@ -385,7 +393,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingStart: 15,
     paddingVertical: isIOS() ? null : 2,
-    fontSize: 16,            
+    fontSize: 16,
     lineHeight: isIOS() ? 0 : 50,
   },
   btnSubmit: {
@@ -404,7 +412,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',
-  },  
+  },
 
   buttonGetLocation: {
     justifyContent: 'center',
@@ -422,12 +430,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginBottom: 20,
   },
- 
+
   textLabelRadius: {
     width: '50%',
     height: 40,
     lineHeight: 40,
     paddingStart: 30,
-    fontSize:20
-  },    
+    fontSize: 20
+  },
 })
