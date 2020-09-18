@@ -240,7 +240,7 @@ export default class Settings extends MultiLanguageComponent {
 
   _pressLocation = async () => {
     debugger
-    const hasLocationPermission = await checkLocationPermission()
+    const hasLocationPermission = await checkLocationPermission()    
     debugger
     if (hasLocationPermission) {
       debugger

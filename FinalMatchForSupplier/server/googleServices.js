@@ -29,6 +29,7 @@ export const firebaseApp = Firebase.initializeApp(firebaseConfig)
 export const firebaseDatabase = firebaseApp.database()
 export const firebaseAuthentication = firebaseApp.auth()
 firebaseAuthentication.useDeviceLanguage()
+import Geolocation from 'react-native-geolocation-service'
 
 export const getAddressFromLatLong = async (latitude, longitude) => {
     try {    
@@ -52,15 +53,22 @@ export const getAddressFromLatLong = async (latitude, longitude) => {
 }
 
 export const checkLocationPermission = async () => {    
-    if (Platform.OS === 'ios' ||
-        (Platform.OS === 'android' && Platform.Version < 23)) {
-        return true;
-    }
+    let hasPermission = false
+    if (Platform.OS === 'ios') {        
+        let authorizationResult = await Geolocation.requestAuthorization('whenInUse')
+        hasPermission = authorizationResult == 'granted' ? true : false
+    } else if(Platform.OS === 'android') {
+        if(Platform.Version < 23) {            
+            return true;
+        } else {
+            hasPermission = await PermissionsAndroid.check(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+            );
+        }
+    }    
 
-    const hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-    );
     
+
     if (hasPermission) return true;
 
     const status = await PermissionsAndroid.request(
