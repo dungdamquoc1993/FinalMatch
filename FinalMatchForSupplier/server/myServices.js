@@ -1,7 +1,8 @@
-import {NativeModules} from 'react-native'
+import { NativeModules } from 'react-native'
 import i18n from "i18n-js"
-import {urlLoginSupplier, 
-    urlRegisterSupplier, 
+import {
+    urlLoginSupplier,
+    urlRegisterSupplier,
     urlGetSupplierById,
     urlInsertPlayerService,
     urlCheckPlayerServiceExist,
@@ -11,7 +12,7 @@ import {urlLoginSupplier,
     urlGetSupplierServicesOrders,
     urlUploadAvatar,
     urlGetAvatar,
-    urlUpdateSettings, 
+    urlUpdateSettings,
     urlInsertStadium,
     urlLoginFacebook,
     urlLoginAppleForSupplier,
@@ -25,15 +26,15 @@ import {urlLoginSupplier,
     urlGetNotificationsBySupplierId,
     urlGetNotificationsByCustomerId,
 } from './urlNames'
-const {AsyncStorage} = NativeModules
-import {getSupplierFromStorage, alert} from '../helpers/Helpers'
+const { AsyncStorage } = NativeModules
+import { getSupplierFromStorage, alert } from '../helpers/Helpers'
 import axios from 'axios'
 const axiosObject = axios.create()
 
-import {Platform} from 'react-native'
+import { Platform } from 'react-native'
 
 export const registerSupplier = async (email, password) => {
-    try {            
+    try {
         const response = await fetch(await urlRegisterSupplier(), {
             method: 'POST',
             headers: {
@@ -41,29 +42,30 @@ export const registerSupplier = async (email, password) => {
                 'Content-Type': 'application/json',
                 locale: i18n.locale,
             },
-            body: JSON.stringify({email, password}),// stringify de lam gi 
-        })               
+            body: JSON.stringify({ email, password }),// stringify de lam gi 
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson
-        const {tokenKeySupplierId = ''} = data
-        
-        if (result.toUpperCase() === "OK") {                   
-            return { 
-                tokenKey: tokenKeySupplierId.split(";")[0], 
-                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
-                message: ''}
-        } else {            
-            return { tokenKey : '', message}
+        const { result, data, message, time } = responseJson
+        const { tokenKeySupplierId = '' } = data
+
+        if (result.toUpperCase() === "OK") {
+            return {
+                tokenKey: tokenKeySupplierId.split(";")[0],
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]),
+                message: ''
+            }
+        } else {
+            return { tokenKey: '', message }
         }
-    } catch (error) {        
+    } catch (error) {
         alert(`Error register Supplier: ${JSON.stringify(error)}`)
-        return { tokenKey, message: ''}
+        return { tokenKey, message: '' }
     }
 }
 export const loginSupplier = async (email, password) => {
-    try {        
+    try {
         let url = await urlLoginSupplier()
-            
+
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -71,30 +73,30 @@ export const loginSupplier = async (email, password) => {
                 'Content-Type': 'application/json',
                 locale: i18n.locale,
             },
-            body: JSON.stringify({email, password}),
-        })             
-        
+            body: JSON.stringify({ email, password }),
+        })
+
         const responseJson = await response.json();
-        
-        const {result, data, message, time} = responseJson
-        const {tokenKeySupplierId = ''} = data
-        
-        if (result.toUpperCase() === "OK") {                   
-            return { 
-                tokenKey: tokenKeySupplierId.split(";")[0], 
-                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
+
+        const { result, data, message, time } = responseJson
+        const { tokenKeySupplierId = '' } = data
+
+        if (result.toUpperCase() === "OK") {
+            return {
+                tokenKey: tokenKeySupplierId.split(";")[0],
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]),
                 message: ''
             }
-        } else {            
-            return { tokenKey : '', message}
+        } else {
+            return { tokenKey: '', message }
         }
-    } catch (error) {        
-        
-        return { tokenKey : '', message: error}
+    } catch (error) {
+
+        return { tokenKey: '', message: error }
     }
 }
 export const loginFacebook = async (name, email, facebookId, avatar) => {
-    try {            
+    try {
         const response = await fetch(await urlLoginFacebook(), {
             method: 'POST',
             headers: {
@@ -102,25 +104,26 @@ export const loginFacebook = async (name, email, facebookId, avatar) => {
                 'Content-Type': 'application/json',
                 locale: i18n.locale,
             },
-            body: JSON.stringify({name, email, facebookId, avatar}),
-        })             
+            body: JSON.stringify({ name, email, facebookId, avatar }),
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson                
-        const {tokenKeySupplierId = ''} = data
-        if (result.toUpperCase() === "OK") {                   
-            return { 
-                tokenKey: tokenKeySupplierId.split(";")[0], 
-                supplierId: parseInt(tokenKeySupplierId.split(";")[1]), 
-                message: ''}
-        } else {            
-            return { tokenKey : '', message}
+        const { result, data, message, time } = responseJson
+        const { tokenKeySupplierId = '' } = data
+        if (result.toUpperCase() === "OK") {
+            return {
+                tokenKey: tokenKeySupplierId.split(";")[0],
+                supplierId: parseInt(tokenKeySupplierId.split(";")[1]),
+                message: ''
+            }
+        } else {
+            return { tokenKey: '', message }
         }
-    } catch (error) {        
-        return { tokenKey : '', message: error}
+    } catch (error) {
+        return { tokenKey: '', message: error }
     }
 }
-export const loginAppleForSupplier = async ({name, email, appleId}) => {
-    try {            
+export const loginAppleForSupplier = async ({ email, appleId }) => {
+    try {
         const response = await fetch(await urlLoginAppleForSupplier(), {
             method: 'POST',
             headers: {
@@ -128,27 +131,27 @@ export const loginAppleForSupplier = async ({name, email, appleId}) => {
                 'Content-Type': 'application/json',
                 locale: i18n.locale,
             },
-            body: JSON.stringify({name, email, appleId}),
-        })             
+            body: JSON.stringify({ email, appleId }),
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson                
-        const {tokenKey, id} = data        
-        if (result.toUpperCase() === "OK") {                   
+        const { result, data, message, time } = responseJson
+        const { tokenKey, id } = data
+        if (result.toUpperCase() === "OK") {
             return {
-                tokenKey, 
-                supplierId : isNaN(id) ? id : parseInt(id),                 
-                message: '',                
-            }            
-        } else {            
-            return { tokenKey : '', message}
+                tokenKey,
+                supplierId: isNaN(id) ? id : parseInt(id),
+                message: '',
+            }
+        } else {
+            return { tokenKey: '', message }
         }
-    } catch (error) {        
-        return { tokenKey : '', message: error}
+    } catch (error) {
+        return { tokenKey: '', message: error }
     }
 }
-export const tokenCheck = async (tokenKey,supplierId) => {
-    try {       
-                             
+export const tokenCheck = async (tokenKey, supplierId) => {
+    try {
+
         const response = await fetch(await urlTokenCheck(), {
             method: 'POST',
             headers: {
@@ -158,28 +161,28 @@ export const tokenCheck = async (tokenKey,supplierId) => {
                 tokenKey, supplierId
             },
             body: JSON.stringify({}),
-        })        
-                       
+        })
+
         const responseJson = await response.json()
-        
-        const {result, data, message, time} = responseJson
-        return {result, data, message, time}
-    } catch (error) {        
-        return {result:'failed', data: {}, message: error}        
+
+        const { result, data, message, time } = responseJson
+        return { result, data, message, time }
+    } catch (error) {
+        return { result: 'failed', data: {}, message: error }
     }
 }
 export const insertPlayerService = async (
     playerName,
-    price, 
+    price,
     position,
     supplierId,
     latitude,
     longitude,
     address,
     radius) => {
-    try {                    
-        const {tokenKey, email} = await getSupplierFromStorage()            
-        
+    try {
+        const { tokenKey, email } = await getSupplierFromStorage()
+
         const response = await fetch(urlInsertPlayerService(), {
             method: 'POST',
             headers: {
@@ -188,41 +191,43 @@ export const insertPlayerService = async (
                 locale: i18n.locale,
                 tokenKey, supplierId
             },
-            body: JSON.stringify({playerName,
+            body: JSON.stringify({
+                playerName,
                 price,
                 position,
                 supplierId,
                 latitude,
                 longitude,
                 address,
-                radius}),
-        })                       
+                radius
+            }),
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson
-        if (result.toUpperCase() === "OK") {                 
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??  
-            return { playerName, position, supplierId, message: ''}
-        } else {            
-            return { playerName, position, supplierId, message: 'Cannot insert player service'}
+            return { playerName, position, supplierId, message: '' }
+        } else {
+            return { playerName, position, supplierId, message: 'Cannot insert player service' }
         }
-    } catch (error) {       
-         
+    } catch (error) {
+
         return error
     }
 }
 export const insertRefereeService = async (
-        refereeName,
-        price,
-        phoneNumber, 
-        supplierId,dateOfBirth, 
-        latitude,
-        longitude,
-        address,
-        radius) => {
-    try {             
-        
-        const {tokenKey, email} = await getSupplierFromStorage()                
-        
+    refereeName,
+    price,
+    phoneNumber,
+    supplierId, dateOfBirth,
+    latitude,
+    longitude,
+    address,
+    radius) => {
+    try {
+
+        const { tokenKey, email } = await getSupplierFromStorage()
+
         const response = await fetch(await urlInsertRefereeService(), {
             method: 'POST',
             headers: {
@@ -231,7 +236,8 @@ export const insertRefereeService = async (
                 locale: i18n.locale,
                 tokenKey, supplierId
             },
-            body: JSON.stringify({refereeName,
+            body: JSON.stringify({
+                refereeName,
                 price,
                 phoneNumber,
                 supplierId,
@@ -239,149 +245,150 @@ export const insertRefereeService = async (
                 latitude,
                 longitude,
                 address,
-                radius}),
-        })                       
+                radius
+            }),
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson
-        if (result.toUpperCase() === "OK") {                 
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??  
-            return { refereeName, supplierId, message: ''}
-        } else {            
-            return { refereeName, supplierId, message}
-        }        
-    } catch (error) {        
+            return { refereeName, supplierId, message: '' }
+        } else {
+            return { refereeName, supplierId, message }
+        }
+    } catch (error) {
         return error
     }
 }
 export const checkPlayerServiceExist = async (supplierId) => {
-    try {                    
-        const response = await fetch(await urlCheckPlayerServiceExist(supplierId))               
+    try {
+        const response = await fetch(await urlCheckPlayerServiceExist(supplierId))
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson                   
-        if (result.toUpperCase() === "OK") {                 
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??              
-            return { data, message: ''}
-        } else {    
-            return { data, message}
+            return { data, message: '' }
+        } else {
+            return { data, message }
         }
-    } catch (error) {               
-        return { data, message: error}
+    } catch (error) {
+        return { data, message: error }
     }
 }
 
 export const checkRefereeServiceExist = async (supplierId) => {
-    try {                    
-       
-        const response = await fetch(await urlCheckRefereeServiceExist(supplierId))                       
-        const responseJson = await response.json();                
-        const {result, data, message, time} = responseJson                   
-        if (result.toUpperCase() === "OK") {                 
+    try {
+
+        const response = await fetch(await urlCheckRefereeServiceExist(supplierId))
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??              
-            return { data, message: ''}
-        } else {    
-            return { data, message}
+            return { data, message: '' }
+        } else {
+            return { data, message }
         }
-    } catch (error) {               
-        return { data, message: error}
+    } catch (error) {
+        return { data, message: error }
     }
 }
 
 export const getSupplierById = async (supplierId) => {
-    try {                    
-        const response = await fetch(await urlGetSupplierById(supplierId))               
-        const responseJson = await response.json();        
-        const {result, data, message, time} = responseJson                                
-        return result.toUpperCase() === "OK" ? { data, message: ''} : { data, message}        
-    } catch (error) {        
-        return { data: {}, message: error}
+    try {
+        const response = await fetch(await urlGetSupplierById(supplierId))
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        return result.toUpperCase() === "OK" ? { data, message: '' } : { data, message }
+    } catch (error) {
+        return { data: {}, message: error }
     }
 }
 
 export const getSupplierServicesOrders = async (supplierId) => {
-    try {                    
-        
-        const response = await fetch(await urlGetSupplierServicesOrders(supplierId))               
-        
-        const responseJson = await response.json();                
-        
-        const {result, data, message, time} = responseJson                                   
-        if (result.toUpperCase() === "OK") {                 
+    try {
+
+        const response = await fetch(await urlGetSupplierServicesOrders(supplierId))
+
+        const responseJson = await response.json();
+
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??              
-            return { data, message: ''}
-        } else {    
-            return { data, message}
+            return { data, message: '' }
+        } else {
+            return { data, message }
         }
-    } catch (error) {               
-        
-        return { data, message: error}
+    } catch (error) {
+
+        return { data, message: error }
     }
 }
 
 //Upload image
 export const createFormData = (photos, body) => {
-    const data = new FormData();    
-    var i = 0      
+    const data = new FormData();
+    var i = 0
     photos.forEach(photo => {
-              
-        photo.filename = photo.path.split('/').pop()            
-              
+
+        photo.filename = photo.path.split('/').pop()
+
         data.append(`photo${i}`, {
             name: photo.filename,
             type: photo.mime,
             uri:
                 Platform.OS === "android" ? photo.path : photo.path.replace("file://", "")
         });
-              
+
         i = i + 1
     })
     Object.keys(body).forEach(key => {
         data.append(key, body[key]);
-    });        
+    });
     return data;
 }
 
 export const postUploadPhoto = async (photos, supplierId) => {
-    try {         
+    try {
         //alert(JSON.stringify(photos))           
-        const {tokenKey, email} = await getSupplierFromStorage()                
-    
+        const { tokenKey, email } = await getSupplierFromStorage()
+
         axiosObject.defaults.timeout = 5000;
-        let response =  await axiosObject.post(urlUploadAvatar(),
+        let response = await axiosObject.post(urlUploadAvatar(),
             createFormData(photos, { name: "Hoang" }),
-             {  
+            {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data',
                     locale: i18n.locale,
                     tokenKey, supplierId
-                },                    
-        });        
+                },
+            });
         //let responseJson = await response.json()
-        let responseJson = await response.data                
-        if(responseJson.result === "ok") {                
+        let responseJson = await response.data
+        if (responseJson.result === "ok") {
             let imageUrls = responseJson.data.map(fileName => {
                 return fileName
-            })                        
-            return { data: imageUrls, message: ''}            
-        } else {            
-            return { data, message: 'Cannot upload image'}
-        }                
-    } catch (error) {        
+            })
+            return { data: imageUrls, message: '' }
+        } else {
+            return { data, message: 'Cannot upload image' }
+        }
+    } catch (error) {
         alert("Upload failed!:" + JSON.stringify(error))
     }
 }
 
 export const updateSettings = async (supplierId,
-            playerPrice,
-            refereePrice,
-            name,
-            avatar,
-            dateOfBirth,phoneNumber,address,
-            latitude,longitude,radius,playerName,position,refereeName) => {
-                        
-    try {                            
-        const {tokenKey, email} = await getSupplierFromStorage()                             
-        
+    playerPrice,
+    refereePrice,
+    name,
+    avatar,
+    dateOfBirth, phoneNumber, address,
+    latitude, longitude, radius, playerName, position, refereeName) => {
+
+    try {
+        const { tokenKey, email } = await getSupplierFromStorage()
+
         const response = await fetch(urlUpdateSettings(), {
             method: 'POST',
             headers: {
@@ -403,19 +410,20 @@ export const updateSettings = async (supplierId,
                 radius,
                 playerName,
                 position,
-                refereeName}),
-        })      
-                                 
-        const responseJson = await response.json();                
-        const {result, data, message, time} = responseJson
-        if (result.toUpperCase() === "OK") {                 
+                refereeName
+            }),
+        })
+
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??  
-            return { data, message: ''}
-        } else {            
-            return { data, message: 'Cannot update settings'}
+            return { data, message: '' }
+        } else {
+            return { data, message: 'Cannot update settings' }
         }
-    } catch (error) {        
-        
+    } catch (error) {
+
         return error
     }
 }
@@ -425,7 +433,7 @@ export const insertSupplierNotificationToken = async (notificationToken) => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
         await AsyncStorage.setItem('notificationToken', notificationToken)
-        if(supplierId == 0) {                        
+        if (supplierId == 0) {
             return
         }
         const response = await fetch(urlInsertSupplierNotificationToken(), {
@@ -444,24 +452,24 @@ export const insertSupplierNotificationToken = async (notificationToken) => {
         const { result, data, message, time } = responseJson
         if (result.toUpperCase() === "OK") {
             //Logger ??  
-            return { data, message: '', error: null}
+            return { data, message: '', error: null }
         } else {
-            return { data, message: 'Cannot update settings', error: 'Cannot update settings'}
+            return { data, message: 'Cannot update settings', error: 'Cannot update settings' }
         }
     } catch (error) {
-        return { data: null, message: 'Cannot update settings', error}
+        return { data: null, message: 'Cannot update settings', error }
     }
 }
 
 export const insertStadium = async (type,
-                                    stadiumName,
-                                    latitude,
-                                    longitude,
-                                    address,
-                                    phoneNumber,
-                                    supplierId) => {
-    try {                    
-        const {tokenKey, email} = await getSupplierFromStorage()            
+    stadiumName,
+    latitude,
+    longitude,
+    address,
+    phoneNumber,
+    supplierId) => {
+    try {
+        const { tokenKey, email } = await getSupplierFromStorage()
         const response = await fetch(urlInsertStadium(), {
             method: 'POST',
             headers: {
@@ -471,29 +479,30 @@ export const insertStadium = async (type,
                 tokenKey, supplierId
             },
             body: JSON.stringify({
-                    type,
-                    stadiumName,
-                    latitude,
-                    longitude,
-                    address,
-                    phoneNumber,
-                    supplierId}),
-        })                       
+                type,
+                stadiumName,
+                latitude,
+                longitude,
+                address,
+                phoneNumber,
+                supplierId
+            }),
+        })
         const responseJson = await response.json();
-        const {result, data, message, time} = responseJson
-        if (result.toUpperCase() === "OK") {                 
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??  
-            return { stadiumName, supplierId, message: ''}
-        } else {            
-            return { stadiumName, supplierId, message}
+            return { stadiumName, supplierId, message: '' }
+        } else {
+            return { stadiumName, supplierId, message }
         }
-    } catch (error) {        
+    } catch (error) {
         return error
     }
 }
 export const getOrdersBySupplierId = async () => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()                
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
         const response = await fetch(urlGetOrdersBySupplierId(), {
             method: 'POST',
             headers: {
@@ -505,19 +514,19 @@ export const getOrdersBySupplierId = async () => {
             body: JSON.stringify({
                 supplierId
             }),
-        })              
-        const responseJson = await response.json();                        
-        const { result, data, message, time } = responseJson        
-        return result.toUpperCase() === "OK" ?  data : []        
+        })
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        return result.toUpperCase() === "OK" ? data : []
     } catch (error) {
-        alert("Cannot get orders from supplierId"+error)        
+        alert("Cannot get orders from supplierId" + error)
         return []
     }
 }
 export const updateOrderStatus = async (orderId, newStatus, sender) => {
     try {
-        const { tokenKey, supplierId} = await getSupplierFromStorage()  
-              
+        const { tokenKey, supplierId } = await getSupplierFromStorage()
+
         const response = await fetch(urlUpdateOrderStatus(), {
             method: 'POST',
             headers: {
@@ -530,16 +539,16 @@ export const updateOrderStatus = async (orderId, newStatus, sender) => {
                 orderId, newStatus, sender
             }),
         })
-        
-        const responseJson = await response.json();        
-        const {result, data} = responseJson        
-        
+
+        const responseJson = await response.json();
+        const { result, data } = responseJson
+
         return result.toUpperCase() === "OK"
-    } catch (error) {                
+    } catch (error) {
         return false
     }
 }
-export const insertNewChat = async ({orderId, sms, senderId}) => {
+export const insertNewChat = async ({ orderId, sms, senderId }) => {
     try {
         debugger
         const { tokenKey, supplierId, customerId } = await getSupplierFromStorage()
@@ -557,19 +566,19 @@ export const insertNewChat = async ({orderId, sms, senderId}) => {
                 orderId, sms, senderId
             }),
         })
-        
-        const responseJson = await response.json();        
+
+        const responseJson = await response.json();
         debugger
-        const {result, data} = responseJson
+        const { result, data } = responseJson
         return result.toUpperCase() === "OK"
     } catch (error) {
         debugger
-        alert("Cannot insert new chat. Error: "+error)        
+        alert("Cannot insert new chat. Error: " + error)
         return false
     }
 }
 
-export const getChatHistory = async ({customerOrSupplierId, orderId}) => {
+export const getChatHistory = async ({ customerOrSupplierId, orderId }) => {
     try {
         const { tokenKey, supplierId } = await getSupplierFromStorage()
         debugger
@@ -588,12 +597,12 @@ export const getChatHistory = async ({customerOrSupplierId, orderId}) => {
             }),
         })
         debugger
-        const responseJson = await response.json();        
+        const responseJson = await response.json();
         debugger
-        const {result, data} = responseJson
+        const { result, data } = responseJson
         return result.toUpperCase() === "OK" ? data : []
     } catch (error) {
-        alert("Cannot get chat history, error : "+error)        
+        alert("Cannot get chat history, error : " + error)
         return []
     }
 }
@@ -609,43 +618,43 @@ export const makeSeen = async () => {
                 tokenKey, supplierId, customerId
             },
             body: JSON.stringify({
-                
+
             }),
-        })        
-        const responseJson = await response.json()        
-        const {result, data, message, time} = responseJson          
-        if (result.toUpperCase() === "OK") {                 
+        })
+        const responseJson = await response.json()
+        const { result, data, message, time } = responseJson
+        if (result.toUpperCase() === "OK") {
             //Logger ??              
-            return { data, message: ''}
-        } else {    
-            return { data, message}
+            return { data, message: '' }
+        } else {
+            return { data, message }
         }
-    } catch (error) {               
-        return { data, message: error}
+    } catch (error) {
+        return { data, message: error }
     }
 }
 
 
 export const getNotificationsBySupplierId = async (supplierId) => {
-    try {                            
-        let url = await urlGetNotificationsBySupplierId(supplierId)        
-        const response = await fetch(url)                       
-        const responseJson = await response.json();                        
-        const {result, data, message, time} = responseJson                                           
-        return result.toUpperCase() === "OK" ? data : []        
-    } catch (error) {               
+    try {
+        let url = await urlGetNotificationsBySupplierId(supplierId)
+        const response = await fetch(url)
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        return result.toUpperCase() === "OK" ? data : []
+    } catch (error) {
         console.log(`getNotificationsBySupplierId's error :${error}`)
         return []
     }
 }
 
 export const getNotificationsByCustomerId = async (customerId) => {
-    try {                    
-        const response = await fetch(await urlGetNotificationsByCustomerId(customerId))               
-        const responseJson = await response.json();                
-        const {result, data, message, time} = responseJson                                   
-        return result.toUpperCase() === "OK" ? data : []        
-    } catch (error) {               
+    try {
+        const response = await fetch(await urlGetNotificationsByCustomerId(customerId))
+        const responseJson = await response.json();
+        const { result, data, message, time } = responseJson
+        return result.toUpperCase() === "OK" ? data : []
+    } catch (error) {
         console.log(`getNotificationsByCustomerId's error :${error}`)
         return []
     }

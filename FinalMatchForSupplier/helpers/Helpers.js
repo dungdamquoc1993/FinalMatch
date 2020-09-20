@@ -1,45 +1,48 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     NativeModules,
-    Platform, Alert,     
-    Keyboard} 
-from 'react-native'
-const {AsyncStorage} = NativeModules
+    Platform, Alert,
+    Keyboard,
+    AsyncStorage as _AsyncStorage
+}
+    from 'react-native'
+const { AsyncStorage } = NativeModules
 
 import { setI18nConfig } from '../languages/languageConfigurations'
 import i18n from "i18n-js"
-import {translate} from '../languages/languageConfigurations'
+import { translate } from '../languages/languageConfigurations'
 
-export const getAgesBetween2Dates = (bigDay, smallDay) => {   
-    if(bigDay < smallDay) {
+
+export const getAgesBetween2Dates = (bigDay, smallDay) => {
+    if (bigDay < smallDay) {
         return 0
     }
     setI18nConfig() // set initial config
-    let times =   bigDay.getTime() - smallDay.getTime()
+    let times = bigDay.getTime() - smallDay.getTime()
     let years = Math.floor(times / (1000 * 3600 * 24 * 365))
-    let days = Math.floor((times - years * (1000 * 3600 * 24*365))/(1000 * 3600 * 24))
+    let days = Math.floor((times - years * (1000 * 3600 * 24 * 365)) / (1000 * 3600 * 24))
     let result = ""
-    result += `${years} `+translate("ages") 
-    if(days > 0) {        
-        result += days > 1 ? ` ${days} `+translate("days") : `${days} `+translate("day")                
+    result += `${years} ` + translate("ages")
+    if (days > 0) {
+        result += days > 1 ? ` ${days} ` + translate("days") : `${days} ` + translate("day")
     }
     return result
-}  
-export const getHoursBetween2Dates = (bigDay, smallDay) => {   
-    
-    if(bigDay < smallDay) {
+}
+export const getHoursBetween2Dates = (bigDay, smallDay) => {
+
+    if (bigDay < smallDay) {
         return 0
     }
     setI18nConfig() // set initial config
     let hours = Math.abs(bigDay - smallDay) / 36e5
     hours = Math.round(hours * 10) / 10
-    let result = ""    
-    if(hours > 0) {        
-        result += hours > 1 ? ` ${hours} `+translate("hours") : `${hours} `+translate("hour")                
-    } 
-    
+    let result = ""
+    if (hours > 0) {
+        result += hours > 1 ? ` ${hours} ` + translate("hours") : `${hours} ` + translate("hour")
+    }
+
     return result
-}  
+}
 export function convertDayMonthYearToString(day, month, year) {
     const strDay = day < 10 ? `0${day}` : `${day}`
     month += 1
@@ -58,7 +61,7 @@ export function convertDateTimeToString(date) {
     // const month = date.getMonth()
     // const year = date.getFullYear()
     // return convertDayMonthYearToString(day, month, year)
-    return date.toLocaleString()    
+    return date.toLocaleString()
 }
 export function convertDateToStringYYYYMMDD(date) {
     const day = date.getDate()
@@ -67,69 +70,69 @@ export function convertDateToStringYYYYMMDD(date) {
     return convertDayMonthYearToStringYYYYMMDD(day, month, year)
 }
 
-export function convertDateToStringDDMMYYYY(date) {    
+export function convertDateToStringDDMMYYYY(date) {
     // alert("kaka")      
-    function pad(s) { return (s < 10) ? '0' + s : s; }    
-    return [pad(date.getDate()), pad(date.getMonth()+1), date.getFullYear()].join('/')        
+    function pad(s) { return (s < 10) ? '0' + s : s; }
+    return [pad(date.getDate()), pad(date.getMonth() + 1), date.getFullYear()].join('/')
 }
 
 export const isIOS = () => {
     return Platform.OS === "ios"
 }
-export const alert = (content) => Alert.alert("FinalMatch",content,[],{cancelable: true})
+export const alert = (content) => Alert.alert("FinalMatch", content, [], { cancelable: true })
 
 export const alertWithOKButton = (content, callback) => {
-    const buttons = [        
-        { text: 'OK', onPress: () => callback!= null ? callback() : {} },
+    const buttons = [
+        { text: 'OK', onPress: () => callback != null ? callback() : {} },
     ]
-    Alert.alert("FinalMatch",content,buttons,{cancelable: false})
+    Alert.alert("FinalMatch", content, buttons, { cancelable: false })
 }
 
 export const saveSupplierToStorage = async (tokenKey, supplierId, email) => {
     try {
         await AsyncStorage.setItem('tokenKey', tokenKey)
         await AsyncStorage.setItem('supplierId', `${supplierId}`)
-        await AsyncStorage.setItem('email', email)        
+        await AsyncStorage.setItem('email', email)
     } catch (error) {
-        alert ("Cannot save data to LocalStorage: "+error)
+        alert("Cannot save data to LocalStorage: " + error)
     }
 }
 
 export const setNotificationById = async (notificationId) => {
     // 
-    let dateTimeISOString =  await AsyncStorage.getItem(`${notificationId}`)
+    let dateTimeISOString = await AsyncStorage.getItem(`${notificationId}`)
     // 
-    if(dateTimeISOString == null || dateTimeISOString == "") {
+    if (dateTimeISOString == null || dateTimeISOString == "") {
         await AsyncStorage.setItem(`${notificationId}`, (new Date()).toISOString())
-    }    
+    }
 }
-export const getNotificationById = async (notificationId) => {        
-    let dateTimeISOString =  await AsyncStorage.getItem(`${notificationId}`)    
-    if(dateTimeISOString == null || dateTimeISOString == "") {
+export const getNotificationById = async (notificationId) => {
+    let dateTimeISOString = await AsyncStorage.getItem(`${notificationId}`)
+    if (dateTimeISOString == null || dateTimeISOString == "") {
         return (new Date()).toISOString() //de cho dep
     }
     return dateTimeISOString
 }
-export const getSupplierFromStorage = async () => {    
+export const getSupplierFromStorage = async () => {
     let tokenKey = await AsyncStorage.getItem('tokenKey')
-    if(tokenKey == null) {
+    if (tokenKey == null) {
         tokenKey = ''
     }
     let supplierId = await AsyncStorage.getItem('supplierId')
-    if(supplierId == null) {
+    if (supplierId == null) {
         supplierId = 0
     } else {
         supplierId = parseInt(supplierId)
     }
     let email = await AsyncStorage.getItem('email')
-    if(email == null) {
+    if (email == null) {
         email = ''
-    }    
-    return {tokenKey, supplierId, email}
+    }
+    return { tokenKey, supplierId, email }
 }
 //input {{isGK: false, isCB:true, isMF:false, isCF:false} } => "0100"
 export const getPosition = (positionObject) => {
-    const {isGK = false, isCB = false, isMF = false, isCF = false} = positionObject
+    const { isGK = false, isCB = false, isMF = false, isCF = false } = positionObject
     return `${isGK == true ? 1 : 0}${isCB == true ? 1 : 0}${isMF == true ? 1 : 0}${isCF == true ? 1 : 0}`
 }
 export const setPosition = (position = '0000') => {
@@ -143,30 +146,30 @@ export const setPosition = (position = '0000') => {
 export const generateFakeString = () => {
     return `Fake${Math.random().toString(36)}${Math.random().toString(36)}${Math.random().toString(36)}@gmail.com`
 }
-export const OrderStatus  = {
-    PENDING : "pending", 
-    ACCEPTED : "accepted",
-    CANCELLED: "cancelled", 
-    FINISHED: "finished", 
-    MISSED: "missed" ,
+export const OrderStatus = {
+    PENDING: "pending",
+    ACCEPTED: "accepted",
+    CANCELLED: "cancelled",
+    FINISHED: "finished",
+    MISSED: "missed",
     EXPIRED: 'expired',
-    COMPLETED: "completed", 
+    COMPLETED: "completed",
 }
 //input "0100" => "CB", "1000" => "GK",...
 export const convertStringPositionsToPositionName = (stringPosition) => {
-    if(stringPosition[0] == "1") {
+    if (stringPosition[0] == "1") {
         return "GK"
-    } else if(stringPosition[1] == "1") {
+    } else if (stringPosition[1] == "1") {
         return "CB"
-    } else 
-    if(stringPosition[2] == "1") {
-        return "MF"
-    } else if(stringPosition[3] == "1") {
-        return "CF"
-    } 
+    } else
+        if (stringPosition[2] == "1") {
+            return "MF"
+        } else if (stringPosition[3] == "1") {
+            return "CF"
+        }
     return "GK"
 }
-export const convertDateToDDMMYYYHHMM = (date) => {    
+export const convertDateToDDMMYYYHHMM = (date) => {
     const result = date.getDate() + "-"
         + (date.getMonth() + 1) +
         '-' + date.getFullYear() +
@@ -174,21 +177,21 @@ export const convertDateToDDMMYYYHHMM = (date) => {
         date.getMinutes()
     return result
 }
-export const convertDateToHH_MM_SS_DD_MM_YYYY = (date) =>     
-    `${date.getHours()}:${date.getMinutes()}:00, ${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`    
+export const convertDateToHH_MM_SS_DD_MM_YYYY = (date) =>
+    `${date.getHours()}:${date.getMinutes()}:00, ${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`
 
 // pending, accepted, cancelled, completed, missed
-export const getColorFromStatus = (orderStatus) => {  
+export const getColorFromStatus = (orderStatus) => {
     const {
         COLOR_ORDER_STATUS_PENDING,
         COLOR_ORDER_STATUS_ACCEPTED,
         COLOR_ORDER_STATUS_CANCELLED,
         COLOR_ORDER_STATUS_COMPLETED,
         COLOR_ORDER_STATUS_MISSED,
-        COLOR_ORDER_STATUS_EXPIRED	
+        COLOR_ORDER_STATUS_EXPIRED
     } = require('../colors/colors')
-    const {PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED} = OrderStatus        
-    switch(orderStatus) {        
+    const { PENDING, ACCEPTED, CANCELLED, COMPLETED, MISSED, EXPIRED } = OrderStatus
+    switch (orderStatus) {
         case PENDING:
             return COLOR_ORDER_STATUS_PENDING
         case ACCEPTED:
@@ -206,6 +209,9 @@ export const getColorFromStatus = (orderStatus) => {
     }
 }
 
+export const removeStorage = async () => {
+    await _AsyncStorage.clearAll();
+};
 
 
 

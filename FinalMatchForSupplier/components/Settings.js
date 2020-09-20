@@ -27,7 +27,7 @@ import {
   alert,
   convertDateToStringYYYYMMDD,
   convertDateToStringDDMMYYYY,
-  OrderStatus,
+  OrderStatus, removeStorage
 } from '../helpers/Helpers'
 import TextInputMask from 'react-native-text-input-mask'
 import {
@@ -270,6 +270,12 @@ export default class Settings extends MultiLanguageComponent {
     let params = {}
     this.props.navigation.navigate(translate("Services"), params)
   }
+
+  logout = async () => {
+    await removeStorage()
+    this.props.navigation.navigate(translate("LoginRegister"))
+  }
+
   render() {
     const {
       name,
@@ -620,6 +626,15 @@ export default class Settings extends MultiLanguageComponent {
 
           </TouchableOpacity>
         </View>
+        <View style={styles.buttonSaveArea}>
+          <TouchableOpacity style={styles.buttonSave}
+            onPress={async () => {
+              this.logout()
+            }}>
+            <Text style={styles.textSave}>{translate('Logout')}</Text>
+
+          </TouchableOpacity>
+        </View>
         <Modal
           animationType="fade"
           transparent={true}
@@ -779,7 +794,7 @@ const styles = StyleSheet.create({
     position: "relative"
   },
   textSave: {
-    lineHeight: 50,
+    // lineHeight: 50,
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',

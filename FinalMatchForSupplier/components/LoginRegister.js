@@ -92,7 +92,7 @@ class LoginRegister extends MultiLanguageComponent {
                 const { email, identityToken, authorizationCode, user } = appleAuthRequestResponse
                 // alert(`email = ${email}, identityToken = ${identityToken}, authorizationCode = ${authorizationCode}, userId = ${user}`)
                 // debugger
-                const { tokenKey, supplierId, message } = await loginAppleForSupplier({ name, email, appleId: user })
+                const { tokenKey, supplierId, message } = await loginAppleForSupplier({ email, appleId: user })
                 if (tokenKey.length > 0) {
                     await saveSupplierToStorage(tokenKey, supplierId, email)
                     const notificationToken = await AsyncStorage.getItem("notificationToken")
