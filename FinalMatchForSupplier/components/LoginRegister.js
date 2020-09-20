@@ -248,7 +248,6 @@ class LoginRegister extends MultiLanguageComponent {
                     style={styles.facebookButton}
                     name="facebook"
                     backgroundColor="#3b5998"
-                    borderRadius={30}
                     onPress={async () => {
                         await this._loginWithFacebook()
                     }}
@@ -256,7 +255,7 @@ class LoginRegister extends MultiLanguageComponent {
                     <Text style={styles.textLoginFaceBook}>Login with Facebook</Text>
                 </Icon.Button>
                 {(isIOS() == true) && <AppleButton
-                    buttonStyle={AppleButton.Style.WHITE}
+                    buttonStyle={AppleButton.Style.BLACK}
                     buttonType={AppleButton.Type.SIGN_IN}
                     style={{
                         height: 50,
@@ -355,7 +354,6 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         paddingHorizontal: 15,
-        borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
     },
