@@ -12,7 +12,8 @@ import {
   Keyboard,
   Modal,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
 import { translate } from '../languages/languageConfigurations'
@@ -99,7 +100,11 @@ export class RefereeService extends MultiLanguageComponent {
         age: getAgesBetween2Dates(new Date(), dateOfBirth),
       })
     } catch (error) {
-      alertWithOKButton(translate("Cannot get supplier's information") + error)
+      Alert.alert(
+        "",
+        translate("Cannot get supplier's information"),
+        [{ text: 'OK', onPress: () => this.props.stackNavigation.dispatch(NavigationActions.back()) }]
+      )
     }
   }
   _pressLocation = async () => {
