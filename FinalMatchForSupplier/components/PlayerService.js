@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   Picker,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
 import { translate } from '../languages/languageConfigurations'
@@ -83,7 +84,11 @@ class PlayerService extends Component {
         radius,
       })
     } catch (error) {
-      alert(translate("Cannot get supplier's information") + JSON.stringify(error))
+      Alert.alert(
+        '',
+        translate("Cannot get supplier's information"),
+        [{ text: 'OK', onPress: () => this.props.stackNavigation.dispatch(NavigationActions.back()) }]
+      )
       //Quay lai Tab
     }
   }
@@ -115,7 +120,7 @@ class PlayerService extends Component {
         this.props.stackNavigation.dispatch(NavigationActions.back())
       })
     } catch (error) {
-      alert(translate("Cannot get data from Server") + JSON.stringify(error))
+      Alert.alert(translate("Cannot get data from Server"))
     }
 
   }
