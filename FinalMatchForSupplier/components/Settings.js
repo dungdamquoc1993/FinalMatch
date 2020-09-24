@@ -626,15 +626,17 @@ export default class Settings extends MultiLanguageComponent {
 
           </TouchableOpacity>
         </View>
+
+        {/*  This is logout button
         <View style={styles.buttonSaveArea}>
-          <TouchableOpacity style={styles.buttonSave}
+           <TouchableOpacity style={styles.buttonSave}
             onPress={async () => {
               this.logout()
             }}>
             <Text style={styles.textSave}>{translate('Logout')}</Text>
 
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> 
+        </View> */}
         <Modal
           animationType="fade"
           transparent={true}
