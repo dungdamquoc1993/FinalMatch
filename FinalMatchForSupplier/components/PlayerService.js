@@ -213,7 +213,7 @@ class PlayerService extends Component {
               <Text style={styles.textGetLocation}> Get Location</Text>
               <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
             </TouchableOpacity>
-            {address.length > 0
+            {address?.length > 0
               && <Text numberOfLines={2}
                 style={{
                   fontSize: 16,

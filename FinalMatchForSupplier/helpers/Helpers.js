@@ -210,7 +210,7 @@ export const getColorFromStatus = (orderStatus) => {
 }
 
 export const removeStorage = async () => {
-    await _AsyncStorage.clearAll();
+    await _AsyncStorage.clear();
 };
 
 

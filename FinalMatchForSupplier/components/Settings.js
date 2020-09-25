@@ -13,7 +13,8 @@ import {
   CameraRoll,
   Alert,
   Platform,
-  Modal
+  Modal,
+  AsyncStorage
 } from 'react-native'
 import Header from './Header'
 import {
@@ -272,8 +273,11 @@ export default class Settings extends MultiLanguageComponent {
   }
 
   logout = async () => {
-    await removeStorage()
-    this.props.navigation.navigate(translate("LoginRegister"))
+    await AsyncStorage.clear((err) => {
+      if (!err) {
+        this.props.navigation.navigate(translate("LoginRegister"))
+      }
+    })
   }
 
   render() {
@@ -627,16 +631,16 @@ export default class Settings extends MultiLanguageComponent {
           </TouchableOpacity>
         </View>
 
-        {/*  This is logout button
+        {/* This is logout button */}
         <View style={styles.buttonSaveArea}>
-           <TouchableOpacity style={styles.buttonSave}
+          <TouchableOpacity style={styles.buttonSave}
             onPress={async () => {
               this.logout()
             }}>
             <Text style={styles.textSave}>{translate('Logout')}</Text>
 
-          </TouchableOpacity> 
-        </View> */}
+          </TouchableOpacity>
+        </View>
         <Modal
           animationType="fade"
           transparent={true}
