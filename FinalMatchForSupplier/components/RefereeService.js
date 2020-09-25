@@ -153,7 +153,7 @@ export class RefereeService extends MultiLanguageComponent {
         longitude,
         address,
         radius)
-      if (message.length == 0) {
+      if (message?.length == 0) {
         alertWithOKButton(translate("Insert player service successfully"), () => {
           this.props.stackNavigation.dispatch(NavigationActions.back())
         })
@@ -284,7 +284,7 @@ export class RefereeService extends MultiLanguageComponent {
               <Text style={styles.textGetLocation}> Get Location</Text>
               <Image source={require("../images/placeholder.png")} style={{ height: 30, width: 30 }} />
             </TouchableOpacity>
-            {address.length > 0
+            {address?.length > 0
               && <Text numberOfLines={2}
                 style={{
                   fontSize: 16,
